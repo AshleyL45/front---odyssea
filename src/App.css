@@ -4,6 +4,13 @@
 *{
     font-family: 'Afacad', sans-serif;
     font-size: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+* a{
+    text-decoration: none;
+    color: black;
 }
 
 body{
@@ -30,7 +37,7 @@ body{
 
 
 
-.logo-image{
+.navbar .logo-image{
     width: 60px;
     cursor: pointer;
 }
@@ -50,11 +57,37 @@ body{
 }
 
 
-.login-logo{
+.navbar .login-logo{
     position: absolute;
     right: 50px;
     cursor: pointer;
 }
+
+
+
+
+                /* NAVBAR DASHBOARD */
+
+
+.navbar-dashboard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+
+    border-bottom: solid 6px #745E4D;
+}
+
+.navbar-dashboard img{
+    width: 150px;
+}
+
+.navbar-dashboard a{
+    cursor: pointer;
+}
+
+
 
 
 
