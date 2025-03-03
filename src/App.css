@@ -1,38 +1,121 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+
+*{
+    font-family: 'Afacad', sans-serif;
+    font-size: 1rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body{
+    background-color: #f8f8f8;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+                /* NAVBAR */
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 100px 0 0; /* 20px 70px */
+    position: relative;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+.navbar a{
+    text-decoration: none;
+    color: black;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+.logo-image{
+    width: 60px;
+    cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-left ul, .navbar-right ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    text-align: center;
+    gap: 40px;
+}
+
+
+.navbar-left ul{
+    margin-right: 40px;
+}
+
+
+.login-logo{
+    position: absolute;
+    right: 50px;
+    cursor: pointer;
+}
+
+
+
+            /* FOOTER */
+
+footer{
+    padding: 40px 20px 10px;
+    background-color: #F8F1E5;
+}
+
+footer img{
+    width: 200px;
+}
+
+
+footer a{
+    text-decoration: none;
+    color: black;
+}
+
+footer section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px 0 60px;
+    gap: 180px;
+}
+
+footer h3{
+    margin: 30px 0;
+}
+
+
+footer ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+footer ul li {
+    margin: 5px 0;
+}
+
+footer p{
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+                    /* LEGALS PAGES */
+
+
+.terms-of-use, .cookies-politic, .privacy-preferences, .legal-information{
+    margin: 100px 0;
+    padding: 0 100px;
+}
+
+.terms-of-use h2, .cookies-politic h2, .privacy-preferences h2, .legal-information h2{
+    font-size: 25px;
+}
+
+.terms-of-use h2:last-of-type, .cookies-politic h2:last-of-type, .privacy-preferences h2:last-of-type, .legal-information h2:last-of-type, .privacy-preferences h2:last-of-type{
+    margin-bottom: 50px;
 }
