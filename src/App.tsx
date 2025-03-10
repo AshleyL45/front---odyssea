@@ -20,19 +20,7 @@ import BlogItemBlogReverse from "./components/ReusableComponents/BlogItemBlogRev
 function App() {
   return (
     <>
-
-        <TripItemHome/>
-        <TripItemHomeReverse/>
-        <TripItemTravel/>
-        <TripItemTravelReverse/>
-        <TripDetails/>
-        <TripDetailsReverse/>
-        <BlogItem/>
-        <BlogItemReverse/>
-        <BlogItemBlog/>
-        <BlogItemBlogReverse/>
-        <BlogDetails/>
-        <BlogDetailsReverse/>
+        <NavbarDashboard/>
 
     </>
   );
