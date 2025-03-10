@@ -3,9 +3,11 @@ import logo from "../images/logo_symbol.png";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import {useNavigate} from "react-router-dom";
 
 const Navbar: FC<{}> = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -62,7 +64,7 @@ const Navbar: FC<{}> = () => {
             </nav>
 
             <div className="dashboard-icon">
-                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}}/>
+                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/auth')} />
             </div>
 
         </div>

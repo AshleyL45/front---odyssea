@@ -17,12 +17,29 @@ import BlogDetailsReverse from "./components/ReusableComponents/BlogDetailsRever
 import BlogItemBlog from "./components/ReusableComponents/BlogItemBlog";
 import BlogItemBlogReverse from "./components/ReusableComponents/BlogItemBlogReverse";
 import SideBoard from "./components/SideBoard";
+import LoginPage from "./pages/auth/LoginPage";
+import {Routes, Route} from 'react-router-dom';
+import RegisterPage from "./pages/auth/RegisterPage";
+import {AuthProvider} from "./contexts/AuthContext";
+import {ProtectedRoutes} from "./protected-routes/ProtectedRoutes";
 
 function App() {
   return (
     <>
-        <NavbarDashboard/>
-        <SideBoard/>
+        <AuthProvider>
+
+            <Routes>
+                <Route element={<ProtectedRoutes/>}>
+
+                </Route>
+                <Route index={true} path="login" element={<LoginPage/>}></Route>
+                <Route path="register" element={<RegisterPage/>}></Route>
+            </Routes>
+
+        </AuthProvider>
+
+        {/*<NavbarDashboard/>
+            <SideBoard/>*/}
     </>
   );
 }
