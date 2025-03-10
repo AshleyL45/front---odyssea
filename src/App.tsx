@@ -16,12 +16,13 @@ import BlogDetails from "./components/ReusableComponents/BlogDetails";
 import BlogDetailsReverse from "./components/ReusableComponents/BlogDetailsReverse";
 import BlogItemBlog from "./components/ReusableComponents/BlogItemBlog";
 import BlogItemBlogReverse from "./components/ReusableComponents/BlogItemBlogReverse";
+import SideBoard from "./components/SideBoard";
 
 function App() {
   return (
     <>
         <NavbarDashboard/>
-
+        <SideBoard/>
     </>
   );
 }

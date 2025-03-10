@@ -276,10 +276,65 @@ body{
 }
 
 
+        /* SIDE BOARD */
+
+
+.side-board-container{
+    font-size: 0.9rem !important;
+    padding: 30px 0;
+    border-right: solid 2px black;
+    width: 350px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.side-board-container h1{
+    padding-left: 30px;
+    font-size: 28px;
+}
+
+.side-board-menu{
+    padding: 20px 0
+}
+
+.side-board-menu ul{
+    margin-left: 50px;
+    list-style: none;
+}
+
+
+.side-board-menu ul li{
+    padding: 20px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+.side-board-menu div{
+    border-bottom: solid 3px rgb(116, 94, 77, 0.5);
+    padding: 10px;
+}
+
+
+.side-board-menu div:last-of-type{
+    border-bottom: none;
+}
+
+.active{
+    background-color: #2C3E50;
+    display: block;
+    width: 5px;
+    height: 35px;
+    position: absolute;
+    left: -40px;
+}
 
 
 
-            /* FOOTER */
+    /* FOOTER */
 
 footer{
     padding: 40px 20px 10px;
