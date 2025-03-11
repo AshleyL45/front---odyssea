@@ -57,3 +57,13 @@ export const post = async <T = any>(url: string, data: object, config?: {}): Pro
         return error.response.data;
     }
 };
+
+export const get = async <T = any>(url: string, config?: {}): Promise<T | null> => {
+    try {
+        const response = await myDB.get(url, config);
+        return response.data;
+    } catch (error) {
+        console.error("Cannot get from database: ", error);
+        return null;
+    }
+};

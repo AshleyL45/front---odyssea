@@ -1,8 +1,8 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import '../../App.css'
 import CustomButton from "./CustomButton";
 
-const TripItemTravel: FC<{}> = ({}) => {
+const TripItemTravel: ({}: {}) => JSX.Element = ({}) => {
     return (
         <div style={{margin: "250px 0"}}>
             <section className="component trip-item-travel">

@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import logo from "../images/logo_symbol.png";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,9 +13,22 @@ const Navbar: FC<{}> = () => {
         setMenuOpen(!menuOpen);
     };
 
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        // Clean-up pour remettre l'overflow normal lors du démontage ou changement d'état
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [menuOpen]);
+
     return (
 
-        <div className={`container-navbar ${menuOpen ? 'open' : ''}`}>
+        <div className={`container-navbar ${menuOpen ? 'open' : ''}`} style={{position: "relative"}}>
 
             {/* Icône du menu burger */}
             {!menuOpen && (
@@ -64,7 +77,7 @@ const Navbar: FC<{}> = () => {
             </nav>
 
             <div className="dashboard-icon">
-                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/auth')} />
+                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/login')} />
             </div>
 
         </div>

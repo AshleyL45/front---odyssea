@@ -157,6 +157,12 @@ body{
     margin-bottom: 58px;
 }
 
+.container-navbar.open {
+    background-color: #F8F1E5;
+    z-index: 100;
+    overflow-y: hidden;
+}
+
 .navbar.open .navbar-links:last-of-type {
     margin-bottom: 0;
 }

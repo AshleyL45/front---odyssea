@@ -22,6 +22,7 @@ import {Routes, Route} from 'react-router-dom';
 import RegisterPage from "./pages/auth/RegisterPage";
 import {AuthProvider} from "./contexts/AuthContext";
 import {ProtectedRoutes} from "./protected-routes/ProtectedRoutes";
+import TripListPage from "./pages/trip/TripListPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
                 </Route>
                 <Route index={true} path="login" element={<LoginPage/>}></Route>
                 <Route path="register" element={<RegisterPage/>}></Route>
+                <Route path="trips" element={<TripListPage/>}></Route>
             </Routes>
 
         </AuthProvider>
