@@ -1,0 +1,23 @@
+.sortContainer {
+    display: grid;
+    justify-content: flex-end;
+    margin-right: 2rem;
+}
+
+.sortItems{
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 135px;
+    overflow-y: visible;
+}
+
+@media only screen and (max-width: 900px) {
+    .sortContainer {
+        justify-content: center;
+    }
+}
+

@@ -1,0 +1,8 @@
+.loginPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(to right, rgba(24, 24, 24, 0.93), rgba(0, 0, 0, 0)), url("../images/julia-worthington-qsZzCxorDF4-unsplash.jpg") no-repeat center;
+    background-size: cover;
+    height: 100vh
+}

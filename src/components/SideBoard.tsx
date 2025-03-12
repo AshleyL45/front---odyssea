@@ -1,10 +1,17 @@
-import {FC, useState} from 'react';
+import {FC, JSX, useState} from 'react';
 
-const SideBoard: FC = () => {
+
+interface SideBoardProps {
+    activePage: string;
+    setActivePage: (page: string) => void;
+}
+
+const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
     const [activeLink, setActiveLink] = useState<string>('Vue d\'ensemble');
 
-    const handleClick = (link: string) => {
-        setActiveLink(link);
+    const handleClick = (page: string) => {
+        setActiveLink(page);
+        setActivePage(page)
     };
 
     return (
@@ -17,7 +24,8 @@ const SideBoard: FC = () => {
                     <nav>
                         <div>
                             <ul>
-                                <li onClick={() => handleClick('Vue d\'ensemble')}>
+                                <li
+                                    onClick={() => handleClick('Vue d\'ensemble')}>
                                     {activeLink === 'Vue d\'ensemble' && <span className="active"></span>}
                                     <a href="#">Vue d'ensemble</a>
                                 </li>
@@ -25,15 +33,18 @@ const SideBoard: FC = () => {
                         </div>
                         <div>
                             <ul>
-                                <li onClick={() => handleClick('Réservation')}>
+                                <li
+                                    onClick={() => handleClick('Réservation')}>
                                     {activeLink === 'Réservation' && <span className="active"></span>}
                                     <a href="#">Réservation</a>
                                 </li>
-                                <li onClick={() => handleClick('Historique de voyage')}>
+                                <li
+                                    onClick={() => handleClick('Historique de voyage')}>
                                     {activeLink === 'Historique de voyage' && <span className="active"></span>}
                                     <a href="#">Historique de voyage</a>
                                 </li>
-                                <li onClick={() => handleClick('Ma sélection')}>
+                                <li
+                                    onClick={() => handleClick('Ma sélection')}>
                                     {activeLink === 'Ma sélection' && <span className="active"></span>}
                                     <a href="#">Ma sélection</a>
                                 </li>
@@ -41,11 +52,13 @@ const SideBoard: FC = () => {
                         </div>
                         <div>
                             <ul>
-                                <li onClick={() => handleClick('Informations personnelles')}>
+                                <li
+                                    onClick={() => handleClick('Informations personnelles')}>
                                     {activeLink === 'Informations personnelles' && <span className="active"></span>}
                                     <a href="#">Informations personnelles</a>
                                 </li>
-                                <li onClick={() => handleClick('Paramètres')}>
+                                <li
+                                    onClick={() => handleClick('Paramètres')}>
                                     {activeLink === 'Paramètres' && <span className="active"></span>}
                                     <a href="#">Paramètres</a>
                                 </li>

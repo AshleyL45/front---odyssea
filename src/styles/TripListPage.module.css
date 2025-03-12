@@ -1,0 +1,13 @@
+.sortList {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    margin: 8rem 4rem;
+    gap: 15px;
+}
+
+@media screen and (max-width: 900px) {
+    .sortList {
+        grid-template-columns: 1fr;
+        margin: 0;
+    }
+}
