@@ -1,19 +1,34 @@
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import logo from "../images/logo_symbol.png";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import {useNavigate} from "react-router-dom";
 
 const Navbar: FC<{}> = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        // Clean-up pour remettre l'overflow normal lors du démontage ou changement d'état
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [menuOpen]);
+
     return (
 
-        <div className={`container-navbar ${menuOpen ? 'open' : ''}`}>
+        <div className={`container-navbar ${menuOpen ? 'open' : ''}`} style={{position: "relative"}}>
 
             {/* Icône du menu burger */}
             {!menuOpen && (
@@ -36,7 +51,7 @@ const Navbar: FC<{}> = () => {
                     <div className="navbar-links">
                         <div className="navbar-left">
                             <ul>
-                                <li><a href="#">Nos voyages</a></li>
+                                <li><a href="/trips">Nos voyages</a></li>
                                 <li><a href="#">Voyage personnalisé</a></li>
                                 <li><a href="#">Voyage surprise</a></li>
                             </ul>
@@ -62,7 +77,7 @@ const Navbar: FC<{}> = () => {
             </nav>
 
             <div className="dashboard-icon">
-                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}}/>
+                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/login')} />
             </div>
 
         </div>
