@@ -1,0 +1,36 @@
+.tripDashboardContainer {
+    width: 80%;
+    height: fit-content;
+    background-color: #F8F1E5;
+    border: 1px solid black;
+    border-radius: 16px;
+    padding: 16px 32px;
+    margin: 2.5rem auto;
+}
+
+.tripDashboardContainer * {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.tripDashboardTitle {
+    font-size: 1.5rem;
+}
+
+.tripDashboardContainer hr {
+    margin-left: 1rem;
+    border: none;
+    border-top: 1px solid black;
+    width: 80%;
+    height: 3px;
+}
+
+.tripDashboardDescription {
+
+}
+
+.tripDashboardDetails{
+    text-decoration: underline;
+    display: flex;
+    justify-content: flex-end;
+}
