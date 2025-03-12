@@ -21,7 +21,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     useEffect(() => {
         if (token) {
             decodeToken();
-            const decoded: any = jwtDecode(token);
             const currentTime = Date.now() / 1000;
 
             if (currentTime > 0) {

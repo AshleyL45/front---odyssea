@@ -14,6 +14,8 @@ import Dashboard from "./pages/mainPages/user/Dashboard";
 import AboutUs from "./pages/mainPages/company/AboutUs";
 import Contact from "./pages/mainPages/company/Contact";
 import ReservationDetails from "./pages/mainPages/user/ReservationDetails";
+import Reservation from "./pages/mainPages/user/Reservation";
+import HomePage from "./pages/mainPages/HomePage";
 
 function App() {
   return (
@@ -26,15 +28,18 @@ function App() {
                     <Route path="reservation" element={<Reservation/>}></Route>
                     <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
                 </Route>
-                <Route index={true} path="login" element={<LoginPage/>}></Route>
-                <Route path="register" element={<RegisterPage/>}></Route>
-                <Route path="trips" element={<ItineraryListPage/>}></Route>
-                <Route path="cookies" element={<CookiesPolitic/>}></Route>
-                <Route path="legal" element={<LegalInformation/>}></Route>
-                <Route path="privacy" element={<PrivacyPreferences/>}></Route>
-                <Route path="terms" element={<TermsOfUse/>}></Route>
-                <Route path="aboutUs" element={<AboutUs/>}></Route>
-                <Route path="contact" element={<Contact/>}></Route>
+                <Route path="/">
+                    <Route index element={<HomePage/>}></Route>
+                    <Route path="login" element={<LoginPage/>}></Route>
+                    <Route path="register" element={<RegisterPage/>}></Route>
+                    <Route path="trips" element={<ItineraryListPage/>}></Route>
+                    <Route path="cookies" element={<CookiesPolitic/>}></Route>
+                    <Route path="legal" element={<LegalInformation/>}></Route>
+                    <Route path="privacy" element={<PrivacyPreferences/>}></Route>
+                    <Route path="terms" element={<TermsOfUse/>}></Route>
+                    <Route path="aboutUs" element={<AboutUs/>}></Route>
+                    <Route path="contact" element={<Contact/>}></Route>
+                </Route>
             </Routes>
 
         </AuthProvider>
