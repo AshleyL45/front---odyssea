@@ -12,7 +12,7 @@ import styles from "../../styles/TripListPage.module.css"
 import {Country} from "../../@types/Country";
 
 
-const TripListPage: ({}: {}) => JSX.Element = ({}) => {
+const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
     const [trips, setTrips] = useState<Trip[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
     const [themes, setThemes] = useState([]);
@@ -87,4 +87,4 @@ const TripListPage: ({}: {}) => JSX.Element = ({}) => {
     );
 };
 
-export default TripListPage;
+export default ItineraryListPage;

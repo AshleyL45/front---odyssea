@@ -1,5 +1,6 @@
 import React, {createContext, FC, useContext, useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
+import {useNavigate} from "react-router-dom";
 
 interface AuthContext {
     userId: string | null;
@@ -14,11 +15,23 @@ export const AuthContext = createContext<AuthContext | undefined>(undefined);
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [userId, setUserId] = useState<string | null>(null);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
         if (token) {
             decodeToken();
+            const decoded: any = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+
+            if (currentTime > 0) {
+                const logoutTimer = setTimeout(() => {
+                    //console.log("Déconnexion automatique après expiration du token.");
+                    logout();
+                }, currentTime);
+
+                return () => clearTimeout(logoutTimer);
+            }
         }
     }, [token]);
 
@@ -31,15 +44,25 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const logout = () => {
         localStorage.clear()
         setToken(null);
+        setUserId(null);
+        navigate('/login')
     }
 
     const decodeToken = () => {
         if (token) {
             try { // Récupérer l'id de l'utilisateur depuis le token
                 const decoded: any = jwtDecode(token);
-                setUserId(decoded.id);
+                const currentTime = Date.now() / 1000;
+
+                if(decoded.exp < currentTime){
+                    logout()
+                } else {
+                    setUserId(decoded.id);
+                }
+
             } catch (error) {
                 console.error("Error decoding token:", error);
+                logout()
             }
         }
     }

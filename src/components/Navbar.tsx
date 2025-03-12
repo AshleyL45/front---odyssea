@@ -51,7 +51,7 @@ const Navbar: FC<{}> = () => {
                     <div className="navbar-links">
                         <div className="navbar-left">
                             <ul>
-                                <li><a href="#">Nos voyages</a></li>
+                                <li><a href="/trips">Nos voyages</a></li>
                                 <li><a href="#">Voyage personnalisé</a></li>
                                 <li><a href="#">Voyage surprise</a></li>
                             </ul>
