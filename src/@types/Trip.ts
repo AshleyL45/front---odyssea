@@ -5,4 +5,5 @@ export interface Trip {
     shortDescription: string;
     price: number;
     duration: number;
+    status?: string;
 }

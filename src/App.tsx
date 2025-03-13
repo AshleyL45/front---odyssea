@@ -44,9 +44,10 @@ function App() {
                         <Route path="contact" element={<Contact/>}></Route>
                     </Route>
                 </Routes>
+                <Dashboard/>
             </MySelectionProvider>
         </AuthProvider>
-        <Dashboard/>
+
 
 
 

@@ -4,6 +4,8 @@ import {Trip} from "../../@types/Trip";
 import TripNumbers from "../../styles/components/TripNumbers";
 
 const Overview: ({}: {}) => JSX.Element = ({}) => {
+    //TODO : Faire requête API pour avoir le dernier voyage, le voyage en cours et le nombre de voyage (en cours, de "ma séléction" et dans l'historique)
+
     const trip: Trip = {
         id: 1,
         itineraryName: "Séjour de rêve aux Maldives",
@@ -15,17 +17,17 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
-            <h1 style={{marginLeft: "2rem", marginTop: "1rem", marginBottom: "1rem", fontSize: "1.8rem"}}>Tableau de bord</h1>
-            <div style={{display: "flex", justifyContent: "space-between", width: "85%", margin: "auto"}}>
+            <h1 style={{marginLeft: "8rem", marginTop: "1.8rem", marginBottom: "2rem", fontSize: "1.8rem"}}>Tableau de bord</h1>
+            <div style={{display: "flex", justifyContent: "space-around", width: "85%", margin: "auto"}}>
                 <TripNumbers title={"En cours"} number={1}/>
                 <TripNumbers title={"Ma sélection"} number={5}/>
                 <TripNumbers title={"Historique de voyage"} number={2}/>
             </div>
 
-            <h2 style={{marginLeft: "2rem", marginTop: "1rem"}}>En cours</h2>
+            <h2 style={{marginLeft: "8rem", marginTop: "1rem", fontSize: "1.4rem"}}>En cours</h2>
             <TripDashboard trip={trip} page="Overview"/>
 
-            <h2 style={{marginLeft: "2rem", marginTop: "1rem"}}>Dernier Voyage</h2>
+            <h2 style={{marginLeft: "8rem", marginTop: "1rem", fontSize: "1.4rem"}}>Dernier Voyage</h2>
             <TripDashboard trip={trip} page="Overview"/>
         </div>
     );
