@@ -3,7 +3,6 @@
 
 *{
     font-family: 'Afacad', sans-serif;
-    font-size: 1.05rem;
     line-height: 1.5;
     margin: 0;
     padding: 0;
@@ -181,8 +180,6 @@ body{
 }
 
 
-
-
 .navbar.open .navbar-left ul,
 .navbar.open .navbar-right ul {
     display: flex;
@@ -254,26 +251,60 @@ body{
 }
 
 
+
+
             /* NAVBAR DASHBOARD */
 
 
-.navbar-dashboard{
+.navbar-dashboard, .navbar-reservation{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 20px 60px;
+}
 
+.navbar-dashboard{
     border-bottom: solid 5px rgb(116, 94, 77, 0.7);
 }
 
-.navbar-dashboard img{
+.navbar-dashboard img, .navbar-reservation img{
     width: 170px;
 }
 
-.navbar-dashboard a{
+.navbar-dashboard a, .navbar-reservation a{
     cursor: pointer;
+    text-underline-offset: 2px;
 }
+
+.help-button{
+    padding: 7px 10px
+}
+
+@media screen and (max-width: 600px) {
+
+    .navbar-reservation{
+        padding: 20px;
+        font-size: 0.8rem;
+    }
+
+    .navbar-reservation img{
+        width: 130px;
+    }
+
+    .help-button{
+        padding: 3px;
+        width: 50px;
+        text-align: center;
+    }
+
+    .return-button{
+        width: 50px;
+    }
+
+}
+
+
 
 
         /* SIDE BOARD */
@@ -334,7 +365,8 @@ body{
 
 
 
-    /* FOOTER */
+        /* FOOTER */
+
 
 footer{
     padding: 40px 20px 10px;
@@ -405,6 +437,19 @@ footer p{
         margin-bottom: 80px;
         padding-left: initial;
     }
+}
+
+
+        /* CALENDER */
+
+.calender{
+
+}
+
+.container-calender{
+    width: 90%;
+    text-align: center;
+    margin: 70px auto 0;
 }
 
 
@@ -861,5 +906,268 @@ footer p{
     .text-blog-details, .text-blog-details-reverse{
         width: 35%;
         margin: 70px 30px 0
+    }
+}
+
+
+
+
+            /* PERSONALIZED TRIP   */
+
+.search-input{
+    width: 90%;
+    padding: 5px;
+    border: solid 2px lightgrey;
+    border-radius: 4px;
+}
+
+.selected-country{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+    border: solid 1px lightgrey;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+
+.container-city-selecting{
+    width: 90%;
+    margin: auto;
+}
+
+.city-selecting div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+/*textfield*/
+.hotel-input-selecting{
+    width: 90% !important;
+    margin: auto !important;
+}
+
+
+.MuiInputBase-root{
+    padding: 2px 12px;
+    border-radius: 20px;
+}
+
+
+.hotel-select{
+    width: 90%;
+}
+
+
+
+.delete-icon{
+    font-size: 20px;
+}
+
+
+.activity-layout{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 0.9rem;
+}
+
+
+.activity-layout div{
+    border: solid 1px grey;
+    border-radius: 4px;
+    padding: 20px 30px;
+    width: 250px;
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+.line-activity-layout{
+    width: 3px;
+    height: 45vh;
+    background-color: black;
+    margin-top: 70px;
+    border-radius: 10px
+}
+
+
+
+.activity-item.selected {
+    background-color: #F8F1E5;
+    border: solid 2px black;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.activity-item:hover {
+    border: solid 4px black;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 800px) {
+
+    .container-activity-layout{
+        flex-direction: column;
+    }
+
+    .line-activity-layout{
+        width: 30% !important;
+        height: 3px;
+    }
+
+}
+
+
+.input-user-trip{
+    width: 80%;
+    margin: auto;
+    padding: 7px;
+    border: solid 1px grey;
+    border-radius: 12px;
+    background-color: #F0EFEF;
+}
+
+
+.container-user-select{
+    flex-direction: column;
+}
+
+
+.recap-trip{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 60px 0 100px;
+}
+
+.recap-trip ul{
+    margin-left: 30px
+}
+
+.recap-trip span{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.map{
+    width: 100%;
+}
+
+
+.day-number{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 20px;
+}
+
+
+.country-step{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 60px 0;
+}
+
+.day-step{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.line-recap{
+    height: 3px;
+    width: 60%;
+    border-radius: 10px;
+    margin: auto;
+    background-color: #2C3E50;
+}
+
+.submit{
+    width: 80%;
+}
+
+
+@media screen and (min-width: 1000px){
+
+    .search-input{
+        width: 400px;
+    }
+
+    .recap-trip{
+        flex-direction: row;
+        align-items: initial;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    .input-user-trip{
+        width: 500px;
+    }
+
+    .container-user-select{
+        flex-direction: row;
+    }
+
+    .hotel-select{
+        width: 85%;
+    }
+
+
+    .container-map{
+        width: 100%;
+    }
+
+    .map{
+        position: sticky;
+        top: 30px;
+    }
+
+
+    .line-recap{
+        width: 50%;
+    }
+
+    .submit{
+        width: 60%;
+    }
+
+    .container-city-selecting > div{
+        width: 500px;
+    }
+
+
+    .city-selecting div{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: end;
+    }
+
+    /*textfield*/
+    .MuiInputBase-root{
+        width: 400px;
+
+    }
+
+    .hotel-input-selecting{
+        width: 600px !important;
+    }
+
+    .hotel-input-selecting > .MuiInputBase-root{
+        margin: auto !important;
+        width: 600px;
     }
 }

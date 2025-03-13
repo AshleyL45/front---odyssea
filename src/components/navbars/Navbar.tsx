@@ -1,5 +1,5 @@
 import {FC, useState} from 'react';
-import logo from "../images/logo_symbol.png";
+import logo from "../../images/logo_symbol.png";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -44,7 +44,7 @@ const Navbar: FC<{}> = () => {
                     </div>
 
                     <div className="navbar-center">
-                        <a href="/" className="logo">
+                        <a href="/public" className="logo">
                             <img className="logo-image" src={logo} alt="Odyssea logo"/>
                         </a>
                     </div>
