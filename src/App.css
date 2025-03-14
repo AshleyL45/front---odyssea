@@ -974,12 +974,110 @@ footer p{
 }
 
 
+.container-option-layout{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+    margin: 60px 0;
+}
+
+
+
 .activity-layout{
     display: flex;
     flex-direction: column;
     gap: 30px;
     font-size: 0.9rem;
 }
+
+
+.option-select{
+    width: 90%;
+}
+
+
+.container-option-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.option-layout{
+    width: 80%;
+    margin: auto;
+}
+
+.option-layout-item{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.option-layout h4{
+    text-align: center;
+    margin: 30px 0
+}
+
+.option-layout-item div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 2px 0;
+}
+
+.option-layout-item div input{
+    border: solid 2px black;
+}
+
+
+.option-layout-item div input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+    border: 2px solid black;
+    border-radius: 2px;
+    appearance: none; /* Supprime le style par défaut */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.option-layout-item div input[type="checkbox"]:checked {
+    background-color: black;
+}
+
+
+@media screen and (min-width: 600px) {
+
+    .option-layout{
+        width: 60%;
+    }
+
+}
+
+
+@media screen and (min-width: 1000px) {
+
+    .container-option-layout {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 70px 25%;
+    }
+
+    .option-layout {
+        width: 245px;
+    }
+
+    .option-layout h4{
+        text-align: start;
+        margin-left: 20px;
+    }
+
+
+}
+
 
 
 .activity-layout div{
@@ -1015,12 +1113,6 @@ footer p{
 .activity-item:hover {
     border: solid 4px black;
 }
-
-
-
-
-
-
 
 
 @media screen and (max-width: 800px) {
