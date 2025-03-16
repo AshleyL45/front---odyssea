@@ -16,7 +16,7 @@ const TripDashboard: FC<DashboardProps> = ({trip, page}) => {
 
     return (
         <div className={`${styles.tripDashboardContainer} ${page === "My selection" ? styles.relative : ""}`}>
-            <h2 className={styles.tripDashboardTitle}>{trip.itineraryName}</h2>
+            <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
             <hr/>
             {page === "Travel History" && (
                 <p>Personnalisé</p> /*TODO : A changer avec le vrai type de la réservation*/
@@ -29,7 +29,7 @@ const TripDashboard: FC<DashboardProps> = ({trip, page}) => {
             <p className={styles.tripDashboardDescription}>{trip.description}</p>
             <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${trip.id}`)}>Details</p>
             {page === "Reservations" && (
-                <p>Status : Réservé</p> /*TODO : A changer avec le vrai status de la réservation*/
+                <p>Status : {trip.status}</p> /*TODO : A changer avec le vrai status de la réservation*/
             )}
 
             {

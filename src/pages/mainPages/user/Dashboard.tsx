@@ -2,8 +2,6 @@ import {FC, JSX, useState} from 'react';
 import SideBoard from "../../../components/SideBoard";
 import NavbarDashboard from "../../../components/NavbarDashboard";
 import Overview from "../../../components/dashboard/Overview";
-import TripDashboard from "../../../components/ReusableComponents/TripDashboard";
-import {Trip} from "../../../@types/Trip";
 import Reservation from "./Reservation";
 import History from "../../../components/dashboard/History";
 import Settings from "../../../components/dashboard/Settings";
