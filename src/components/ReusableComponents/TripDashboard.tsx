@@ -8,8 +8,9 @@ import {useFavorites} from "../../contexts/MySelectionContext";
 type DashboardProps = {
     trip: Trip
     page: "Overview" | "Reservations" | "Travel History" | "My selection" | "Personal information" | "Settings"
+    type?: "Tailor made" | "Pre-designed trip"
 }
-const TripDashboard: FC<DashboardProps> = ({trip, page}) => {
+const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
     const navigate = useNavigate();
     const {tripId} = useParams<{tripId: string}>();
     const {handleRemoveFromFavorites} = useFavorites();
@@ -18,9 +19,6 @@ const TripDashboard: FC<DashboardProps> = ({trip, page}) => {
         <div className={`${styles.tripDashboardContainer} ${page === "My selection" ? styles.relative : ""}`}>
             <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
             <hr/>
-            {page === "Travel History" && (
-                <p>Personnalisé</p> /*TODO : A changer avec le vrai type de la réservation*/
-            )}
             {page === "My selection" && (
                 <RemoveIcon sx={{position: "absolute", bottom: 150, right: 25}}
                             onClick={() => handleRemoveFromFavorites(trip)}/>
@@ -29,12 +27,12 @@ const TripDashboard: FC<DashboardProps> = ({trip, page}) => {
             <p className={styles.tripDashboardDescription}>{trip.description}</p>
             <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${trip.id}`)}>Details</p>
             {page === "Reservations" && (
-                <p>Status : {trip.status}</p> /*TODO : A changer avec le vrai status de la réservation*/
+                <p>Status : {trip.status}</p>
             )}
 
             {
                 page === "Travel History" && (
-                    <p>Personnalisé</p>
+                    <p>{type}</p>
                 )
             }
 

@@ -4,6 +4,7 @@ import {useAuth} from "../../contexts/AuthContext";
 
 const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
     const {firstName, lastName} = useAuth();
+    console.log(lastName?.toString())
 
     return (
         <div>

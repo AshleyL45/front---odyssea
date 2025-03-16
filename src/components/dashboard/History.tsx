@@ -1,25 +1,46 @@
-import {FC, JSX} from 'react';
+import {FC, JSX, useEffect, useState} from 'react';
 import {Trip} from "../../@types/Trip";
 import TripDashboard from "../ReusableComponents/TripDashboard";
+import {get} from "../../API/api";
+import {useAuth} from "../../contexts/AuthContext";
 
 const History: ({}: {}) => JSX.Element = ({}) => {
+    const [userReservations, setUserReservations] = useState<Trip[]>([]);
+    const {userId} = useAuth();
 
-    const trip: Trip = {
-        id: 333,
-        name: "Séjour de rêve aux Maldives",
-        description: "Venez découvrir les magnifiques îles des Maldives, avec leurs plages de sable blanc, leurs lagons turquoise et leurs complexes hôteliers de luxe. Vous aurez l'occasion de vous détendre, de faire du snorkeling, de plonger avec les tortues et de savourer des plats locaux. Ce voyage vous offrira des moments inoubliables dans l'une des destinations les plus paradisiaques du monde.",
-        shortDescription: "Plages de rêve, luxe et plongée aux Maldives.",
-        price: 3999.99,
-        duration: 21
-    }
+    useEffect(() => {
+        const fetchReservations = async () => {
+            try {
+                const reservations = await get(`/reservations/${userId}`);
+
+                if (reservations) {
+                    setUserReservations(reservations);
+                }
+            } catch (e) {
+                console.error("Error while fetching reservations : ", e);
+            }
+        }
+        fetchReservations();
+    }, []);
+
 
     return (
         <div>
-            <h1 style={{marginLeft: "8rem", marginTop: "1.8rem", marginBottom: "2rem", fontSize: "1.8rem"}}>Historique</h1>
+            <h1 style={{
+                marginLeft: "8rem",
+                marginTop: "1.8rem",
+                marginBottom: "2rem",
+                fontSize: "1.8rem"
+            }}>Historique</h1>
             <div>
-                {/*TODO Faire un map pour les voyages*/}
-                <p style={{marginLeft: "8rem"}}>05/09/2024</p>
-                <TripDashboard trip={trip} page="Travel History"/>
+                {
+                    userReservations && userReservations.length > 0 && userReservations.map((userReservation) => (
+                        <>
+                            <p style={{marginLeft: "8rem"}}>{userReservation.purchaseDate}</p>
+                            <TripDashboard trip={userReservation} page="Travel History" type={"Pre-designed trip"}/>
+                        </>
+                    ))
+                }
             </div>
 
         </div>
