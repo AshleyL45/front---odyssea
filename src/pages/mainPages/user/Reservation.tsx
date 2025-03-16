@@ -17,7 +17,7 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
         const fetchAndFilterReservations = async () => {
             try{
                 const reservations = await get(`/reservations/${userId}`);
-                //console.log("Reservations : ", JSON.stringify(reservations));
+                console.log("Reservations : ", JSON.stringify(reservations));
 
                 if(reservations){
                     setUserReservations(reservations);

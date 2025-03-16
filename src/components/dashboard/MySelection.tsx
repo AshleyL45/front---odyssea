@@ -3,11 +3,15 @@ import TripDashboard from "../ReusableComponents/TripDashboard";
 import {Trip} from "../../@types/Trip";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import {useDashboard} from "../../contexts/DashboardContext";
+import {useFavorites} from "../../contexts/MySelectionContext";
 
 const MySelection: ({}: {}) => JSX.Element = ({}) => {
     const[sortDate, setSortDate] = useState(false);
     const[sortPrice, setSortPrice] = useState(false);
     const [sortDuration, setSortDuration] = useState(false);
+    const {favorites} = useFavorites();
+    console.log(JSON.stringify(favorites));
 
     const handleSorting = (type: string) => {
         if(type === "Date de départ"){
@@ -48,8 +52,11 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
                     <ExpandMoreIcon/>}</p>
             </div>
 
-
-            <TripDashboard trip={trip} page={"My selection"}/>
+            {
+                favorites && favorites.length > 0 && favorites.map((favorite) => (
+                    <TripDashboard key={favorite.id} trip={favorite} page={"My selection"}/>
+                ))
+            }
 
         </div>
     );

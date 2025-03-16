@@ -1,6 +1,7 @@
 import {createContext, FC, JSX, startTransition, useContext, useEffect, useOptimistic, useState} from 'react';
 import {Trip} from "../@types/Trip";
-import {get, post} from "../API/api";
+import {deleteFromDB, get, post} from "../API/api";
+import {useAuth} from "./AuthContext";
 
 interface MySelectionProps {
     favorites: Trip[];
@@ -17,6 +18,7 @@ const getFavoritesFromLocalStorage = ():Trip[] => {
 
 export const MySelectionProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
     const [favorites, setFavorites] = useState<Trip[]>(getFavoritesFromLocalStorage());
+    const {userId} = useAuth();
 
     // Mise à jour de l'UI optimiste, documentation sur useOptimistic : https://react.dev/reference/react/useOptimistic
     const [optimisticFavorites, setOptimisticFavorites] = useOptimistic(favorites,
@@ -32,27 +34,32 @@ export const MySelectionProvider: ({children}: { children: any }) => JSX.Element
     // Synchroniser les favoris de la BDD avec le localStorage
     useEffect(() => {
         const syncFavoritesWithDB = async () => {
-            try {
-                const serverFavorites = await get("/api/get-favorites"); //TODO à modifier avec le bon endpoint
+            if(userId){
+                try {
+                    const serverFavorites = await get(`/mySelection/${userId}`);
 
-                if (JSON.stringify(serverFavorites) !== JSON.stringify(favorites)) {
-                    setFavorites(serverFavorites);
-                    localStorage.setItem("favorites", JSON.stringify(serverFavorites));
+                    if (JSON.stringify(serverFavorites) !== JSON.stringify(favorites)) {
+                        setFavorites(serverFavorites);
+                        localStorage.setItem("favorites", JSON.stringify(serverFavorites));
+                    }
+                } catch (error) {
+                    console.error("Erreur de synchronisation des favoris :", error);
                 }
-            } catch (error) {
-                console.error("Erreur de synchronisation des favoris :", error);
             }
         };
 
         syncFavoritesWithDB();
-    }, []);
+    }, [userId]);
 
     const handleAddToFavorites = async (trip: Trip) => {
         startTransition(() => {
             setOptimisticFavorites({type: "add", payload: trip}) // Met à jour l'UI
         });
         try {
-            await post("/trip/add", trip); // TODO à modifier avec le bon endpoint
+            await post("/mySelection/add", {
+                userId: userId,
+                itineraryId: trip.id
+            });
 
             setFavorites((prevFavorites) => [...prevFavorites, trip]);
             localStorage.setItem("favorites", JSON.stringify([...favorites, trip]));
@@ -67,7 +74,7 @@ export const MySelectionProvider: ({children}: { children: any }) => JSX.Element
         })
 
         try {
-            await post("/trip/remove", trip); // TODO à modifier avec le bon endpoint
+            await deleteFromDB(`/mySelection/${userId}/remove/${trip.id}`);
             setFavorites((prevFavorites) => prevFavorites.filter((item) => item.id !== trip.id));
             localStorage.setItem(
                 "favorites",

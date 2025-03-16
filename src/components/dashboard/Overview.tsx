@@ -6,59 +6,16 @@ import {get} from "../../API/api";
 import {useAuth} from "../../contexts/AuthContext";
 import {useNavigate} from "react-router-dom";
 import {useFavorites} from "../../contexts/MySelectionContext";
+import {useDashboard} from "../../contexts/DashboardContext";
 
 const Overview: ({}: {}) => JSX.Element = ({}) => {
-    const {userId} = useAuth();
-    const [userReservations, setUserReservations] = useState<Trip[]>([]);
+    const {firstCurrentReservation, lastDoneReservation, currentTrips, pastTrips} = useDashboard();
     const navigate = useNavigate();
-    //const {favorites} = useFavorites();
-    //TODO : Faire requête API pour avoir le dernier voyage, le voyage en cours et le nombre de voyage (en cours, de "ma séléction" et dans l'historique)
-    useEffect(() => {
-        const fetchReservations = async () => {
-            try {
-                const reservations = await get(`/reservations/${userId}`);
+    const {favorites} = useFavorites();
 
-                if (reservations) {
-                    setUserReservations(reservations);
-                }
-            } catch (e) {
-                console.error("Error while fetching reservations : ", e);
-            }
-        }
-        fetchReservations();
-
-    }, []);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
-    // Avoir la dernière réservation en cours
-    const firstOngoingReservation: Trip | undefined = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate < today;
-    });
-
-    // Avoir la dernière réservation confirmée et passée
-    const lastDoneReservation : Trip | undefined = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate > today;
-    });
-
-    //Avoir le nombre de favoris
-    // Avoir le nombre de voyages en attente ou en cours
-    const currentTrips = userReservations.filter((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate < today
-    })
-    // Avoir le nombre de voyages passée
-    const pastTrips = userReservations.filter((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "Confirmé" && reservationDate > today
-    })
 
 
     return (
@@ -66,14 +23,14 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
             <h1 style={{marginLeft: "8rem", marginTop: "1.8rem", marginBottom: "2rem", fontSize: "1.8rem"}}>Overview</h1>
             <div style={{display: "flex", justifyContent: "space-around", width: "85%", margin: "auto"}}>
                 <TripNumbers title={"Current"} number={currentTrips.length}/>
-                {/*<TripNumbers title={"My selection"} number={favorites.length}/>*/}
+                <TripNumbers title={"My selection"} number={favorites.length}/>
                 <TripNumbers title={"Travel history"} number={pastTrips.length}/>
             </div>
 
             <h2 style={{marginLeft: "8rem", marginTop: "1rem", fontSize: "1.4rem"}}>Current trip</h2>
             {
-                firstOngoingReservation ? (
-                    <TripDashboard trip={firstOngoingReservation} page="Overview"/>
+                firstCurrentReservation ? (
+                    <TripDashboard trip={firstCurrentReservation} page="Overview"/>
                 ) : <p style={{marginLeft: "8rem"}}>Aucune réservation en cours.</p>
             }
 

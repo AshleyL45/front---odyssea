@@ -3,7 +3,7 @@ import CustomButton from "../ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
 
 const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
-    const {firstName, lastName} = useAuth();
+    const {firstName, lastName, email} = useAuth();
     console.log(lastName?.toString())
 
     return (
@@ -30,7 +30,7 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
 
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                     <label htmlFor={"updateEmail"}>E-mail</label>
-                    <input type={"email"} style={{padding: "0.5rem 1rem"}} id={"updateEmail"}
+                    <input type={"email"} style={{padding: "0.5rem 1rem"}} id={"updateEmail"} value={email?.toString()}
                     />
                 </div>
 

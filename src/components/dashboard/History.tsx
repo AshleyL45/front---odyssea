@@ -3,26 +3,10 @@ import {Trip} from "../../@types/Trip";
 import TripDashboard from "../ReusableComponents/TripDashboard";
 import {get} from "../../API/api";
 import {useAuth} from "../../contexts/AuthContext";
+import {useDashboard} from "../../contexts/DashboardContext";
 
 const History: ({}: {}) => JSX.Element = ({}) => {
-    const [userReservations, setUserReservations] = useState<Trip[]>([]);
-    const {userId} = useAuth();
-
-    useEffect(() => {
-        const fetchReservations = async () => {
-            try {
-                const reservations = await get(`/reservations/${userId}`);
-
-                if (reservations) {
-                    setUserReservations(reservations);
-                }
-            } catch (e) {
-                console.error("Error while fetching reservations : ", e);
-            }
-        }
-        fetchReservations();
-    }, []);
-
+   const{userReservations} = useDashboard();
 
     return (
         <div>
