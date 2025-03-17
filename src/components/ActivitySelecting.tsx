@@ -1,6 +1,6 @@
-import {FC, useState} from 'react';
+import {FC, JSX, useState} from 'react';
 
-const ActivitySelecting: FC<{}> = ({}) => {
+const ActivitySelecting: ({}: {}) => JSX.Element = ({}) => {
 
     const [selected, setSelected] = useState<{ city1: number[]; city2: number[] }>({
         city1: [],

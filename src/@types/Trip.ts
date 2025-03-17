@@ -1,8 +1,10 @@
 export interface Trip {
     id: number;
-    itineraryName: string;
+    name: string;
     description: string;
     shortDescription: string;
     price: number;
-    duration: number;
+    totalDuration: number;
+    status?: string;
+    purchaseDate?: string;
 }

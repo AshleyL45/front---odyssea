@@ -1,4 +1,5 @@
 import {FC, JSX, useState} from 'react';
+import {Link} from "react-router-dom";
 
 
 interface SideBoardProps {
@@ -9,6 +10,8 @@ interface SideBoardProps {
 const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
     const [activeLink, setActiveLink] = useState<string>('Vue d\'ensemble');
 
+    // TODO: Faire une requête pour avoir le prénom et le nom de l'utilisateur
+
     const handleClick = (page: string) => {
         setActiveLink(page);
         setActivePage(page)
@@ -18,7 +21,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
         <div className="side-board-container">
             <div>
                 <div className="user-name">
-                    <h1>Liliana Ashley Chrifi</h1>
+                    <h1>Liliana Ashley Chrifi</h1> {/*TODO: Remplacer avec le prénom et nom de famille de l'utilisateur*/}
                 </div>
                 <div className="side-board-menu">
                     <nav>
@@ -69,7 +72,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
             </div>
 
             <div style={{paddingLeft: "30px"}}>
-                <a href="#">Aide</a>
+                <Link to="/contact">Aide</Link>
             </div>
         </div>
     );

@@ -1,10 +1,10 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ActivitySelecting from "../../components/ActivitySelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import "../../App.css"
 
-const Trip8: FC<{}> = ({}) => {
+const Trip8: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>

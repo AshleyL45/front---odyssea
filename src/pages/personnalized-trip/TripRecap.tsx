@@ -1,10 +1,10 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 
-const TripRecap: FC = () => {
+const TripRecap: () => JSX.Element = () => {
 
     return (
         <div>

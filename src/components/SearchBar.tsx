@@ -82,7 +82,7 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
                                         justifyContent: "space-between",
                                         alignItems: "center"
                                     }} onClick={() => handleCloseList(itinerary.id)}>
-                                        <ListItemText primary={itinerary.itineraryName}
+                                        <ListItemText primary={itinerary.name}
                                                       sx={{color: "black"}}/>
                                     </ListItemButton>
                                 )

@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC,JSX, useState} from 'react';
 import "../App.css"
 
 interface Option {
@@ -46,7 +46,7 @@ const options: Options = {
 };
 
 
-const OptionsSelecting: React.FC<{ options: Options }> = ({options}) => {
+const OptionsSelecting: ({options}: { options: any }) => JSX.Element = ({options}) => {
 
     return (
         <div className="container-option-layout">

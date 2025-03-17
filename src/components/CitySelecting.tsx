@@ -1,9 +1,9 @@
-import {FC, useState} from "react";
+import {FC, JSX, useState} from "react";
 import {TextField, Menu, MenuItem} from "@mui/material";
 
 const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
-const CitySelecting: FC<{}> = ({}) => {
+const CitySelecting: ({}: {}) => JSX.Element = ({}) => {
     const [selected, setSelected] = useState<string[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

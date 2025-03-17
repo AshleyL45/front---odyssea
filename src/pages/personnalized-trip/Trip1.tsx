@@ -1,9 +1,9 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import Calender from "../../components/Calender";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const Trip1: FC<{}> = ({}) => {
+const Trip1: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>

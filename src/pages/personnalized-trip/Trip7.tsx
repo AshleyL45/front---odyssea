@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import OptionsSelecting from "../../components/OptionsSelecting";
@@ -39,7 +39,7 @@ const options = {
 };
 
 
-const Trip7: FC<{}> = ({}) => {
+const Trip7: ({}: {}) => JSX.Element = ({}) => {
     return (
         <div>
             <div className="progress-bar">

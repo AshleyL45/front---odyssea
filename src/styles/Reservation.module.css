@@ -1,0 +1,31 @@
+.reservationContainer h1 {
+    margin-left: 8rem;
+    margin-top: 1.8rem;
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
+}
+
+.titles {
+    margin-left: 8rem;
+}
+
+.filters {
+    width: 100%;
+    margin-top: 4rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filterItem {
+    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-align: center;
+    width:140px;
+}
+
+.filters .filterItem.active {
+    border-bottom: 2px solid black;
+}

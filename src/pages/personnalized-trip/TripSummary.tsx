@@ -1,8 +1,9 @@
 import {FC} from 'react';
+import {JSX} from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 
-const TripSummary: FC<{}> = ({}) => {
+const TripSummary: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div style={{padding: "30px 40px"}}>

@@ -16,34 +16,40 @@ import Contact from "./pages/mainPages/company/Contact";
 import ReservationDetails from "./pages/mainPages/user/ReservationDetails";
 import Reservation from "./pages/mainPages/user/Reservation";
 import HomePage from "./pages/mainPages/HomePage";
+import ItineraryDetails from "./pages/mainPages/ItineraryDetails";
+import {MySelectionProvider} from "./contexts/MySelectionContext";
+import {DashboardContextProvider} from "./contexts/DashboardContext";
 
 function App() {
   return (
     <>
         <AuthProvider>
-
-            <Routes>
-                <Route element={<ProtectedRoutes/>}>
-                    <Route path="dashboard" element={<Dashboard/>}></Route>
-                    <Route path="reservation" element={<Reservation/>}></Route>
-                    <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
-                </Route>
-                <Route path="/">
-                    <Route index element={<HomePage/>}></Route>
-                    <Route path="login" element={<LoginPage/>}></Route>
-                    <Route path="register" element={<RegisterPage/>}></Route>
-                    <Route path="trips" element={<ItineraryListPage/>}></Route>
-                    <Route path="cookies" element={<CookiesPolitic/>}></Route>
-                    <Route path="legal" element={<LegalInformation/>}></Route>
-                    <Route path="privacy" element={<PrivacyPreferences/>}></Route>
-                    <Route path="terms" element={<TermsOfUse/>}></Route>
-                    <Route path="aboutUs" element={<AboutUs/>}></Route>
-                    <Route path="contact" element={<Contact/>}></Route>
-                </Route>
-            </Routes>
-
+            <DashboardContextProvider>
+                <MySelectionProvider>
+                    <Routes>
+                        <Route element={<ProtectedRoutes/>}>
+                            <Route path="dashboard" element={<Dashboard/>}></Route>
+                            <Route path="reservation" element={<Reservation/>}></Route>
+                            <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
+                        </Route>
+                        <Route path="/">
+                            <Route index element={<HomePage/>}></Route>
+                            <Route path="login" element={<LoginPage/>}></Route>
+                            <Route path="register" element={<RegisterPage/>}></Route>
+                            <Route path="trips" element={<ItineraryListPage/>}></Route>
+                            <Route path="trip/tripId" element={<ItineraryDetails/>}></Route>
+                            <Route path="cookies" element={<CookiesPolitic/>}></Route>
+                            <Route path="legal" element={<LegalInformation/>}></Route>
+                            <Route path="privacy" element={<PrivacyPreferences/>}></Route>
+                            <Route path="terms" element={<TermsOfUse/>}></Route>
+                            <Route path="aboutUs" element={<AboutUs/>}></Route>
+                            <Route path="contact" element={<Contact/>}></Route>
+                        </Route>
+                    </Routes>
+                </MySelectionProvider>
+            </DashboardContextProvider>
         </AuthProvider>
-        {/*<Dashboard/>*/}
+
 
 
 
