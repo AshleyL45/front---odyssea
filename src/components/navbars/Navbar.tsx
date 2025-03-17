@@ -1,11 +1,11 @@
-import {FC, useEffect, useState} from 'react';
+import {FC,JSX, useEffect, useState} from 'react';
 import logo from "../images/logo_symbol.png";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import {useNavigate} from "react-router-dom";
 
-const Navbar: FC<{}> = () => {
+const Navbar: () => JSX.Element = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
 
