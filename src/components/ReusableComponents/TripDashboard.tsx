@@ -16,7 +16,7 @@ const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
     const {handleRemoveFromFavorites} = useFavorites();
 
     return (
-        <div className={`${styles.tripDashboardContainer} ${page === "My selection" ? styles.relative : ""}`}>
+        <div className={`${styles.tripDashboardContainer} ${page === "My selection"}`}>
             <div  className={styles.tripTitle}>
                 <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
                 {page === "My selection" && (
