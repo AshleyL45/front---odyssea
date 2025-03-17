@@ -4,7 +4,7 @@ export interface Trip {
     description: string;
     shortDescription: string;
     price: number;
-    duration: number;
+    totalDuration: number;
     status?: string;
     purchaseDate?: string;
 }

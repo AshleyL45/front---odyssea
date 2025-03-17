@@ -59,9 +59,20 @@ export const post = async <T = any>(url: string, data: object, config?: {}): Pro
 };
 
 
+export const put = async <T = any>(url: string, data: object, config?: {}): Promise<T | null> => {
+    try {
+        const response = await myDB.put(url, data, config);
+        return response.data;
+    } catch (error: any) {
+        console.error("Cannot patch to database : ", error);
+        return error.response.data;
+    }
+};
+
+
 export const patch = async <T = any>(url: string, data: object, config?: {}): Promise<T | null> => {
     try {
-        const response = await myDB.post(url, data, config);
+        const response = await myDB.patch(url, data, config);
         return response.data;
     } catch (error: any) {
         console.error("Cannot patch to database : ", error);

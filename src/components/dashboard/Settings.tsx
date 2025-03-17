@@ -12,7 +12,6 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
     const navigate = useNavigate();
 
     const [inputValue, setInputValue] = useState<string>("");
-    console.log(inputValue)
 
 
     const handleUpdatePassword = async () => {
@@ -20,9 +19,9 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
             const changePassword = await patch(`/auth/${userId}/password`, {
                 password: inputValue
             });
-            if(changePassword === "Account successfully deleted."){
-                setTimeout(() => setConfirmationMessage(true), 300);
-                setMessage(`${changePassword}`)
+            if (changePassword === "Password successfully updated.") {
+                setConfirmationMessage(true);
+                setMessage("Password successfully updated.");
             }
         } catch (e) {
             console.error("Cannot change password : ", e);
@@ -44,13 +43,6 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div style={{position: "relative"}}>
-            {
-                confirmationMessage && (
-                    <div style={{width: "70%", height: 50, backgroundColor: "black",color: "white", borderRadius: 8, position: "absolute", left: "50%", transform: 'translate(-50%, 10px)'}}>
-                        <p>{message}</p>
-                    </div>
-                )
-            }
 
             <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column", minHeight: "80vh"}}>
                 <div>
@@ -76,6 +68,11 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
                         <CustomButton sx={{color: "white", marginBottom: 0}}
                                       onClick={handleUpdatePassword}>Save</CustomButton>
                     </div>
+                    {
+                        confirmationMessage && message.length > 0 && (
+                            <p style={{color: "green", marginLeft: "8rem"}}>Password successfully updated.</p>
+                        )
+                    }
 
 
                     <CustomButton

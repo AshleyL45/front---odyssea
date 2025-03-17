@@ -17,12 +17,16 @@ const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
 
     return (
         <div className={`${styles.tripDashboardContainer} ${page === "My selection" ? styles.relative : ""}`}>
-            <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
+            <div  className={styles.tripTitle}>
+                <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
+                {page === "My selection" && (
+                    <RemoveIcon sx={{bottom: 150, right: 25}}
+                                onClick={() => handleRemoveFromFavorites(trip)}/>
+                )}
+            </div>
+
             <hr/>
-            {page === "My selection" && (
-                <RemoveIcon sx={{position: "absolute", bottom: 150, right: 25}}
-                            onClick={() => handleRemoveFromFavorites(trip)}/>
-            )}
+
 
             <p className={styles.tripDashboardDescription}>{trip.description}</p>
             <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${trip.id}`)}>Details</p>

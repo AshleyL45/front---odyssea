@@ -1,36 +1,44 @@
-import {FC, JSX, useState} from 'react';
+import {FC, JSX, useEffect, useState} from 'react';
 import TripDashboard from "../ReusableComponents/TripDashboard";
-import {Trip} from "../../@types/Trip";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import {useDashboard} from "../../contexts/DashboardContext";
 import {useFavorites} from "../../contexts/MySelectionContext";
+import {Trip} from "../../@types/Trip";
 
 const MySelection: ({}: {}) => JSX.Element = ({}) => {
-    const[sortDate, setSortDate] = useState(false);
     const[sortPrice, setSortPrice] = useState(false);
     const [sortDuration, setSortDuration] = useState(false);
     const {favorites} = useFavorites();
-    console.log(JSON.stringify(favorites));
+    const [sortedFavorites, setSortedFavorites] = useState<Trip[]>([]);
+
+    useEffect(() => {
+        setSortedFavorites([...favorites]);
+    }, [favorites]);
 
     const handleSorting = (type: string) => {
-        if(type === "Date de départ"){
-            setSortDate(prevState => !prevState);
-        } else if(type === "Prix"){
-            setSortPrice(prevState => !prevState);
-        } else if(type === "Durée"){
-            setSortDuration(prevState => !prevState)
+        let sorted = [...favorites];
+
+        switch (type){
+            case "Prix":
+                setSortDuration(false)
+                sorted.sort((a, b) => {
+                    return sortPrice ? a.price - b.price : b.price - a.price;
+                });
+                setSortPrice((prev) => !prev);
+                break;
+            case "Durée":
+                setSortPrice(false)
+                sorted.sort((a, b) => {
+                    return sortDuration ? a.totalDuration - b.totalDuration : b.totalDuration - a.totalDuration;
+                });
+                setSortDuration((prev) => !prev);
+                break;
+
+            default:
+                break;
         }
-
-    }
-
-    const trip: Trip = {
-        id: 24,
-        name: "Séjour de rêve aux Maldives",
-        description: "Venez découvrir les magnifiques îles des Maldives, avec leurs plages de sable blanc, leurs lagons turquoise et leurs complexes hôteliers de luxe. Vous aurez l'occasion de vous détendre, de faire du snorkeling, de plonger avec les tortues et de savourer des plats locaux. Ce voyage vous offrira des moments inoubliables dans l'une des destinations les plus paradisiaques du monde.",
-        shortDescription: "Plages de rêve, luxe et plongée aux Maldives.",
-        price: 3999.99,
-        duration: 21
+        setSortedFavorites(sorted);
+        console.log(JSON.stringify(sorted))
     }
 
     return (
@@ -43,8 +51,6 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
             }}>Ma séléction</h1>
 
             <div style={{display: "flex", justifyContent: "space-between", width: "40%", margin: "auto"}}>
-                <p onClick={() => handleSorting("Date de départ")} style={{display: "flex", alignItems: "center", justifyContent:"space-around"}}>Date de départ {sortDate ? <ExpandLessIcon/> :
-                    <ExpandMoreIcon/>}</p>
                 <p onClick={() => handleSorting("Prix")}
                    style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Prix {sortPrice ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
                 <p onClick={() => handleSorting("Durée")}
@@ -52,11 +58,13 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
                     <ExpandMoreIcon/>}</p>
             </div>
 
-            {
-                favorites && favorites.length > 0 && favorites.map((favorite) => (
+            {sortedFavorites && sortedFavorites.length > 0 ? (
+                sortedFavorites.map((favorite) => (
                     <TripDashboard key={favorite.id} trip={favorite} page={"My selection"}/>
                 ))
-            }
+            ) : (
+                <p style={{textAlign: "center", marginTop: "2rem"}}>Aucun favori à afficher.</p>
+            )}
 
         </div>
     );

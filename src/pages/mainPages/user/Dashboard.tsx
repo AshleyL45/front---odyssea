@@ -12,6 +12,7 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
     const [activePage, setActivePage] = useState<string>("Vue d'ensemble");
 
 
+
     return (
         <>
             <NavbarDashboard/>

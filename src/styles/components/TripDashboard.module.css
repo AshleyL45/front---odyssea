@@ -1,6 +1,6 @@
 .tripDashboardContainer {
     width: 80%;
-    height: fit-content;
+    min-height: 150px;
     background-color: #F8F1E5;
     border: 1px solid black;
     border-radius: 16px;
@@ -11,6 +11,12 @@
 .tripDashboardContainer * {
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+.tripTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tripDashboardTitle {
@@ -34,8 +40,4 @@
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
-}
-
-.relative {
-    position: relative;
 }
