@@ -1,5 +1,5 @@
 import {FC, JSX} from 'react';
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbars/Navbar";
 
 const HomePage: ({}: {}) => JSX.Element = ({}) => {
     return (
