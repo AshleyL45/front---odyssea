@@ -1,10 +1,10 @@
-import {FC, useState} from 'react';
+import {FC,JSX, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-const Trip5: FC<{}> = ({}) => {
+const Trip5: ({}: {}) => JSX.Element = ({}) => {
 
     const [count1, setCount1] = useState(2);
     const [count2, setCount2] = useState(0);

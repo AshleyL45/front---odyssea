@@ -3,7 +3,10 @@ import {jwtDecode} from "jwt-decode";
 import {useNavigate} from "react-router-dom";
 
 interface AuthContext {
-    userId: string | null;
+    userId: number | null;
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
     login: (token: string) => void;
     logout: () => void;
     decodeToken: () => void;
@@ -14,9 +17,11 @@ export const AuthContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-    const [userId, setUserId] = useState<string | null>(null);
+    const [userId, setUserId] = useState<number | null>(null);
+    const [email, setEmail] = useState<string | null>(null);
+    const [firstName, setFirstName] = useState<string | null>(null);
+    const  [lastName, setLastName] = useState<string | null>(null);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         if (token) {
@@ -57,6 +62,9 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
                     logout()
                 } else {
                     setUserId(decoded.id);
+                    setFirstName(decoded.firstName);
+                    setLastName(decoded.lastName);
+                    setEmail(decoded.sub);
                 }
 
             } catch (error) {
@@ -66,8 +74,10 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
         }
     }
 
+
+
     return (
-        <AuthContext.Provider value={{userId, token, login, logout, decodeToken}}>
+        <AuthContext.Provider value={{userId, firstName, lastName, email, token, login, logout, decodeToken}}>
             {children}
         </AuthContext.Provider>
     )

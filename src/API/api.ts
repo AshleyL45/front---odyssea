@@ -58,6 +58,28 @@ export const post = async <T = any>(url: string, data: object, config?: {}): Pro
     }
 };
 
+
+export const put = async <T = any>(url: string, data: object, config?: {}): Promise<T | null> => {
+    try {
+        const response = await myDB.put(url, data, config);
+        return response.data;
+    } catch (error: any) {
+        console.error("Cannot patch to database : ", error);
+        return error.response.data;
+    }
+};
+
+
+export const patch = async <T = any>(url: string, data: object, config?: {}): Promise<T | null> => {
+    try {
+        const response = await myDB.patch(url, data, config);
+        return response.data;
+    } catch (error: any) {
+        console.error("Cannot patch to database : ", error);
+        return error.response.data;
+    }
+};
+
 export const get = async <T = any>(url: string, config?: {}): Promise<T | null> => {
     try {
         const response = await myDB.get(url, config);
@@ -67,3 +89,13 @@ export const get = async <T = any>(url: string, config?: {}): Promise<T | null> 
         return null;
     }
 };
+
+export const deleteFromDB = async <T = any>(url: string, config?: {}): Promise<T | null> => {
+    try {
+        const response = await myDB.delete(url, config);
+        return response.data;
+    } catch (error) {
+        console.error("Cannot delete this movie from favorites : ", error);
+        return null;
+    }
+}

@@ -1,9 +1,9 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import "../../App.css"
 
-const Trip2: FC<{}> = ({}) => {
+const Trip2: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
