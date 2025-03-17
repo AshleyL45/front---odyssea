@@ -1,9 +1,13 @@
 import {FC} from 'react';
-import Calender from "../../components/Calender";
+
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Calender from "../../components/Calender";
+import {useNavigate} from "react-router-dom";
 
 const Trip1: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -19,14 +23,18 @@ const Trip1: FC<{}> = ({}) => {
                 }}></div>
             </div>
             <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+                <ArrowBackIcon sx={{fontSize: "15px"}} onClick={() => navigate(-1)}/>
                 previous step
             </a>
             <div className="container-calender">
                 <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>When would you like to leave?</h1>
-                <p style={{margin: "20px 0 50px"}}>Select the departure date of your 12-day stay : </p>
-                <Calender />
-                <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained">Next</CustomButton>
+                <p style={{margin: "20px 0 50px"}}>Select the departure date of your 13-day stay : </p>
+
+                <Calender/>
+
+                <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained"
+                              onClick={() => navigate("/personalized-trip/departure")}>Next
+                </CustomButton>
             </div>
         </div>
     );

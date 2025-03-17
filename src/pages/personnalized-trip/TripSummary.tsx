@@ -1,14 +1,17 @@
 import {FC} from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import {useNavigate} from "react-router-dom";
 
 const TripSummary: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     return (
         <div style={{padding: "30px 40px"}}>
 
                 <a style={{display: 'flex', alignItems: "center", fontSize: "16px"}} href="#">
-                    <ArrowBackIcon sx={{fontSize: "15px"}}  /*onClick={() => navigate(-1)}*/ />
+                    <ArrowBackIcon sx={{fontSize: "15px"}}  onClick={() => navigate(-1)}/>
                     quitter
                 </a>
 

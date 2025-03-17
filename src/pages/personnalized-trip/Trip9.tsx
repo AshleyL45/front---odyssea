@@ -2,9 +2,12 @@ import {FC, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import {useNavigate} from "react-router-dom";
 
 
 const Trip9: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -20,8 +23,10 @@ const Trip9: FC<{}> = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
@@ -40,7 +45,9 @@ const Trip9: FC<{}> = ({}) => {
                 <p style={{color: "grey"}}>Message (optional) :</p>
                 <textarea style={{width: "280px", height: "300px", margin: "10px 0"}}></textarea>
 
-                <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained">Next</CustomButton>
+                <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained"
+                              onClick={() => navigate("/personalized-trip/recap")}
+                >Next</CustomButton>
 
             </div>
         </div>

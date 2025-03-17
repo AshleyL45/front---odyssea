@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar";
 import LoginForm from "../../components/auth/LoginForm";
 import styles from "../../styles/LoginPage.module.css"
 import {useNavigate} from "react-router-dom";

@@ -2,8 +2,11 @@ import {FC} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import CloseIcon from '@mui/icons-material/Close';
+import {useNavigate} from "react-router-dom";
 
 const Trip3: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -18,8 +21,10 @@ const Trip3: FC<{}> = ({}) => {
                     top: "-6px"
                 }}></div>
             </div>
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
@@ -47,7 +52,9 @@ const Trip3: FC<{}> = ({}) => {
                 </div>
 
 
-                <CustomButton style={{width: "130px", marginTop: "150px"}} variant="contained">Next</CustomButton>
+                <CustomButton style={{width: "130px", marginTop: "150px"}} variant="contained"
+                              onClick={() => navigate("/personalized-trip/city-selection")}
+                >Next</CustomButton>
 
             </div>
         </div>

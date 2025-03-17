@@ -3,8 +3,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import {useNavigate} from "react-router-dom";
 
 const TripRecap: FC = () => {
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -13,17 +16,19 @@ const TripRecap: FC = () => {
                 <div style={{width: "100%", height: "6px", backgroundColor: "#2C3E50", position: "relative", top: "-5px"}}></div>
             </div>
 
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
             <div style={{width: "80%", margin: "auto"}}>
 
-                <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign:"center"}}>Summary of your trip</h1>
+                <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
 
                 <form style={{display: "flex", flexDirection: "column"}}>
-                    <label style={{textAlign: "center", margin: "20px 0"}}>Your trip name :</label>
+                <label style={{textAlign: "center", margin: "20px 0"}}>Your trip name :</label>
                     <input className="input-user-trip" type="text" id="name-user-trip" name="name-user-trip" required placeholder="Enter the name ..."/>
                 </form>
 

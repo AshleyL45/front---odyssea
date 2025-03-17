@@ -4,8 +4,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import CitySelecting from "../../components/CitySelecting";
 import "../../App.css"
+import {useNavigate} from "react-router-dom";
 
 const Trip4: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -21,20 +24,17 @@ const Trip4: FC<{}> = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{
-                display: 'flex',
-                alignItems: "center",
-                fontSize: "16px",
-                margin: "10px 40px",
-                textAlign: "center"
-            }} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
             <div className="container-city-selecting">
 
-                <h1 style={{fontSize: "25px", margin: "30px 0", textAlign: "center"}}>Select your preferred cities :</h1>
+                <h1 style={{fontSize: "25px", margin: "30px 0", textAlign: "center"}}>Select your preferred cities
+                    :</h1>
 
                 <div style={{
                     display: "flex",
@@ -58,7 +58,7 @@ const Trip4: FC<{}> = ({}) => {
                         </div>
                     </div>
                     <div className="city-selecting">
-                        <h3 style={{margin: "10px 0", textAlign: "start"}}>Japon</h3>
+                        <h3 style={{margin: "10px 0", textAlign: "start"}}>Japan</h3>
                         <div>
                             <CitySelecting/>
                             <p style={{color: "grey"}}>2 cities max.</p>
@@ -67,7 +67,9 @@ const Trip4: FC<{}> = ({}) => {
                 </div>
 
                 <div style={{textAlign: "center", margin: "auto"}}>
-                    <CustomButton style={{width: "130px", marginTop: "120px"}} variant="contained">Next</CustomButton>
+                    <CustomButton style={{width: "130px", marginTop: "120px"}} variant="contained"
+                                  onClick={() => navigate("/personalized-trip/traveler-selection")}
+                    >Next</CustomButton>
                 </div>
             </div>
         </div>

@@ -3,7 +3,6 @@ import {Trip} from "../../@types/Trip";
 import {get} from "../../API/api";
 import TripItemTravel from "../../components/ReusableComponents/TripItemTravel";
 import TripItemTravelReverse from "../../components/ReusableComponents/TripItemTravelReverse";
-import Navbar from "../../components/Navbar";
 import HeroSection from "../../components/HeroSection";
 import SearchBar from "../../components/SearchBar";
 import Footer from "../../components/Footer";

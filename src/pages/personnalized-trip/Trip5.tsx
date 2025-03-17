@@ -3,8 +3,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import {useNavigate} from "react-router-dom";
 
 const Trip5: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     const [count1, setCount1] = useState(2);
     const [count2, setCount2] = useState(0);
@@ -23,8 +26,10 @@ const Trip5: FC<{}> = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
@@ -32,7 +37,8 @@ const Trip5: FC<{}> = ({}) => {
 
                 <h1 style={{fontSize: "25px", margin: "30px 0"}}>How many travellers are you ?</h1>
 
-                <div className="container-user-select" style={{display: "flex", justifyContent: "center", margin: "50px 0"}}>
+                <div className="container-user-select"
+                     style={{display: "flex", justifyContent: "center", margin: "50px 0"}}>
                     <div style={{margin: "40px 60px"}}>
                         <h2>Adults</h2>
                         <div style={{display: "flex", gap: "20px", margin: "20px 0", justifyContent: "center"}}>
@@ -51,7 +57,9 @@ const Trip5: FC<{}> = ({}) => {
                     </div>
                 </div>
 
-                <CustomButton style={{width: "130px", marginTop: "30px"}} variant="contained">Next</CustomButton>
+                <CustomButton style={{width: "130px", marginTop: "30px"}} variant="contained"
+                              onClick={() => navigate("/personalized-trip/standing-selection")}
+                >Next</CustomButton>
 
             </div>
         </div>

@@ -2,6 +2,7 @@ import {FC} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import OptionsSelecting from "../../components/OptionsSelecting";
+import {useNavigate} from "react-router-dom";
 
 
 const options = {
@@ -40,6 +41,9 @@ const options = {
 
 
 const Trip7: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
+
     return (
         <div>
             <div className="progress-bar">
@@ -54,18 +58,23 @@ const Trip7: FC<{}> = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
             <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
-                <h1 style={{fontSize: "25px", margin: "10px 0"}}>Would you like to add any options to your itinerary?</h1>
+                <h1 style={{fontSize: "25px", margin: "10px 0"}}>Would you like to add any options to your
+                    itinerary?</h1>
 
-                    <OptionsSelecting options={options} />
+                <OptionsSelecting options={options} />
 
                 <div style={{display: "block"}}>
-                    <CustomButton style={{width: "130px"}} variant="contained">Next</CustomButton>
+                    <CustomButton style={{width: "130px"}} variant="contained"
+                                  onClick={() => navigate("/personalized-trip/activity-selection")}
+                    >Next</CustomButton>
                 </div>
 
             </div>

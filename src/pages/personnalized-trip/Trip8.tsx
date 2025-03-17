@@ -3,8 +3,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ActivitySelecting from "../../components/ActivitySelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import "../../App.css"
+import {useNavigate} from "react-router-dom";
 
 const Trip8: FC<{}> = ({}) => {
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -20,14 +23,10 @@ const Trip8: FC<{}> = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{
-                display: 'flex',
-                alignItems: "center",
-                fontSize: "16px",
-                margin: "10px 40px",
-                textAlign: "center"
-            }} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <a href="#"
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
@@ -37,7 +36,9 @@ const Trip8: FC<{}> = ({}) => {
 
                 <ActivitySelecting/>
 
-                <CustomButton style={{width: "130px", marginTop: "120px"}} variant="contained">Next</CustomButton>
+                <CustomButton style={{width: "130px", marginTop: "120px"}} variant="contained"
+                              onClick={() => navigate("/personalized-trip/message-section")}
+                >Next</CustomButton>
 
             </div>
 
