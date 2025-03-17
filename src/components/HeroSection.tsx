@@ -1,5 +1,5 @@
 import {FC, JSX} from 'react';
-import Navbar from "./Navbar";
+import Navbar from "../components/navbars/Navbar";
 import styles from "../styles/components/HeroSection.module.css"
 
 const HeroSection: ({}: {}) => JSX.Element = ({}) => {

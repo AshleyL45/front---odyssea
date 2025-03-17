@@ -1,6 +1,6 @@
 import {FC, JSX, useState} from 'react';
-import SideBoard from "../../../components/SideBoard";
-import NavbarDashboard from "../../../components/NavbarDashboard";
+import SideBoard from "../../../components/navbars/SideBoard";
+import NavbarDashboard from "../../../components/navbars/NavbarDashboard";
 
 const Dashboard: ({}: {}) => JSX.Element = ({}) => {
     const [activePage, setActivePage] = useState<string>("Vue d'ensemble");

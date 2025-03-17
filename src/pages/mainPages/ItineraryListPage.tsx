@@ -3,7 +3,7 @@ import {Trip} from "../../@types/Trip";
 import {get} from "../../API/api";
 import TripItemTravel from "../../components/ReusableComponents/TripItemTravel";
 import TripItemTravelReverse from "../../components/ReusableComponents/TripItemTravelReverse";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbars/Navbar";
 import HeroSection from "../../components/HeroSection";
 import SearchBar from "../../components/SearchBar";
 import Footer from "../../components/Footer";
@@ -63,6 +63,7 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <>
+            <Navbar/>
             <HeroSection/>
             <SearchBar/>
             <section className={styles.sortList}>
