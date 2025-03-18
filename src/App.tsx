@@ -56,7 +56,7 @@ function App() {
                                 <Route path="login" element={<LoginPage/>}></Route>
                                 <Route path="register" element={<RegisterPage/>}></Route>
                                 <Route path="trips" element={<ItineraryListPage/>}></Route>
-                                <Route path="trip/tripId" element={<ItineraryDetails/>}></Route>
+                                <Route path="trip/:tripId" element={<ItineraryDetails/>}></Route>
                                 <Route path="cookies" element={<CookiesPolitic/>}></Route>
                                 <Route path="legal" element={<LegalInformation/>}></Route>
                                 <Route path="privacy" element={<PrivacyPreferences/>}></Route>
@@ -65,6 +65,7 @@ function App() {
                                 <Route path="contact" element={<Contact/>}></Route>
                             </Route>
 
+                            {/*A mettre avec le layoutReservation*/}
                             <Route path="/booking">
                                 <Route path="date" element={<BookingFormDate trip={exampleTrip}/>}></Route>
                                 <Route path="people" element={<BookingFormPeople/>}></Route>

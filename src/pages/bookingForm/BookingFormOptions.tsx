@@ -43,10 +43,11 @@ const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
-                    width: "70%",
+                    width: "60%",
                     height: "6px",
                     borderRadius: "0 5px 5px 0",
                     backgroundColor: "#2C3E50",
@@ -55,10 +56,11 @@ const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
+            <p style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </p>
 
             <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
                 <h1 style={{fontSize: "25px", margin: "10px 0"}}>Would you like to add any options to your

@@ -8,21 +8,36 @@ import {Option} from "../../@types/Option";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 
+interface BillingInfo {
+    lastName: string;
+    firstName: string;
+    email: string;
+    phoneNumber: string;
+    companyName?: string;
+    address: string;
+    addressDetails?: string;
+    postalCode: string;
+    city: string;
+    country: string;
+}
+
 
 const BookingFormRecap: ({trip}: { trip: Trip }) => React.JSX.Element = ({trip}) => {
 
     const {questionnaireAnswers} = useReservation();
     const [optionsToDisplay, setOptionsToDisplay] = useState<Option[]>([]);
     const navigate = useNavigate();
+    const [error, setError] = useState("")
+
+    const billingInfo : BillingInfo = JSON.parse(localStorage.getItem("billingInfo") as string);
 
     useEffect(() => {
         const fetchOptionsById = async () => {
             if (!questionnaireAnswers.optionIds || questionnaireAnswers.optionIds.length === 0) {
-                return; // Si aucun ID, on ne fait pas la requête
+                return;
             }
 
             try {
-                // Transformer les options en paramètre de requête
                 const queryString = questionnaireAnswers.optionIds.map(id => `ids=${id}`).join("&");
                 const options = await get(`/options/allById?${queryString}`);
 
@@ -42,10 +57,12 @@ const BookingFormRecap: ({trip}: { trip: Trip }) => React.JSX.Element = ({trip})
             const postInfo = await post("/reservations", questionnaireAnswers);
             console.log(postInfo)
             if(postInfo){
+                setError("")
                 navigate("/dashboard");
             }
         } catch (e) {
             console.error("Cannot send reservation : ", e);
+            setError("Une erreur est survenue.")
         }
 
     }
@@ -88,16 +105,31 @@ const BookingFormRecap: ({trip}: { trip: Trip }) => React.JSX.Element = ({trip})
 
                     <div className="recapDivs">
                         <h3>Customer Information</h3>
+                        <p><strong>Last Name:</strong> {billingInfo.lastName}</p>
+                        <p><strong>First Name:</strong> {billingInfo.firstName}</p>
+                        <p><strong>Email:</strong> {billingInfo.email}</p>
+                        <p><strong>Phone Number:</strong> {billingInfo.phoneNumber}</p>
+                        <p><strong>Company Name:</strong> {billingInfo.companyName || "N/A"}</p>
+                        <p><strong>Address:</strong> {billingInfo.address}</p>
+                        <p><strong>Address Details:</strong> {billingInfo.addressDetails || "N/A"}</p>
+                        <p><strong>Postal Code:</strong> {billingInfo.postalCode}</p>
+                        <p><strong>City:</strong> {billingInfo.city}</p>
+                        <p><strong>Country:</strong> {billingInfo.country}</p>
                     </div>
+
 
                     <div className="recapDivs">
                         <h3>Options</h3>
                         {optionsToDisplay && optionsToDisplay.length > 0 ? optionsToDisplay.map(option => (
-                            <p>{option.name}</p>
+                            <p key={option.id}>{option.name}</p>
                         )) : (<p>No options were chosen.</p>)}
                     </div>
 
                 </div>
+
+                {
+                    error !== "" && (<p style={{color: "red"}}>{error}</p>)
+                }
 
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <CustomButton style={{width: "130px"}} variant="contained"

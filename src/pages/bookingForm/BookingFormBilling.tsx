@@ -45,6 +45,21 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
         const isFormValid = validateForm();
 
         if (isFormValid) {
+            const billingInfo = {
+                lastName: (document.querySelector("input[placeholder='Last Name*']") as HTMLInputElement)?.value,
+                firstName: (document.querySelector("input[placeholder='First Name*']") as HTMLInputElement)?.value,
+                email: (document.querySelector("input[placeholder='Email*']") as HTMLInputElement)?.value,
+                phoneNumber: (document.querySelector("input[placeholder='Phone Number*']") as HTMLInputElement)?.value,
+                companyName: (document.querySelector("input[placeholder='Company Name']") as HTMLInputElement)?.value,
+                address: (document.querySelector("input[placeholder='Address*']") as HTMLInputElement)?.value,
+                addressDetails: (document.querySelector("input[placeholder='Address details']") as HTMLInputElement)?.value,
+                postalCode: (document.querySelector("input[placeholder='Postal code*']") as HTMLInputElement)?.value,
+                city: (document.querySelector("input[placeholder='City*']") as HTMLInputElement)?.value,
+                country: (document.querySelector("input[placeholder='Country*']") as HTMLInputElement)?.value,
+            };
+
+            localStorage.setItem("billingInfo", JSON.stringify(billingInfo));
+
             navigate("/booking/recap");
         }
     };
@@ -54,7 +69,7 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
-                    width: "70%",
+                    width: "80%",
                     height: "6px",
                     borderRadius: "0 5px 5px 0",
                     backgroundColor: "#2C3E50",
@@ -63,21 +78,31 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
                 }}></div>
             </div>
 
-            <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+            <p style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+               onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </p>
 
             <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
                 <h1 style={{fontSize: "25px", margin: "10px 0"}}>Your billing information</h1>
                 <p>This information is required to finalize your reservation.</p>
 
                 <h3 style={{marginTop: "2rem"}}>Contact Details</h3>
-                <div style={{display: "grid", gridTemplateRows: "1fr 1fr", gridTemplateColumns: "1fr 1fr", width: "50%", gap: 25, margin: "auto"}}>
-                    <input type="text" placeholder="Last Name*" defaultValue={lastName?.toString()} className="inputBooking" required/>
+                <div style={{
+                    display: "grid",
+                    gridTemplateRows: "1fr 1fr",
+                    gridTemplateColumns: "1fr 1fr",
+                    width: "50%",
+                    gap: 25,
+                    margin: "auto"
+                }}>
+                    <input type="text" placeholder="Last Name*" defaultValue={lastName?.toString()}
+                           className="inputBooking" required/>
                     <input type="text" placeholder="First Name*" defaultValue={firstName?.toString()}
                            className="inputBooking" required/>
-                    <input type="email" placeholder="Email*" defaultValue={email?.toString()} className="inputBooking" required/>
+                    <input type="email" placeholder="Email*" defaultValue={email?.toString()} className="inputBooking"
+                           required/>
                     <input type="text" placeholder="Phone Number*" className="inputBooking" required/>
                 </div>
 
@@ -99,8 +124,9 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
                     <input type="text" placeholder="Country*" className="inputBooking" required/>
                 </div>
 
-                <input type={"checkbox"} id="validationCheckbox" style={{marginTop: "2rem"}}/> <label htmlFor={"validationCheckbox"} className="inputBooking"
-                                                                                                      style={{marginTop: "2rem"}}>By validating this form, I agree to be contacted by a Travel Designer
+                <input type={"checkbox"} id="validationCheckbox" style={{marginTop: "2rem"}}/> <label
+                htmlFor={"validationCheckbox"} className="inputBooking"
+                style={{marginTop: "2rem"}}>By validating this form, I agree to be contacted by a Travel Designer
                 to finalize my reservation and receive personalized support.</label>
 
                 {errors.length > 0 && (
@@ -115,7 +141,8 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
 
 
                 <div style={{display: "block"}}>
-                    <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNextClick}>Next</CustomButton>
+                    <CustomButton style={{width: "130px"}} variant="contained"
+                                  onClick={handleNextClick}>Next</CustomButton>
                 </div>
 
             </div>

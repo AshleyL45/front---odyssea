@@ -26,9 +26,6 @@ export const ReservationContextProvider: ({children}: { children: any }) => JSX.
         };
     });
 
-    /*console.log(userId)
-    console.log(questionnaireAnswers)*/
-
     const updateResponse = (field: string, value: any) => {
         setQuestionnaireAnswers((prevState:any) => ({
             ...prevState,
