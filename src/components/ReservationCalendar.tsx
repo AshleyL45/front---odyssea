@@ -3,12 +3,14 @@ import {Dayjs} from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
+import CustomButton from "./ReusableComponents/CustomButton";
 
 interface ReservationCalendar {
     days: number;
+    onDateSelect: (date: Dayjs | null) => void;
 }
 
-const ReservationCalendar: FC<ReservationCalendar> = ({days}) => {
+const ReservationCalendar: FC<ReservationCalendar> = ({days, onDateSelect}) => {
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
@@ -16,6 +18,7 @@ const ReservationCalendar: FC<ReservationCalendar> = ({days}) => {
         if (newDate) {
             setStartDate(newDate);
             setEndDate(newDate.add(days, 'day'));  // On ajoute les jours à la date de départ pour définir la date de fin
+            onDateSelect(newDate);
         }
     };
 
@@ -29,7 +32,7 @@ const ReservationCalendar: FC<ReservationCalendar> = ({days}) => {
                 />
                 {startDate && endDate && (
                     <div>
-                        <p>
+                        <p>Select
                             Date de départ: {startDate.format("DD/MM/YYYY")} -{" "}
                             Date de fin: {endDate.format("DD/MM/YYYY")}
                         </p>

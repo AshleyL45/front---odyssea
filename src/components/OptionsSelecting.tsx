@@ -1,7 +1,9 @@
 import {FC,JSX, useState} from 'react';
 import "../App.css"
+import {Option} from "../@types/Option";
+import {useReservation} from "../contexts/ReservationContext";
 
-interface Option {
+/*interface Option {
     title: string;
 
     [key: string]: string;
@@ -43,33 +45,58 @@ const options: Options = {
             option2: "Organisateur d’événements"
         }
     ],
-};
+};*/
+
+interface OptionsSelectingProps {
+    options: Option[];
+    onOptionsChange: (selectedOptions: number[]) => void;
+}
 
 
-const OptionsSelecting: ({options}: { options: any }) => JSX.Element = ({options}) => {
+const OptionsSelecting: FC<OptionsSelectingProps> = ({options, onOptionsChange}) => {
+
+    const categories = [
+        "Luxury & Well-being",
+        "Transport & Exclusive Experiences",
+        "Shopping & Events",
+        "Exceptional Services & Comfort"
+    ]
+
+    const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
+
+    const handleToggleOption = (optionId: number) => {
+        setSelectedOptions(prev => {
+            const newSelectedOptions = prev.includes(optionId)
+                ? prev.filter(id => id !== optionId)  // Supprimer l'option si déjà sélectionnée
+                : [...prev, optionId];  // Ajouter l'option si non sélectionnée
+            onOptionsChange(newSelectedOptions);  // Transmettre les options sélectionnées au parent
+            return newSelectedOptions;
+        });
+    };
 
     return (
         <div className="container-option-layout">
+            {categories.map((category: string) => {
+                const filteredOptions = options.filter(option => option.category === category);
 
-            {Object.keys(options).map((key: string) => (
-                <div className="option-layout" key={key}>
-                    {options[key].map((option: Option, index: number) => (
-                        <div key={index}>
-                            <h4>{option.title}</h4>
-                            <div className="option-layout-item">
-                                {Object.keys(option).map((optKey, idx) => (
-                                    optKey !== "title" && (
-                                        <div key={idx}>
-                                            <input type="checkbox" id={option[optKey]} name={option[optKey]}/>
-                                            <label htmlFor={option[optKey]}>{option[optKey]}</label>
-                                        </div>
-                                    )
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ))}
+                return (
+                    <div className="option-layout" key={category}>
+                        <h3>{category}</h3>
+                        {filteredOptions.length > 0 ? (
+                            filteredOptions.map((option, index) => (
+                                <div key={index} className="option-layout-item">
+                                    <input type="checkbox" id={`option-${option.id}`} name={option.name}
+                                           checked={selectedOptions.includes(option.id)}
+                                           onChange={() => handleToggleOption(option.id)} />
+                                    <label htmlFor={`option-${option.id}`}>{option.name} - ${option.price}</label>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Aucune option disponible</p>
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 };

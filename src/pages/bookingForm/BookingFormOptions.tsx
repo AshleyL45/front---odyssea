@@ -3,25 +3,43 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OptionsSelecting from "../../components/OptionsSelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {get} from "../../API/api";
+import {Option} from "../../@types/Option";
+import {useReservation} from "../../contexts/ReservationContext";
+import {useNavigate} from "react-router-dom";
 
 
 const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
-    const [options, setOptions] = useState<>([]);
+    const [options, setOptions] = useState<Option[]>([]);
+    const {updateResponse} = useReservation()
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOptions = async () => {
             try {
                 const getOptions = await get("/options/all");
-                if(getOptions){
+                if(Array.isArray(getOptions)){
                     setOptions(getOptions);
                 }
             } catch (e) {
                 console.error("Cannot get options", e);
             }
         }
-
         fetchOptions()
     }, []);
+
+
+    const [optionIds, setOptionIds] = useState<number[]>([]);
+
+    const handleOptionsChange = (selectedOptions: number[]) => {
+        setOptionIds(selectedOptions);
+        console.log("Options sélectionnées:", selectedOptions);
+
+    };
+
+    const handleNext = () => {
+        updateResponse("optionIds", optionIds);
+        navigate("/booking/billing");
+    }
 
     return (
         <div>
@@ -38,7 +56,7 @@ const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
             </div>
 
             <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
@@ -46,10 +64,10 @@ const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
                 <h1 style={{fontSize: "25px", margin: "10px 0"}}>Would you like to add any options to your
                     itinerary?</h1>
 
-                <OptionsSelecting options={options}/>
+                <OptionsSelecting options={options} onOptionsChange={handleOptionsChange}/>
 
                 <div style={{display: "block"}}>
-                    <CustomButton style={{width: "130px"}} variant="contained">Next</CustomButton>
+                    <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNext}>Next</CustomButton>
                 </div>
 
             </div>

@@ -1,5 +1,6 @@
-import {createContext, FC, JSX, useContext, useState} from "react";
+import {createContext, FC, JSX, useContext, useEffect, useState} from "react";
 import {Reservation} from "../@types/Reservation";
+import {useAuth} from "./AuthContext";
 
 interface ReservationProps {
     questionnaireAnswers: Reservation;
@@ -9,26 +10,35 @@ interface ReservationProps {
 const ReservationContext = createContext<ReservationProps | null>(null);
 
 export const ReservationContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
+    const {userId} = useAuth();
 
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState(() => {
         const savedData = localStorage.getItem("questionnaireData");
         return savedData ? JSON.parse(savedData) : {
-            userId: 0,
+            userId: userId,
             itineraryId: 0,
-            status: '',
+            status: "En attente",
             departureDate: '',
-            returnDate: '',
+            returnDate:'',
             numberOfAdults: 0,
             numberOfKids: 0,
             optionIds: []
         };
     });
 
-    const updateResponse = (field : string, value : any) => {
-        const newResponses = {...questionnaireAnswers, [field]: value};
-        setQuestionnaireAnswers(newResponses);
-        localStorage.setItem("questionnaireData", JSON.stringify(newResponses));
+    /*console.log(userId)
+    console.log(questionnaireAnswers)*/
+
+    const updateResponse = (field: string, value: any) => {
+        setQuestionnaireAnswers((prevState:any) => ({
+            ...prevState,
+            [field]: value
+        }));
     };
+
+    useEffect(() => {
+        localStorage.setItem("questionnaireData", JSON.stringify(questionnaireAnswers));
+    }, [questionnaireAnswers]);
 
     return (
         <ReservationContext.Provider value={{questionnaireAnswers, updateResponse}}>
