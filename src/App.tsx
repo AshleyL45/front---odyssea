@@ -20,6 +20,8 @@ import ItineraryDetails from "./pages/mainPages/ItineraryDetails";
 import {MySelectionProvider} from "./contexts/MySelectionContext";
 import {DashboardContextProvider} from "./contexts/DashboardContext";
 
+import TripRecap from "./pages/personnalized-trip/TripRecap";
+
 function App() {
   return (
     <>
@@ -44,6 +46,8 @@ function App() {
                             <Route path="terms" element={<TermsOfUse/>}></Route>
                             <Route path="aboutUs" element={<AboutUs/>}></Route>
                             <Route path="contact" element={<Contact/>}></Route>
+
+                            <Route path="tripRecap" element={<TripRecap/>}></Route>
                         </Route>
                     </Routes>
                 </MySelectionProvider>
