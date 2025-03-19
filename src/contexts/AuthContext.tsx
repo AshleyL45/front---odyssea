@@ -3,7 +3,7 @@ import {jwtDecode} from "jwt-decode";
 import {useNavigate} from "react-router-dom";
 
 interface AuthContext {
-    userId: number | null;
+    userId: number;
     firstName: string | null;
     lastName: string | null;
     email: string | null;
@@ -17,7 +17,7 @@ export const AuthContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-    const [userId, setUserId] = useState<number | null>(null);
+    const [userId, setUserId] = useState<number>(0);
     const [email, setEmail] = useState<string | null>(null);
     const [firstName, setFirstName] = useState<string | null>(null);
     const  [lastName, setLastName] = useState<string | null>(null);
@@ -48,7 +48,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const logout = () => {
         localStorage.clear()
         setToken(null);
-        setUserId(null);
+        setUserId(0);
         navigate('/login')
     }
 

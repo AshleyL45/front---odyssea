@@ -1269,3 +1269,16 @@ footer p{
         width: 600px;
     }
 }
+
+.inputBooking {
+    padding: 15px 10px;
+}
+
+.recapDivs {
+    background-color: #F8F1E5;
+    border: 1px black solid;
+    width: 500px;
+    min-height: 200px;
+    padding: 20px;
+    margin-top: 2rem;
+}
