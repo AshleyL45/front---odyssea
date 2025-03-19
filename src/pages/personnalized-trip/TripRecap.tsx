@@ -4,6 +4,9 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
+import RecapFirstDay from "../../components/recapTrip/RecapFirstDay";
+import RecapActivityDay from "../../components/recapTrip/RecapActivityDay";
+import RecapTransfertDay from "../../components/recapTrip/RecapTransfertDay";
 
 const TripRecap: FC = () => {
 
@@ -44,194 +47,29 @@ const TripRecap: FC = () => {
                     <div>
                         <div className="country-step">
                             <h2>Pologne</h2>
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 1
-                                </p>
-                                <p><span>Transfert</span> : Chauffeur privé jusqu'à l'hôtel.</p>
-                                <p><span>Hôtel</span> : Raffles Europejski Warsaw</p>
-                                <ul>
-                                    <li>
-                                        Situé en plein cœur de Varsovie, ce palace historique mêle élégance classique et
-                                        design contemporain.
-                                    </li>
-                                    <li>
-                                        Spa de luxe, restaurant gastronomique et chambres avec vue sur la vieille ville.
-                                    </li>
-                                </ul>
 
-                                <p>Soirée libre pour se reposer et explorer les environs.</p>
-                            </div>
+                            <RecapFirstDay/>
+                            <RecapActivityDay/>
+                            <RecapTransfertDay/>
 
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 2
-                                </p>
-
-                                <p><span>Petit-déjeuner à l'hôtel</span></p>
-
-                                <div>
-                                    <span>Musée de l’Insurrection de Varsovie (2h)</span>
-                                    <ul>
-                                        <li>
-                                            Un musée immersif retraçant l’histoire bouleversante de la révolte contre
-                                            l’occupation nazie en 1944.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 3
-                                </p>
-                                <p><span>Train Varsovie → Cracovie (8h00 - 10h30) en première classe.</span></p>
-                                <p><span>Hôtel : Hotel Stary</span></p>
-                                <ul>
-                                    <li>
-                                        Un boutique-hôtel 5 étoiles dans un bâtiment historique avec une piscine
-                                        souterraine
-                                        et un rooftop offrant une vue magnifique sur la ville.
-                                    </li>
-                                </ul>
-                                <p><span>Visite du château de Wawel et sa cathédrale (2h)</span></p>
-                                <ul>
-                                    <li>
-                                        Résidence des rois de Pologne avec une architecture fascinante.
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
 
                         <div className="country-step">
                             <h2>Japon</h2>
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 1
-                                </p>
-                                <p><span>Transfert</span> : Chauffeur privé jusqu'à l'hôtel.</p>
-                                <p><span>Hôtel</span> : Raffles Europejski Warsaw</p>
-                                <ul>
-                                    <li>
-                                        Situé en plein cœur de Varsovie, ce palace historique mêle élégance classique et
-                                        design contemporain.
-                                    </li>
-                                    <li>
-                                        Spa de luxe, restaurant gastronomique et chambres avec vue sur la vieille ville.
-                                    </li>
-                                </ul>
 
-                                <p>Soirée libre pour se reposer et explorer les environs.</p>
-                            </div>
+                            <RecapFirstDay/>
+                            <RecapActivityDay/>
+                            <RecapTransfertDay/>
 
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 2
-                                </p>
-
-                                <p><span>Petit-déjeuner à l'hôtel</span></p>
-
-                                <div>
-                                    <span>Musée de l’Insurrection de Varsovie (2h)</span>
-                                    <ul>
-                                        <li>
-                                            Un musée immersif retraçant l’histoire bouleversante de la révolte contre
-                                            l’occupation nazie en 1944.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 3
-                                </p>
-                                <p><span>Train Varsovie → Cracovie (8h00 - 10h30) en première classe.</span></p>
-                                <p><span>Hôtel : Hotel Stary</span></p>
-                                <ul>
-                                    <li>
-                                        Un boutique-hôtel 5 étoiles dans un bâtiment historique avec une piscine
-                                        souterraine
-                                        et un rooftop offrant une vue magnifique sur la ville.
-                                    </li>
-                                </ul>
-                                <p><span>Visite du château de Wawel et sa cathédrale (2h)</span></p>
-                                <ul>
-                                    <li>
-                                        Résidence des rois de Pologne avec une architecture fascinante.
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
 
                         <div className="country-step">
                             <h2>Islande</h2>
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 1
-                                </p>
-                                <p><span>Transfert</span> : Chauffeur privé jusqu'à l'hôtel.</p>
-                                <p><span>Hôtel</span> : Raffles Europejski Warsaw</p>
-                                <ul>
-                                    <li>
-                                        Situé en plein cœur de Varsovie, ce palace historique mêle élégance classique et
-                                        design contemporain.
-                                    </li>
-                                    <li>
-                                        Spa de luxe, restaurant gastronomique et chambres avec vue sur la vieille ville.
-                                    </li>
-                                </ul>
 
-                                <p>Soirée libre pour se reposer et explorer les environs.</p>
-                            </div>
+                            <RecapFirstDay/>
+                            <RecapActivityDay/>
+                            <RecapTransfertDay/>
 
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 2
-                                </p>
-
-                                <p><span>Petit-déjeuner à l'hôtel</span></p>
-
-                                <div>
-                                    <span>Musée de l’Insurrection de Varsovie (2h)</span>
-                                    <ul>
-                                        <li>
-                                            Un musée immersif retraçant l’histoire bouleversante de la révolte contre
-                                            l’occupation nazie en 1944.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div className="day-step">
-                                <p className="day-number">
-                                    <LocationOnOutlinedIcon/>
-                                    Jour 3
-                                </p>
-                                <p><span>Train Varsovie → Cracovie (8h00 - 10h30) en première classe.</span></p>
-                                <p><span>Hôtel : Hotel Stary</span></p>
-                                <ul>
-                                    <li>
-                                        Un boutique-hôtel 5 étoiles dans un bâtiment historique avec une piscine
-                                        souterraine
-                                        et un rooftop offrant une vue magnifique sur la ville.
-                                    </li>
-                                </ul>
-                                <p><span>Visite du château de Wawel et sa cathédrale (2h)</span></p>
-                                <ul>
-                                    <li>
-                                        Résidence des rois de Pologne avec une architecture fascinante.
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>

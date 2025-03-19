@@ -10,7 +10,7 @@ const NavbarReservation: FC<{}> = ({}) => {
             <nav className="navbar-reservation">
 
             <div>
-                    <a href="#" className="return-button" style={{display: "flex", alignItems: "center", textDecoration: "underline"}}>
+                    <a href="/" className="return-button" style={{display: "flex", alignItems: "center", textDecoration: "underline"}}>
                         <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/>
                         return to website
                     </a>

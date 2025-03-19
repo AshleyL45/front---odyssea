@@ -1,8 +1,8 @@
 import {FC} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import CloseIcon from '@mui/icons-material/Close';
 import {useNavigate} from "react-router-dom";
+import CountrySelecting from "../../components/CountrySelecting";
 
 const Trip3: FC<{}> = ({}) => {
 
@@ -10,7 +10,7 @@ const Trip3: FC<{}> = ({}) => {
 
     return (
         <div>
-            <div style={{margin: "30px 0"}} className="progress-bar">
+            <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
                     width: "30%",
@@ -32,24 +32,7 @@ const Trip3: FC<{}> = ({}) => {
 
                 <h1 style={{fontSize: "25px", margin: "30px 0 "}}>Select 3 countries</h1>
 
-                <div className="search-bar">
-                    <input type="text" placeholder="Type here" className="search-input"
-                    />
-                    {/*
-                        <div className="search-resutls"></div>
-                    */}
-                </div>
-
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
-                    <div className="selected-country">
-                        <CloseIcon sx={{fontSize: "20px", cursor: "pointer"}}/>
-                        Pologne
-                    </div>
-                    <div className="selected-country">
-                        <CloseIcon sx={{fontSize: "20px", cursor: "pointer"}}/>
-                        Japon
-                    </div>
-                </div>
+                <CountrySelecting/>
 
 
                 <CustomButton style={{width: "130px", marginTop: "150px"}} variant="contained"

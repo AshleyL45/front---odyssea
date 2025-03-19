@@ -1,8 +1,11 @@
-import {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
+import {get} from "../../API/api";
+import CityFromSelecting from "../../components/CityFromSelecting";
+
 
 const Trip2: FC<{}> = ({}) => {
 
@@ -30,17 +33,17 @@ const Trip2: FC<{}> = ({}) => {
             <div style={{padding: "20px", width: "85%", margin: "auto", textAlign: "center"}}>
 
                 <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Which city are you leaving from ?</h1>
-                <p style={{margin: "20px 0"}}>
+                {/*<p style={{margin: "20px 0"}}>
                     Write down the country to display the cities.
-                </p>
+                </p>*/}
 
                 <div className="search-bar">
-                    <input type="text" placeholder="Type here" className="search-input" required
-                    />
                     {/*
                         <div className="search-resutls"></div>
                     */}
                 </div>
+
+                <CityFromSelecting/>
 
                 <CustomButton style={{width: "130px", marginTop: "150px"}} variant="contained"
                               onClick={() => navigate("/personalized-trip/country-selection")}

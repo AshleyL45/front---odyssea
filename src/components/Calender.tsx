@@ -1,34 +1,46 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import dayjs, {Dayjs} from "dayjs";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const Calender: React.FC = () => {
-    const [startDate, setStartDate] = useState<Dayjs | null>(null);
-    const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
+    const [startDate, setStartDate] = useLocalStorage<string | null>("departureDate", null);
+    const [endDate, setEndDate] = useLocalStorage<string | null>("returnDate", null);
+
 
     const handleDateChange = (newDate: Dayjs | null) => {
         if (newDate) {
-            // Si une date de départ n'est pas encore sélectionnée, on la définit et on fixe la date de fin à 13 jours après.
-            setStartDate(newDate);
-            setEndDate(newDate.add(13, 'day'));  // On ajoute 13 jours à la date de départ pour définir la date de fin
+            const departure = newDate.format("YYYY-MM-DD");
+            const returnDate = newDate.add(13, "day").format("YYYY-MM-DD");
+
+            setStartDate(departure);
+            setEndDate(returnDate);
+
+            console.log("date de départ : ", departure);
+            console.log("date de retour : ", returnDate);
+        } else {
+            alert("pas possible")
         }
     };
+
+
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="calender">
                 <DateCalendar
-                    value={startDate || endDate} // Affiche la date de début ou la date de fin, selon ce qui est défini
+                    value={startDate ? dayjs(startDate) : null}
                     onChange={handleDateChange}
-                    minDate={startDate ? startDate : undefined} // Empêche de sélectionner une date avant la date de début
+                    minDate={dayjs()}
                 />
                 {startDate && endDate && (
                     <div>
                         <p>
-                            Date de départ: {startDate.format("DD/MM/YYYY")} -{" "}
-                            Date de fin: {endDate.format("DD/MM/YYYY")}
+                            Departure: {dayjs(startDate).format("DD/MM/YYYY")} -{" "}
+                            Date de fin: {dayjs(endDate).format("DD/MM/YYYY")}
                         </p>
                     </div>
                 )}

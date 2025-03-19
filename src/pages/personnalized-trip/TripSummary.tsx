@@ -10,8 +10,9 @@ const TripSummary: FC<{}> = ({}) => {
     return (
         <div style={{padding: "30px 40px"}}>
 
-                <a style={{display: 'flex', alignItems: "center", fontSize: "16px"}} href="#">
-                    <ArrowBackIcon sx={{fontSize: "15px"}}  onClick={() => navigate(-1)}/>
+                <a style={{display: 'flex', alignItems: "center", fontSize: "16px"}} href="#"
+                   onClick={() => navigate("/")} >
+                    <ArrowBackIcon sx={{fontSize: "15px"}}/>
                     quitter
                 </a>
 
@@ -34,7 +35,9 @@ const TripSummary: FC<{}> = ({}) => {
                     expérience inoubliable.
                 </p>
 
-                <CustomButton variant="contained">Commencer</CustomButton>
+                <CustomButton variant="contained"
+                              onClick={() => navigate("/personalized-trip/date")}
+                >Commencer</CustomButton>
             </div>
 
 
