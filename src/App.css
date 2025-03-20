@@ -1282,3 +1282,27 @@ footer p{
     padding: 20px;
     margin-top: 2rem;
 }
+
+/*Itinerary Details*/
+
+.progress-sticky-bar {
+    top: 0;
+    position: sticky;
+    z-index: 10;
+    padding: 2rem 1rem;
+    border-bottom: #745E4D 1px solid;
+}
+
+.progress-sticky-bar ul {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-x: auto;
+    list-style: none;
+}
+
+.progress-sticky-bar li:active {
+    border-bottom: 1px black solid;
+    font-weight: bold;
+}
+
