@@ -1291,18 +1291,50 @@ footer p{
     z-index: 10;
     padding: 2rem 1rem;
     border-bottom: #745E4D 1px solid;
+    background-color: #F8F1E5;
 }
 
 .progress-sticky-bar ul {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    overflow-x: auto;
+    overflow-x: visible;
     list-style: none;
+    text-align: center;
 }
 
-.progress-sticky-bar li:active {
-    border-bottom: 1px black solid;
+
+.progress-sticky-bar li {
+    width: 70%;
+    padding-bottom: 8px;
+}
+
+.progress-sticky-bar li:active, .progress-sticky-bar li:hover {
+    border-bottom: 2px #745E4D solid;
     font-weight: bold;
+    cursor: pointer;
 }
 
+.collage {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid #ccc;
+    overflow: hidden; /* Cache les parties qui dépassent */
+    margin: 50px auto;
+    height: 50vh;
+    background-color: #F8F1E5;
+}
+
+.collage div {
+    width: 33%;
+    min-height: 140%;
+    margin: 0 1.5rem;
+}
+
+.collage * {
+    transform: rotate(-15deg); /* Rotation de 15 degrés */
+    top: 20px;
+    left: 20px;
+
+}

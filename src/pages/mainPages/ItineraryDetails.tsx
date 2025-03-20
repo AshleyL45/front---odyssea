@@ -12,6 +12,8 @@ import StarIcon from '@mui/icons-material/Star';
 import TripDetails from "../../components/ReusableComponents/TripDetails"
 import TripDetailsReverse from "../../components/ReusableComponents/TripDetailsReverse";
 import Footer from "../../components/Footer";
+import "../../App.css"
+import CustomButton from "../../components/ReusableComponents/CustomButton";
 
 interface ItineraryImages {
     header: string;
@@ -48,6 +50,14 @@ const ItineraryDetails: FC<{}> = ({}) => {
         fetchItinerary()
     }, []);
 
+    const handleClick = (sectionId: string) => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({behavior: 'smooth'});
+
+        }
+    };
+
     const handleFavorites = () => {
         if (isFavorite && itineraryToDisplay) {
             handleRemoveFromFavorites(itineraryToDisplay);
@@ -60,6 +70,8 @@ const ItineraryDetails: FC<{}> = ({}) => {
     const itineraryImage: Image | undefined = itinerariesData.find(
         (it) => it.id === itineraryId
     );
+
+    console.log(itineraryImage?.images.countries)
 
     return (
         <div>
@@ -90,26 +102,27 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                         <div className="progress-sticky-bar">
                             <ul>
-                                <li>Day 1</li>
-                                <li>Day 2</li>
-                                <li>Day 3</li>
-                                <li>Day 4</li>
-                                <li>Day 5</li>
-                                <li>Day 6</li>
-                                <li>Day 7</li>
-                                <li>Day 8</li>
-                                <li>Day 9</li>
-                                <li>Day 10</li>
-                                <li>Day 11</li>
-                                <li>Day 12</li>
+                                <li onClick={() => handleClick("1")}>Day 1</li>
+                                <li onClick={() => handleClick("2")}>Day 2</li>
+                                <li onClick={() => handleClick("3")}>Day 3</li>
+                                <li onClick={() => handleClick("4")}>Day 4</li>
+                                <li onClick={() => handleClick("5")}>Day 5</li>
+                                <li onClick={() => handleClick("6")}>Day 6</li>
+                                <li onClick={() => handleClick("7")}>Day 7</li>
+                                <li onClick={() => handleClick("8")}>Day 8</li>
+                                <li onClick={() => handleClick("9")}>Day 9</li>
+                                <li onClick={() => handleClick("10")}>Day 10</li>
+                                <li onClick={() => handleClick("11")}>Day 11</li>
+                                <li onClick={() => handleClick("12")}>Day 12</li>
                             </ul>
                         </div>
 
-                        <div style={{display: "flex", justifyContent: "center", width: "100%", margin: "2rem 1rem", gap: 35}}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%", margin: "2rem 1rem", gap: 35}}>
                             <div style={{display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer"}}>{isFavorite ? (<>
                                 <StarIcon
                                     onClick={handleFavorites}/> <p>Remove from your selection</p></>) : (<> <StarBorderIcon onClick={handleFavorites}/> <p>Add to your selection</p></>)}</div>
                             <span style={{cursor:  "pointer"}}>Download the program in PDF</span>
+                            <CustomButton sx={{color: "white"}}>Book your itinerary</CustomButton>
                         </div>
 
                         <section className="itinerary-details">
@@ -126,7 +139,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                                 </div>
                                 <div style={{border: "1px solid black"}}>
                                     <h3>Accommodation</h3>
-                                    <p>4-Stars hotel</p>
+                                    <p>4-Stars and 5-Stars hotels</p>
                                 </div>
                                 <div style={{border: "1px solid black"}}>
                                     <h3>Key activities</h3>
@@ -134,7 +147,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                                 </div>
                                 <div style={{border: "1px solid black"}}>
                                     <h3>Price guide</h3>
-                                    <p>{itineraryToDisplay.price}</p>
+                                    <p>{itineraryToDisplay.price} €</p>
                                 </div>
                                 <div style={{gridColumn: "span 2", margin: "auto", border: "1px solid black", width: "100%", height: "100%"}}>
                                     <h3>Visited countries</h3>
@@ -172,17 +185,25 @@ const ItineraryDetails: FC<{}> = ({}) => {
                             </div>
                         </section>
 
-                        <div>
+                        {/*<div>
                             <Carousel/>
+                        </div>*/}
+
+                        <div className={"collage"}>
+                            <div className={"collageItem div1"} style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}>
+                                {/*<img src={itineraryImage?.images.countries[0]} style={{objectFit: "contain", width: "100%", height: "100%"}} />*/}
+                            </div>
+                            <div className={"collageItem div2"} style={{backgroundImage: `url(${itineraryImage?.images.countries[1]})`}}></div>
+                            <div className={"collageItem div3"} style={{backgroundImage: `url(${itineraryImage?.images.countries[2]})`}}></div>
                         </div>
 
                         <section>
-                            <h2 style={{textAlign: "center"}}>Itinerary</h2>
-                            <div>
+                            <h2 style={{textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
+                            <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center"}}>
                                 <div>
                                     <img
                                         src="https://www.cartographie-georeflet.com/wp-content/uploads/2022/12/carte-de-france-administrative-vintage-des-departements-1.jpg"
-                                        style={{width: "100%"}}
+                                        style={{width: "80%"}}
                                     />
                                 </div>
                                 <div>
@@ -236,7 +257,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                         <section>
                             <div>
-                                <h2 style={{textAlign: "center"}}>Details of your stay</h2>
+                                <h2 style={{textAlign: "center", marginTop: "6rem"}}>Details of your stay</h2>
                                 <span></span>
                             </div>
                             {
@@ -251,7 +272,20 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                             <div className="trip-details-separator"></div>
 
+                            {/*<div style={{
+                                borderRadius: "50%",
+                                backgroundColor: "black",
+                                width: 50,
+                                height: 50,
+                                position: "sticky",
+                                bottom: 0
+                            }}></div>*/}
+
                         </section>
+                        <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center", marginBottom: "6rem"}}>
+                            <CustomButton sx={{color: "white"}}>Book your itinerary</CustomButton>
+                        </div>
+
                     </>
                 ) : (
                     <p>Sorry, no itinerary found. Please try again later.</p>

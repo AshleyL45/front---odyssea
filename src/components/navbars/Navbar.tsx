@@ -77,7 +77,7 @@ const Navbar: () => JSX.Element = () => {
             </nav>
 
             <div className="dashboard-icon">
-                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/login')} />
+                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/dashboard')} />
             </div>
 
         </div>
