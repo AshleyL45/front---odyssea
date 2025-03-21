@@ -9,7 +9,7 @@ import SideBoard from "../../../components/navbars/SideBoard";
 import NavbarDashboard from "../../../components/navbars/NavbarDashboard";
 
 const Dashboard: ({}: {}) => JSX.Element = ({}) => {
-    const [activePage, setActivePage] = useState<string>("Vue d'ensemble");
+    const [activePage, setActivePage] = useState<string>("Overview");
 
 
 
@@ -21,12 +21,12 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                 <SideBoard activePage={activePage} setActivePage={setActivePage} />
                 <div style={{width: "100%"}}>
 
-                    {activePage === "Vue d'ensemble" && <Overview/>}
-                    {activePage === "Réservation" && <Reservation/>}
-                    {activePage === "Historique de voyage" && <History/>}
-                    {activePage === "Ma sélection" && <MySelection/>}
-                    {activePage === "Informations personnelles" && <PersonalInformation/>}
-                    {activePage === "Paramètres" && <Settings/>}
+                    {activePage === "Overview" && <Overview/>}
+                    {activePage === "My bookings" && <Reservation/>}
+                    {activePage === "Travel History" && <History/>}
+                    {activePage === "My selection" && <MySelection/>}
+                    {activePage === "Personal information" && <PersonalInformation/>}
+                    {activePage === "Settings" && <Settings/>}
                 </div>
             </div>
 

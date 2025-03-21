@@ -73,9 +73,9 @@ const Navbar: () => JSX.Element = () => {
                     <div className="navbar-links">
                         <div className="navbar-left">
                             <ul>
-                                <li><a href="/trips">Nos voyages</a></li>
-                                <li><a href="#">Voyage personnalisé</a></li>
-                                <li><a href="#">Voyage surprise</a></li>
+                                <li><a href="/trips">Our itineraries </a></li>
+                                <li><a href="#">Personalized trip</a></li>
+                                <li><a href="#">Mystery trip</a></li>
                             </ul>
                         </div>
                     </div>
@@ -89,8 +89,8 @@ const Navbar: () => JSX.Element = () => {
                     <div className="navbar-links">
                         <div className="navbar-right">
                             <ul>
-                                <li><a href="#">Articles de blog</a></li>
-                                <li><a href="#">À Propos</a></li>
+                                <li><a href="#">Blog articles</a></li>
+                                <li><a href="#">About us</a></li>
                                 <li><a href="#">Contact</a></li>
                             </ul>
                         </div>
@@ -99,11 +99,8 @@ const Navbar: () => JSX.Element = () => {
             </nav>
 
             <div className="dashboard-icon">
-                <PermIdentityIcon
-                    className="login-logo"
-                    sx={{fontSize: "50px", color: "inherit"}}
-                    onClick={() => navigate('/login')}
-                />
+                <PermIdentityIcon className="login-logo" sx={{fontSize: "50px"}} onClick={() => navigate('/dashboard')} />
+
             </div>
         </div>
     );

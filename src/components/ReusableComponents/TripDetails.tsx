@@ -1,34 +1,35 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import "../../App.css"
+import {Day} from "../../@types/ItineraryDetailsResponse";
 
-const TripDetails: FC<{}> = ({}) => {
+const TripDetails: ({day, image}: { day: Day, image: string }) => JSX.Element = ({day, image}) => {
     return (
-        <div style={{margin: "300px 0"}}>
+        <div style={{margin: "300px 0"}} id={day.dayNumber.toString()}>
 
             <section className="component trip-details">
                 <div className="trip-details-photo"
-                     style={{border: "solid 1px black", backgroundColor: "#F8F1E5"}}></div>
+                     style={{border: "solid 1px black", backgroundImage: `url(${image})`, backgroundPosition: "center"}}></div>
 
                 <div className="text-details">
-                    <h3 style={{fontSize: "25px", marginBottom: "30px"}}>Jour 1 - [ Endroit ou Activité ]</h3>
+                    <h3 style={{fontSize: "25px", marginBottom: "30px"}}>Day {day.dayNumber} - {day.activityName}</h3>
                     <p style={{marginBottom: "10px"}}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                        laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat.
+                        {day.descriptionPerDay}
                     </p>
+
+                    <div style={{margin: "1.5rem auto"}}>
+                        <p><span style={{fontWeight: "bold"}}>Hotel : </span>{day.hotelName}</p>
+                        <p>{day.hotelDescription}</p>
+                    </div>
+
+
+                    <p><span style={{fontWeight: "bold"}}>Activity of the day : </span>{day.activityDescription}</p>
                 </div>
             </section>
 
             <div className="travel-line" style={{
                 width: "40%",
                 height: "3px",
-                backgroundColor: "#745E4D",
+                backgroundImage: `url(${image})`,
                 borderRadius: 4,
                 margin: "20px auto"
             }}></div>

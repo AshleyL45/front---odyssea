@@ -9,10 +9,10 @@ import {useFavorites} from "../../contexts/MySelectionContext";
 import {useDashboard} from "../../contexts/DashboardContext";
 
 const Overview: ({}: {}) => JSX.Element = ({}) => {
-    const {firstCurrentReservation, lastDoneReservation, currentTrips, pastTrips} = useDashboard();
+    const {userReservations, lastDoneReservation, currentTrips, pastTrips} = useDashboard();
     const navigate = useNavigate();
     const {favorites} = useFavorites();
-
+    console.log(userReservations)
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -29,9 +29,10 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
 
             <h2 style={{marginLeft: "8rem", marginTop: "1rem", fontSize: "1.4rem"}}>Current trip</h2>
             {
-                firstCurrentReservation ? (
-                    <TripDashboard trip={firstCurrentReservation} page="Overview"/>
-                ) : <p style={{marginLeft: "8rem"}}>Aucune réservation en cours.</p>
+                userReservations ? userReservations.map((trip) => (
+                    <TripDashboard trip={trip} page="Overview"/>
+                    )
+                ) : <p style={{marginLeft: "8rem"}}>No current trips.</p>
             }
 
 
@@ -39,8 +40,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
             {
                 lastDoneReservation ? (
                     <TripDashboard trip={lastDoneReservation} page="Overview"/>
-                ) : <p style={{marginLeft: "8rem"}}>No trips booked yet. <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => navigate("/trips")}>Discover</span> our handpicked itineraries and plan
-                    your dream getaway!</p>
+                ) : <p style={{marginLeft: "8rem"}}>No trips done and booked yet. </p>
             }
 
 

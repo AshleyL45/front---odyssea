@@ -1,23 +1,23 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import "../../App.css"
+import {Trip} from "../../@types/Trip";
+import {useNavigate} from "react-router-dom";
 
-const TripItemTravelReverse: FC<{}> = ({}) => {
+
+const TripItemTravelReverse: ({trip}: { trip: Trip }) => JSX.Element = ({trip}) => {
+    const navigate = useNavigate();
     return (
         <div style={{margin: "250px 0"}}>
             <section className="component trip-item-travel-reverse">
 
                 <div className="text-travel">
-                    <h2 style={{fontSize: "25px", margin: "0 0 20px"}}>Nom du voyage - Thème</h2>
+                    <h2 style={{fontSize: "25px", margin: "0 0 20px"}}>{trip.name}</h2>
                     <p style={{marginBottom: "10px"}}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                        laborum.
+                        {trip.shortDescription}
                     </p>
-                    <p style={{margin: "30px 0"}}>Date du séjour | Prix €</p>
-                    <a style={{textDecoration: "underline", fontSize: "18px", fontWeight: "bold"}}>Détails</a>
+                    <p style={{margin: "30px 0"}}>Starting price : {trip.price}.00 €</p>
+                    <a style={{textDecoration: "underline", fontSize: "18px", fontWeight: "bold", cursor: "pointer"}}
+                       onClick={() => navigate(`/trip/${trip.id}`)}>Détails</a>
                 </div>
 
                 <div className="trip-item-travel-photo" style={{

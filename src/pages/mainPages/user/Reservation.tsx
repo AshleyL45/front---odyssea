@@ -50,12 +50,12 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div className={styles.reservationContainer}>
-            <h1>Réservations</h1>
+            <h1>My bookings</h1>
             <h2 className={styles.titles}>En cours</h2>
-            {firstOngoingReservation ? (
-                <TripDashboard trip={firstOngoingReservation} page={"Reservations"}/>
-            ) : (
-                <p>Aucune réservation en cours.</p>
+            {userReservations ? userReservations.map((reservation) =>(
+                <TripDashboard trip={reservation} page={"Reservations"}/>
+                )) : (
+                <p style={{marginLeft: "8rem"}}>No current trip.</p>
             )}
             <div className={styles.filters}>
                 <p

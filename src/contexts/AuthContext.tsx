@@ -18,9 +18,10 @@ export const AuthContext = createContext<AuthContext | undefined>(undefined);
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [userId, setUserId] = useState<number>(0);
+    //console.log(typeof userId)
     const [email, setEmail] = useState<string | null>(null);
     const [firstName, setFirstName] = useState<string | null>(null);
-    const  [lastName, setLastName] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {

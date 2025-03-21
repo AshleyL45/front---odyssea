@@ -15,7 +15,7 @@ import {Country} from "../../@types/Country";
 const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
     const [trips, setTrips] = useState<Trip[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
-    const [themes, setThemes] = useState([]);
+    const [themes, setThemes] = useState<any>([]);
     const duration = [{id: "3weeks", label: "3 weeks"}, {id: "4weeks", label: "4 weeks"}];
     const sortOptions = [{id: "option 1", label: "Aucun"}, {id: "option 2", label: "Prix décroissant"}, {
         id: "option 3",
@@ -26,18 +26,22 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
     useEffect(() => {
         const fetchTripsCountriesThemes = async () => {
             try {
+                // Récupérer les données depuis le backend
                 const tripsToFetch = await get("/api/itineraries");
                 const countriesToFetch = await get("/countries");
                 const themesToFetch = await get("/api/themes");
-                if(tripsToFetch && countriesToFetch && themesToFetch) {
+
+                // Vérifier si les données sont bien récupérées
+                if (tripsToFetch && countriesToFetch && themesToFetch) {
                     setTrips(tripsToFetch);
                     setCountries(countriesToFetch);
                     setThemes(themesToFetch);
                 }
             } catch (e) {
-                console.error(e);
+                console.error("Erreur lors de la récupération des données:", e);
             }
-        }
+        };
+
         fetchTripsCountriesThemes();
     }, []);
 
@@ -63,7 +67,6 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <>
-            <Navbar/>
             <HeroSection/>
             <SearchBar/>
             <section className={styles.sortList}>
@@ -77,11 +80,14 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
                 <Sort title={"Trier"} options={sortOptions} onChange={handleSort}/>
             </section>
 
-            {
-                trips.length && trips.map((trip: Trip, index: number) => {
-                    index % 2 === 0 ? <TripItemTravel/> : <TripItemTravelReverse/>
-                })
-            }
+            {/* Afficher les voyages */}
+            {trips.length > 0 && trips.map((trip: Trip, index: number) => (
+                index % 2 === 0 ? (
+                    <TripItemTravel key={trip.id} trip={trip}/>
+                ) : (
+                    <TripItemTravelReverse key={trip.id} trip={trip}/>
+                )
+            ))}
 
             <Footer/>
         </>

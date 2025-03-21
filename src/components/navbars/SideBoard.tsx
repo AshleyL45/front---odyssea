@@ -1,5 +1,6 @@
 import {FC, JSX, useState} from 'react';
 import {Link} from "react-router-dom";
+import {useAuth} from "../../contexts/AuthContext";
 
 
 interface SideBoardProps {
@@ -8,7 +9,8 @@ interface SideBoardProps {
 }
 
 const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
-    const [activeLink, setActiveLink] = useState<string>('Vue d\'ensemble');
+    const [activeLink, setActiveLink] = useState<string>('Overview');
+    const {firstName, lastName} = useAuth();
 
     // TODO: Faire une requête pour avoir le prénom et le nom de l'utilisateur
 
@@ -21,49 +23,49 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
         <div className="side-board-container">
             <div>
                 <div className="user-name">
-                    <h1>Liliana Ashley Chrifi</h1> {/*TODO: Remplacer avec le prénom et nom de famille de l'utilisateur*/}
+                    <h1>{firstName} {lastName}</h1> {/*TODO: Remplacer avec le prénom et nom de famille de l'utilisateur*/}
                 </div>
                 <div className="side-board-menu">
                     <nav>
                         <div>
                             <ul>
                                 <li
-                                    onClick={() => handleClick('Vue d\'ensemble')}>
-                                    {activeLink === 'Vue d\'ensemble' && <span className="active"></span>}
-                                    <a href="#">Vue d'ensemble</a>
+                                    onClick={() => handleClick('Overview')}>
+                                    {activeLink === 'Overview' && <span className="active"></span>}
+                                    <a href="#">Overview</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
                             <ul>
                                 <li
-                                    onClick={() => handleClick('Réservation')}>
-                                    {activeLink === 'Réservation' && <span className="active"></span>}
-                                    <a href="#">Réservation</a>
+                                    onClick={() => handleClick('My bookings')}>
+                                    {activeLink === 'My bookings' && <span className="active"></span>}
+                                    <a href="#">My bookings</a>
                                 </li>
                                 <li
-                                    onClick={() => handleClick('Historique de voyage')}>
-                                    {activeLink === 'Historique de voyage' && <span className="active"></span>}
-                                    <a href="#">Historique de voyage</a>
+                                    onClick={() => handleClick('Travel History')}>
+                                    {activeLink === 'Travel History' && <span className="active"></span>}
+                                    <a href="#">Travel History</a>
                                 </li>
                                 <li
-                                    onClick={() => handleClick('Ma sélection')}>
-                                    {activeLink === 'Ma sélection' && <span className="active"></span>}
-                                    <a href="#">Ma sélection</a>
+                                    onClick={() => handleClick('My selection')}>
+                                    {activeLink === 'My selection' && <span className="active"></span>}
+                                    <a href="#">My selection</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
                             <ul>
                                 <li
-                                    onClick={() => handleClick('Informations personnelles')}>
-                                    {activeLink === 'Informations personnelles' && <span className="active"></span>}
-                                    <a href="#">Informations personnelles</a>
+                                    onClick={() => handleClick('Personal information')}>
+                                    {activeLink === 'Personal information' && <span className="active"></span>}
+                                    <a href="#">Personal information</a>
                                 </li>
                                 <li
-                                    onClick={() => handleClick('Paramètres')}>
-                                    {activeLink === 'Paramètres' && <span className="active"></span>}
-                                    <a href="#">Paramètres</a>
+                                    onClick={() => handleClick('Settings')}>
+                                    {activeLink === 'Settings' && <span className="active"></span>}
+                                    <a href="#">Settings</a>
                                 </li>
                             </ul>
                         </div>

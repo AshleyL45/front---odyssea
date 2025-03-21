@@ -46,29 +46,38 @@ function App() {
         <AuthProvider>
             <DashboardContextProvider>
                 <MySelectionProvider>
-                    <Routes>
-                        <Route element={<ProtectedRoutes/>}>
-                            <Route path="dashboard" element={<Dashboard/>}></Route>
-                            <Route path="reservation" element={<Reservation/>}></Route>
-                            <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
-                        </Route>
-                        <Route path="/">
-                            <Route index path="homePage" element={<HomePage/>}></Route>
-                            <Route path="login" element={<LoginPage/>}></Route>
-                            <Route path="register" element={<RegisterPage/>}></Route>
-                            <Route path="trips" element={<ItineraryListPage/>}></Route>
-                            <Route path="trip/tripId" element={<ItineraryDetails/>}></Route>
-                            <Route path="cookies" element={<CookiesPolitic/>}></Route>
-                            <Route path="legal" element={<LegalInformation/>}></Route>
-                            <Route path="privacy" element={<PrivacyPreferences/>}></Route>
-                            <Route path="terms" element={<TermsOfUse/>}></Route>
-                            <Route path="aboutUs" element={<AboutUs/>}></Route>
-                            <Route path="contact" element={<Contact/>}></Route>
+                    <ReservationContextProvider>
+                        <Routes>
+                            <Route element={<ProtectedRoutes/>}>
+                                <Route path="dashboard" element={<Dashboard/>}></Route>
+                                {/*A mettre avec le layoutReservation*/}
+                                <Route path="/booking">
+                                    <Route path="date" element={<BookingFormDate/>}></Route>
+                                    <Route path="people" element={<BookingFormPeople/>}></Route>
+                                    <Route path="options" element={<BookingFormOptions/>}></Route>
+                                    <Route path="billing" element={<BookingFormBilling/>}></Route>
+                                    <Route path="recap" element={<BookingFormRecap/>}></Route>
+                                </Route>
+                                <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
+                            </Route>
+                            <Route path="/">
+                                <Route index element={<HomePage/>}></Route>
+                              {/*<Route index path="homePage" element={<HomePage/>}></Route>*/}
+                                <Route path="login" element={<LoginPage/>}></Route>
+                                <Route path="register" element={<RegisterPage/>}></Route>
+                                <Route path="trips" element={<ItineraryListPage/>}></Route>
+                                <Route path="trip/:tripId" element={<ItineraryDetails/>}></Route>
+                                <Route path="cookies" element={<CookiesPolitic/>}></Route>
+                                <Route path="legal" element={<LegalInformation/>}></Route>
+                                <Route path="privacy" element={<PrivacyPreferences/>}></Route>
+                                <Route path="terms" element={<TermsOfUse/>}></Route>
+                                <Route path="aboutUs" element={<AboutUs/>}></Route>
+                                <Route path="contact" element={<Contact/>}></Route>
+                               <Route path="tripRecap" element={<TripRecap/>}></Route>
+                            </Route>
 
-                            <Route path="tripRecap" element={<TripRecap/>}></Route>
-                        </Route>
-                    </Routes>
-
+                        </Routes>
+                    </ReservationContextProvider>
                 </MySelectionProvider>
             </DashboardContextProvider>
         </AuthProvider>
