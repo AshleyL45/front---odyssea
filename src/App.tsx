@@ -64,7 +64,7 @@ function App() {
                             </Route>
                             <Route path="/">
                                 {/*<Route index element={<HomePage/>}></Route>*/}
-                              <Route index path="homePage" element={<HomePage/>}></Route>
+                              <Route index element={<HomePage/>}></Route>
                                 <Route path="login" element={<LoginPage/>}></Route>
                                 <Route path="register" element={<RegisterPage/>}></Route>
                                 <Route path="trips" element={<ItineraryListPage/>}></Route>
