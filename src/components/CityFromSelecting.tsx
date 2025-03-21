@@ -1,49 +1,76 @@
-import {FC, JSX, useState} from 'react';
-import {TextField, Menu, MenuItem} from "@mui/material";
+import {FC, useEffect, useState} from 'react';
+import {get} from "../API/api";
+import "../App.css"
+import {usePersonalizedTrip} from "../contexts/PersonalizedTripContext";
+import {CitySelection} from "../@types/PersonalizeTrip";
 
-const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
+const CityFromSelecting: FC = () => {
 
-const CityFromSelecting: ({}: {}) => JSX.Element = ({}) => {
+    const [options, setOptions] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
 
-    const [selected, setSelected] = useState<string[]>([]);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = (option: string) => {
-        let newSelection = selected.includes(option)
-            ? selected.filter((item) => item !== option)
-            : [...selected, option];
-        if (newSelection.length > 1) {
-            newSelection = newSelection.slice(1);
+    useEffect(() => {
+        if (questionnaireAnswers.departureCity) {
+            setSearchQuery(questionnaireAnswers.departureCity);
         }
-        setSelected(newSelection);
+    }, [questionnaireAnswers.departureCity]);
+
+
+    useEffect(() => {
+        if (searchQuery) {
+            const fetchCities = async () => {
+                try {
+                    const getOptions = await get("/cities");
+                    if (Array.isArray(getOptions)) {
+                        const filteredOptions = getOptions.filter((city: any) =>
+                            city.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        );
+                        setOptions(filteredOptions);
+                    }
+                } catch (e) {
+                    console.error("Cannot get cities", e);
+                }
+            };
+
+            const debounce = setTimeout(() => fetchCities(), 200);
+            return () => clearTimeout(debounce);
+        } else {
+            setOptions([]);
+        }
+    }, [searchQuery]);
+
+    const handleSelect = (city: any) => {
+        updateResponse("departureCity", city.name);
+        setSearchQuery(city.name); // Met à jour l'input avec la ville sélectionnée
+        setOptions([]); // Vide immédiatement les options pour cacher la liste
     };
+
+    console.log(questionnaireAnswers.departureCity)
+
 
     return (
 
         <div>
-            <TextField
-                variant="outlined"
-                value={selected.join(", ")}
-                placeholder="Sélectionnez les villes"
-                onClick={handleClick}
-                sx={{width: "400px"}}
-                InputProps={{readOnly: true}}
+            <input
+                type="text"
+                placeholder="Type here"
+                className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                required
             />
-            <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
-                {options.map((option) => (
-                    <MenuItem key={option}
-                              onClick={() => handleClose(option)}
-                              style={{padding: "12px 30px"}}>
-                        {selected.includes(option) ? "✔ " : ""}
-                        {option}
-                    </MenuItem>
-                ))}
-            </Menu>
+            <div className="searchResults">
+                {options.length > 0 && searchQuery !== questionnaireAnswers.departureCity && (
+                    <ul className="result-option">
+                        {options.map((city) => (
+                            <li key={city.name} onClick={() => handleSelect(city)}>
+                                {city.name}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };
