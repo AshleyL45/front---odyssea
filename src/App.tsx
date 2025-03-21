@@ -38,6 +38,8 @@ const exampleTrip: Trip = {
     purchaseDate: "2025-03-17"
 };
 
+import TripRecap from "./pages/personnalized-trip/TripRecap";
+
 function App() {
   return (
     <>
@@ -60,6 +62,7 @@ function App() {
                             </Route>
                             <Route path="/">
                                 <Route index element={<HomePage/>}></Route>
+                              {/*<Route index path="homePage" element={<HomePage/>}></Route>*/}
                                 <Route path="login" element={<LoginPage/>}></Route>
                                 <Route path="register" element={<RegisterPage/>}></Route>
                                 <Route path="trips" element={<ItineraryListPage/>}></Route>
@@ -70,8 +73,8 @@ function App() {
                                 <Route path="terms" element={<TermsOfUse/>}></Route>
                                 <Route path="aboutUs" element={<AboutUs/>}></Route>
                                 <Route path="contact" element={<Contact/>}></Route>
+                               <Route path="tripRecap" element={<TripRecap/>}></Route>
                             </Route>
-
 
                         </Routes>
                     </ReservationContextProvider>

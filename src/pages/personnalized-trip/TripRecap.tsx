@@ -1,39 +1,69 @@
-import {FC, JSX} from 'react';
+import React, {useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import "../../App.css"
+import "../../App.css";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import InteractiveMap from "../../components/InteractiveMap";
 
-const TripRecap: () => JSX.Element = () => {
+interface UserPlanDetails {
+    userId: number;
+    itineraryId: number;
+}
+
+const TripRecap: React.FC = () => {
+    // Pour l'exemple, on fixe les valeurs dynamiques (à remplacer par votre logique réelle)
+    const [userPlanDetails] = useState<UserPlanDetails>({
+        userId: 1,
+        itineraryId: 1
+    });
+
+
 
     return (
         <div>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                <div style={{width: "100%", height: "6px", backgroundColor: "#2C3E50", position: "relative", top: "-5px"}}></div>
+                <div style={{
+                    width: "100%",
+                    height: "6px",
+                    backgroundColor: "#2C3E50",
+                    position: "relative",
+                    top: "-5px"
+                }}></div>
             </div>
 
             <a style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px"}} href="#">
-                <ArrowBackIcon sx={{fontSize: "15px"}} /*onClick={() => navigate(-1)}*//>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </a>
 
             <div style={{width: "80%", margin: "auto"}}>
-
-                <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign:"center"}}>Summary of your trip</h1>
+                <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>
+                    Summary of your trip
+                </h1>
 
                 <form style={{display: "flex", flexDirection: "column"}}>
-                    <label style={{textAlign: "center", margin: "20px 0"}}>Your trip name :</label>
-                    <input className="input-user-trip" type="text" id="name-user-trip" name="name-user-trip" required placeholder="Enter the name ..."/>
+                    <label style={{textAlign: "center", margin: "20px 0"}}>
+                        Your trip name :
+                    </label>
+                    <input
+                        className="input-user-trip"
+                        type="text"
+                        id="name-user-trip"
+                        name="name-user-trip"
+                        required
+                        placeholder="Enter the name ..."
+                    />
                 </form>
 
                 <div className="recap-trip">
                     <div className="container-map">
-                        <img
-                            src="https://www.cartographie-georeflet.com/wp-content/uploads/2022/12/carte-de-france-administrative-vintage-des-departements-1.jpg"
-                            alt="france map"
+                        {/* On passe les identifiants au composant InteractiveMap */}
+                        <InteractiveMap
+                            userId={userPlanDetails.userId}
+                            itineraryId={userPlanDetails.itineraryId}
                             className="map"
-                            />
+                        />
                     </div>
 
                     <div>
@@ -234,7 +264,7 @@ const TripRecap: () => JSX.Element = () => {
 
             <div className="line-recap"></div>
 
-            <div className="submit" style={{textAlign:"center", margin: "100px auto 50px"}}>
+            <div className="submit" style={{textAlign: "center", margin: "100px auto 50px"}}>
                 <p>
                     Your exceptional journey is within reach. Because every detail matters, we invite you to review your
                     itinerary one last time. From your carefully selected accommodations to the exclusive experiences
