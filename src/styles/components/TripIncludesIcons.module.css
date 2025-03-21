@@ -1,0 +1,44 @@
+.iconsContainer {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.iconsTitle {
+    margin-bottom: 4rem;
+    font-size: 40px;
+}
+
+.iconsRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12rem;
+}
+
+.iconBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 9rem;
+}
+
+@media (max-width: 768px) {
+    .iconsRow {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 2rem;
+    }
+
+    .iconBox {
+        flex: 0 0 45%;
+    }
+
+    .MuiSvgIcon-root {
+        font-size: 80px !important;
+    }
+
+    .iconsTitle {
+        font-size: 32px;
+    }
+}

@@ -371,6 +371,25 @@ body{
 
 
 
+        /* HomePage*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /* FOOTER */
 
 
@@ -793,7 +812,7 @@ footer p{
     height: 350px;
     border: solid 1px black;
     background-color: #F6F5F5;
-    background-image: url('https://img.freepik.com/vecteurs-premium/paysage-neige-hiver-maisons-arbre-noel-concept-voeux-carte-postale-fond-lune-silhouette-du-pere-noel-volant-traineau-illustration-vectorielle_165488-2740.jpg');
+    background-image: url('https://images.pexels.com/photos/1603650/pexels-photo-1603650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
     background-repeat: no-repeat;
     background-size: cover;
 }
