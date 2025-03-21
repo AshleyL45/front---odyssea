@@ -4,8 +4,9 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {useNavigate} from "react-router-dom";
+import TravelerSelecting from "../../components/TravelerSelecting";
 
-const Trip5: FC<{}> = ({}) => {
+const TravelerSelection: FC<{}> = ({}) => {
 
     const navigate = useNavigate();
 
@@ -14,10 +15,10 @@ const Trip5: FC<{}> = ({}) => {
 
     return (
         <div>
-            <div style={{margin: "30px 0"}} className="progress-bar">
+            <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
-                    width: "50%",
+                    width: "22.3%",
                     height: "6px",
                     borderRadius: "0 5px 5px 0",
                     backgroundColor: "#2C3E50",
@@ -37,28 +38,15 @@ const Trip5: FC<{}> = ({}) => {
 
                 <h1 style={{fontSize: "25px", margin: "30px 0"}}>How many travellers are you ?</h1>
 
-                <div className="container-user-select"
-                     style={{display: "flex", justifyContent: "center", margin: "50px 0"}}>
-                    <div style={{margin: "40px 60px"}}>
-                        <h2>Adults</h2>
-                        <div style={{display: "flex", gap: "20px", margin: "20px 0", justifyContent: "center"}}>
-                            <RemoveIcon onClick={() => setCount1(Math.max(0, count1 - 1))}/>
-                            <p style={{border: "solid 2px black", padding: "2px 30px"}}>{count1}</p>
-                            <AddIcon onClick={() => setCount1(count1 + 1)}/>
-                        </div>
-                    </div>
-                    <div style={{margin: "40px 60px"}}>
-                        <h2>Children (-18yo)</h2>
-                        <div style={{display: "flex", gap: "20px", margin: "20px 0", justifyContent: "center"}}>
-                            <RemoveIcon onClick={() => setCount2(Math.max(0, count2 - 1))}/>
-                            <p style={{border: "solid 2px black", padding: "2px 30px"}}>{count2}</p>
-                            <AddIcon onClick={() => setCount2(count2 + 1)}/>
-                        </div>
-                    </div>
+                <div
+                    className="container-user-select"
+                    style={{display: "flex", justifyContent: "center", margin: "50px 0"}}
+                >
+                    <TravelerSelecting/>
                 </div>
 
                 <CustomButton style={{width: "130px", marginTop: "30px"}} variant="contained"
-                              onClick={() => navigate("/personalized-trip/standing-selection")}
+                              onClick={() => navigate("/personalized-trip/departure")}
                 >Next</CustomButton>
 
             </div>
@@ -66,4 +54,4 @@ const Trip5: FC<{}> = ({}) => {
     );
 };
 
-export default Trip5;
+export default TravelerSelection;

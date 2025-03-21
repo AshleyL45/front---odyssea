@@ -3,26 +3,26 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import dayjs, {Dayjs} from "dayjs";
-import useLocalStorage from "../hooks/useLocalStorage";
+import {usePersonalizedTrip} from "../contexts/PersonalizedTripContext";
 
 const Calender: React.FC = () => {
 
-    const [startDate, setStartDate] = useLocalStorage<string | null>("departureDate", null);
-    const [endDate, setEndDate] = useLocalStorage<string | null>("returnDate", null);
+    const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
 
+    const startDate = questionnaireAnswers.startDate;
+    const endDate = startDate ? dayjs(startDate).add(13, "day").format("YYYY-MM-DD") : "";
 
     const handleDateChange = (newDate: Dayjs | null) => {
         if (newDate) {
             const departure = newDate.format("YYYY-MM-DD");
             const returnDate = newDate.add(13, "day").format("YYYY-MM-DD");
 
-            setStartDate(departure);
-            setEndDate(returnDate);
+            updateResponse("startDate", departure);
 
             console.log("date de départ : ", departure);
             console.log("date de retour : ", returnDate);
         } else {
-            alert("pas possible")
+            alert("select a valid date")
         }
     };
 
@@ -39,8 +39,8 @@ const Calender: React.FC = () => {
                 {startDate && endDate && (
                     <div>
                         <p>
-                            Departure: {dayjs(startDate).format("DD/MM/YYYY")} -{" "}
-                            Date de fin: {dayjs(endDate).format("DD/MM/YYYY")}
+                            Departure: {dayjs(startDate).format("DD/MM/YYYY")} - {" "}
+                            Return: {dayjs(endDate).format("DD/MM/YYYY")}
                         </p>
                     </div>
                 )}

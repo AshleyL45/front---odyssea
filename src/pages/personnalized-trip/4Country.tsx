@@ -1,19 +1,33 @@
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 import CountrySelecting from "../../components/CountrySelecting";
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 
 const Trip3: FC<{}> = ({}) => {
 
     const navigate = useNavigate();
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const {countrySelection} = questionnaireAnswers;
+
+    // État pour suivre le nombre de pays sélectionnés
+    const [selectedCountryCount, setSelectedCountryCount] = useState(countrySelection?.length || 0);
+
+    const handleNextStep = () => {
+        if (countrySelection) {
+            navigate("/personalized-trip/city-selection");
+        } else {
+            alert("Please select 3 countries before the next step.");
+        }
+    };
 
     return (
         <div>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
-                    width: "30%",
+                    width: "44.6%",
                     height: "6px",
                     borderRadius: "0 5px 5px 0",
                     backgroundColor: "#2C3E50",
@@ -30,14 +44,18 @@ const Trip3: FC<{}> = ({}) => {
 
             <div style={{padding: "20px 40px", width: "70%", margin: "auto", textAlign: "center"}}>
 
-                <h1 style={{fontSize: "25px", margin: "30px 0 "}}>Select 3 countries</h1>
+                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Select 3 countries</h1>
 
-                <CountrySelecting/>
+                <CountrySelecting onSelectionChange={(count) => setSelectedCountryCount(count)}/>
 
 
-                <CustomButton style={{width: "130px", marginTop: "150px"}} variant="contained"
-                              onClick={() => navigate("/personalized-trip/city-selection")}
-                >Next</CustomButton>
+                <CustomButton
+                    style={{width: "130px", marginTop: "150px"}}
+                    variant="contained"
+                    onClick={handleNextStep}
+                    disabled={selectedCountryCount !== 3}
+                >
+                    Next</CustomButton>
 
             </div>
         </div>
@@ -45,3 +63,4 @@ const Trip3: FC<{}> = ({}) => {
 };
 
 export default Trip3;
+

@@ -1,15 +1,47 @@
-import {FC, useState} from 'react';
+import {FC, useState, useEffect} from 'react';
+import {get} from "../API/api";
+import {Activity} from "../@types/PersonalizeTrip";
+import "../App.css";
 
-const ActivitySelecting: FC<{}> = ({}) => {
+interface ActivitySelectingProps {
+    countryName: string; // Nom du pays
+    selectedCities: any[]; // Villes sélectionnées pour ce pays
+    onSelectionChange: (count: number) => void; // Callback pour mettre à jour le nombre d'activités sélectionnées
+}
 
-    const [selected, setSelected] = useState<{ city1: number[]; city2: number[] }>({
-        city1: [],
-        city2: [],
-    });
+const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCities, onSelectionChange}) => {
+    const [activities, setActivities] = useState<{ [key: string]: Activity[] }>({});
+    const [selected, setSelected] = useState<{ [key: string]: number[] }>({});
 
-    const handleSelect = (city: "city1" | "city2", index: number) => {
+    // Récupérer les activités pour chaque ville
+    useEffect(() => {
+        const fetchActivities = async () => {
+            try {
+                const response = await get(`/activities/top5`);
+                if (response && Array.isArray(response)) {
+                    const activitiesByCity: { [key: string]: Activity[] } = {};
+                    selectedCities.forEach((city, index) => {
+                        activitiesByCity[`city${index + 1}`] = response.filter((activity: Activity) => activity.cityId === city.id);
+                    });
+                    setActivities(activitiesByCity);
+                }
+            } catch (error) {
+                console.error("Failed to fetch activities", error);
+            }
+        };
+        fetchActivities();
+    }, [selectedCities]);
+
+    // Mettre à jour le nombre total d'activités sélectionnées
+    useEffect(() => {
+        const totalSelected = Object.values(selected).reduce((acc, curr) => acc + curr.length, 0);
+        onSelectionChange(totalSelected);
+    }, [selected, onSelectionChange]);
+
+    // Gérer la sélection des activités
+    const handleSelect = (city: string, index: number) => {
         setSelected((prev) => {
-            const currentSelection = prev[city];
+            const currentSelection = prev[city] || [];
 
             if (currentSelection.includes(index)) {
                 return {...prev, [city]: currentSelection.filter((i) => i !== index)};
@@ -23,117 +55,45 @@ const ActivitySelecting: FC<{}> = ({}) => {
         });
     };
 
-    const activities = {
-        city1: [
-            {
-                title: "Visiter le château royal de Wawel (Cracovie)",
-                description: "Plongez dans l’histoire des rois de Pologne dans ce magnifique château perché sur une colline.",
-            },
-            {
-                title: "Explorer le quartier juif de Kazimierz (Cracovie)",
-                description: "Un quartier vibrant, entre histoire, street art et bars branchés.",
-            },
-            {
-                title: "Découvrir la mine de sel de Wieliczka",
-                description: "Un site souterrain fascinant classé à l’UNESCO avec des sculptures et des chapelles taillées dans le sel.",
-            },
-        ],
-        city2: [
-            {
-                title: "Admirer la vieille ville de Varsovie",
-                description: "Rebâtie après la guerre, elle offre un mélange unique d’histoire et de modernité.",
-            },
-            {
-                title: "Se promener dans le parc Lazienki",
-                description: "Un havre de paix en plein cœur de Varsovie, idéal pour une balade bucolique.",
-            },
-            {
-                title: "Visiter le musée de l'Insurrection de Varsovie",
-                description: "Un hommage aux résistants polonais avec une immersion poignante dans l’histoire.",
-            },
-        ],
-    };
-
-
     return (
-
-        <div className="container-activity-layout" style={{margin: "40px 0", display: "flex", gap: "60px", alignItems: "center", justifyContent: "center"}}>
-
-            <div>
-                <h3 style={{margin: "10px 0 30px"}}>[city 1]</h3>
-                <div className="activity-layout">
-                    {activities.city1.map((activity, index) => (
-                        <div
-                            key={index}
-                            className={`activity-item ${selected.city1.includes(index) ? "selected" : ""}`}
-                            onClick={() => handleSelect("city1", index)}
-                        >
-                            <h4>{activity.title}</h4>
-                            <p>{activity.description}</p>
+        <div style={{margin: "70px 0 150px"}}>
+            <h1 style={{textAlign: "center"}}>What to do in : {countryName} ?</h1>
+            <div className="container-activity-layout"
+                 style={{
+                     margin: "20px 0",
+                     display: "flex",
+                     gap: "150px",
+                     alignItems: "center",
+                     justifyContent: "center"
+                 }}>
+                {selectedCities.length > 0 ? (
+                    selectedCities.map((city, index) => (
+                        <div key={city.id}>
+                            <h3 style={{margin: "10px 0 30px"}}>{city.name}</h3>
+                            <div className="activity-layout">
+                                {activities[`city${index + 1}`]?.length > 0 ? (
+                                    activities[`city${index + 1}`].map((activity, activityIndex) => (
+                                        <div
+                                            key={activity.id}
+                                            className={`activity-item ${selected[`city${index + 1}`]?.includes(activityIndex) ? "selected" : ""}`}
+                                            onClick={() => handleSelect(`city${index + 1}`, activityIndex)}
+                                        >
+                                            <h4>{activity.name}</h4>
+                                            <p>{activity.description}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>Loading activities...</p>
+                                )}
+                            </div>
                         </div>
-                    ))}
-                </div>
+                    ))
+                ) : (
+                    <p>No cities selected</p>
+                )}
             </div>
-
-            <div className="line-activity-layout"></div>
-
-            <div>
-                <h3 style={{margin: "10px 0 30px"}}>[city 2]</h3>
-                <div className="activity-layout">
-                    {activities.city2.map((activity, index) => (
-                        <div
-                            key={index}
-                            className={`activity-item ${selected.city2.includes(index) ? "selected" : ""}`}
-                            onClick={() => handleSelect("city2", index)}
-                        >
-                            <h4>{activity.title}</h4>
-                            <p>{activity.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
         </div>
-
-
     );
 };
 
 export default ActivitySelecting;
-
-
-{/*
-<div>
-                        <h4>Visiter le château royal de Wawel (Cracovie)</h4>
-                        <p>Plongez dans l’histoire des rois de Pologne dans ce magnifique château perché sur une
-                            colline.</p>
-                    </div>
-                    <div>
-                        <h4>Explorer le quartier juif de Kazimierz (Cracovie)</h4>
-                        <p>Un quartier vibrant, entre histoire, street art et bars branchés.</p>
-                    </div>
-                    <div>
-                        <h4>Visiter le château royal de Wawel (Cracovie)</h4>
-                        <p>Plongez dans l’histoire des rois de Pologne dans ce magnifique château perché sur une
-                            colline.</p>
-                    </div>
-*/}
-
-
-
-{/*
-<div>
-                        <h4>Visiter le château royal de Wawel (Cracovie)</h4>
-                        <p>Plongez dans l’histoire des rois de Pologne dans ce magnifique château perché sur une
-                            colline.</p>
-                    </div>
-                    <div>
-                        <h4>Explorer le quartier juif de Kazimierz (Cracovie)</h4>
-                        <p>Un quartier vibrant, entre histoire, street art et bars branchés.</p>
-                    </div>
-                    <div>
-                        <h4>Visiter le château royal de Wawel (Cracovie)</h4>
-                        <p>Plongez dans l’histoire des rois de Pologne dans ce magnifique château perché sur une
-                            colline.</p>
-                    </div>
-*/}

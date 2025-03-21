@@ -6,7 +6,7 @@ import Carousel from "../../components/Carousel";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import TripDetails from "../../components/ReusableComponents/TripDetails";
 
-const MyComponent: FC<{}> = ({}) => {
+const ItineraryDetails: FC<{}> = ({}) => {
 
     return (
         <div>
@@ -160,7 +160,7 @@ const MyComponent: FC<{}> = ({}) => {
     );
 };
 
-export default MyComponent;
+export default ItineraryDetails;
 
 
 {/*

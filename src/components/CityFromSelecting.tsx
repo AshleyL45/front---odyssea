@@ -1,47 +1,52 @@
 import {FC, useEffect, useState} from 'react';
 import {get} from "../API/api";
 import "../App.css"
+import {usePersonalizedTrip} from "../contexts/PersonalizedTripContext";
+import {CitySelection} from "../@types/PersonalizeTrip";
 
-interface City {
-    name: string;
-}
+const CityFromSelecting: FC = () => {
 
-const CityFromSelecting: FC<{}> = ({}) => {
-
-    const [options, setOptions] = useState<City[]>([]);
+    const [options, setOptions] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selected, setSelected] = useState<string>("");
+    const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
 
-
-    const fetchOptions = async (query: string = "") => {
-        try {
-            const getOptions = await get("/cities");
-            if (Array.isArray(getOptions)) {
-                // Filtrage des options en fonction du texte entré
-                const filteredOptions = getOptions.filter((city: City) =>
-                    city.name.toLowerCase().includes(query.toLowerCase())
-                );
-                setOptions(filteredOptions);
-            }
-        } catch (e) {
-            console.error("Cannot get options", e);
+    useEffect(() => {
+        if (questionnaireAnswers.departureCity) {
+            setSearchQuery(questionnaireAnswers.departureCity);
         }
-    };
+    }, [questionnaireAnswers.departureCity]);
+
 
     useEffect(() => {
         if (searchQuery) {
-            const debounce = setTimeout(() => fetchOptions(searchQuery), 200);
+            const fetchCities = async () => {
+                try {
+                    const getOptions = await get("/cities");
+                    if (Array.isArray(getOptions)) {
+                        const filteredOptions = getOptions.filter((city: any) =>
+                            city.name.toLowerCase().includes(searchQuery.toLowerCase())
+                        );
+                        setOptions(filteredOptions);
+                    }
+                } catch (e) {
+                    console.error("Cannot get cities", e);
+                }
+            };
+
+            const debounce = setTimeout(() => fetchCities(), 200);
             return () => clearTimeout(debounce);
         } else {
             setOptions([]);
         }
-    }, [searchQuery, selected]);
+    }, [searchQuery]);
 
-    const handleSelect = (city: string) => {
-        setSelected(city);
-        setSearchQuery(city); // Met à jour l'input avec la ville sélectionnée
+    const handleSelect = (city: any) => {
+        updateResponse("departureCity", city.name);
+        setSearchQuery(city.name); // Met à jour l'input avec la ville sélectionnée
         setOptions([]); // Vide immédiatement les options pour cacher la liste
     };
+
+    console.log(questionnaireAnswers.departureCity)
 
 
     return (
@@ -56,10 +61,12 @@ const CityFromSelecting: FC<{}> = ({}) => {
                 required
             />
             <div className="searchResults">
-                {options.length > 0 && searchQuery !== selected && (
+                {options.length > 0 && searchQuery !== questionnaireAnswers.departureCity && (
                     <ul className="result-option">
-                        {options.map((option) => (
-                            <li key={option.name} onClick={() => handleSelect(option.name)}>{option.name}</li>
+                        {options.map((city) => (
+                            <li key={city.name} onClick={() => handleSelect(city)}>
+                                {city.name}
+                            </li>
                         ))}
                     </ul>
                 )}

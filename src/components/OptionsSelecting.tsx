@@ -1,73 +1,89 @@
-import {FC, useState} from 'react';
-import "../App.css"
+import {FC, useEffect, useState} from 'react';
+import "../App.css";
+import {usePersonalizedTrip} from "../contexts/PersonalizedTripContext";
+import {Option} from "../@types/PersonalizeTrip";
 
-interface Option {
-    title: string;
+const OptionsSelecting: FC = () => {
+    const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
+    const {options: selectedOptions = []} = questionnaireAnswers;
 
-    [key: string]: string;
-}
+    const [options, setOptions] = useState<{ [key: string]: Option[] }>({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-type Options = {
-    [key: string]: Option[];
-};
+    // Fonction pour récupérer les options
+    const fetchOptions = async () => {
+        try {
+            const response = await fetch("/options/all");
+            console.log("Réponse de l'API :", response); // Log de la réponse
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data: Option[] = await response.json();
+            console.log("Options reçues :", data); // Log des données reçues
 
-const options: Options = {
-    typeOption1: [
-        {
-            title: "Services d’Exception & Confort",
-            option1: "Assistant linguistique",
-            option2: "Service médical VIP",
-            option3: "Babysitter certifié(e) et multilingue",
+            // Grouper les options par catégorie
+            const groupedOptions: { [key: string]: Option[] } = {};
+            data.forEach(({id, name, description, category, price}) => {
+                if (!groupedOptions[category]) {
+                    groupedOptions[category] = [];
+                }
+                groupedOptions[category].push({id, name, description, category, price});
+            });
+
+            setOptions(groupedOptions);
+            setLoading(false);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des options :", error);
+            setError("Failed to load options. Please try again later.");
+            setLoading(false);
         }
-    ],
-    typeOption2: [
-        {
-            title: "Luxe & Bien-être",
-            option1: "Chef privé",
-            option2: "Coach bien-être et fitness",
-            option3: "Salle de cinéma privée",
-        }
-    ],
-    typeOption3: [
-        {
-            title: "Transports & Expériences Exclusives",
-            option1: "Hélicoptère privé",
-            option2: "Location de yacht",
-            option3: "Photographe professionnel",
-        }
-    ],
-    typeOption4: [
-        {
-            title: "Shopping & Événements",
-            option1: "Personal shopper",
-            option2: "Organisateur d’événements"
-        }
-    ],
-};
+    };
 
+    // Appeler fetchOptions au montage du composant
+    useEffect(() => {
+        fetchOptions();
+    }, []);
 
-const OptionsSelecting: React.FC<{ options: Options }> = ({options}) => {
+    const handleSelection = (option: Option) => {
+        const isSelected = selectedOptions.some((selectedOption) => selectedOption.name === option.name);
+
+        const updatedOptions = isSelected
+            ? selectedOptions.filter((selectedOption) => selectedOption.name !== option.name)
+            : [...selectedOptions, option];
+
+        updateResponse("options", updatedOptions);
+    };
+
+    if (loading) {
+        return <div>Loading options...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
         <div className="container-option-layout">
-
-            {Object.keys(options).map((key: string) => (
-                <div className="option-layout" key={key}>
-                    {options[key].map((option: Option, index: number) => (
-                        <div key={index}>
-                            <h4>{option.title}</h4>
-                            <div className="option-layout-item">
-                                {Object.keys(option).map((optKey, idx) => (
-                                    optKey !== "title" && (
-                                        <div key={idx}>
-                                            <input type="checkbox" id={option[optKey]} name={option[optKey]}/>
-                                            <label htmlFor={option[optKey]}>{option[optKey]}</label>
-                                        </div>
-                                    )
-                                ))}
+            {Object.keys(options).map((category) => (
+                <div className="option-layout" key={category}>
+                    <h4>{category}</h4>
+                    <div className="option-layout-item">
+                        {options[category].map((option, idx) => (
+                            <div key={idx}>
+                                <input
+                                    type="checkbox"
+                                    id={option.name}
+                                    name={option.name}
+                                    checked={selectedOptions.some((selectedOption) => selectedOption.name === option.name)}
+                                    onChange={() => handleSelection(option)}
+                                />
+                                <label htmlFor={option.name}>
+                                    {option.name} - {option.description}
+                                </label>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             ))}
         </div>

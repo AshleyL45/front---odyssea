@@ -919,6 +919,16 @@ footer p{
 
             /* PERSONALIZED TRIP   */
 
+.container-summary{
+    padding: 30px 10px;
+}
+
+.text-summary{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
 .search-input{
     width: 90%;
     font-size: 1.05rem;
@@ -927,8 +937,17 @@ footer p{
     border-radius: 4px;
 }
 
+.search-input-city{
+    width: 95%;
+    margin: auto;
+    font-size: 1.05rem;
+    padding: 8px;
+    border: solid 2px lightgrey;
+    border-radius: 4px;
+}
+
 .selected-country{
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 5px;
@@ -945,9 +964,9 @@ footer p{
 
 .city-selecting div{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /*textfield*/
@@ -1058,6 +1077,11 @@ footer p{
 
 
 @media screen and (min-width: 1000px) {
+
+    .container-summary{
+        width: 70%;
+        margin: 30px auto;
+    }
 
     .container-option-layout {
         display: flex;
@@ -1202,6 +1226,7 @@ footer p{
 }
 
 .result-option{
+    display: block;
     margin: auto;
     width: 90%;
     text-align: start;
@@ -1266,11 +1291,6 @@ footer p{
     }
 
 
-    .city-selecting div{
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: end;
-    }
 
     /*textfield*/
     .MuiInputBase-root{

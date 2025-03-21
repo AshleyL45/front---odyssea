@@ -1,16 +1,69 @@
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 import RecapFirstDay from "../../components/recapTrip/RecapFirstDay";
 import RecapActivityDay from "../../components/recapTrip/RecapActivityDay";
 import RecapTransfertDay from "../../components/recapTrip/RecapTransfertDay";
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
+import {CountrySelection, Option, PersonalizeTrip} from "../../@types/PersonalizeTrip";
 
 const TripRecap: FC = () => {
 
+    const [itineraryName, setItineraryName] = useState<string>(''); // Déclaration de l'état
+    const [userId, setUserId] = useState<number>(0);
+    const [startDate, setStartDate] = useState<string>('');
+    const [departureCity, setDepartureCity] = useState<string>('');
+    const [countrySelection, setCountrySelection] = useState<CountrySelection[]>([]);
+    const [numberOfAdults, setNumberOfAdults] = useState<number>(0);
+    const [numberOfKids, setNumberOfKids] = useState<number>(0);
+    const [hotelStanding, setHotelStanding] = useState<number>(0);
+    const [options, setOptions] = useState<Option[]>([]); // Remplacer Option par le bon type si nécessaire
     const navigate = useNavigate();
+
+    // Fonction pour gérer la soumission du formulaire
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault(); // Empêcher le rechargement de la page
+
+        // Création de l'objet PersonalizeTrip
+        const tripData: PersonalizeTrip = {
+            userId,
+            startDate,
+            departureCity,
+            countrySelection,
+            numberOfAdults,
+            numberOfKids,
+            hotelStanding,
+            options,
+            itineraryName, // Ajoutez ici le nom de l'itinéraire récupéré
+        };
+
+        // Envoi de l'objet au backend avec fetch
+        try {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tripData),
+            });
+
+            if (response.ok) {
+                // Traitement après la soumission réussie
+                alert('Trip submitted successfully');
+                navigate('/confirmation'); // Redirige vers une page de confirmation (à ajuster)
+            } else {
+                // Gérer les erreurs de soumission
+                alert('Failed to submit trip');
+            }
+        } catch (error) {
+            console.error('Error submitting the trip:', error);
+            alert('An error occurred while submitting the trip');
+        }
+    };
+
+    console.log()
 
     return (
         <div>
@@ -32,7 +85,16 @@ const TripRecap: FC = () => {
 
                 <form style={{display: "flex", flexDirection: "column"}}>
                 <label style={{textAlign: "center", margin: "20px 0"}}>Your trip name :</label>
-                    <input className="input-user-trip" type="text" id="name-user-trip" name="name-user-trip" required placeholder="Enter the name ..."/>
+                    <input
+                        className="input-user-trip"
+                        type="text"
+                        id="name-user-trip"
+                        name="name-user-trip"
+                        required
+                        placeholder="Enter the name ..."
+                        value={itineraryName}
+                        onChange={(e) => setItineraryName(e.target.value)} // Mettre à jour l'état à chaque changement
+                    />
                 </form>
 
                 <div className="recap-trip">
@@ -86,7 +148,13 @@ const TripRecap: FC = () => {
                     orchestrated, delivering an experience that meets your highest expectations. All that’s left is to
                     confirm… and let yourself be carried away into an unforgettable journey.
                 </p>
-                <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained">Submit</CustomButton>
+                <CustomButton
+                    type="submit"
+                    style={{width: "130px", marginTop: "70px"}}
+                    variant="contained"
+                >
+                    Submit
+                </CustomButton>
             </div>
         </div>
     );
