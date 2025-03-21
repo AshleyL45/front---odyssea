@@ -3,7 +3,6 @@ import {MapContainer, TileLayer, Marker, Popup, Polyline, useMap} from 'react-le
 import L, {LatLngTuple} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Correction pour les icônes par défaut de Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -21,7 +20,7 @@ interface InteractiveMapDto {
 interface InteractiveMapProps {
     userId: number;
     itineraryId: number;
-    className?: string; // pour pouvoir passer "map" depuis le parent
+    className?: string;
 }
 
 // Composant qui ajuste la vue pour inclure toutes les positions
@@ -63,6 +62,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({userId, itineraryId, cla
     const defaultCenter: LatLngTuple = [48.8566, 2.3522];
     // Construction du tableau des positions pour la polyline et le FitBounds
     const positions: LatLngTuple[] = markers.map(marker => [marker.latitude, marker.longitude] as LatLngTuple);
+
+    const handleMarkerClick = (dayId: number) => {
+        // Déclenchement de l'événement custom avec l'ID du jour en détail
+        window.dispatchEvent(new CustomEvent('scrollToDay', {detail: {dayId}}));
+    };
+
 
     return (
         <MapContainer

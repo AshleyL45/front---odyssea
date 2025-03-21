@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import InteractiveMap from "../../components/InteractiveMap";
-
 
 interface UserPlanDetails {
     userId: number;
@@ -17,6 +16,7 @@ const TripRecap: React.FC = () => {
         userId: 1,
         itineraryId: 1
     });
+
 
 
     return (
