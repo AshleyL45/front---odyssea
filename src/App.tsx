@@ -26,6 +26,8 @@ import BookingFormBilling from "./pages/bookingForm/BookingFormBilling";
 import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
 import {Trip} from "./@types/Trip";
+import TripRecap from "./pages/personnalized-trip/TripRecap";
+
 
 const exampleTrip: Trip = {
     id: 1,
@@ -38,7 +40,7 @@ const exampleTrip: Trip = {
     purchaseDate: "2025-03-17"
 };
 
-import TripRecap from "./pages/personnalized-trip/TripRecap";
+
 
 function App() {
   return (
@@ -61,8 +63,8 @@ function App() {
                                 <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
                             </Route>
                             <Route path="/">
-                                <Route index element={<HomePage/>}></Route>
-                              {/*<Route index path="homePage" element={<HomePage/>}></Route>*/}
+                                {/*<Route index element={<HomePage/>}></Route>*/}
+                              <Route index path="homePage" element={<HomePage/>}></Route>
                                 <Route path="login" element={<LoginPage/>}></Route>
                                 <Route path="register" element={<RegisterPage/>}></Route>
                                 <Route path="trips" element={<ItineraryListPage/>}></Route>

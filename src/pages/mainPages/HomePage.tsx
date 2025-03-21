@@ -7,7 +7,6 @@ import TripIncludesIcons from "../../components/homePage/TripIncludesIcons";
 import Footer from "../../components/Footer";
 import {Link} from "react-router-dom";
 import Navbar from "../../components/navbars/Navbar";
-import BlogItemBlogReverse from "../../components/ReusableComponents/BlogItemBlogReverse";
 import BlogItemBlog from "../../components/ReusableComponents/BlogItemBlog";
 
 interface Itinerary {

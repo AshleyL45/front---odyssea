@@ -18,11 +18,11 @@ const HomeImages: React.FC<HomeImagesProps> = ({images}) => {
 
     const handleClick = (index: number) => {
         if (index === 0) {
-            navigate('/itineraryDetails/8');
+            navigate('/trip/8');
         } else if (index === 1) {
-            navigate('/itineraryDetails/9');
+            navigate('/trip/9');
         } else if (index === 2) {
-            navigate('/itineraryDetails/6');
+            navigate('/trip/6');
         }
     };
 
