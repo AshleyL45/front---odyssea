@@ -4,7 +4,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Carousel from "../../components/Carousel";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import itinerariesData from "../../assets/itinerary.json"
 import {get} from "../../../src/API/api"
 import {useFavorites} from "../../contexts/MySelectionContext";
@@ -14,6 +14,9 @@ import TripDetailsReverse from "../../components/ReusableComponents/TripDetailsR
 import Footer from "../../components/Footer";
 import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import StickyBar from "../../components/itinerary-details/StickyBar";
+import {useReservation} from "../../contexts/ReservationContext";
+import {useAuth} from "../../contexts/AuthContext";
 
 interface ItineraryImages {
     header: string;
@@ -31,8 +34,11 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
     const {tripId} = useParams<{ tripId: string }>();
     const itineraryId = Number(tripId);
+    const {userId} = useAuth();
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
+    const navigate = useNavigate();
+    const {trip, setTrip, updateResponse} = useReservation();
 
     const isFavorite = favorites.find((favorite) => favorite.id === itineraryId);
 
@@ -50,13 +56,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
         fetchItinerary()
     }, []);
 
-    const handleClick = (sectionId: string) => {
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({behavior: 'smooth'});
 
-        }
-    };
 
     const handleFavorites = () => {
         if (isFavorite && itineraryToDisplay) {
@@ -71,7 +71,15 @@ const ItineraryDetails: FC<{}> = ({}) => {
         (it) => it.id === itineraryId
     );
 
-    console.log(itineraryImage?.images.countries)
+
+    const handleReservation = () => {
+        if(itineraryToDisplay){
+            setTrip(itineraryToDisplay);
+            updateResponse("userId", userId);
+            updateResponse("itineraryId", itineraryToDisplay.id)
+        }
+        navigate("/booking/date")
+    }
 
     return (
         <div>
@@ -100,29 +108,14 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                         </div>
 
-                        <div className="progress-sticky-bar">
-                            <ul>
-                                <li onClick={() => handleClick("1")}>Day 1</li>
-                                <li onClick={() => handleClick("2")}>Day 2</li>
-                                <li onClick={() => handleClick("3")}>Day 3</li>
-                                <li onClick={() => handleClick("4")}>Day 4</li>
-                                <li onClick={() => handleClick("5")}>Day 5</li>
-                                <li onClick={() => handleClick("6")}>Day 6</li>
-                                <li onClick={() => handleClick("7")}>Day 7</li>
-                                <li onClick={() => handleClick("8")}>Day 8</li>
-                                <li onClick={() => handleClick("9")}>Day 9</li>
-                                <li onClick={() => handleClick("10")}>Day 10</li>
-                                <li onClick={() => handleClick("11")}>Day 11</li>
-                                <li onClick={() => handleClick("12")}>Day 12</li>
-                            </ul>
-                        </div>
+                       <StickyBar/>
 
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%", margin: "2rem 1rem", gap: 35}}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "90%", margin: "2rem 1rem", gap: 35}}>
                             <div style={{display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer"}}>{isFavorite ? (<>
                                 <StarIcon
                                     onClick={handleFavorites}/> <p>Remove from your selection</p></>) : (<> <StarBorderIcon onClick={handleFavorites}/> <p>Add to your selection</p></>)}</div>
-                            <span style={{cursor:  "pointer"}}>Download the program in PDF</span>
-                            <CustomButton sx={{color: "white"}}>Book your itinerary</CustomButton>
+                            {/*<span style={{cursor: "pointer"}}>Download the program in PDF</span>*/}
+                            <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your itinerary</CustomButton>
                         </div>
 
                         <section className="itinerary-details">
@@ -133,23 +126,35 @@ const ItineraryDetails: FC<{}> = ({}) => {
                             </div>
 
                             <section style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto", width: "70%", margin: "2rem auto", textAlign: "center", height: "50vh"}}>
-                                <div style={{border: "1px solid black"}}>
+                                <div style={{border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center"}}>
                                     <h3>Duration</h3>
                                     <p>{itineraryToDisplay.totalDuration} days</p>
                                 </div>
-                                <div style={{border: "1px solid black"}}>
+                                <div style={{border: "1px solid black",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center"}}>
                                     <h3>Accommodation</h3>
                                     <p>4-Stars and 5-Stars hotels</p>
                                 </div>
-                                <div style={{border: "1px solid black"}}>
+                                <div style={{border: "1px solid black",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center"}}>
                                     <h3>Key activities</h3>
                                     <p>Hot-air balloon | Ngorongoro Crater | Coffee roasting</p>
                                 </div>
-                                <div style={{border: "1px solid black"}}>
+                                <div style={{border: "1px solid black",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center"}}>
                                     <h3>Price guide</h3>
                                     <p>{itineraryToDisplay.price} €</p>
                                 </div>
-                                <div style={{gridColumn: "span 2", margin: "auto", border: "1px solid black", width: "100%", height: "100%"}}>
+                                <div style={{gridColumn: "span 2", margin: "auto", border: "1px solid black", width: "100%", height: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center"}}>
                                     <h3>Visited countries</h3>
                                     <p>South Africa, Kenya, Tanzania and Ouganda</p>
                                 </div>
@@ -199,58 +204,22 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                         <section>
                             <h2 style={{textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
-                            <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center"}}>
+                            <div style={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+                                <img
+                                    src="https://www.cartographie-georeflet.com/wp-content/uploads/2022/12/carte-de-france-administrative-vintage-des-departements-1.jpg"
+                                    style={{width: "40%"}}
+                                />
                                 <div>
-                                    <img
-                                        src="https://www.cartographie-georeflet.com/wp-content/uploads/2022/12/carte-de-france-administrative-vintage-des-departements-1.jpg"
-                                        style={{width: "80%"}}
-                                    />
-                                </div>
-                                <div>
-                                    <div>
-                                        <p className="span-country">
-                                            <RoomOutlinedIcon/>
-                                            South Africa
-                                        </p>
-                                        <p>
-                                            A fascinating mix of wild landscapes, vibrant culture and extraordinary
-                                            wildlife, where
-                                            every day brings a new adventure.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="span-country">
-                                            <RoomOutlinedIcon/>
-                                            Kenya
-                                        </p>
-                                        <p>
-                                            A legendary safari destination, between the endless plains of the savannah
-                                            and the
-                                            paradisiacal beaches of the Indian Ocean.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="span-country">
-                                            <RoomOutlinedIcon/>
-                                            Tanzania
-                                        </p>
-                                        <p>
-                                            Immerse yourself in the heart of nature, with its vast savannahs and famous
-                                            Serengeti
-                                            safaris, as well as the majestic Kilimanjaro.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="span-country">
-                                            <RoomOutlinedIcon/>
-                                            Ouganda
-                                        </p>
-                                        <p>
-                                            A sanctuary for nature lovers, with lush rainforests and the chance to meet
-                                            mountain
-                                            gorillas.
-                                        </p>
-                                    </div>
+                                    {
+                                        itineraryToDisplay && itineraryToDisplay.days.map((day) => (
+                                            <div>
+                                                <p className="span-country">
+                                                    <RoomOutlinedIcon/>
+                                                    {day.cityName}, {day.countryName}
+                                                </p>
+                                            </div>
+                                        ))
+                                    }
                                 </div>
                             </div>
                         </section>
@@ -283,7 +252,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                         </section>
                         <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center", marginBottom: "6rem"}}>
-                            <CustomButton sx={{color: "white"}}>Book your itinerary</CustomButton>
+                            <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your itinerary</CustomButton>
                         </div>
 
                     </>

@@ -1,10 +1,13 @@
 import {createContext, FC, JSX, useContext, useEffect, useState} from "react";
 import {Reservation} from "../@types/Reservation";
 import {useAuth} from "./AuthContext";
+import {Trip} from "../@types/Trip";
 
 interface ReservationProps {
     questionnaireAnswers: Reservation;
     updateResponse: (field: string, value: any) => void;
+    trip: any;
+    setTrip: (trip: Trip) => void;
 }
 
 const ReservationContext = createContext<ReservationProps | null>(null);
@@ -37,8 +40,10 @@ export const ReservationContextProvider: ({children}: { children: any }) => JSX.
         localStorage.setItem("questionnaireData", JSON.stringify(questionnaireAnswers));
     }, [questionnaireAnswers]);
 
+    const [trip, setTrip] = useState<any>(null);
+
     return (
-        <ReservationContext.Provider value={{questionnaireAnswers, updateResponse}}>
+        <ReservationContext.Provider value={{questionnaireAnswers, updateResponse, trip, setTrip}}>
             {children}
         </ReservationContext.Provider>
     )

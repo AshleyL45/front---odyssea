@@ -31,11 +31,6 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
                 const countriesToFetch = await get("/countries");
                 const themesToFetch = await get("/api/themes");
 
-                // Afficher les données dans la console
-                console.log("Trips:", tripsToFetch);
-                console.log("Countries:", countriesToFetch);
-                console.log("Themes:", themesToFetch);
-
                 // Vérifier si les données sont bien récupérées
                 if (tripsToFetch && countriesToFetch && themesToFetch) {
                     setTrips(tripsToFetch);

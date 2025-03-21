@@ -22,9 +22,9 @@ interface BillingInfo {
 }
 
 
-const BookingFormRecap: ({trip}: { trip: Trip }) => React.JSX.Element = ({trip}) => {
+const BookingFormRecap: ({}) => React.JSX.Element = ({}) => {
 
-    const {questionnaireAnswers} = useReservation();
+    const {trip, questionnaireAnswers} = useReservation();
     const [optionsToDisplay, setOptionsToDisplay] = useState<Option[]>([]);
     const navigate = useNavigate();
     const [error, setError] = useState("")

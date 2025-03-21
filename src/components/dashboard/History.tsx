@@ -15,15 +15,17 @@ const History: ({}: {}) => JSX.Element = ({}) => {
                 marginTop: "1.8rem",
                 marginBottom: "2rem",
                 fontSize: "1.8rem"
-            }}>Historique</h1>
+            }}>Travel History</h1>
             <div>
                 {
-                    userReservations && userReservations.length > 0 && userReservations.map((userReservation) => (
+                    userReservations && userReservations.length > 0 ? userReservations.map((userReservation) => (
                         <>
                             <p style={{marginLeft: "8rem"}}>{userReservation.purchaseDate}</p>
                             <TripDashboard trip={userReservation} page="Travel History" type={"Pre-designed trip"}/>
                         </>
-                    ))
+                    )) : (
+                        <p style={{marginLeft: "8rem"}}>There are no past reservations. Once you have done a trip, your past reservations you will be here.</p>
+                    )
                 }
             </div>
 

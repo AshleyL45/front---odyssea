@@ -16,6 +16,7 @@ const DashboardContext = createContext<DashboardContextProps | null>(null);
 export const DashboardContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
     const [userReservations, setUserReservations] = useState<Trip[]>([]);
     const {userId} = useAuth();
+    const userIdNumber = userId.toString()
 
     useEffect(() => {
         const fetchReservations = async () => {
@@ -24,6 +25,8 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
                 if (reservations) {
                     setUserReservations(reservations);
                 }
+
+                console.log("fetching reservations : " + typeof userIdNumber);
             } catch (e) {
                 console.error("Error while fetching reservations: ", e);
             }

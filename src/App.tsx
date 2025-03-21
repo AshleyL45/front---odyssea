@@ -48,7 +48,14 @@ function App() {
                         <Routes>
                             <Route element={<ProtectedRoutes/>}>
                                 <Route path="dashboard" element={<Dashboard/>}></Route>
-                                <Route path="reservation" element={<Reservation/>}></Route>
+                                {/*A mettre avec le layoutReservation*/}
+                                <Route path="/booking">
+                                    <Route path="date" element={<BookingFormDate/>}></Route>
+                                    <Route path="people" element={<BookingFormPeople/>}></Route>
+                                    <Route path="options" element={<BookingFormOptions/>}></Route>
+                                    <Route path="billing" element={<BookingFormBilling/>}></Route>
+                                    <Route path="recap" element={<BookingFormRecap/>}></Route>
+                                </Route>
                                 <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
                             </Route>
                             <Route path="/">
@@ -65,14 +72,7 @@ function App() {
                                 <Route path="contact" element={<Contact/>}></Route>
                             </Route>
 
-                            {/*A mettre avec le layoutReservation*/}
-                            <Route path="/booking">
-                                <Route path="date" element={<BookingFormDate trip={exampleTrip}/>}></Route>
-                                <Route path="people" element={<BookingFormPeople/>}></Route>
-                                <Route path="options" element={<BookingFormOptions/>}></Route>
-                                <Route path="billing" element={<BookingFormBilling/>}></Route>
-                                <Route path="recap" element={<BookingFormRecap trip={exampleTrip}/>}></Route>
-                            </Route>
+
                         </Routes>
                     </ReservationContextProvider>
                 </MySelectionProvider>

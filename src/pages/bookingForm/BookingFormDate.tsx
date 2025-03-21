@@ -11,14 +11,10 @@ import {useAuth} from "../../contexts/AuthContext";
 import NavbarReservation from "../../components/navbars/NavbarReservationts";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-interface Reservation1Props {
-    trip: Trip;
-}
 
-const BookingFormDate: FC<Reservation1Props> = ({trip}) => {
+const BookingFormDate: FC<{}> = ({}) => {
     const navigate = useNavigate();
-    const {updateResponse} = useReservation();
-    const {userId} = useAuth();
+    const {trip, updateResponse} = useReservation();
 
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | undefined>(undefined);
@@ -30,8 +26,6 @@ const BookingFormDate: FC<Reservation1Props> = ({trip}) => {
     };
 
     const handleNextStep = () => {
-        updateResponse("userId", userId);
-        updateResponse("itineraryId", 4);
         updateResponse("departureDate", startDate?.format('DD-MM-YYYY'));
         updateResponse("returnDate", endDate?.format('DD-MM-YYYY'));
         navigate("/booking/people");

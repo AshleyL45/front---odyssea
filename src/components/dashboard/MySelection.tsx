@@ -48,13 +48,13 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
                 marginTop: "1.8rem",
                 marginBottom: "2rem",
                 fontSize: "1.8rem"
-            }}>Ma séléction</h1>
+            }}>My selection</h1>
 
             <div style={{display: "flex", justifyContent: "space-between", width: "40%", margin: "auto"}}>
                 <p onClick={() => handleSorting("Prix")}
-                   style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Prix {sortPrice ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
+                   style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Price {sortPrice ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
                 <p onClick={() => handleSorting("Durée")}
-                   style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Durée {sortDuration ? <ExpandLessIcon/> :
+                   style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Duration {sortDuration ? <ExpandLessIcon/> :
                     <ExpandMoreIcon/>}</p>
             </div>
 

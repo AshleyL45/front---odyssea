@@ -61,7 +61,7 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
                         alignItems: "center"
                     }}>
                         <div style={{display: "flex", flexDirection: "column"}}>
-                            <label htmlFor={"updatePassword"}>Modifier le mon de passe</label>
+                            <label htmlFor={"updatePassword"}>Change my password</label>
                             <input type={"password"} style={{padding: "0.5rem 1rem"}} id={"updatePassword"}
                                    value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
                         </div>
