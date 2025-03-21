@@ -321,7 +321,7 @@ body{
     padding: 30px 0;
     border-right: solid 2px black;
     width: 350px;
-    height: 80vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -368,6 +368,25 @@ body{
     position: absolute;
     left: -40px;
 }
+
+
+
+        /* HomePage*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -793,7 +812,7 @@ footer p{
     height: 350px;
     border: solid 1px black;
     background-color: #F6F5F5;
-    background-image: url('https://img.freepik.com/vecteurs-premium/paysage-neige-hiver-maisons-arbre-noel-concept-voeux-carte-postale-fond-lune-silhouette-du-pere-noel-volant-traineau-illustration-vectorielle_165488-2740.jpg');
+    background-image: url('https://images.pexels.com/photos/1603650/pexels-photo-1603650.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -1306,4 +1325,73 @@ footer p{
         margin: auto !important;
         width: 600px;
     }
+}
+
+.inputBooking {
+    padding: 15px 10px;
+}
+
+.recapDivs {
+    background-color: #F8F1E5;
+    border: 1px black solid;
+    width: 500px;
+    min-height: 200px;
+    padding: 20px;
+    margin-top: 2rem;
+}
+
+/*Itinerary Details*/
+
+.progress-sticky-bar {
+    top: 0;
+    position: sticky;
+    z-index: 10;
+    padding: 2rem 1rem;
+    border-bottom: #745E4D 1px solid;
+    background-color: #F8F1E5;
+}
+
+.progress-sticky-bar ul {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-x: visible;
+    list-style: none;
+    text-align: center;
+}
+
+
+.progress-sticky-bar li {
+    width: 70%;
+    padding-bottom: 8px;
+}
+
+.progress-sticky-bar li:active, .progress-sticky-bar li:hover {
+    border-bottom: 2px #745E4D solid;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.collage {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid #ccc;
+    overflow: hidden; /* Cache les parties qui dépassent */
+    margin: 50px auto;
+    height: 50vh;
+    background-color: #F8F1E5;
+}
+
+.collage div {
+    width: 33%;
+    min-height: 140%;
+    margin: 0 1.5rem;
+}
+
+.collage * {
+    transform: rotate(-15deg); /* Rotation de 15 degrés */
+    top: 20px;
+    left: 20px;
+
 }

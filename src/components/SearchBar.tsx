@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {List, ListItemButton, ListItemText} from "@mui/material";
 import {Trip} from "../@types/Trip";
+import {get} from "../API/api";
 
 const SearchBar: ({}: {}) => JSX.Element = ({}) => {
 
@@ -27,14 +28,16 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
             filter((letter: string) => letter.length > 2),
             debounceTime(300),
             switchMap((value: any) => (
-                axios.get(`/itinerary?query=${value}`) //TODO : A modifier avec le bon endpoint
+                console.log(value),
+                get(`api/itineraries/search?query=${value}`) //TODO : A modifier avec le bon endpoint
                 )
             )
         )
 
         const observer = {
             next: (value: any) => {
-                setItineraries(value.data.results);
+                console.log("Value" + JSON.stringify(value, null, 2))
+                setItineraries(value);
                 setShowList(true);
             },
             error: (error: any) => {
@@ -54,16 +57,17 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
 
     function handleCloseList(id: number) {
         setShowList(false);
-        navigate(`/tripdetails/${id}`);
+        navigate(`/trip/${id}`);
     }
 
     return (
-        <div className={styles.searchContainer}>
-            <SearchIcon className={styles.searchIcon}/>
-            <input type="search" className={styles.searchInput}
-                   placeholder="Rechercher une destination ou une expérience…" ref={searchBarRef}>
-            </input>
-
+        <>
+            <div className={styles.searchContainer}>
+                <SearchIcon className={styles.searchIcon}/>
+                <input type="search" className={styles.searchInput}
+                       placeholder="Search for an experience…" ref={searchBarRef}>
+                </input>
+            </div>
             {
                 (itineraries && itineraries.length > 0 && showList) &&
                 (
@@ -82,7 +86,7 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
                                         justifyContent: "space-between",
                                         alignItems: "center"
                                     }} onClick={() => handleCloseList(itinerary.id)}>
-                                        <ListItemText primary={itinerary.itineraryName}
+                                        <ListItemText key={itinerary.id} primary={itinerary.name}
                                                       sx={{color: "black"}}/>
                                     </ListItemButton>
                                 )
@@ -90,9 +94,10 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
                         }
                     </List>
                 )
-
             }
-        </div>
+        </>
+
+
 
     );
 };

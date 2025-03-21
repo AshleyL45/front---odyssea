@@ -1,11 +1,11 @@
-import {FC} from 'react';
+import {FC, JSX} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import HotelSelecting from "../../components/HotelSelecting";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
 
-const Trip6: FC<{}> = ({}) => {
+const Trip6: ({}: {}) => JSX.Element = ({}) => {
 
     const navigate = useNavigate();
 

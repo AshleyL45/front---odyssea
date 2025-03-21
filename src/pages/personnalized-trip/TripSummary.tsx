@@ -1,10 +1,11 @@
 import {FC} from 'react';
+import {JSX} from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 import "../../App.css"
 
-const TripSummary: FC<{}> = ({}) => {
+const TripSummary: ({}: {}) => JSX.Element = ({}) => {
 
     const navigate = useNavigate();
 

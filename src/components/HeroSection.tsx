@@ -1,6 +1,6 @@
 import {FC, JSX} from 'react';
+import Navbar from "../components/navbars/Navbar";
 import styles from "../styles/components/HeroSection.module.css"
-import Navbar from "./navbars/Navbar";
 
 const HeroSection: ({}: {}) => JSX.Element = ({}) => {
 
@@ -8,7 +8,7 @@ const HeroSection: ({}: {}) => JSX.Element = ({}) => {
         <div className={styles.heroSection}>
            <Navbar/>
             <div className={styles.heroSectionImage}>
-                <h1>Retrouvez nos voyages d’exception, conçus pour les esprits en quête d’exclusivité</h1>
+                <h1>Discover our exceptional trips, designed for minds in search of exclusivity.</h1>
             </div>
 
         </div>

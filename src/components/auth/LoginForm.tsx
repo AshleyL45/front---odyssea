@@ -36,14 +36,12 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
             if (response.token) {
                 login(response.token);
-                navigate('/trips');
-                console.log("response : " + response.token)
-            } else {
-                setError(response);
-            }
+                navigate('/homePage');
+                console.log("response : " + response.token)}
 
         } catch (e) {
             console.warn("Error logging in : ", e);
+            setError("Invalid password or username. Please try again.");
         }
 
     }
