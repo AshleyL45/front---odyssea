@@ -18,7 +18,7 @@ const TripItemHome: React.FC<TripItemHomeProps> = ({id, name, description, ...re
             <div className="text-home">
                     <h2 style={{fontSize:"25px", margin: "20px 0"}}>{name}</h2>
                     <p style={{marginBottom: "10px"}}>{description}</p>
-                    <Link to={`/itineraryDetails/${id}`}>
+                    <Link to={`/trip/${id}`}>
                         <CustomButton variant="contained">En Savoir Plus</CustomButton>
                     </Link>
                 </div>
