@@ -36,7 +36,7 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
             if (response.token) {
                 login(response.token);
-                navigate('/homePage');
+                navigate('/');
                 console.log("response : " + response.token)}
 
         } catch (e) {

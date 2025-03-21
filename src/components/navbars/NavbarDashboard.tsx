@@ -14,7 +14,7 @@ const NavbarDashboard: FC<{}> = ({}) => {
 
                 <div>
                     <p style={{display: "flex", alignItems: "center", textDecoration: "underline", cursor: "pointer"}}>
-                        <ArrowBackIosNewIcon sx={{fontSize: "12px"}} onClick={() => navigate("/homePage")}/>
+                        <ArrowBackIosNewIcon sx={{fontSize: "12px"}} onClick={() => navigate("/")}/>
                         back to website
                     </p>
                 </div>
