@@ -3,7 +3,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import InteractiveMap from "../../components/InteractiveMap";
+import InteractiveMap from "../../components/interactiveMaps/InteractiveMap";
 
 interface UserPlanDetails {
     userId: number;
