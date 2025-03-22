@@ -11,6 +11,7 @@ const TripItemTravelReverse: ({trip}: { trip: Trip }) => JSX.Element = ({trip}) 
             <section className="component trip-item-travel-reverse">
 
                 <div className="text-travel">
+                    <p style={{marginBottom: "2rem", fontStyle:"italic"}}>{trip.themeName}</p>
                     <h2 style={{fontSize: "25px", margin: "0 0 20px"}}>{trip.name}</h2>
                     <p style={{marginBottom: "10px"}}>
                         {trip.shortDescription}

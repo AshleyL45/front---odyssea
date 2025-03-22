@@ -18,6 +18,7 @@ const TripItemTravel: FC<TripItemTravelProps> = ({trip}) => {
                 <div className="trip-item-travel-photo" style={{border: "solid 1px black", backgroundColor: "#F8F1E5"}}></div>
 
                 <div className="text-travel">
+                    <p style={{marginBottom: "2rem", fontStyle: "italic"}}>{trip.themeName}</p>
                     <h2 style={{fontSize: "25px", margin: "0 0 20px"}}>{trip.name}</h2>
                     <p style={{marginBottom: "10px"}}>
                         {trip.shortDescription}

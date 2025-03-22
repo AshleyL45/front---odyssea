@@ -27,7 +27,7 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
         const fetchTripsCountriesThemes = async () => {
             try {
                 // Récupérer les données depuis le backend
-                const tripsToFetch = await get("/api/itineraries");
+                const tripsToFetch = await get("/api/itineraries/themes");
                 const countriesToFetch = await get("/countries");
                 const themesToFetch = await get("/api/themes");
 
