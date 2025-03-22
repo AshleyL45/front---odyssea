@@ -17,6 +17,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import StickyBar from "../../components/itinerary-details/StickyBar";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
+import {dataY} from "../../assets/image"
 
 interface ItineraryImages {
     header: string;
@@ -34,7 +35,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
     const {tripId} = useParams<{ tripId: string }>();
     const itineraryId = Number(tripId);
-    const {userId} = useAuth();
+    const {userId, token} = useAuth();
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
     const navigate = useNavigate();
@@ -59,6 +60,10 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
 
     const handleFavorites = () => {
+        if (!token) {
+            navigate("/login", {state: {from: `/trip/${itineraryId}`}});
+            return;
+        }
         if (isFavorite && itineraryToDisplay) {
             handleRemoveFromFavorites(itineraryToDisplay);
         } else if(itineraryToDisplay) {
@@ -77,9 +82,16 @@ const ItineraryDetails: FC<{}> = ({}) => {
             setTrip(itineraryToDisplay);
             updateResponse("userId", userId);
             updateResponse("itineraryId", itineraryToDisplay.id)
+            if(token){
+                updateResponse("userId", userId);
+                navigate("/booking/date")
+            } else{
+                navigate("/login", {state: {from: "/booking/date"}});
+            }
         }
-        navigate("/booking/date")
     }
+
+    const datax = dataY;
 
     return (
         <div>
@@ -206,7 +218,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                             <h2 style={{textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
                             <div style={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
                                 <img
-                                    src="https://www.cartographie-georeflet.com/wp-content/uploads/2022/12/carte-de-france-administrative-vintage-des-departements-1.jpg"
+                                    src={dataY[0].images.header}
                                     style={{width: "40%"}}
                                 />
                                 <div>
