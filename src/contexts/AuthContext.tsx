@@ -1,6 +1,6 @@
 import React, {createContext, FC, useContext, useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface AuthContext {
     userId: number;
@@ -50,7 +50,13 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
         localStorage.clear()
         setToken(null);
         setUserId(0);
-        navigate('/login')
+        setFirstName(null);
+        setLastName(null);
+        setEmail(null)
+
+        navigate('/', {replace: true}); // Ne marche pas
+
+
     }
 
     const decodeToken = () => {

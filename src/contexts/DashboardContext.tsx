@@ -18,7 +18,6 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
     const [userReservations, setUserReservations] = useState<Trip[]>([]);
     const {userId, token} = useAuth();
     const location = useLocation();
-    const userIdNumber = userId.toString()
 
     useEffect(() => {
         const fetchReservations = async () => {
@@ -27,14 +26,12 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
                 if (reservations) {
                     setUserReservations(reservations);
                 }
-
-                console.log("fetching reservations : " + typeof userIdNumber);
             } catch (e) {
                 console.error("Error while fetching reservations: ", e);
             }
         };
         fetchReservations();
-    }, [userId, location]);
+    }, [token, location.pathname === "/dashboard"]);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
