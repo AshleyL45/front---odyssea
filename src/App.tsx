@@ -27,6 +27,7 @@ import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
 import {Trip} from "./@types/Trip";
 import TripRecap from "./pages/personnalized-trip/TripRecap";
+import MysteryTrip from "./pages/mainPages/MysteryTrip";
 
 
 const exampleTrip: Trip = {
@@ -76,6 +77,8 @@ function App() {
                                 <Route path="aboutUs" element={<AboutUs/>}></Route>
                                 <Route path="contact" element={<Contact/>}></Route>
                                <Route path="tripRecap" element={<TripRecap/>}></Route>
+
+                                <Route path="mysteryTrip" element={<MysteryTrip/>}></Route>
                             </Route>
 
                         </Routes>
