@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import {Link} from "react-router-dom";
 import Navbar from "../../components/navbars/Navbar";
 import BlogItemBlog from "../../components/ReusableComponents/BlogItemBlog";
+import HomeCarousel from "../../components/homePage/HomeCarousel";
 
 interface Itinerary {
     id: number;
@@ -42,6 +43,7 @@ const data = [
 
 const HomePage: React.FC = () => {
     const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+    const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
 
     useEffect(() => {
         const fetchItineraries = async () => {
@@ -57,9 +59,23 @@ const HomePage: React.FC = () => {
         fetchItineraries();
     }, []);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileOrTablet(window.innerWidth <= 768);
+        };
+        // On initialise
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <>
-            <HomeImages images={data}/>
+            {isMobileOrTablet ? (
+                <HomeCarousel images={data}/>
+            ) : (
+                <HomeImages images={data}/>
+            )}
             <div
                 style={{
                     position: 'absolute',
