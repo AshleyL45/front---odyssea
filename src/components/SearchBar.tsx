@@ -74,10 +74,12 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
                     <List sx={{
                         position: "absolute",
                         height: 250,
-                        overflowY: "scroll",
+                        overflowY: "hidden",
                         backgroundColor: "white",
-                        border: "1px solid white"
-                    }}>
+                        border: "1px solid white",
+                        borderRadius: 4,
+                        left: 200
+                    }} className={styles.searchList}>
                         {
                             itineraries.map((itinerary) => {
                                 return (

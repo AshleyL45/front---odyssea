@@ -1,0 +1,107 @@
+/* styles.module.css */
+
+/* Styles pour la barre de progression */
+.progressBarContainer {
+    width: 100%;
+    height: 6px;
+    background-color: lightgrey;
+    position: relative;
+}
+
+.progressBar {
+    width: 80%;
+    height: 6px;
+    border-radius: 0 5px 5px 0;
+    background-color: #2C3E50;
+    position: absolute;
+    top: 0;
+}
+
+/* Styles pour le texte "previous step" */
+.previousStep {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin: 10px 40px;
+    cursor: pointer;
+}
+
+/* Styles pour le conteneur principal */
+.optionSelect {
+    margin: 50px auto;
+    text-align: center;
+}
+
+.optionSelect h1 {
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.optionSelect h3 {
+    margin-top: 2rem;
+}
+
+/* Styles pour la grille des champs de formulaire */
+.formGrid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    width: 50%;
+    gap: 25px;
+    margin: auto;
+}
+
+.formGridAddress {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 50%;
+    gap: 25px;
+    margin: auto;
+}
+
+/* Styles pour les champs de formulaire */
+.inputBooking {
+    padding: 15px 10px;
+}
+
+/* Styles pour la case à cocher */
+.terms {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Styles pour les messages d'erreur */
+.errorContainer {
+    color: red;
+    margin: 10px 0;
+}
+
+.errorList {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Styles pour le bouton */
+.buttonContainer {
+    display: block;
+}
+
+.customButton {
+    width: 130px;
+}
+
+@media only screen and (max-width: 1100px) {
+
+    .formGrid, .formGridAddress {
+        grid-template-columns: 1fr;
+    }
+
+    .terms{
+        width: 65%;
+        margin: 1rem auto;
+    }
+
+}

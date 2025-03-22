@@ -1334,6 +1334,23 @@ footer p{
     cursor: pointer;
 }
 
+@media screen and (max-width: 800px) {
+    .progress-sticky-bar {
+        overflow-x: scroll;
+        width: auto;
+    }
+
+    .progress-sticky-bar ul {
+        min-width: 150%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .progress-sticky-bar ul {
+        min-width: 220%;
+    }
+}
+
 .collage {
     display: flex;
     align-items: center;

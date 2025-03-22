@@ -18,6 +18,7 @@ import StickyBar from "../../components/itinerary-details/StickyBar";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
 import {dataY} from "../../assets/image"
+import styles from "../../styles/ItineraryDetails.module.css"
 
 interface ItineraryImages {
     header: string;
@@ -96,186 +97,151 @@ const ItineraryDetails: FC<{}> = ({}) => {
     return (
         <div>
             <Navbar/>
-            {
-                itineraryToDisplay ? (
-                    <>
-                        <div style={{
-                            height: 281,
-                            width: "100%",
-                            backgroundImage: `url(${itineraryImage?.images.header})`,
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            alignSelf: "end"
-                        }}>
-                            <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>
-                                <h1 style={{color: "white"}}>{itineraryToDisplay.name}</h1>
-                                <hr style={{
-                                    marginLeft: "1rem",
-                                    border: "none",
-                                    borderTop: "1px solid white",
-                                    width: "80%",
-                                    height: "3px"
-                                }}/>
-                            </div>
+            {itineraryToDisplay ? (
+                <>
+                    <div
+                        className={styles.headerContainer}
+                        style={{backgroundImage: `url(${itineraryImage?.images.header})`}}
+                    >
+                        <div className={styles.headerContent}>
+                            <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
+                            <hr className={styles.headerDivider}/>
+                        </div>
+                    </div>
 
+                    <StickyBar/>
+
+                    <div className={styles.actionsContainer}>
+                        <div className={styles.favoriteContainer}>
+                            {isFavorite ? (
+                                <>
+                                    <StarIcon onClick={handleFavorites}/> <p>Remove from your selection</p>
+                                </>
+                            ) : (
+                                <>
+                                    <StarBorderIcon onClick={handleFavorites}/> <p>Add to your selection</p>
+                                </>
+                            )}
+                        </div>
+                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>
+                            Book your itinerary
+                        </CustomButton>
+                    </div>
+
+                    <section className={styles.itineraryDetails}>
+                        <div>
+                            <p>{itineraryToDisplay.shortDescription}</p>
                         </div>
 
-                       <StickyBar/>
-
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "90%", margin: "2rem 1rem", gap: 35}}>
-                            <div style={{display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer"}}>{isFavorite ? (<>
-                                <StarIcon
-                                    onClick={handleFavorites}/> <p>Remove from your selection</p></>) : (<> <StarBorderIcon onClick={handleFavorites}/> <p>Add to your selection</p></>)}</div>
-                            {/*<span style={{cursor: "pointer"}}>Download the program in PDF</span>*/}
-                            <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your itinerary</CustomButton>
-                        </div>
-
-                        <section className="itinerary-details">
-                            <div style={{textAlign: "center"}}>
-                               <p>
-                                    {itineraryToDisplay.shortDescription}
-                                </p>
+                        <section className={styles.detailsGrid}>
+                            <div className={styles.gridItem}>
+                                <h3>Duration</h3>
+                                <p>{itineraryToDisplay.totalDuration} days</p>
                             </div>
-
-                            <section style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto", width: "70%", margin: "2rem auto", textAlign: "center", height: "50vh"}}>
-                                <div style={{border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                                    <h3>Duration</h3>
-                                    <p>{itineraryToDisplay.totalDuration} days</p>
-                                </div>
-                                <div style={{border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center"}}>
-                                    <h3>Accommodation</h3>
-                                    <p>4-Stars and 5-Stars hotels</p>
-                                </div>
-                                <div style={{border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center"}}>
-                                    <h3>Key activities</h3>
-                                    <p>Hot-air balloon | Ngorongoro Crater | Coffee roasting</p>
-                                </div>
-                                <div style={{border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center"}}>
-                                    <h3>Price guide</h3>
-                                    <p>{itineraryToDisplay.price} €</p>
-                                </div>
-                                <div style={{gridColumn: "span 2", margin: "auto", border: "1px solid black", width: "100%", height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center"}}>
-                                    <h3>Visited countries</h3>
-                                    <p>South Africa, Kenya, Tanzania and Ouganda</p>
-                                </div>
-                            </section>
-
-
-                            <div style={{textAlign: "center"}}>
-                                <h2>Your all-inclusive trip, designed for an uncompromising experience. Every detail is
-                                    designed to
-                                    offer you comfort, exclusivity and total immersion.
-                                </h2>
-                                <ul>
-                                    <li>Premium transportation: Business-class flights, private transfers and
-                                        personalized routes
-                                        for a stress-free trip.
-                                    </li>
-                                    <li>
-                                        Exceptional accommodations: Stay in refined lodges, 5-star hotels or private
-                                        villas offering
-                                        luxury and serenity.
-                                    </li>
-                                    <li>
-                                        Exclusive activities: Private safaris, tailor-made excursions, meetings with
-                                        expert guides
-                                        and unique experiences close to nature.
-                                    </li>
-                                    <li>
-                                        Refined gastronomy: dinners under the stars, exceptional wine tastings and menus
-                                        designed by
-                                        renowned chefs.
-                                    </li>
-                                </ul>
+                            <div className={styles.gridItem}>
+                                <h3>Accommodation</h3>
+                                <p>4-Stars and 5-Stars hotels</p>
+                            </div>
+                            <div className={styles.gridItem}>
+                                <h3>Key activities</h3>
+                                <p>Hot-air balloon | Ngorongoro Crater | Coffee roasting</p>
+                            </div>
+                            <div className={styles.gridItem}>
+                                <h3>Price guide</h3>
+                                <p>{itineraryToDisplay.price} €</p>
+                            </div>
+                            <div className={styles.gridItemFullWidth}>
+                                <h3>Visited countries</h3>
+                                <p>South Africa, Kenya, Tanzania and Ouganda</p>
                             </div>
                         </section>
 
-                        {/*<div>
-                            <Carousel/>
-                        </div>*/}
-
-                        <div className={"collage"}>
-                            <div className={"collageItem div1"} style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}>
-                                {/*<img src={itineraryImage?.images.countries[0]} style={{objectFit: "contain", width: "100%", height: "100%"}} />*/}
-                            </div>
-                            <div className={"collageItem div2"} style={{backgroundImage: `url(${itineraryImage?.images.countries[1]})`}}></div>
-                            <div className={"collageItem div3"} style={{backgroundImage: `url(${itineraryImage?.images.countries[2]})`}}></div>
+                        <div className={styles.activitiesSection}>
+                            <h2>
+                                Your all-inclusive trip, designed for an uncompromising experience. Every detail is
+                                designed to offer you comfort, exclusivity and total immersion.
+                            </h2>
+                            <ul className={styles.activitiesList}>
+                                <li>Premium transportation: Business-class flights, private transfers and personalized
+                                    routes for a stress-free trip.
+                                </li>
+                                <li>Exceptional accommodations: Stay in refined lodges, 5-star hotels or private villas
+                                    offering luxury and serenity.
+                                </li>
+                                <li>Exclusive activities: Private safaris, tailor-made excursions, meetings with expert
+                                    guides and unique experiences close to nature.
+                                </li>
+                                <li>Refined gastronomy: dinners under the stars, exceptional wine tastings and menus
+                                    designed by renowned chefs.
+                                </li>
+                            </ul>
                         </div>
+                    </section>
 
-                        <section>
-                            <h2 style={{textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
-                            <div style={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
-                                <img
-                                    src={dataY[0].images.header}
-                                    style={{width: "40%"}}
-                                />
-                                <div>
-                                    {
-                                        itineraryToDisplay && itineraryToDisplay.days.map((day) => (
-                                            <div>
-                                                <p className="span-country">
-                                                    <RoomOutlinedIcon/>
-                                                    {day.cityName}, {day.countryName}
-                                                </p>
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                        </section>
+                    <div className={styles.collage}>
+                        <div className={`${styles.collageItem} ${styles.div1}`}
+                             style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}></div>
+                        <div className={`${styles.collageItem} ${styles.div2}`}
+                             style={{backgroundImage: `url(${itineraryImage?.images.countries[1]})`}}></div>
+                        <div className={`${styles.collageItem} ${styles.div3}`}
+                             style={{backgroundImage: `url(${itineraryImage?.images.countries[2]})`}}></div>
+                    </div>
 
-                        <section>
+                    <section className={styles.itinerarySection}>
+                        <h2>Itinerary</h2>
+                        <div className={styles.itineraryContent}>
+                            <img src={dataY[0].images.header} className={styles.itineraryImage}/>
                             <div>
-                                <h2 style={{textAlign: "center", marginTop: "6rem"}}>Details of your stay</h2>
-                                <span></span>
+                                {itineraryToDisplay && (
+                                    // Utiliser un Set pour stocker les villes déjà affichées
+                                    Array.from(new Set(itineraryToDisplay.days.map((day) => day.cityName)))
+                                        .map((cityName, index) => {
+                                            // Trouver le premier jour correspondant à cette ville
+                                            const day = itineraryToDisplay?.days.find((day) => day.cityName === cityName);
+                                            return (
+                                                <div key={index}>
+                                                    <p className="span-country">
+                                                        <RoomOutlinedIcon/>
+                                                        {day?.cityName}, {day?.countryName}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })
+                                )}
                             </div>
-                            {
-                                itineraryToDisplay ? itineraryToDisplay.days.map((day : Day, index) =>
-                                    index % 2 === 0 ? (<TripDetails day={day}
-                                                                    image={itineraryImage?.images.days[index] || ""}/>) : (<TripDetailsReverse day={day}
-                                                                                                                                               image={itineraryImage?.images.days[index] || ""}/>)
-                                ) : (
-                                    <p>No detail program for this itinerary.</p>
-                                )
-                            }
-
-                            <div className="trip-details-separator"></div>
-
-                            {/*<div style={{
-                                borderRadius: "50%",
-                                backgroundColor: "black",
-                                width: 50,
-                                height: 50,
-                                position: "sticky",
-                                bottom: 0
-                            }}></div>*/}
-
-                        </section>
-                        <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center", marginBottom: "6rem"}}>
-                            <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your itinerary</CustomButton>
                         </div>
+                    </section>
 
-                    </>
-                ) : (
-                    <p>Sorry, no itinerary found. Please try again later.</p>
-                )
-            }
+                    <section className={styles.stayDetailsSection}>
+                        <div>
+                            <h2>Details of your stay</h2>
+                            <span></span>
+                        </div>
+                        {itineraryToDisplay ? (
+                            itineraryToDisplay.days.map((day: Day, index) =>
+                                index % 2 === 0 ? (
+                                    <TripDetails day={day} image={itineraryImage?.images.days[index] || ""}/>
+                                ) : (
+                                    <TripDetailsReverse day={day} image={itineraryImage?.images.days[index] || ""}/>
+                                )
+                            )
+                        ) : (
+                            <p>No detail program for this itinerary.</p>
+                        )}
+                        <div className={styles.tripDetailsSeparator}></div>
+                    </section>
+
+                    <div className={styles.reservationButtonContainer}>
+                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>
+                            Book your itinerary
+                        </CustomButton>
+                    </div>
+                </>
+            ) : (
+                <p>Sorry, no itinerary found. Please try again later.</p>
+            )}
             <Footer/>
-
         </div>
-
     );
 };
 
