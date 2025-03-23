@@ -8,4 +8,5 @@ export interface Trip {
     status?: string;
     purchaseDate?: string;
     themeName?: string;
+    countriesVisited?: string;
 }

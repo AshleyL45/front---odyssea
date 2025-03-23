@@ -18,7 +18,7 @@ import day11_1 from "./itineraries/itinerary1/tobias-smietana-vryVT4TP42k-unspla
 import day12_1 from "./itineraries/itinerary1/nobu-las-vegas.webp"
 
 // Itinéraire 2
-import firstHeaderImage2 from "./itineraries/itinerary2/sheila-c-oPjTDB-kQlQ-unsplash.jpg";
+import firstHeaderImage2 from "./itineraries/itinerary2/aj-robbie-BuQ1RZckYW4-unsplash.jpg";
 import secondHeaderImage22 from "./itineraries/itinerary2/bert-b-iEh0ljA7GNM-unsplash.jpg";
 import firstCountry2 from "./itineraries/itinerary2/magdalena-kula-manchee-gYURRvBM5JQ-unsplash.jpg";
 import secondCountry2 from "./itineraries/itinerary2/kyle-philip-coulson-PoRBsATX8Es-unsplash.jpg";
@@ -37,7 +37,7 @@ import day11_2 from "./itineraries/itinerary2/wynand-uys-4ZCA3xukIso-unsplash.jp
 import day12_2 from "./itineraries/itinerary2/jose-mizrahi-mGmo5XEsw4M-unsplash.jpg";
 
 // Itinéraire 3
-import firstHeaderImage3 from "./itineraries/itinerary3/azzedine-rouichi-qAasDdTu_Sg-unsplash.jpg";
+import firstHeaderImage3 from "./itineraries/itinerary3/luka-odak-vqBajUZQfTE-unsplash.jpg";
 import secondHeaderImage3 from "./itineraries/itinerary3/tomas-gonzalez-de-rosenzweig-tF0izq7URoo-unsplash.jpg";
 import firstCountry3 from "./itineraries/itinerary3/hugues-de-buyer-mimeure-oDcbtrD3Rrc-unsplash.jpg";
 import secondCountry3 from "./itineraries/itinerary3/chris-l-dGogbPrvA-unsplash.jpg";
@@ -56,7 +56,7 @@ import day11_3 from "./itineraries/itinerary3/secret-travel-guide-464cs1cqar4-un
 import day12_3 from "./itineraries/itinerary3/secret-travel-guide-464cs1cqar4-unsplash.jpg";
 
 // Itinéraire 4
-import firstHeaderImage4 from "./itineraries/itinerary4/ben-o-bro-wpU4veNGnHg-unsplash.jpg";
+import firstHeaderImage4 from "./itineraries/itinerary4/brian-mcgowan-dfQL08rPYnM-unsplash.jpg";
 import secondHeaderImage4 from "./itineraries/itinerary4/john-lee-oMneOBYhJxY-unsplash.jpg";
 import firstCountry4 from "./itineraries/itinerary4/henning-witzel-ukvgqriuOgo-unsplash.jpg";
 import secondCountry4 from "./itineraries/itinerary4/kyler-nixon-_ZBekGTBh-c-unsplash.jpg";
@@ -75,7 +75,7 @@ import day11_4 from "./itineraries/itinerary4/jose-vazquez-db0yt-Qgifw-unsplash.
 import day12_4 from "./itineraries/itinerary4/dan-aragon-j9TeJl5gPvs-unsplash.jpg";
 
 // Itinéraire 5
-import firstHeaderImage5 from "./itineraries/itinerary5/taine-noble-uRa6mDrJREg-unsplash.jpg";
+import firstHeaderImage5 from "./itineraries/itinerary5/jacques-bopp-IGMABomGhr8-unsplash.jpg";
 import secondHeaderImage5 from "./itineraries/itinerary5/nicholas-doherty-iJdFAqCVvP4-unsplash.jpg";
 import firstCountry5 from "./itineraries/itinerary5/aaron-sebastian-bfgEYpS0Znk-unsplash.jpg";
 import secondCountry5 from "./itineraries/itinerary5/david-clode-CIMk0FSOrAE-unsplash.jpg";
@@ -94,7 +94,7 @@ import day11_5 from "./itineraries/itinerary5/gary-runn-V0EwMp_o6_Y-unsplash.jpg
 import day12_5 from "./itineraries/itinerary5/siray-li-oO5ETS8PKCA-unsplash.jpg";
 
 // Itinéraire 6
-import firstHeaderImage6 from "./itineraries/itinerary6/johannes-mandle-9OD2vgVbc5c-unsplash.jpg";
+import firstHeaderImage6 from "./itineraries/itinerary6/elijah-g-oOHHxQ65dFE-unsplash.jpg";
 import secondHeaderImage6 from "./itineraries/itinerary6/pexels-dave-frisch-731685-1575938.jpg";
 import firstCountry6 from "./itineraries/itinerary6/pexels-silviopelegrin-29732987.jpg";
 import secondCountry6 from "./itineraries/itinerary6/pexels-hebaysal-773471.jpg";
@@ -132,7 +132,7 @@ import day11_7 from "./itineraries/itinerary7/jezael-melgoza-alY6_OpdwRQ-unsplas
 import day12_7 from "./itineraries/itinerary7/pexels-mikhail-nilov-8319460.jpg";
 
 // Itinéraire 8
-import firstHeaderImage8 from "./itineraries/itinerary8/omer-faruk-bekdemir-5BuxuWIJF1Q-unsplash.jpg";
+import firstHeaderImage8 from "./itineraries/itinerary8/christina-victoria-craft-DFfNVwhOIWQ-unsplash.jpg";
 import secondHeaderImage8 from "./itineraries/itinerary8/tobias-reich--7ZwuyDx2rI-unsplash.jpg";
 import firstCountry8 from "./itineraries/itinerary8/pexels-myersmc16-29943339.jpg";
 import secondCountry8 from "./itineraries/itinerary8/pexels-lastly-572689.jpg";
@@ -151,7 +151,7 @@ import day11_8 from "./itineraries/itinerary8/kamil-pietrzak-G0FsO2Ca8nQ-unsplas
 import day12_8 from "./itineraries/itinerary8/toomas-tartes-Yizrl9N_eDA-unsplash.jpg";
 
 // Itinéraire 9
-import firstHeaderImage9 from "./itineraries/itinerary9/dimitris-kiriakakis-vg2KSKsRA8c-unsplash.jpg";
+import firstHeaderImage9 from "./itineraries/itinerary9/yang-yang-UfCJ2WrdTBw-unsplash.jpg";
 import secondHeaderImage9 from "./itineraries/itinerary9/chris-8iCdRKKoG7g-unsplash.jpg";
 import firstCountry9 from "./itineraries/itinerary9/pexels-pixabay-259585.jpg";
 import secondCountry9 from "./itineraries/itinerary9/pexels-murielfiona-58865367-7946518.jpg";
@@ -170,7 +170,7 @@ import day11_9 from "./itineraries/itinerary9/sonaal-bangera-T_3hvLGAnJQ-unsplas
 import day12_9 from "./itineraries/itinerary9/mathew-schwartz-gsllxmVO4HQ-unsplash.jpg";
 
 // Itinéraire 10
-import firstHeaderImage10 from "./itineraries/itinerary10/ken-cheung-VbLTNceBTFE-unsplash.jpg";
+import firstHeaderImage10 from "./itineraries/itinerary10/yu-kato-6xj9jgxcxm4-unsplash.jpg";
 import secondHeaderImage10 from "./itineraries/itinerary10/mtsjrdl--RIHgVIKjYI-unsplash.jpg";
 import firstCountry10 from "./itineraries/itinerary10/pexels-markus-winkler-1430818-5059929.jpg";
 import secondCountry10 from "./itineraries/itinerary10/pexels-enric-cruz-lopez-6642506.jpg";

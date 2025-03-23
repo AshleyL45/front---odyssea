@@ -91,6 +91,17 @@ const ItineraryDetails: FC<{}> = ({}) => {
         }
     }
 
+    // Extraire les 3 premières activités
+    const activities = itineraryToDisplay?.days
+        .filter((day) => day.activityName !== null)
+        .map((day) => day.activityName)
+        .slice(0, 3) || [];
+
+    // Extraire les 3 premiers pays
+    const countries = Array.from(
+        new Set(itineraryToDisplay?.days.map((day) => day.countryName))
+    ).slice(0, 3) || [];
+
     return (
         <div>
             <Navbar/>
@@ -99,7 +110,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                     <div
                         className={styles.headerContainer}
                         style={{
-                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.6)), 
+                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.5)), 
                           url(${itineraryImage?.images.header[0]})`}}
                     >
                         <div className={styles.headerContent}>
@@ -143,7 +154,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                             </div>
                             <div className={styles.gridItem}>
                                 <h3>Key activities</h3>
-                                <p>Hot-air balloon | Ngorongoro Crater | Coffee roasting</p>
+                                <p>{activities.join(" | ")}</p>
                             </div>
                             <div className={styles.gridItem}>
                                 <h3>Price guide</h3>
@@ -151,7 +162,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                             </div>
                             <div className={styles.gridItemFullWidth}>
                                 <h3>Visited countries</h3>
-                                <p>South Africa, Kenya, Tanzania and Ouganda</p>
+                                <p>{countries.join(", ")}</p>
                             </div>
                         </section>
 
