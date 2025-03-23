@@ -6,7 +6,7 @@ import {get, post} from "../../API/api";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
 import {Trip} from "../../@types/Trip";
-import {AxiosError} from "axios"; // Importez AxiosError
+import {AxiosError} from "axios";
 
 interface BillingInfo {
     lastName: string;
@@ -21,7 +21,6 @@ interface BillingInfo {
     country: string;
 }
 
-// Fonction de formatage des dates pour le backend ("dd-MM-yyyy")
 const formatDateForBackend = (isoString: string): string => {
     if (!isoString) return "";
     const dateObj = new Date(isoString);
@@ -31,55 +30,44 @@ const formatDateForBackend = (isoString: string): string => {
     return `${day}-${month}-${year}`;
 };
 
-// Type guard pour vérifier si l'erreur est une AxiosError
 function isAxiosError(error: unknown): error is AxiosError<{ message?: string }> {
     return (error as AxiosError).isAxiosError !== undefined;
 }
 
 const BookingMysteryTripSubmit: FC = () => {
     const navigate = useNavigate();
-    const {trip: contextTrip, questionnaireAnswers} = useReservation();
+    const {trip, questionnaireAnswers} = useReservation();
     const {userId} = useAuth();
     const [optionsToDisplay, setOptionsToDisplay] = useState<any[]>([]);
     const [error, setError] = useState("");
 
-    // Récupération des infos de facturation depuis le localStorage
-    const billingInfo: BillingInfo = JSON.parse(localStorage.getItem("billingInfo") || "{}");
+    const billing: BillingInfo = JSON.parse(localStorage.getItem("billingInfo") || "{}");
+    const depDate: string = localStorage.getItem("departureDate") || "";
+    const retDate: string = localStorage.getItem("returnDate") || "";
+    const departureDateFormatted = formatDateForBackend(depDate);
+    const returnDateFormatted = formatDateForBackend(retDate);
 
-    // Récupération de l'itinéraire mystère depuis le contexte ou le localStorage
-    const storedTrip = localStorage.getItem("mysteryTripResult");
-    const displayTrip: Trip | null = contextTrip || (storedTrip ? JSON.parse(storedTrip) : null);
+    let validTrip: Trip | null = trip;
+    if (!validTrip || validTrip.id === 0) {
+        const storedTrip = localStorage.getItem("validTrip");
+        if (storedTrip) {
+            validTrip = JSON.parse(storedTrip);
+            console.log("Fallback validTrip from localStorage:", validTrip);
+        }
+    }
+    if (!validTrip || validTrip.id === 0) {
+        setError("Error: No valid trip found. Please go back and select a valid trip.");
+    }
 
-    // Récupération et formatage des dates
-    const storedDeparture = localStorage.getItem("departureDate") || "";
-    const storedReturn = localStorage.getItem("returnDate") || "";
-    const departureDateRaw =
-        questionnaireAnswers.departureDate && questionnaireAnswers.departureDate.trim() !== ""
-            ? questionnaireAnswers.departureDate
-            : storedDeparture;
-    const returnDateRaw =
-        questionnaireAnswers.returnDate && questionnaireAnswers.returnDate.trim() !== ""
-            ? questionnaireAnswers.returnDate
-            : storedReturn;
-    const departureDateDisplay = departureDateRaw ? new Date(departureDateRaw).toLocaleDateString() : "N/A";
-    const returnDateDisplay = returnDateRaw ? new Date(returnDateRaw).toLocaleDateString() : "N/A";
-    const departureDateFormatted = formatDateForBackend(departureDateRaw);
-    const returnDateFormatted = formatDateForBackend(returnDateRaw);
-
-    // Récupération des options sélectionnées
     useEffect(() => {
         const fetchOptionsById = async () => {
-            if (!questionnaireAnswers.optionIds || questionnaireAnswers.optionIds.length === 0) {
-                return;
-            }
+            if (!questionnaireAnswers.optionIds || questionnaireAnswers.optionIds.length === 0) return;
             try {
                 const queryString = questionnaireAnswers.optionIds
                     .map((id: number) => `ids=${id}`)
                     .join("&");
                 const options = await get(`/options/allById?${queryString}`);
-                if (options) {
-                    setOptionsToDisplay(options);
-                }
+                if (options) setOptionsToDisplay(options);
             } catch (e) {
                 console.error(e);
             }
@@ -88,30 +76,24 @@ const BookingMysteryTripSubmit: FC = () => {
     }, [questionnaireAnswers.optionIds]);
 
     const handleNext = async () => {
-        // Vérification que displayTrip existe et que son id n'est pas 0
-        if (!displayTrip || displayTrip.id === 0) {
-            setError("Error: Trip not selected. Please go back and choose a valid trip.");
+        if (!validTrip || validTrip.id === 0) {
+            setError("Error: Trip not selected or invalid. Please go back and choose a valid trip.");
             return;
         }
-
-        // Vérification que userId est valide
         if (!userId || userId === 0) {
             setError("Error: User not logged in. Please log in to proceed.");
             return;
         }
-
-        // Vérification que les dates sont valides
         if (!departureDateFormatted || !returnDateFormatted) {
             setError("Error: Invalid dates. Please select valid departure and return dates.");
             return;
         }
 
-        // Construction des données de réservation
         const reservationData = {
             ...questionnaireAnswers,
             userId: userId,
-            billingInfo,
-            tripId: displayTrip.id,
+            billingInfo: billing,
+            itineraryId: validTrip.id,
             departureDate: departureDateFormatted,
             returnDate: returnDateFormatted,
         };
@@ -125,18 +107,16 @@ const BookingMysteryTripSubmit: FC = () => {
             navigate("/dashboard");
         } catch (err: unknown) {
             if (isAxiosError(err)) {
-                // Si l'erreur est une AxiosError, affichez le message d'erreur du backend
                 console.error("Cannot send reservation:", err);
                 setError(err.response?.data?.message || "Une erreur est survenue lors de l'envoi de votre réservation.");
             } else {
-                // Si l'erreur est inattendue, affichez un message générique
                 console.error("Unexpected error:", err);
                 setError("Une erreur inattendue est survenue.");
             }
         }
     };
 
-    if (!displayTrip) {
+    if (!validTrip) {
         return <p>Loading trip details...</p>;
     }
 
@@ -145,13 +125,13 @@ const BookingMysteryTripSubmit: FC = () => {
             <div>
                 <h1 style={{fontSize: "25px", margin: "10px 0", textAlign: "center"}}>Summary of your trip</h1>
                 <div style={{width: 2, height: 30, backgroundColor: "black", margin: "auto"}}></div>
-                <h2 className={styles.tripDashboardTitle}>{displayTrip.name}</h2>
+                <h2 className={styles.tripDashboardTitle}>{validTrip.name}</h2>
                 <hr/>
                 <div>
                     <div className="recapDivs">
                         <h3>Dates</h3>
-                        <p>Departure: {departureDateDisplay}</p>
-                        <p>Return: {returnDateDisplay}</p>
+                        <p>Departure: {depDate ? new Date(depDate).toLocaleDateString() : "N/A"}</p>
+                        <p>Return: {retDate ? new Date(retDate).toLocaleDateString() : "N/A"}</p>
                     </div>
                     <div className="recapDivs">
                         <h3>Travellers</h3>
@@ -166,16 +146,16 @@ const BookingMysteryTripSubmit: FC = () => {
                     </div>
                     <div className="recapDivs">
                         <h3>Customer Information</h3>
-                        <p><strong>Last Name:</strong> {billingInfo.lastName}</p>
-                        <p><strong>First Name:</strong> {billingInfo.firstName}</p>
-                        <p><strong>Email:</strong> {billingInfo.email}</p>
-                        <p><strong>Phone Number:</strong> {billingInfo.phoneNumber}</p>
-                        <p><strong>Company Name:</strong> {billingInfo.companyName || "N/A"}</p>
-                        <p><strong>Address:</strong> {billingInfo.address}</p>
-                        <p><strong>Address Details:</strong> {billingInfo.addressDetails || "N/A"}</p>
-                        <p><strong>Postal Code:</strong> {billingInfo.postalCode}</p>
-                        <p><strong>City:</strong> {billingInfo.city}</p>
-                        <p><strong>Country:</strong> {billingInfo.country}</p>
+                        <p><strong>Last Name:</strong> {billing.lastName}</p>
+                        <p><strong>First Name:</strong> {billing.firstName}</p>
+                        <p><strong>Email:</strong> {billing.email}</p>
+                        <p><strong>Phone Number:</strong> {billing.phoneNumber}</p>
+                        <p><strong>Company Name:</strong> {billing.companyName || "N/A"}</p>
+                        <p><strong>Address:</strong> {billing.address}</p>
+                        <p><strong>Address Details:</strong> {billing.addressDetails || "N/A"}</p>
+                        <p><strong>Postal Code:</strong> {billing.postalCode}</p>
+                        <p><strong>City:</strong> {billing.city}</p>
+                        <p><strong>Country:</strong> {billing.country}</p>
                     </div>
                     <div className="recapDivs">
                         <h3>Options</h3>

@@ -1,19 +1,16 @@
 import React, {FC} from "react";
 import Navbar from "../../components/navbars/Navbar";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import BlogDetails from "../../components/ReusableComponents/BlogDetails";
-import BlogDetailsReverse from "../../components/ReusableComponents/BlogDetailsReverse";
 import MysteryTripDetails from "../../components/ReusableComponents/MysteryTripDetails";
 import MysteryTripDetailsReverse from "../../components/ReusableComponents/MysteryTripDetailsReverse";
 import MysteryTripBanner from "../../components/MysteryTripBanner";
 import Footer from "../../components/Footer";
-import {Link} from "react-router-dom"; // Adaptation du chemin d'import si besoin
+import {Link} from "react-router-dom";
 
 const MysteryTrip: FC = () => {
     return (
         <>
         <div style={{position: "relative", minHeight: "100vh"}}>
-            {/* Image de fond avec filtre pour assombrir et contenu centré via Flexbox */}
             <div
                 style={{
                     position: "absolute",
@@ -26,7 +23,6 @@ const MysteryTrip: FC = () => {
                     zIndex: 1,
                 }}
             >
-                {/* Overlay dégradé pour assombrir le bas */}
                 <div
                     style={{
                         position: "absolute",
@@ -38,7 +34,6 @@ const MysteryTrip: FC = () => {
                             "linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,0.7) 100%)",
                     }}
                 />
-                {/* Contenu centré */}
                 <div
                     style={{
                         position: "relative",

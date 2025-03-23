@@ -1,4 +1,3 @@
-// BookingMysteryTripResult.tsx
 import React, {FC, useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
@@ -15,21 +14,40 @@ const BookingMysteryTripResult: FC = () => {
     const [showNotch, setShowNotch] = useState(false);
     const [showImage, setShowImage] = useState(false);
     const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+    useEffect(() => {
+        localStorage.removeItem("mysteryTripResult");
+        localStorage.removeItem("validTrip");
+    }, []);
 
-    // Au bout de 3 secondes, on effectue le tirage au sort
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
             setMessage("Explore your destination");
             setShowNotch(true);
             if (itineraryImages && itineraryImages.images && itineraryImages.images.length > 0) {
-                const randomIndex = Math.floor(Math.random() * itineraryImages.images.length);
-                // Ici, l'objet brut issu du JSON contient par exemple { idItinerary, title, imageUrl }
-                const rawTrip = itineraryImages.images[randomIndex];
-                // On récupère les détails complets depuis le backend en utilisant l'id issu du JSON
+                const validTrips = itineraryImages.images.filter(
+                    (image) => image.idItinerary !== 0
+                );
+                if (validTrips.length === 0) {
+                    console.error("Aucun itinéraire valide trouvé dans le JSON.");
+                    return;
+                }
+                const randomIndex = Math.floor(Math.random() * validTrips.length);
+                const rawTrip = validTrips[randomIndex];
+                console.log("Itinéraire brut sélectionné:", rawTrip);
+
+                // Récupère les détails complets depuis le backend
                 get(`/api/itineraries/${rawTrip.idItinerary}`)
                     .then((fullTrip: Trip) => {
+                        console.log("Trip complet récupéré :", fullTrip);
+                        if (!fullTrip || fullTrip.id === 0) {
+                            console.error("L'itinéraire récupéré est invalide :", fullTrip);
+                            return;
+                        }
+                        setTrip(fullTrip);
                         setSelectedTrip(fullTrip);
+                        localStorage.setItem("validTrip", JSON.stringify(fullTrip));
+                        localStorage.setItem("mysteryTripResult", JSON.stringify(fullTrip));
                     })
                     .catch((error) => {
                         console.error("Erreur lors de la récupération des détails de l'itinéraire:", error);
@@ -37,12 +55,13 @@ const BookingMysteryTripResult: FC = () => {
             }
         }, 3000);
         return () => clearTimeout(timer);
-    }, []);
+    }, [setTrip]);
 
     const handleNotchClick = () => {
         setShowImage(true);
         if (selectedTrip && selectedTrip.id !== 0) {
-            localStorage.setItem("mysteryTripResult", JSON.stringify(selectedTrip)); // Stocke dans le localStorage
+            localStorage.setItem("mysteryTripResult", JSON.stringify(selectedTrip));
+            localStorage.setItem("validTrip", JSON.stringify(selectedTrip));
         } else {
             console.error("Selected trip is invalid or has an ID of 0.");
         }
@@ -97,7 +116,6 @@ const BookingMysteryTripResult: FC = () => {
             </div>
         );
     } else if (selectedTrip) {
-        // Récupération de l'URL de l'image depuis le JSON (en se basant sur idItinerary)
         const imageUrl =
             itineraryImages.images.find((img) => img.idItinerary === selectedTrip.id)?.imageUrl || "";
         return (

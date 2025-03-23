@@ -6,10 +6,7 @@ const BookingMysteryTripSubmitComponent = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        // Rassemblez les données de réservation depuis le localStorage (ou un contexte)
         const reservationData = JSON.parse(localStorage.getItem('reservation') || '{}');
-        // Ajoutez éventuellement d'autres données collectées dans d'autres formulaires
-        // Par exemple : reservationData.excludedCountries, reservationData.departureDate, etc.
 
         try {
             const response = await fetch("http://localhost:8080/reservations", {
@@ -23,7 +20,6 @@ const BookingMysteryTripSubmitComponent = () => {
             if (!response.ok) {
                 throw new Error("Erreur lors de la création de la réservation");
             }
-            // La réponse contient l'id de la réservation ou du user
             const data = await response.json();
             console.log("ID récupéré :", data.id);
 
