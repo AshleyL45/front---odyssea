@@ -2,7 +2,12 @@ import React, {FC} from "react";
 import Navbar from "../../components/navbars/Navbar";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import BlogDetails from "../../components/ReusableComponents/BlogDetails";
-import BlogDetailsReverse from "../../components/ReusableComponents/BlogDetailsReverse"; // Adaptation du chemin d'import si besoin
+import BlogDetailsReverse from "../../components/ReusableComponents/BlogDetailsReverse";
+import MysteryTripDetails from "../../components/ReusableComponents/MysteryTripDetails";
+import MysteryTripDetailsReverse from "../../components/ReusableComponents/MysteryTripDetailsReverse";
+import MysteryTripBanner from "../../components/MysteryTripBanner";
+import Footer from "../../components/Footer";
+import {Link} from "react-router-dom"; // Adaptation du chemin d'import si besoin
 
 const MysteryTrip: FC = () => {
     return (
@@ -56,7 +61,9 @@ const MysteryTrip: FC = () => {
                     </p>
                     {/* Remplacement du bouton HTML par le composant CustomButton */}
                     <CustomButton style={{color: "#fff", marginTop: "2rem"}}>
-                        Je me lance&nbsp;!
+                        <Link to="/country" style={{textDecoration: "none", color: "inherit"}}>
+                            I'll go for it!
+                        </Link>
                     </CustomButton>
                 </div>
             </div>
@@ -68,41 +75,26 @@ const MysteryTrip: FC = () => {
         </div>
 
         <section className="hero section">
-            <BlogDetails
-                title="Quand partir en TanSelect your preferences"
-                description="La meilleure période pour visiter la Tanzanie dépend de l’expérience recherchée :"
-                listItems={[
-                    <>De <strong>juin à octobre</strong>, c’est la saison sèche, idéale pour observer la faune sauvage
-                        dans le Serengeti ou le cratère du Ngorongoro.</>,
-                    <>De <strong>janvier à février</strong>, la grande migration des gnous bat son plein, offrant un
-                        spectacle naturel époustouflant.</>,
-                    <>De <strong>novembre à mai</strong>, la saison des pluies apporte des paysages verdoyants et moins
-                        de touristes, parfait pour une expérience plus exclusive.</>,
-                ]}
+            <MysteryTripDetails
+                title="Sélectionnez vos préférences"
+                paragraph="It all starts with a simple step: indicate the countries you wish to exclude from your trip. Do you have destinations in mind that you'd like to avoid? No problem, we'll take them into account to personalize your trip while respecting your wishes."
+                stepNumber={1}
             />
 
-            <BlogDetailsReverse
-                title="Les astuces pour un safari réussi"
-                description="Découvrez les conseils pour profiter au mieux de votre safari en Tanzanie."
-                listItems={[
-                    <>Choisissez une saison favorable pour maximiser vos chances d’observer la faune.</>,
-                    <>Préparez-vous physiquement et mentalement pour de longues journées en pleine nature.</>,
-                    <>Faites confiance aux guides locaux pour une expérience authentique.</>,
-                ]}
+            <MysteryTripDetailsReverse
+                title="Choose your dates"
+                paragraph="Then enter the dates when you are available. This allows us to offer you a holiday that perfectly matches your schedule. With just a few clicks, we can adjust your entire trip so that you can leave when it suits you best."
+                stepNumber={2}
             />
 
-            <BlogDetails
-                title="Les meilleures activités en Tanzanie"
-                description="Au-delà du safari, explorez d’autres activités passionnantes lors de votre voyage."
-                listItems={[
-                    <>Randonnée sur le mont Kilimandjaro pour les amateurs d’aventure.</>,
-                    <>Plongée dans les eaux cristallines de Zanzibar.</>,
-                    <>Visite des villages locaux pour découvrir la culture tanzanienne.</>,
-                ]}
+            <MysteryTripDetails
+                title="Let the magic happen"
+                paragraph="Once you've entered your preferences and availability, our generator takes care of the rest. It selects a surprise destination, accommodation and activities to suit your criteria. All you have to do is enjoy your stay - it's all organized!"
+                stepNumber={3}
             />
-
-
         </section>
+            <MysteryTripBanner/>
+            <Footer/>
     </>
     );
 };

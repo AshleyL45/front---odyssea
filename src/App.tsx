@@ -28,6 +28,12 @@ import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
 import {Trip} from "./@types/Trip";
 import TripRecap from "./pages/personnalized-trip/TripRecap";
 import MysteryTrip from "./pages/mainPages/MysteryTrip";
+import BookingMysteryTripCountry from "./pages/bookingMysteryTrip/BookingMysteryTripCountry";
+import BookingMysteryTripDate from "./pages/bookingMysteryTrip/BookingMysteryTripDate";
+import BookingMysteryTripTravellers from "./pages/bookingMysteryTrip/BookingMysteryTripTravellers";
+import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryTripResult";
+import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
+import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMisteryTripBilling";
 
 
 const exampleTrip: Trip = {
@@ -62,10 +68,19 @@ function App() {
                                     <Route path="recap" element={<BookingFormRecap/>}></Route>
                                 </Route>
                                 <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
+
+                                <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
+                                <Route path="mysteryTrip" element={<MysteryTrip/>}></Route>
+                                <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
+                                <Route path="date" element={<BookingMysteryTripDate/>}></Route>
+                                <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
+                                <Route path="result" element={<BookingMysteryTripResult/>}></Route>
+                                <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
+
                             </Route>
                             <Route path="/">
                                 {/*<Route index element={<HomePage/>}></Route>*/}
-                              <Route index element={<HomePage/>}></Route>
+                              <Route path={"homePage"} element={<HomePage/>}></Route>
                                 <Route path="login" element={<LoginPage/>}></Route>
                                 <Route path="register" element={<RegisterPage/>}></Route>
                                 <Route path="trips" element={<ItineraryListPage/>}></Route>
@@ -78,7 +93,7 @@ function App() {
                                 <Route path="contact" element={<Contact/>}></Route>
                                <Route path="tripRecap" element={<TripRecap/>}></Route>
 
-                                <Route path="mysteryTrip" element={<MysteryTrip/>}></Route>
+
                             </Route>
 
                         </Routes>

@@ -935,9 +935,97 @@ footer p{
 }
 
 
+/* MYSTERYTRIP DETAILS */
+
+.mystery-trip-details-container {
+    margin: 300px 0;
+}
+
+.mystery-trip-details .text-blog-details {
+}
+
+.mystery-trip-details-container {
+    margin: 300px 0;
+}
+
+.mystery-trip-details-photo-container {
+    position: relative;
+}
+
+.mystery-trip-details-number.desktop-number {
+    position: absolute;
+    top: -80px;
+    left: -150px;
+    font-size: 500px;
+    font-weight: 400;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.mystery-trip-details-number.mobile-number {
+    display: none;
+}
+
+@media (max-width: 1100px) {
+    .mystery-trip-details-number.desktop-number {
+        display: none;
+    }
+
+    .mystery-trip-details-number.mobile-number {
+        display: inline-block;
+        font-size: 100px;
+        font-weight: 400;
+        margin-right: 20px;
+    }
+
+    .text-blog-details {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .mystery-trip-details-title {
+        margin: 0;
+    }
+}
 
 
-            /* PERSONALIZED TRIP   */
+/*MYSTERYTRIP BANNER*/
+
+.mystery-trip-banner {
+    width: 100%;
+    padding: 3rem ;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 300px;
+}
+
+.mystery-trip-banner-title {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.mystery-trip-banner-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.mystery-trip-banner-button {
+    width: 100%;
+    max-width: 300px;
+    color: white !important;
+    padding: 20px;
+}
+
+
+/* PERSONALIZED TRIP   */
 
 .search-input{
     width: 90%;

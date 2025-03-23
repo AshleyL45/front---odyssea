@@ -75,7 +75,7 @@ const Navbar: () => JSX.Element = () => {
                             <ul>
                                 <li><a href="/trips">Our itineraries </a></li>
                                 <li><a href="/tripRecap">Personalized trip</a></li>
-                                <li><a href="#">Mystery trip</a></li>
+                                <li><a href="/mysteryTrip">Mystery trip</a></li>
                             </ul>
                         </div>
                     </div>
