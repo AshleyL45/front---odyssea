@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import {Link} from "react-router-dom";
 import Navbar from "../../components/navbars/Navbar";
 import BlogItemBlog from "../../components/ReusableComponents/BlogItemBlog";
+import {imageData} from "../../assets/image";
 
 interface Itinerary {
     id: number;
@@ -39,6 +40,12 @@ const data = [
             'Luxury cultural tour through Japan with private guides and exclusive experiences.',
     },
 ];
+
+
+const getHeaderImage = (tripId: number) => {
+    const imageSet = imageData.find((data) => data.id === tripId);
+    return imageSet ? imageSet.images.header : ''
+};
 
 const HomePage: React.FC = () => {
     const [itineraries, setItineraries] = useState<Itinerary[]>([]);
@@ -84,16 +91,22 @@ const HomePage: React.FC = () => {
                             id={itineraries[0].id}
                             name={itineraries[0].name}
                             description={itineraries[0].description}
+                            headerImage1={getHeaderImage(itineraries[0].id)[0]}
+                            headerImage2={getHeaderImage(itineraries[0].id)[1]}
                         />
                         <TripItemHomeReverse
                             id={itineraries[1].id}
                             name={itineraries[1].name}
                             description={itineraries[1].description}
+                            headerImage1={getHeaderImage(itineraries[1].id)[0]}
+                            headerImage2={getHeaderImage(itineraries[1].id)[1]}
                         />
                         <TripItemHome
                             id={itineraries[2].id}
                             name={itineraries[2].name}
                             description={itineraries[2].description}
+                            headerImage1={getHeaderImage(itineraries[2].id)[0]}
+                            headerImage2={getHeaderImage(itineraries[2].id)[1]}
                         />
                     </>
                 ) : (

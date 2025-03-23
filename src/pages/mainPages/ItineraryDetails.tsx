@@ -5,7 +5,6 @@ import Carousel from "../../components/Carousel";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
 import {useNavigate, useParams} from "react-router-dom";
-import itinerariesData from "../../assets/itinerary.json"
 import {get} from "../../../src/API/api"
 import {useFavorites} from "../../contexts/MySelectionContext";
 import StarIcon from '@mui/icons-material/Star';
@@ -17,7 +16,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import StickyBar from "../../components/itinerary-details/StickyBar";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
-import {dataY} from "../../assets/image"
+import {imageData} from "../../assets/image"
 import styles from "../../styles/ItineraryDetails.module.css"
 
 interface ItineraryImages {
@@ -73,7 +72,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
     }
 
     // Recherche de l'itinéraire dans le JSON local
-    const itineraryImage: Image | undefined = itinerariesData.find(
+    const itineraryImage: any = imageData.find(
         (it) => it.id === itineraryId
     );
 
@@ -92,8 +91,6 @@ const ItineraryDetails: FC<{}> = ({}) => {
         }
     }
 
-    const datax = dataY;
-
     return (
         <div>
             <Navbar/>
@@ -101,7 +98,9 @@ const ItineraryDetails: FC<{}> = ({}) => {
                 <>
                     <div
                         className={styles.headerContainer}
-                        style={{backgroundImage: `url(${itineraryImage?.images.header})`}}
+                        style={{
+                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.6)), 
+                          url(${itineraryImage?.images.header[0]})`}}
                     >
                         <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
@@ -136,7 +135,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                         <section className={styles.detailsGrid}>
                             <div className={styles.gridItem}>
                                 <h3>Duration</h3>
-                                <p>{itineraryToDisplay.totalDuration} days</p>
+                                <p>12 days</p>
                             </div>
                             <div className={styles.gridItem}>
                                 <h3>Accommodation</h3>
@@ -190,13 +189,11 @@ const ItineraryDetails: FC<{}> = ({}) => {
                     <section className={styles.itinerarySection}>
                         <h2>Itinerary</h2>
                         <div className={styles.itineraryContent}>
-                            <img src={dataY[0].images.header} className={styles.itineraryImage}/>
+                            <img src={"hello"} className={styles.itineraryImage} alt="header image" />
                             <div>
                                 {itineraryToDisplay && (
-                                    // Utiliser un Set pour stocker les villes déjà affichées
                                     Array.from(new Set(itineraryToDisplay.days.map((day) => day.cityName)))
                                         .map((cityName, index) => {
-                                            // Trouver le premier jour correspondant à cette ville
                                             const day = itineraryToDisplay?.days.find((day) => day.cityName === cityName);
                                             return (
                                                 <div key={index}>

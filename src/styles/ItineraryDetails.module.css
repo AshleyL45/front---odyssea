@@ -1,25 +1,31 @@
 /* Styles pour l'en-tête de l'itinéraire */
 .headerContainer {
-    height: 281px;
+    height: 85vh;
     width: 100%;
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: flex-end;
     align-self: end;
+    position: relative;
+   bottom: 100px;
+    top: -10vh;
+    z-index: -1;
 }
 
 .headerContent {
     margin-top: auto;
-    margin-bottom: 2rem;
-    margin-right: 1rem;
+    margin-bottom: 4rem;
+    margin-right: 3rem;
 }
 
 .headerTitle {
+    font-size: 3.5rem;
     color: white;
 }
 
 .headerDivider {
+    margin-bottom: 2rem;
     margin-left: 1rem;
     border: none;
     border-top: 1px solid white;

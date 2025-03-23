@@ -4,7 +4,7 @@ import {Trip} from "../../@types/Trip";
 import {useNavigate} from "react-router-dom";
 
 
-const TripItemTravelReverse: ({trip}: { trip: Trip }) => JSX.Element = ({trip}) => {
+const TripItemTravelReverse: ({trip, headerImage}: { trip: Trip, headerImage: string }) => JSX.Element = ({trip, headerImage}) => {
     const navigate = useNavigate();
     return (
         <div style={{margin: "250px 0"}}>
@@ -23,7 +23,10 @@ const TripItemTravelReverse: ({trip}: { trip: Trip }) => JSX.Element = ({trip}) 
 
                 <div className="trip-item-travel-photo" style={{
                     border: "solid 1px black",
-                    backgroundColor: "#F8F1E5"
+                    backgroundImage: `url(${headerImage})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center center"
                 }}></div>
 
             </section>
