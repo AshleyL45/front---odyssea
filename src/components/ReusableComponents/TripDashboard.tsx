@@ -31,11 +31,15 @@ const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
             <p className={styles.tripDashboardDescription}>{trip.description}</p>
             <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${trip.id}`)}>Details</p>
             {page === "Reservations" && (
-                <p>Status : {trip.status}</p>
+                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "1rem"}}>
+                    <p>Status : {trip.status}</p>
+                    <p>Price: {trip.price} €</p>
+                </div>
+
             )}
 
             {
-                page === "Travel History" && (
+            page === "Travel History" && (
                     <p>{type}</p>
                 )
             }

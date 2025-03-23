@@ -9,7 +9,7 @@ import {useFavorites} from "../../contexts/MySelectionContext";
 import {useDashboard} from "../../contexts/DashboardContext";
 
 const Overview: ({}: {}) => JSX.Element = ({}) => {
-    const {userReservations, lastDoneReservation, currentTrips, pastTrips} = useDashboard();
+    const {userReservations, lastDoneReservation, pastTrips} = useDashboard();
     const navigate = useNavigate();
     const {favorites} = useFavorites();
     console.log(userReservations)
@@ -22,7 +22,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
         <div>
             <h1 style={{marginLeft: "8rem", marginTop: "1.8rem", marginBottom: "2rem", fontSize: "1.8rem"}}>Overview</h1>
             <div style={{display: "flex", justifyContent: "space-around", width: "85%", margin: "auto"}}>
-                <TripNumbers title={"Current"} number={currentTrips.length}/>
+                <TripNumbers title={"Current"} number={userReservations.length}/>
                 <TripNumbers title={"My selection"} number={favorites.length}/>
                 <TripNumbers title={"Travel history"} number={pastTrips.length}/>
             </div>
@@ -40,7 +40,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
             {
                 lastDoneReservation ? (
                     <TripDashboard trip={lastDoneReservation} page="Overview"/>
-                ) : <p style={{marginLeft: "8rem"}}>No trips done and booked yet. </p>
+                ) : <p style={{marginLeft: "8rem", marginBottom: "2rem"}}>No trips done and booked yet. </p>
             }
 
 

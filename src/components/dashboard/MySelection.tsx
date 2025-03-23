@@ -4,12 +4,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {useFavorites} from "../../contexts/MySelectionContext";
 import {Trip} from "../../@types/Trip";
+import {useNavigate} from "react-router-dom";
 
 const MySelection: ({}: {}) => JSX.Element = ({}) => {
     const[sortPrice, setSortPrice] = useState(false);
     const [sortDuration, setSortDuration] = useState(false);
     const {favorites} = useFavorites();
     const [sortedFavorites, setSortedFavorites] = useState<Trip[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setSortedFavorites([...favorites]);
@@ -63,7 +65,7 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
                     <TripDashboard key={favorite.id} trip={favorite} page={"My selection"}/>
                 ))
             ) : (
-                <p style={{textAlign: "center", marginTop: "2rem"}}>Aucun favori à afficher.</p>
+                <p style={{textAlign: "center", marginTop: "2rem"}}>You don't have any favorites. View our <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => navigate("/trips")}>trips</span>.</p>
             )}
 
         </div>
