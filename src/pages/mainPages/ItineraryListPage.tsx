@@ -10,20 +10,17 @@ import Sort from "../../components/Sort";
 import styles from "../../styles/TripListPage.module.css";
 import {imageData} from "../../assets/image";
 
-// On étend l'interface Trip pour y ajouter les champs themeId et themeName
 interface TripExtended extends Trip {
-    themeId: number;       // issu de ItineraryThemes
-    themeName: string;     // issu de ItineraryThemes
+    themeId: number;
+    themeName: string;
 }
 
-// Type pour un thème renvoyé par l'API /api/themes
 type Theme = {
     themeId: number;
     themeName: string;
 };
 
 const ItineraryListPage: FC = () => {
-    // Les itinéraires récupérés contiennent déjà themeId et themeName
     const [trips, setTrips] = useState<TripExtended[]>([]);
     const [filteredTrips, setFilteredTrips] = useState<TripExtended[]>([]);
     const [themes, setThemes] = useState<Theme[]>([]);
@@ -34,7 +31,6 @@ const ItineraryListPage: FC = () => {
         {id: "option 3", label: "Prix croissant"}
     ];
 
-    // Ordre souhaité des thèmes (les chaînes doivent correspondre exactement à themeName)
     const themeOrder = [
         "Between Girls",
         "Guided Tour",
@@ -48,10 +44,10 @@ const ItineraryListPage: FC = () => {
         "Extreme Adventure"
     ];
 
+    // "All" (représenté par une chaîne vide) pour afficher tous les itinéraires
     const [selectedTheme, setSelectedTheme] = useState<string>("");
     const [selectedSort, setSelectedSort] = useState<string>("option 1");
 
-    // Récupération des itinéraires (via /api/itineraries/themes) et des thèmes (via /api/themes)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -62,12 +58,10 @@ const ItineraryListPage: FC = () => {
                 console.log("Thèmes API :", themesResponse);
 
                 if (itinerariesResponse && themesResponse) {
-                    // Les itinéraires sont des objets possédant themeId et themeName
                     setTrips(itinerariesResponse);
                     setFilteredTrips(itinerariesResponse);
 
                     const fetchedThemes = themesResponse as Theme[];
-                    // Tri des thèmes selon l'ordre souhaité
                     const sortedThemes = fetchedThemes.sort((a, b) => {
                         return themeOrder.indexOf(a.themeName) - themeOrder.indexOf(b.themeName);
                     });
@@ -82,20 +76,16 @@ const ItineraryListPage: FC = () => {
         fetchData();
     }, []);
 
-    // Filtrage et tri des itinéraires
     useEffect(() => {
         let filtered = [...trips];
 
-        // Filtrage par thème (on compare le themeId de l'itinéraire avec la valeur sélectionnée)
         if (selectedTheme) {
             console.log("Filtrage par thème avec selectedTheme =", selectedTheme);
             filtered = filtered.filter((itinerary) => {
-                // On vérifie que l'itinéraire possède un themeId
-                return itinerary.themeId && itinerary.themeId.toString() === selectedTheme;
+                return itinerary.themeId.toString() === selectedTheme;
             });
         }
 
-        // Tri par prix
         if (selectedSort === "option 2") {
             filtered.sort((a, b) => b.price - a.price);
         } else if (selectedSort === "option 3") {
@@ -116,11 +106,6 @@ const ItineraryListPage: FC = () => {
         setSelectedSort(selectedOption);
     };
 
-    const handleResetFilters = () => {
-        setSelectedTheme("");
-        setSelectedSort("option 1");
-    };
-
     const getHeaderImage = (tripId: number) => {
         const imageSet = imageData.find((data) => data.id === tripId);
         return imageSet ? imageSet.images.header[0] : '';
@@ -133,20 +118,20 @@ const ItineraryListPage: FC = () => {
             <section className={styles.sortList}>
                 <Sort
                     title="Thèmes"
-                    options={themes.map((theme) => ({
-                        id: theme.themeId.toString(),
-                        label: theme.themeName
-                    }))}
+                    options={[
+                        {id: "", label: "All"},
+                        ...themes.map((theme) => ({
+                            id: theme.themeId.toString(),
+                            label: theme.themeName
+                        }))
+                    ]}
                     onChange={handleThemeChange}
                 />
                 <Sort
-                    title="Trier"
+                    title="Sort"
                     options={sortOptions}
                     onChange={handleSort}
                 />
-                <button onClick={handleResetFilters} className={styles.resetButton}>
-                    Réinitialiser les filtres
-                </button>
             </section>
 
             {filteredTrips.length > 0 ? (

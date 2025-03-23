@@ -1,10 +1,10 @@
-import {FC, JSX, useState} from 'react';
+import {FC, useState} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styles from "../styles/components/Sort.module.css"
 
 type SortProps = {
     title: string;
-    options: {id: string; label: string}[];
+    options: { id: string; label: string }[];
     onChange: (selected: string) => void;
 };
 
@@ -19,27 +19,20 @@ const Sort: FC<SortProps> = ({title, options, onChange}) => {
     const handleSelection = (id: string) => {
         setSelectedOption(id);
         onChange(id);
+        setDisplaySortItems(false);
     };
 
     return (
         <div className={styles.sortContainer}>
-            <div>
-                <div style={{
-                    width: "135px",
-                    padding: "8px 16px",
-                    border: "1px solid black",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between"
-                }}>
-                    <h3 style={{width: "fit-content"}}>{title}</h3>
-                    <KeyboardArrowDownIcon onClick={displayItems}/>
+            <div className={styles.sortButtonContainer}>
+                <div className={styles.sortButton}>
+                    <h3 className={styles.sortTitle}>{title}</h3>
+                    <KeyboardArrowDownIcon onClick={displayItems} className={styles.arrowIcon}/>
                 </div>
-
                 {displaySortItems && (
-                    <div className={styles.sortItems}>
+                    <div className={styles.sortDropdown}>
                         {options.map((option) => (
-                            <div key={option.id}>
+                            <div key={option.id} className={styles.sortItem} onClick={() => handleSelection(option.id)}>
                                 <input
                                     type="radio"
                                     id={option.id}
@@ -53,10 +46,7 @@ const Sort: FC<SortProps> = ({title, options, onChange}) => {
                     </div>
                 )}
             </div>
-
-
         </div>
-
     );
 };
 
