@@ -10,12 +10,14 @@ interface DashboardContextProps {
     pastTrips: Trip[];
     currentTrips: Trip[];
     lastDoneReservation: Trip | undefined;
+    personalizedTrips: Trip[];
 }
 
 const DashboardContext = createContext<DashboardContextProps | null>(null);
 
 export const DashboardContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
     const [userReservations, setUserReservations] = useState<Trip[]>([]);
+    const [personalizedTrips, setPersonalizedTrips] = useState<Trip[]>([]);
     const {userId, token} = useAuth();
     const location = useLocation();
 
@@ -23,15 +25,17 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
         const fetchReservations = async () => {
             try {
                 const reservations = await get(`/reservations/${userId}`);
-                if (reservations) {
+                const userItineraries = await get(`/userItinerary/all/${userId}`);
+                if (reservations && userItineraries) {
                     setUserReservations(reservations);
+                    setPersonalizedTrips(userItineraries);
                 }
             } catch (e) {
                 console.error("Error while fetching reservations: ", e);
             }
         };
         fetchReservations();
-    }, [token, location.pathname === "/dashboard"]);
+    }, [token, location]);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -62,7 +66,7 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
 
     return (
         <DashboardContext.Provider
-            value={{userReservations, firstCurrentReservation, pastTrips, currentTrips, lastDoneReservation}}>
+            value={{userReservations, firstCurrentReservation, pastTrips, currentTrips, lastDoneReservation, personalizedTrips}}>
             {children}
         </DashboardContext.Provider>
     );

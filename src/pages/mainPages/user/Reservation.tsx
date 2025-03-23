@@ -4,11 +4,14 @@ import {Trip} from "../../../@types/Trip";
 import styles from "../../../styles/Reservation.module.css"
 import {get} from "../../../API/api";
 import {useAuth} from "../../../contexts/AuthContext";
+import {useReservation} from "../../../contexts/ReservationContext";
+import {useDashboard} from "../../../contexts/DashboardContext";
 
 
 const Reservation: ({}: {}) => JSX.Element = ({}) => {
     const [activeFilter, setActiveFilter] = useState<string>("Tout");
     const {userId} = useAuth();
+    const {personalizedTrips} = useDashboard();
     const [userReservations, setUserReservations] = useState<Trip[]>([]);
     const [filteredReservations, setFilteredReservations] = useState<Trip[]>([]);
 
@@ -92,6 +95,13 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
                 {
                     filteredReservations && filteredReservations.length > 0 && filteredReservations.map((reservation) =>
                         <TripDashboard key={reservation.id} trip={reservation} page={"Reservations"}/>)
+                }
+            </div>
+            <div>
+                {
+                    personalizedTrips && personalizedTrips.length > 0 && personalizedTrips.map((personalizedTrip) =>
+                        <TripDashboard trip={personalizedTrip} page={"Reservations"} type={"Tailor made"}/>
+                    )
                 }
             </div>
         </div>
