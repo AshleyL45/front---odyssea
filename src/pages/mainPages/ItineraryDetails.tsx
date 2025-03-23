@@ -98,19 +98,14 @@ const ItineraryDetails: FC<{}> = () => {
             setTrip(itineraryToDisplay);
             updateResponse("userId", userId);
             updateResponse("itineraryId", itineraryToDisplay.id)
-            if(token){
+            if (token) {
                 updateResponse("userId", userId);
                 navigate("/booking/date")
-            } else{
+            } else {
                 navigate("/login", {state: {from: "/booking/date"}});
             }
         }
     }
-
-            updateResponse("itineraryId", itineraryToDisplay.id);
-        }
-        navigate("/booking/date");
-    };
 
     const markerIndexes: number[] = [0, 4, 8];
     const markers = dailyPlans
@@ -145,32 +140,12 @@ const ItineraryDetails: FC<{}> = () => {
                         className={styles.headerContainer}
                         style={{
                             backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.5)), 
-                          url(${itineraryImage?.images.header[0]})`}}
+                          url(${itineraryImage?.images.header[0]})`
+                        }}
                     >
                         <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
                             <hr className={styles.headerDivider}/>
-
-                        style={{
-                            height: 281,
-                            width: "100%",
-                            backgroundImage: `url(${itineraryImage?.images.header})`,
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            alignSelf: "end",
-                        }}
-                    >
-                        <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>
-                            <h1 style={{color: "white"}}>{itineraryToDisplay.name}</h1>
-                            <hr
-                                style={{
-                                    marginLeft: "1rem",
-                                    border: "none",
-                                    borderTop: "1px solid white",
-                                    width: "80%",
-                                    height: "3px",
-                                }}
-                            />
                         </div>
                     </div>
 
@@ -178,21 +153,6 @@ const ItineraryDetails: FC<{}> = () => {
 
                     <div className={styles.actionsContainer}>
                         <div className={styles.favoriteContainer}>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "90%",
-                        margin: "2rem 1rem",
-                        gap: 35
-                    }}>
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            cursor: "pointer"
-                        }}>
-
                             {isFavorite ? (
                                 <>
                                     <StarIcon onClick={handleFavorites}/> <p>Remove from your selection</p>
@@ -203,7 +163,6 @@ const ItineraryDetails: FC<{}> = () => {
                                 </>
                             )}
                         </div>
-
                         <CustomButton sx={{color: "white"}} onClick={handleReservation}>
                             Book your itinerary
                         </CustomButton>
@@ -243,7 +202,6 @@ const ItineraryDetails: FC<{}> = () => {
                                 designed to offer you comfort, exclusivity and total immersion.
                             </h2>
                             <ul className={styles.activitiesList}>
-
                                 <li>Premium transportation: Business-class flights, private transfers and personalized
                                     routes for a stress-free trip.
                                 </li>
@@ -260,7 +218,6 @@ const ItineraryDetails: FC<{}> = () => {
                         </div>
                     </section>
 
-
                     <div className={styles.collage}>
                         <div className={`${styles.collageItem} ${styles.div1}`}
                              style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}></div>
@@ -273,7 +230,7 @@ const ItineraryDetails: FC<{}> = () => {
                     <section className={styles.itinerarySection}>
                         <h2>Itinerary</h2>
                         <div className={styles.itineraryContent}>
-                            <img src={"hello"} className={styles.itineraryImage} alt="header image" />
+                            <img src={"hello"} className={styles.itineraryImage} alt="header image"/>
                             <div>
                                 {itineraryToDisplay && (
                                     Array.from(new Set(itineraryToDisplay.days.map((day) => day.cityName)))
@@ -316,7 +273,6 @@ const ItineraryDetails: FC<{}> = () => {
                         <CustomButton sx={{color: "white"}} onClick={handleReservation}>
                             Book your itinerary
                         </CustomButton>
-
                     </div>
                 </>
             ) : (
