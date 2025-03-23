@@ -5,8 +5,7 @@ import Carousel from "../../components/Carousel";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
 import {useNavigate, useParams} from "react-router-dom";
-import itinerariesData from "../../assets/itinerary.json";
-import {get} from "../../../src/API/api";
+import {get} from "../../../src/API/api"
 import {useFavorites} from "../../contexts/MySelectionContext";
 import StarIcon from '@mui/icons-material/Star';
 import TripDetails from "../../components/ReusableComponents/TripDetails";
@@ -17,6 +16,8 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import StickyBar from "../../components/itinerary-details/StickyBar";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
+import {imageData} from "../../assets/image"
+import styles from "../../styles/ItineraryDetails.module.css"
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
 import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
 
@@ -36,7 +37,7 @@ interface Image {
 const ItineraryDetails: FC<{}> = () => {
     const {tripId} = useParams<{ tripId: string }>();
     const itineraryId = Number(tripId);
-    const {userId} = useAuth();
+    const {userId, token} = useAuth();
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
     const navigate = useNavigate();
@@ -76,6 +77,10 @@ const ItineraryDetails: FC<{}> = () => {
     }, [tripId]);
 
     const handleFavorites = () => {
+        if (!token) {
+            navigate("/login", {state: {from: `/trip/${itineraryId}`}});
+            return;
+        }
         if (isFavorite && itineraryToDisplay) {
             handleRemoveFromFavorites(itineraryToDisplay);
         } else if (itineraryToDisplay) {
@@ -83,7 +88,8 @@ const ItineraryDetails: FC<{}> = () => {
         }
     };
 
-    const itineraryImage: Image | undefined = itinerariesData.find(
+    // Recherche de l'itinéraire dans le JSON local
+    const itineraryImage: any = imageData.find(
         (it) => it.id === itineraryId
     );
 
@@ -91,6 +97,16 @@ const ItineraryDetails: FC<{}> = () => {
         if (itineraryToDisplay) {
             setTrip(itineraryToDisplay);
             updateResponse("userId", userId);
+            updateResponse("itineraryId", itineraryToDisplay.id)
+            if(token){
+                updateResponse("userId", userId);
+                navigate("/booking/date")
+            } else{
+                navigate("/login", {state: {from: "/booking/date"}});
+            }
+        }
+    }
+
             updateResponse("itineraryId", itineraryToDisplay.id);
         }
         navigate("/booking/date");
@@ -109,12 +125,32 @@ const ItineraryDetails: FC<{}> = () => {
         }));
 
 
+    // Extraire les 3 premières activités
+    const activities = itineraryToDisplay?.days
+        .filter((day) => day.activityName !== null)
+        .map((day) => day.activityName)
+        .slice(0, 3) || [];
+
+    // Extraire les 3 premiers pays
+    const countries = Array.from(
+        new Set(itineraryToDisplay?.days.map((day) => day.countryName))
+    ).slice(0, 3) || [];
+
     return (
         <div>
             <Navbar/>
             {itineraryToDisplay ? (
                 <>
                     <div
+                        className={styles.headerContainer}
+                        style={{
+                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.5)), 
+                          url(${itineraryImage?.images.header[0]})`}}
+                    >
+                        <div className={styles.headerContent}>
+                            <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
+                            <hr className={styles.headerDivider}/>
+
                         style={{
                             height: 281,
                             width: "100%",
@@ -140,6 +176,8 @@ const ItineraryDetails: FC<{}> = () => {
 
                     <StickyBar/>
 
+                    <div className={styles.actionsContainer}>
+                        <div className={styles.favoriteContainer}>
                     <div style={{
                         display: "flex",
                         justifyContent: "center",
@@ -154,6 +192,7 @@ const ItineraryDetails: FC<{}> = () => {
                             alignItems: "center",
                             cursor: "pointer"
                         }}>
+
                             {isFavorite ? (
                                 <>
                                     <StarIcon onClick={handleFavorites}/> <p>Remove from your selection</p>
@@ -164,89 +203,47 @@ const ItineraryDetails: FC<{}> = () => {
                                 </>
                             )}
                         </div>
-                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your
-                            itinerary</CustomButton>
+
+                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>
+                            Book your itinerary
+                        </CustomButton>
                     </div>
 
-                    <section className="itinerary-details">
-                        <div style={{textAlign: "center"}}>
+                    <section className={styles.itineraryDetails}>
+                        <div>
                             <p>{itineraryToDisplay.shortDescription}</p>
                         </div>
 
-                        <section
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 1fr",
-                                gridTemplateRows: "auto auto auto",
-                                width: "70%",
-                                margin: "2rem auto",
-                                textAlign: "center",
-                                height: "50vh",
-                            }}
-                        >
-                            <div style={{
-                                border: "1px solid black",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"
-                            }}>
+                        <section className={styles.detailsGrid}>
+                            <div className={styles.gridItem}>
                                 <h3>Duration</h3>
-                                <p>{itineraryToDisplay.totalDuration} days</p>
+                                <p>12 days</p>
                             </div>
-                            <div
-                                style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                            <div className={styles.gridItem}>
                                 <h3>Accommodation</h3>
                                 <p>4-Stars and 5-Stars hotels</p>
                             </div>
-                            <div
-                                style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                            <div className={styles.gridItem}>
                                 <h3>Key activities</h3>
-                                <p>Hot-air balloon | Ngorongoro Crater | Coffee roasting</p>
+                                <p>{activities.join(" | ")}</p>
                             </div>
-                            <div
-                                style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                            <div className={styles.gridItem}>
                                 <h3>Price guide</h3>
                                 <p>{itineraryToDisplay.price} €</p>
                             </div>
-                            <div
-                                style={{
-                                    gridColumn: "span 2",
-                                    margin: "auto",
-                                    border: "1px solid black",
-                                    width: "100%",
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                            <div className={styles.gridItemFullWidth}>
                                 <h3>Visited countries</h3>
-                                <p>South Africa, Kenya, Tanzania and Ouganda</p>
+                                <p>{countries.join(", ")}</p>
                             </div>
                         </section>
 
-                        <div style={{textAlign: "center"}}>
-                            <h2>Your all-inclusive trip, designed for an uncompromising experience. Every detail is
-                                designed to offer you comfort, exclusivity and total immersion.</h2>
-                            <ul>
+                        <div className={styles.activitiesSection}>
+                            <h2>
+                                Your all-inclusive trip, designed for an uncompromising experience. Every detail is
+                                designed to offer you comfort, exclusivity and total immersion.
+                            </h2>
+                            <ul className={styles.activitiesList}>
+
                                 <li>Premium transportation: Business-class flights, private transfers and personalized
                                     routes for a stress-free trip.
                                 </li>
@@ -263,57 +260,63 @@ const ItineraryDetails: FC<{}> = () => {
                         </div>
                     </section>
 
-                    <div className="collage">
-                        <div className="collageItem div1"
-                             style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}>
-                            {/*<img src={itineraryImage?.images.countries[0]} style={{objectFit: "contain", width: "100%", height: "100%"}} />*/}
-                        </div>
-                        <div className="collageItem div2"
+
+                    <div className={styles.collage}>
+                        <div className={`${styles.collageItem} ${styles.div1}`}
+                             style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}></div>
+                        <div className={`${styles.collageItem} ${styles.div2}`}
                              style={{backgroundImage: `url(${itineraryImage?.images.countries[1]})`}}></div>
-                        <div className="collageItem div3"
+                        <div className={`${styles.collageItem} ${styles.div3}`}
                              style={{backgroundImage: `url(${itineraryImage?.images.countries[2]})`}}></div>
                     </div>
 
-                    <section>
-                        <h2 style={{textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "300px"}}>
-                            <InteractiveMapTrip markers={markers}/>
+                    <section className={styles.itinerarySection}>
+                        <h2>Itinerary</h2>
+                        <div className={styles.itineraryContent}>
+                            <img src={"hello"} className={styles.itineraryImage} alt="header image" />
                             <div>
-                                {itineraryToDisplay.days.map((day: Day) => (
-                                    <div key={day.dayNumber}>
-                                        <p className="span-country">
-                                            <RoomOutlinedIcon/>
-                                            {day.cityName}, {day.countryName}
-                                        </p>
-                                    </div>
-                                ))}
+                                {itineraryToDisplay && (
+                                    Array.from(new Set(itineraryToDisplay.days.map((day) => day.cityName)))
+                                        .map((cityName, index) => {
+                                            const day = itineraryToDisplay?.days.find((day) => day.cityName === cityName);
+                                            return (
+                                                <div key={index}>
+                                                    <p className="span-country">
+                                                        <RoomOutlinedIcon/>
+                                                        {day?.cityName}, {day?.countryName}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })
+                                )}
                             </div>
                         </div>
-
                     </section>
 
-                    <section>
+                    <section className={styles.stayDetailsSection}>
                         <div>
-                            <h2 style={{textAlign: "center", marginTop: "6rem"}}>Details of your stay</h2>
+                            <h2>Details of your stay</h2>
+                            <span></span>
                         </div>
-                        {itineraryToDisplay.days.map((day: Day, index: number) =>
-                            index % 2 === 0 ? (
-                                <TripDetails day={day} image={itineraryImage?.images.days[index] || ""} key={index}/>
-                            ) : (
-                                <TripDetailsReverse day={day} image={itineraryImage?.images.days[index] || ""}
-                                                    key={index}/>
+                        {itineraryToDisplay ? (
+                            itineraryToDisplay.days.map((day: Day, index) =>
+                                index % 2 === 0 ? (
+                                    <TripDetails day={day} image={itineraryImage?.images.days[index] || ""}/>
+                                ) : (
+                                    <TripDetailsReverse day={day} image={itineraryImage?.images.days[index] || ""}/>
+                                )
                             )
+                        ) : (
+                            <p>No detail program for this itinerary.</p>
                         )}
-                        <div className="trip-details-separator"></div>
+                        <div className={styles.tripDetailsSeparator}></div>
                     </section>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        marginBottom: "6rem"
-                    }}>
-                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your
-                            itinerary</CustomButton>
+
+                    <div className={styles.reservationButtonContainer}>
+                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>
+                            Book your itinerary
+                        </CustomButton>
+
                     </div>
                 </>
             ) : (

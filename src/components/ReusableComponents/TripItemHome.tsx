@@ -7,9 +7,11 @@ interface TripItemHomeProps {
     id: number;
     name: string;
     description: string;
+    headerImage1: string;
+    headerImage2: string;
 }
 
-const TripItemHome: React.FC<TripItemHomeProps> = ({id, name, description, ...rest}) => {
+const TripItemHome: React.FC<TripItemHomeProps> = ({id, name, description, headerImage1, headerImage2, ...rest}) => {
 
     return (
         <div style={{margin: "300px 0"}}>
@@ -24,8 +26,14 @@ const TripItemHome: React.FC<TripItemHomeProps> = ({id, name, description, ...re
                 </div>
 
                 <div className="trip-item-home-photo">
-                    <div style={{border: "solid 2px black", backgroundColor: "#F8F1E5"}}></div>
-                    <div style={{border: "solid 2px black", backgroundColor: "#F8F1E5"}}></div>
+                    <div style={{border: "solid 2px black", backgroundImage: `url(${headerImage1})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center center"}}></div>
+                    <div style={{borderTop: "none", border: "solid 2px black", backgroundImage: `url(${headerImage2})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center center"}}></div>
                 </div>
             </section>
 

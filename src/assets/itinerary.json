@@ -2,7 +2,7 @@
   {
     "id": 1,
     "images": {
-      "header": "https://images.unsplash.com/photo-1600616366660-ba86bf0b3dfc?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "header": "../images/juan-felipe-Kk8mEQAoIpI-unsplash.jpg",
       "countries": [
         "https://images.unsplash.com/photo-1601056645460-05fd9ad8f4e0?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "https://images.pexels.com/photos/4366062/pexels-photo-4366062.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -10,7 +10,7 @@
       ],
       "map": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.roman-emperors.org%2Fla-carte-du-monde-une-representation-fascinante-et-instructive%2F&psig=AOvVaw0tyGanr3FB5S173Pcljdoa&ust=1742568320126000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCc3v_ymIwDFQAAAAAdAAAAABAE",
       "days": [
-        "https://images.unsplash.com/photo-1571456331030-a1369bc759dc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "../images/juan-felipe-Kk8mEQAoIpI-unsplash.jpg",
         "https://images.unsplash.com/photo-1570976856674-e3eac6ffa1b1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "https://images.unsplash.com/photo-1668089419686-747e094e8d71?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpaliparan.com%2F2023%2F02%2F07%2Fmadrid-tapas-crawl%2F&psig=AOvVaw26276xlVhW-dY4r_zd_4FW&ust=1742568573628000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPiwm4P0mIwDFQAAAAAdAAAAABAE",

@@ -5,6 +5,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
+import styles from "../../styles/BookingFormBilling.module.css"
 
 
 const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
@@ -66,87 +67,72 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
-            <div className="progress-bar">
-                <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                <div style={{
-                    width: "80%",
-                    height: "6px",
-                    borderRadius: "0 5px 5px 0",
-                    backgroundColor: "#2C3E50",
-                    position: "relative",
-                    top: "-6px"
-                }}></div>
+            {/* Barre de progression */}
+            <div className={styles.progressBarContainer}>
+                <div className={styles.progressBar}></div>
             </div>
 
-            <p style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
+            {/* Lien "previous step" */}
+            <p className={styles.previousStep} onClick={() => navigate(-1)}>
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
             </p>
 
-            <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
-                <h1 style={{fontSize: "25px", margin: "10px 0"}}>Your billing information</h1>
+            {/* Conteneur principal */}
+            <div className={styles.optionSelect}>
+                <h1>Your billing information</h1>
                 <p>This information is required to finalize your reservation.</p>
 
-                <h3 style={{marginTop: "2rem"}}>Contact Details</h3>
-                <div style={{
-                    display: "grid",
-                    gridTemplateRows: "1fr 1fr",
-                    gridTemplateColumns: "1fr 1fr",
-                    width: "50%",
-                    gap: 25,
-                    margin: "auto"
-                }}>
+                <h3>Contact Details</h3>
+                <div className={styles.formGrid}>
                     <input type="text" placeholder="Last Name*" defaultValue={lastName?.toString()}
-                           className="inputBooking" required/>
+                           className={styles.inputBooking} required/>
                     <input type="text" placeholder="First Name*" defaultValue={firstName?.toString()}
-                           className="inputBooking" required/>
-                    <input type="email" placeholder="Email*" defaultValue={email?.toString()} className="inputBooking"
-                           required/>
-                    <input type="text" placeholder="Phone Number*" className="inputBooking" required/>
+                           className={styles.inputBooking} required/>
+                    <input type="email" placeholder="Email*" defaultValue={email?.toString()}
+                           className={styles.inputBooking} required/>
+                    <input type="text" placeholder="Phone Number*" className={styles.inputBooking} required/>
                 </div>
-
 
                 <h3>Address</h3>
-                <div style={{
-                    display: "grid",
-                    gridTemplateRows: "1fr 1fr",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                    width: "50%",
-                    gap: 25,
-                    margin: "auto"
-                }}>
-                    <input type="text" placeholder="Company Name" className="inputBooking"/>
-                    <input type="text" placeholder="Address*" className="inputBooking" required/>
-                    <input type="text" placeholder="Address details" className="inputBooking"/>
-                    <input type="text" placeholder="Postal code*" className="inputBooking" required/>
-                    <input type="text" placeholder="City*" className="inputBooking" required/>
-                    <input type="text" placeholder="Country*" className="inputBooking" required/>
+                <div className={styles.formGridAddress}>
+                    <input type="text" placeholder="Company Name" className={styles.inputBooking}/>
+                    <input type="text" placeholder="Address*" className={styles.inputBooking} required/>
+                    <input type="text" placeholder="Address details" className={styles.inputBooking}/>
+                    <input type="text" placeholder="Postal code*" className={styles.inputBooking} required/>
+                    <input type="text" placeholder="City*" className={styles.inputBooking} required/>
+                    <input type="text" placeholder="Country*" className={styles.inputBooking} required/>
                 </div>
 
-                <input type={"checkbox"} id="validationCheckbox" style={{marginTop: "2rem"}}/> <label
-                htmlFor={"validationCheckbox"} className="inputBooking"
-                style={{marginTop: "2rem"}}>By validating this form, I agree to be contacted by a Travel Designer
-                to finalize my reservation and receive personalized support.</label>
+                {/* Case à cocher */}
+                <div className={styles.terms}>
+                    <input type="checkbox" id="validationCheckbox" className={styles.validationCheckbox}/>
+                    <label htmlFor="validationCheckbox" className={styles.validationLabel}>
+                        By validating this form, I agree to be contacted by a Travel Designer to finalize my reservation
+                        and
+                        receive personalized support.
+                    </label>
+                </div>
 
+
+                {/* Messages d'erreur */}
                 {errors.length > 0 && (
-                    <div style={{color: "red", margin: "10px 0"}}>
-                        <ul>
+                    <div className={styles.errorContainer}>
+                        <ul className={styles.errorList}>
                             {errors.map((error, idx) => (
-                                <li style={{listStyleType: "none"}} key={idx}>{error}</li>
+                                <li key={idx}>{error}</li>
                             ))}
                         </ul>
                     </div>
                 )}
 
-
-                <div style={{display: "block"}}>
-                    <CustomButton style={{width: "130px"}} variant="contained"
-                                  onClick={handleNextClick}>Next</CustomButton>
+                {/* Bouton "Next" */}
+                <div className={styles.buttonContainer}>
+                    <CustomButton className={styles.customButton} variant="contained" onClick={handleNextClick}>
+                        Next
+                    </CustomButton>
                 </div>
-
             </div>
-
         </div>
     );
 };

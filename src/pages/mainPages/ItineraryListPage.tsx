@@ -10,6 +10,7 @@ import Footer from "../../components/Footer";
 import  Sort from "../../components/Sort";
 import styles from "../../styles/TripListPage.module.css"
 import {Country} from "../../@types/Country";
+import {imageData} from "../../assets/image"
 
 
 const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
@@ -27,7 +28,7 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
         const fetchTripsCountriesThemes = async () => {
             try {
                 // Récupérer les données depuis le backend
-                const tripsToFetch = await get("/api/itineraries");
+                const tripsToFetch = await get("/api/itineraries/themes");
                 const countriesToFetch = await get("/countries");
                 const themesToFetch = await get("/api/themes");
 
@@ -65,6 +66,11 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
         console.log("Option sélectionnée :", selectedOption);
     };
 
+    const getHeaderImage = (tripId: number) => {
+        const imageSet = imageData.find((data) => data.id === tripId);
+        return imageSet ? imageSet.images.header[0] : '' // Retourne la première image d'en-tête
+    };
+
     return (
         <>
             <HeroSection/>
@@ -83,9 +89,9 @@ const ItineraryListPage: ({}: {}) => JSX.Element = ({}) => {
             {/* Afficher les voyages */}
             {trips.length > 0 && trips.map((trip: Trip, index: number) => (
                 index % 2 === 0 ? (
-                    <TripItemTravel key={trip.id} trip={trip}/>
+                    <TripItemTravel key={trip.id} trip={trip} headerImage={getHeaderImage(trip.id)}/>
                 ) : (
-                    <TripItemTravelReverse key={trip.id} trip={trip}/>
+                    <TripItemTravelReverse key={trip.id} trip={trip} headerImage={getHeaderImage(trip.id)}/>
                 )
             ))}
 

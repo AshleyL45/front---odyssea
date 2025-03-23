@@ -558,8 +558,8 @@ footer p{
 
 @media screen and (min-width: 501px){
     .trip-item-home-photo div, .trip-item-home-reverse-photo div{
-        width: 500px;
-        height: 300px;
+        width: 560px;
+        height: 320px;
     }
 }
 
@@ -657,8 +657,8 @@ footer p{
     }
 
     .trip-item-travel-photo{
-        width: 500px;
-        height: 540px;
+        width: 700px;
+        height: 560px;
         position: inherit;
     }
 }
@@ -680,6 +680,8 @@ footer p{
     width: 99%;
     height: 300px;
     margin: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .text-details, .text-details-reverse{
@@ -703,10 +705,12 @@ footer p{
     }
 
     .trip-details-photo, .trip-details-reverse-photo {
-        width: 40%;
-        height: 550px;
+        width: 50%;
+        height: 570px;
         z-index: 3;
         margin: initial;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     .text-details{
@@ -1332,6 +1336,23 @@ footer p{
     border-bottom: 2px #745E4D solid;
     font-weight: bold;
     cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+    .progress-sticky-bar {
+        overflow-x: scroll;
+        width: auto;
+    }
+
+    .progress-sticky-bar ul {
+        min-width: 150%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .progress-sticky-bar ul {
+        min-width: 220%;
+    }
 }
 
 .collage {
