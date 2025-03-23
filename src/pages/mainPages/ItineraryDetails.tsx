@@ -8,16 +8,19 @@ import {useNavigate, useParams} from "react-router-dom";
 import {get} from "../../../src/API/api"
 import {useFavorites} from "../../contexts/MySelectionContext";
 import StarIcon from '@mui/icons-material/Star';
-import TripDetails from "../../components/ReusableComponents/TripDetails"
+import TripDetails from "../../components/ReusableComponents/TripDetails";
 import TripDetailsReverse from "../../components/ReusableComponents/TripDetailsReverse";
 import Footer from "../../components/Footer";
-import "../../App.css"
+import "../../App.css";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import StickyBar from "../../components/itinerary-details/StickyBar";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
 import {imageData} from "../../assets/image"
 import styles from "../../styles/ItineraryDetails.module.css"
+import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
+import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
+
 
 interface ItineraryImages {
     header: string;
@@ -31,33 +34,47 @@ interface Image {
     images: ItineraryImages;
 }
 
-const ItineraryDetails: FC<{}> = ({}) => {
-
+const ItineraryDetails: FC<{}> = () => {
     const {tripId} = useParams<{ tripId: string }>();
     const itineraryId = Number(tripId);
     const {userId, token} = useAuth();
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
     const navigate = useNavigate();
-    const {trip, setTrip, updateResponse} = useReservation();
+    const {setTrip, updateResponse} = useReservation();
+    const [dailyPlans, setDailyPlans] = useState<DailyPlanWithCityDto[]>([]);
 
     const isFavorite = favorites.find((favorite) => favorite.id === itineraryId);
 
     useEffect(() => {
         const fetchItinerary = async () => {
             try {
-                const itinerary = await get(`api/itineraries/${tripId}/details`)
-                if(itinerary){
+                const itinerary = await get(`api/itineraries/${tripId}/details`);
+                if (itinerary) {
                     setItineraryToDisplay(itinerary);
                 }
             } catch (e) {
                 console.error("Cannot get itinerary : " + tripId + " " + e);
             }
-        }
-        fetchItinerary()
-    }, []);
+        };
+        fetchItinerary();
+    }, [tripId]);
 
+    useEffect(() => {
+        const fetchDailyPlans = async () => {
+            try {
+                const response = await get(`api/itineraries/${tripId}/daily`);
+                console.log("dailyPlans response:", response);
+                if (response) {
+                    setDailyPlans(response);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération du daily plan", error);
+            }
+        };
 
+        fetchDailyPlans();
+    }, [tripId]);
 
     const handleFavorites = () => {
         if (!token) {
@@ -66,19 +83,18 @@ const ItineraryDetails: FC<{}> = ({}) => {
         }
         if (isFavorite && itineraryToDisplay) {
             handleRemoveFromFavorites(itineraryToDisplay);
-        } else if(itineraryToDisplay) {
+        } else if (itineraryToDisplay) {
             handleAddToFavorites(itineraryToDisplay);
         }
-    }
+    };
 
     // Recherche de l'itinéraire dans le JSON local
     const itineraryImage: any = imageData.find(
         (it) => it.id === itineraryId
     );
 
-
     const handleReservation = () => {
-        if(itineraryToDisplay){
+        if (itineraryToDisplay) {
             setTrip(itineraryToDisplay);
             updateResponse("userId", userId);
             updateResponse("itineraryId", itineraryToDisplay.id)
@@ -90,6 +106,24 @@ const ItineraryDetails: FC<{}> = ({}) => {
             }
         }
     }
+
+            updateResponse("itineraryId", itineraryToDisplay.id);
+        }
+        navigate("/booking/date");
+    };
+
+    const markerIndexes: number[] = [0, 4, 8];
+    const markers = dailyPlans
+        .filter((plan: DailyPlanWithCityDto, index: number) => markerIndexes.includes(index))
+        .map((plan: DailyPlanWithCityDto) => ({
+            dayNumber: plan.dayNumber,
+            city: {
+                name: plan.cityName,
+                latitude: plan.latitude,
+                longitude: plan.longitude,
+            },
+        }));
+
 
     // Extraire les 3 premières activités
     const activities = itineraryToDisplay?.days
@@ -116,6 +150,27 @@ const ItineraryDetails: FC<{}> = ({}) => {
                         <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
                             <hr className={styles.headerDivider}/>
+
+                        style={{
+                            height: 281,
+                            width: "100%",
+                            backgroundImage: `url(${itineraryImage?.images.header})`,
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignSelf: "end",
+                        }}
+                    >
+                        <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>
+                            <h1 style={{color: "white"}}>{itineraryToDisplay.name}</h1>
+                            <hr
+                                style={{
+                                    marginLeft: "1rem",
+                                    border: "none",
+                                    borderTop: "1px solid white",
+                                    width: "80%",
+                                    height: "3px",
+                                }}
+                            />
                         </div>
                     </div>
 
@@ -123,6 +178,21 @@ const ItineraryDetails: FC<{}> = ({}) => {
 
                     <div className={styles.actionsContainer}>
                         <div className={styles.favoriteContainer}>
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "90%",
+                        margin: "2rem 1rem",
+                        gap: 35
+                    }}>
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            cursor: "pointer"
+                        }}>
+
                             {isFavorite ? (
                                 <>
                                     <StarIcon onClick={handleFavorites}/> <p>Remove from your selection</p>
@@ -133,6 +203,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                                 </>
                             )}
                         </div>
+
                         <CustomButton sx={{color: "white"}} onClick={handleReservation}>
                             Book your itinerary
                         </CustomButton>
@@ -172,6 +243,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                                 designed to offer you comfort, exclusivity and total immersion.
                             </h2>
                             <ul className={styles.activitiesList}>
+
                                 <li>Premium transportation: Business-class flights, private transfers and personalized
                                     routes for a stress-free trip.
                                 </li>
@@ -187,6 +259,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                             </ul>
                         </div>
                     </section>
+
 
                     <div className={styles.collage}>
                         <div className={`${styles.collageItem} ${styles.div1}`}
@@ -243,6 +316,7 @@ const ItineraryDetails: FC<{}> = ({}) => {
                         <CustomButton sx={{color: "white"}} onClick={handleReservation}>
                             Book your itinerary
                         </CustomButton>
+
                     </div>
                 </>
             ) : (

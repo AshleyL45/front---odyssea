@@ -27,68 +27,49 @@ import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
 import {Trip} from "./@types/Trip";
 import TripRecap from "./pages/personnalized-trip/TripRecap";
-
-
-const exampleTrip: Trip = {
-    id: 1,
-    name: "Luxury Paris Getaway",
-    description: "A luxurious 5-day trip to Paris including fine dining and exclusive experiences.",
-    shortDescription: "5-day luxury trip to Paris.",
-    price: 2500.00,
-    totalDuration: 5, // en jours
-    status: "Available",
-    purchaseDate: "2025-03-17"
-};
-
+import BackToTopLayout from './layout/BackToTopLayout';
 
 
 function App() {
-  return (
-    <>
+    return (
         <AuthProvider>
             <DashboardContextProvider>
                 <MySelectionProvider>
                     <ReservationContextProvider>
                         <Routes>
                             <Route element={<ProtectedRoutes/>}>
-                                <Route path="dashboard" element={<Dashboard/>}></Route>
-                                {/*A mettre avec le layoutReservation*/}
+                                <Route path="dashboard" element={<Dashboard/>}/>
                                 <Route path="/booking">
-                                    <Route path="date" element={<BookingFormDate/>}></Route>
-                                    <Route path="people" element={<BookingFormPeople/>}></Route>
-                                    <Route path="options" element={<BookingFormOptions/>}></Route>
-                                    <Route path="billing" element={<BookingFormBilling/>}></Route>
-                                    <Route path="recap" element={<BookingFormRecap/>}></Route>
+                                    <Route path="date" element={<BookingFormDate/>}/>
+                                    <Route path="people" element={<BookingFormPeople/>}/>
+                                    <Route path="options" element={<BookingFormOptions/>}/>
+                                    <Route path="billing" element={<BookingFormBilling/>}/>
+                                    <Route path="recap" element={<BookingFormRecap/>}/>
                                 </Route>
-                                <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
+                                <Route path="reservationDetails" element={<ReservationDetails/>}/>
                             </Route>
                             <Route path="/">
-                                {/*<Route index element={<HomePage/>}></Route>*/}
-                              <Route index element={<HomePage/>}></Route>
-                                <Route path="login" element={<LoginPage/>}></Route>
-                                <Route path="register" element={<RegisterPage/>}></Route>
-                                <Route path="trips" element={<ItineraryListPage/>}></Route>
-                                <Route path="trip/:tripId" element={<ItineraryDetails/>}></Route>
-                                <Route path="cookies" element={<CookiesPolitic/>}></Route>
-                                <Route path="legal" element={<LegalInformation/>}></Route>
-                                <Route path="privacy" element={<PrivacyPreferences/>}></Route>
-                                <Route path="terms" element={<TermsOfUse/>}></Route>
-                                <Route path="aboutUs" element={<AboutUs/>}></Route>
-                                <Route path="contact" element={<Contact/>}></Route>
-                               <Route path="tripRecap" element={<TripRecap/>}></Route>
+                                <Route element={<BackToTopLayout/>}>
+                                    <Route index element={<HomePage/>}/>
+                                    <Route path="trips" element={<ItineraryListPage/>}/>
+                                    <Route path="trip/:tripId" element={<ItineraryDetails/>}/>
+                                </Route>
+                                <Route path="login" element={<LoginPage/>}/>
+                                <Route path="register" element={<RegisterPage/>}/>
+                                <Route path="cookies" element={<CookiesPolitic/>}/>
+                                <Route path="legal" element={<LegalInformation/>}/>
+                                <Route path="privacy" element={<PrivacyPreferences/>}/>
+                                <Route path="terms" element={<TermsOfUse/>}/>
+                                <Route path="aboutUs" element={<AboutUs/>}/>
+                                <Route path="contact" element={<Contact/>}/>
+                                <Route path="tripRecap" element={<TripRecap/>}/>
                             </Route>
-
                         </Routes>
                     </ReservationContextProvider>
                 </MySelectionProvider>
             </DashboardContextProvider>
         </AuthProvider>
-
-
-
-
-    </>
-  );
+    );
 }
 
 export default App;
