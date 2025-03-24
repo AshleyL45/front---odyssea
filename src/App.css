@@ -287,11 +287,19 @@ body{
     padding: 7px 10px
 }
 
-.return-button{
-    position: absolute;
-    right: 22px;
-    top: 14px;
-    font-size: 0.9rem !important;
+
+
+
+@media screen and (min-width: 600px) {
+    .icon-side-bar {
+        display: none;
+    }
+
+    .return-button {
+        position: absolute;
+        left: 40px;
+        top: 27px;
+    }
 }
 
 
@@ -312,13 +320,6 @@ body{
         font-size: 0.9rem;
     }
 
-    .return-button{
-        width: 50px;
-    }
-
-    .return-button p{
-        font-size: 0.9rem;
-    }
 
     .navbar-dashboard{
         padding: 20px;
@@ -328,8 +329,11 @@ body{
         width: 130px;
     }
 
-    .MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon-side-bar{
-        display: none;
+    .return-button{
+        position: absolute;
+        right: 35px;
+        width: 50px;
+        top: 15px;
     }
 
 }
@@ -343,12 +347,12 @@ body{
 .side-board-container{
     padding: 30px 0;
     border-right: solid 2px black;
-    width: 350px;
-    min-height: 80vh;
-    display: none;
+    width: 95%;
+    min-height: 84vh;
     flex-direction: column;
     justify-content: space-between;
 }
+
 
 .side-board-container h1{
     padding-left: 30px;
@@ -398,7 +402,86 @@ body{
     .side-board-menu{
         height: 70vh;
     }
+
+    .side-board-container{
+        width: 35% !important;
+    }
 }
+
+ @media screen and (min-width: 1000px) {
+     .side-board-container{
+         width: 350px !important;
+     }
+ }
+
+
+@media screen and (max-width: 600px) {
+
+    @media (max-width: 600px) {
+        .mobile-active {
+            position: fixed;
+            background-color: rgb(248, 248, 248);
+            left: 0;
+            top: 80px;
+            width: 85%;
+            z-index: 20;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+}
+
+
+
+
+        /* DASHBOARD */
+
+.dashboard{
+    display: flex;
+    justify-content: space-around;
+}
+
+.container-overview h1{
+    font-size: 1.8rem;
+    margin: 1.8rem 0 2rem 4rem;
+}
+
+.container-overview .sub-title {
+    font-size: 1.4rem;
+    margin: 1.8rem 0 2rem 4rem;
+}
+
+.container-trip-number{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 40px 0 70px;
+}
+
+.container-trip-number div{
+    width: 200px;
+}
+
+
+
+@media screen and (min-width: 600px) {
+
+    .container-trip-number {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .container-trip-number {
+        flex-wrap: nowrap;
+        gap: 10%;
+    }
+}
+
+
 
 
         /* HomePage*/

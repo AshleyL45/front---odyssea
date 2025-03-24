@@ -11,8 +11,6 @@ const NavbarDashboard: FC<{}> = ({}) => {
     return (
         <>
 
-            <MenuOpenIcon className="icon-side-bar" sx={{position: "absolute", top: "20px", left: "20px", fontSize: "30px"}}/>
-
             <nav className="navbar-dashboard">
 
                 <div>

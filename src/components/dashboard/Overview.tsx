@@ -19,8 +19,8 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
 
 
     return (
-        <div>
-            <h1 style={{marginLeft: "8rem", marginTop: "1.8rem", marginBottom: "2rem", fontSize: "1.8rem"}}>Overview</h1>
+        <div className="container-overview">
+            <h1>Overview</h1>
 
             <div className="container-trip-number">
                 <TripNumbers title={"Current"} number={userReservations.length}/>
@@ -28,7 +28,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
                 <TripNumbers title={"Travel history"} number={pastTrips.length}/>
             </div>
 
-            <h2 style={{marginLeft: "8rem", marginTop: "1rem", fontSize: "1.4rem"}}>Current trip</h2>
+            <h2 className="sub-title">Current trip</h2>
             {
                 userReservations ? userReservations.map((trip) => (
                     <TripDashboard trip={trip} page="Overview"/>
@@ -37,7 +37,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
             }
 
 
-            <h2 style={{marginLeft: "8rem", marginTop: "1rem", fontSize: "1.4rem"}}>Last Trip</h2>
+            <h2 className="sub-title">Last Trip</h2>
             {
                 lastDoneReservation ? (
                     <TripDashboard trip={lastDoneReservation} page="Overview"/>

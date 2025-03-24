@@ -1,4 +1,4 @@
-import {FC, JSX, useState} from 'react';
+import {FC, JSX, useEffect, useState} from 'react';
 import Overview from "../../../components/dashboard/Overview";
 import Reservation from "./Reservation";
 import History from "../../../components/dashboard/History";
@@ -11,13 +11,14 @@ import NavbarDashboard from "../../../components/navbars/NavbarDashboard";
 const Dashboard: ({}: {}) => JSX.Element = ({}) => {
     const [activePage, setActivePage] = useState<string>("Overview");
 
+
     return (
         <>
             <NavbarDashboard/>
 
             <div className="dashboard">
-                <SideBoard activePage={activePage} setActivePage={setActivePage} />
-                {/*
+                <SideBoard activePage={activePage} setActivePage={setActivePage}/>
+
                 <div style={{width: "100%"}}>
 
                     {activePage === "Overview" && <Overview/>}
@@ -27,7 +28,7 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                     {activePage === "Personal information" && <PersonalInformation/>}
                     {activePage === "Settings" && <Settings/>}
                 </div>
-                */}
+
             </div>
 
         </>
