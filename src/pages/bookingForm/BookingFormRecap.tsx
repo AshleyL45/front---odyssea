@@ -58,11 +58,11 @@ const BookingFormRecap: ({}) => React.JSX.Element = ({}) => {
             console.log(postInfo)
             if(postInfo){
                 setError("")
-                navigate("/dashboard");
+                navigate("/booking-mystery-trip/dashboard");
             }
         } catch (e) {
             console.error("Cannot send reservation : ", e);
-            setError("Une erreur est survenue.")
+            setError("An error has occurred.")
         }
 
     }

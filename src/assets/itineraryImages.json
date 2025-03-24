@@ -1,0 +1,54 @@
+{
+  "images": [
+    {
+      "idItinerary": 1,
+      "title": "Madrid Nights to Miami Lights",
+      "imageUrl": "https://images.pexels.com/photos/8574669/pexels-photo-8574669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 2,
+      "title": "Ultimate African Safari",
+      "imageUrl": "https://images.pexels.com/photos/26926276/pexels-photo-26926276/free-photo-of-elephant-on-savanna-with-kilimanjaro-behind.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 3,
+      "title": "Romantic Escape to Paradise",
+      "imageUrl": "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 4,
+      "title": "Luxury Family Adventure",
+      "imageUrl": "https://images.pexels.com/photos/2540653/pexels-photo-2540653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 5,
+      "title": "Rejuvenation Escape",
+      "imageUrl": "https://images.pexels.com/photos/1086852/pexels-photo-1086852.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 6,
+      "title": "Festive Winter Wonderland",
+      "imageUrl": "https://images.pexels.com/photos/1686302/pexels-photo-1686302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 7,
+      "title": "Luxury Business Expedition",
+      "imageUrl": "https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 8,
+      "title": "Thrill Seeker’s Dream: Costa Rica, South Africa, and New Zealand",
+      "imageUrl": "https://images.pexels.com/photos/2847862/pexels-photo-2847862.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 9,
+      "title": "Romance in Paradise: Seychelles, Greece, and Thailand",
+      "imageUrl": "https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "idItinerary": 10,
+      "title": "Gen Z Escapade: Seoul, Bali, and Barcelona",
+      "imageUrl": "https://images.pexels.com/photos/5059929/pexels-photo-5059929.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    }
+  ]
+}

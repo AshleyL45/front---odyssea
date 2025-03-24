@@ -27,7 +27,15 @@ import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
 import {Trip} from "./@types/Trip";
 import TripRecap from "./pages/personnalized-trip/TripRecap";
+import MysteryTrip from "./pages/mainPages/MysteryTrip";
+import BookingMysteryTripCountry from "./pages/bookingMysteryTrip/BookingMysteryTripCountry";
+import BookingMysteryTripDate from "./pages/bookingMysteryTrip/BookingMysteryTripDate";
+import BookingMysteryTripTravellers from "./pages/bookingMysteryTrip/BookingMysteryTripTravellers";
+import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryTripResult";
+import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
+import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
 import BackToTopLayout from './layout/BackToTopLayout';
+
 
 
 function App() {
@@ -46,9 +54,35 @@ function App() {
                                     <Route path="billing" element={<BookingFormBilling/>}/>
                                     <Route path="recap" element={<BookingFormRecap/>}/>
                                 </Route>
+
+                                <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
+                                <Route path="/booking-mystery-trip">
+                                    <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
+                                    <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
+                                    <Route path="date" element={<BookingMysteryTripDate/>}></Route>
+                                    <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
+                                    <Route path="result" element={<BookingMysteryTripResult/>}></Route>
+                                    <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
+                                </Route>
                                 <Route path="reservationDetails" element={<ReservationDetails/>}/>
                             </Route>
+
                             <Route path="/">
+                            {/*<Route index element={<HomePage/>}></Route>*/}
+                              <Route path={"homePage"} element={<HomePage/>}></Route>
+                                <Route path="login" element={<LoginPage/>}></Route>
+                                <Route path="register" element={<RegisterPage/>}></Route>
+                                <Route path="trips" element={<ItineraryListPage/>}></Route>
+                                <Route path="trip/:tripId" element={<ItineraryDetails/>}></Route>
+                                <Route path="cookies" element={<CookiesPolitic/>}></Route>
+                                <Route path="legal" element={<LegalInformation/>}></Route>
+                                <Route path="privacy" element={<PrivacyPreferences/>}></Route>
+                                <Route path="terms" element={<TermsOfUse/>}></Route>
+                                <Route path="aboutUs" element={<AboutUs/>}></Route>
+                                <Route path="contact" element={<Contact/>}></Route>
+                                <Route path="tripRecap" element={<TripRecap/>}></Route>
+                                <Route path="mystery-trip" element={<MysteryTrip/>}></Route>
+
                                 <Route element={<BackToTopLayout/>}>
                                     <Route index element={<HomePage/>}/>
                                     <Route path="trips" element={<ItineraryListPage/>}/>
