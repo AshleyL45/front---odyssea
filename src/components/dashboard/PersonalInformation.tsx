@@ -2,6 +2,7 @@ import {FC, JSX, useState} from 'react';
 import CustomButton from "../ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
 import {post, put} from "../../API/api";
+import "../../App.css"
 
 const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
     const {firstName, lastName, email} = useAuth();
@@ -30,13 +31,8 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
     }
 
     return (
-        <div>
-            <h1 style={{
-                marginLeft: "8rem",
-                marginTop: "1.8rem",
-                marginBottom: "2rem",
-                fontSize: "1.8rem"
-            }}>Personal information</h1>
+        <div className="container-perso-infos">
+            <h1>Personal information</h1>
 
             <section style={{display: "flex", justifyContent: "space-between", width: "85%", margin: "auto"}}>
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
