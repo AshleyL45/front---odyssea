@@ -2,37 +2,37 @@ import {FC} from 'react';
 import {JSX} from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import {useNavigate} from "react-router-dom";
+import "../../App.css"
 
 const TripSummary: ({}: {}) => JSX.Element = ({}) => {
 
+    const navigate = useNavigate();
+
     return (
-        <div style={{padding: "30px 40px"}}>
+        <div className="container-summary">
 
-                <a style={{display: 'flex', alignItems: "center", fontSize: "16px"}} href="#">
-                    <ArrowBackIcon sx={{fontSize: "15px"}}  /*onClick={() => navigate(-1)}*/ />
-                    quitter
-                </a>
-
-
-            <div style={{textAlign: "center", margin: "auto", width: "70%"}}>
-                <h1 style={{fontSize: "30px", margin: "50px 0"}}>Créez l’itinéraire de vos rêves, sur mesure et sans limites</h1>
+            <div className="text-summary">
+                <h1 style={{fontSize: "30px", margin: "50px 0"}}>Create the itinerary of your dreams, customized and
+                    unlimited</h1>
                 <p style={{margin: "40px 0"}}>
-                    Bienvenue dans l’atelier de votre voyage sur mesure, où chaque aventure est conçue selon vos envies
-                    et vos attentes. Ici, chaque détail compte : ajustez votre itinéraire, ajoutez des étapes
-                    inoubliables et façonnez un périple unique qui vous ressemble.<br/><br/>
+                    Welcome to the workshop of your tailor-made trip, where each adventure is designed according to your
+                    desires and expectations. Here, every detail counts: adjust your itinerary, add unforgettable stages
+                    your itinerary, add unforgettable stages and shape a unique journey that's just like you.<br/><br/>
 
-                    Que vous rêviez d’une escapade secrète dans des lieux méconnus ou d’un voyage soigneusement
-                    orchestré à travers plusieurs cultures, nous vous offrons la possibilité de créer un itinéraire
-                    personnalisé, pensé spécialement pour vous. Nos voyages sont exclusivement conçus sur une durée de
-                    12 jours et vous permettent d’explorer jusqu’à 3 pays au maximum.<br/><br/>
+                    Whether you're dreaming of a secret getaway to little-known places, or a carefully orchestrated
+                    journey through several cultures, we offer you the opportunity to create a personalized itinerary,
+                    designed especially for you. Our trips are exclusively designed to last 13 days, allowing you to
+                    explore up to 3 countries.<br/><br/>
 
-                    Laissez libre cours à votre imagination et composez un voyage d’exception, à votre image. Des
-                    paysages grandioses aux expériences immersives, chaque moment sera soigneusement planifié pour
-                    transformer votre rêve en réalité. Parce qu’un voyage ne se vit qu’une fois, faites-en une
-                    expérience inoubliable.
+                    Give free rein to your imagination and create an exceptional trip, just like you. From grandiose
+                    landscapes to immersive experiences, every moment will be carefully planned to turn your dream into
+                    reality. Because a trip is a once-in-a-lifetime experience, make it an unforgettable one.
                 </p>
 
-                <CustomButton variant="contained">Commencer</CustomButton>
+                <CustomButton variant="contained"
+                              onClick={() => navigate("/personalized-trip/date")}
+                >Start</CustomButton>
             </div>
 
 
