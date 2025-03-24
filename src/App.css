@@ -265,7 +265,7 @@ body{
 .navbar-dashboard, .navbar-reservation{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px 60px;
 }
@@ -287,6 +287,14 @@ body{
     padding: 7px 10px
 }
 
+.return-button{
+    position: absolute;
+    right: 22px;
+    top: 14px;
+    font-size: 0.9rem !important;
+}
+
+
 @media screen and (max-width: 600px) {
 
     .navbar-reservation{
@@ -299,13 +307,29 @@ body{
     }
 
     .help-button{
-        padding: 3px;
-        width: 50px;
+        width: 40px;
         text-align: center;
+        font-size: 0.9rem;
     }
 
     .return-button{
         width: 50px;
+    }
+
+    .return-button p{
+        font-size: 0.9rem;
+    }
+
+    .navbar-dashboard{
+        padding: 20px;
+    }
+
+    .navbar-dashboard img{
+        width: 130px;
+    }
+
+    .MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon-side-bar{
+        display: none;
     }
 
 }
@@ -317,12 +341,11 @@ body{
 
 
 .side-board-container{
-    font-size: 0.9rem !important;
     padding: 30px 0;
     border-right: solid 2px black;
     width: 350px;
-    min-height: 100vh;
-    display: flex;
+    min-height: 80vh;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -369,6 +392,13 @@ body{
     left: -40px;
 }
 
+
+@media screen and (min-width: 600px) {
+
+    .side-board-menu{
+        height: 70vh;
+    }
+}
 
 
         /* HomePage*/

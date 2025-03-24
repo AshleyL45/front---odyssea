@@ -21,7 +21,8 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
     return (
         <div>
             <h1 style={{marginLeft: "8rem", marginTop: "1.8rem", marginBottom: "2rem", fontSize: "1.8rem"}}>Overview</h1>
-            <div style={{display: "flex", justifyContent: "space-around", width: "85%", margin: "auto"}}>
+
+            <div className="container-trip-number">
                 <TripNumbers title={"Current"} number={userReservations.length}/>
                 <TripNumbers title={"My selection"} number={favorites.length}/>
                 <TripNumbers title={"Travel history"} number={pastTrips.length}/>
