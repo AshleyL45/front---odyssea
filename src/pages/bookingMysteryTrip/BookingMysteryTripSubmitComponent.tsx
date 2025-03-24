@@ -18,14 +18,14 @@ const BookingMysteryTripSubmitComponent = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Erreur lors de la création de la réservation");
+                throw new Error("Reservation creation error");
             }
             const data = await response.json();
             console.log("ID récupéré :", data.id);
 
-            navigate("/dashboard");
+            navigate("/booking-mystery-trip/dashboard");
         } catch (error) {
-            console.error("Erreur lors de l'envoi de la réservation :", error);
+            console.error("Error sending reservation:", error);
         }
     };
 

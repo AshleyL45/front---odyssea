@@ -51,13 +51,12 @@ const BookingMysteryTripBilling: FC = () => {
                 country: (document.querySelector("input[placeholder='Country*']") as HTMLInputElement)?.value,
             };
             localStorage.setItem("billingInfo", JSON.stringify(billingInfo));
-            navigate("/result");
+            navigate("/booking-mystery-trip/result");
         }
     };
 
     return (
         <div>
-            {/* Affiche la Navbar uniquement si trip existe */}
             {trip ? <NavbarReservation/> : <div style={{height: "50px"}}></div>}
 
             <div className="progress-bar">

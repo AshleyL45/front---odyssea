@@ -102,16 +102,16 @@ const BookingMysteryTripSubmit: FC = () => {
 
         try {
             const postInfo = await post("/reservations", reservationData);
-            console.log("Reservation ID récupéré :", postInfo.id);
+            console.log("Reservation ID retrieved:", postInfo.id);
             setError("");
             navigate("/dashboard");
         } catch (err: unknown) {
             if (isAxiosError(err)) {
                 console.error("Cannot send reservation:", err);
-                setError(err.response?.data?.message || "Une erreur est survenue lors de l'envoi de votre réservation.");
+                setError(err.response?.data?.message || "An error has occurred while sending your reservation.");
             } else {
                 console.error("Unexpected error:", err);
-                setError("Une erreur inattendue est survenue.");
+                setError("An unexpected error has occurred.");
             }
         }
     };

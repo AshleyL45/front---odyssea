@@ -28,7 +28,7 @@ const BookingFormPeople: FC = () => {
 
     const handleNext = () => {
         if (adults === 0) {
-            alert("Veuillez sélectionner au moins 1 adulte.");
+            alert("Please select at least 1 adult.");
             return;
         }
 
@@ -37,12 +37,11 @@ const BookingFormPeople: FC = () => {
         reservation.numberOfKids = kids;
         localStorage.setItem('reservation', JSON.stringify(reservation));
 
-        navigate("/billing");
+        navigate("/booking-mystery-trip/billing");
     };
 
     return (
         <>
-            {/* Barre de progression et en-tête */}
             <NavbarReservation/>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>

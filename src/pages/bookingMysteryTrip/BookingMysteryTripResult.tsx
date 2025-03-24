@@ -29,19 +29,19 @@ const BookingMysteryTripResult: FC = () => {
                     (image) => image.idItinerary !== 0
                 );
                 if (validTrips.length === 0) {
-                    console.error("Aucun itinéraire valide trouvé dans le JSON.");
+                    console.error("No valid route found in JSON.");
                     return;
                 }
                 const randomIndex = Math.floor(Math.random() * validTrips.length);
                 const rawTrip = validTrips[randomIndex];
-                console.log("Itinéraire brut sélectionné:", rawTrip);
+                console.log("Selected raw route:", rawTrip);
 
                 // Récupère les détails complets depuis le backend
                 get(`/api/itineraries/${rawTrip.idItinerary}`)
                     .then((fullTrip: Trip) => {
-                        console.log("Trip complet récupéré :", fullTrip);
+                        console.log("Full trip recovered:", fullTrip);
                         if (!fullTrip || fullTrip.id === 0) {
-                            console.error("L'itinéraire récupéré est invalide :", fullTrip);
+                            console.error("The recovered route is invalid:", fullTrip);
                             return;
                         }
                         setTrip(fullTrip);
@@ -50,7 +50,7 @@ const BookingMysteryTripResult: FC = () => {
                         localStorage.setItem("mysteryTripResult", JSON.stringify(fullTrip));
                     })
                     .catch((error) => {
-                        console.error("Erreur lors de la récupération des détails de l'itinéraire:", error);
+                        console.error("Error retrieving route details:", error);
                     });
             }
         }, 3000);
@@ -68,7 +68,7 @@ const BookingMysteryTripResult: FC = () => {
     };
 
     const handleBooking = () => {
-        navigate("/submit");
+        navigate("/booking-mystery-trip/submit");
     };
 
     if (!showImage) {

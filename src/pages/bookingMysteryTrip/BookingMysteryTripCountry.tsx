@@ -8,44 +8,38 @@ const BookingMysteryTripCountry: FC = () => {
     const [countries, setCountries] = useState<any[]>([]);
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
-    // Récupère la liste des pays depuis l'API
     useEffect(() => {
         const fetchCountries = async () => {
             try {
                 const response = await fetch("http://localhost:8080/countries");
                 if (!response.ok) {
-                    throw new Error("Erreur lors de la récupération des pays");
+                    throw new Error("Error when retrieving countries");
                 }
                 const data = await response.json();
                 setCountries(data);
             } catch (error) {
-                console.error("Impossible de récupérer la liste des pays :", error);
+                console.error("Unable to retrieve list of countries:", error);
             }
         };
         fetchCountries();
     }, []);
 
-    // Lorsqu'un pays est sélectionné, on l'ajoute à selectedCountries
     const handleSelectCountry = (event: ChangeEvent<HTMLSelectElement>) => {
-        const newCountry = event.target.value; // ici, newCountry est une chaîne (le nom)
-        // On s'assure de stocker une chaîne
+        const newCountry = event.target.value;
         if (newCountry && !selectedCountries.includes(newCountry) && selectedCountries.length < 10) {
             setSelectedCountries((prev) => [...prev, newCountry]);
         }
         event.target.value = "";
     };
 
-    // Permet de retirer un pays de la sélection
     const handleRemoveCountry = (country: string) => {
         setSelectedCountries((prev) => prev.filter(c => c !== country));
     };
 
-    // Finalisation de la sélection : on s'assure que seules des chaînes sont enregistrées
     const handleNext = () => {
         localStorage.setItem("excludedCountries", JSON.stringify(selectedCountries));
-        navigate("/date");
+        navigate("/booking-mystery-trip/date");
     };
-
 
     return (
         <>
@@ -81,7 +75,6 @@ const BookingMysteryTripCountry: FC = () => {
             </div>
 
             <div style={{display: "flex", justifyContent: "space-around", alignItems: "flex-start", marginTop: "3rem"}}>
-                {/* Colonne de gauche */}
                 <div style={{width: "40%", display: "flex", flexDirection: "column", gap: "1rem"}}>
                     <h2 style={{fontSize: "2rem"}}>Exclude your destinations</h2>
                     <p style={{fontSize: "1rem", lineHeight: "1.5"}}>
@@ -115,7 +108,6 @@ const BookingMysteryTripCountry: FC = () => {
                         ))}
                     </select>
 
-                    {/* Affichage des pays sélectionnés */}
                     <div style={{
                         display: "flex",
                         flexWrap: "wrap",

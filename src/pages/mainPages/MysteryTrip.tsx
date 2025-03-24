@@ -54,16 +54,14 @@ const MysteryTrip: FC = () => {
                     <p style={{fontSize: "1.2rem", marginBottom: "2rem", lineHeight: 1.5}}>
                         Get ready for an unforgettable adventure with no planning!
                     </p>
-                    {/* Remplacement du bouton HTML par le composant CustomButton */}
                     <CustomButton style={{color: "#fff", marginTop: "2rem"}}>
-                        <Link to="/country" style={{textDecoration: "none", color: "inherit"}}>
+                        <Link to="/booking-mystery-trip/country" style={{textDecoration: "none", color: "inherit"}}>
                             I'll go for it!
                         </Link>
                     </CustomButton>
                 </div>
             </div>
 
-            {/* Navbar affichée par-dessus l'image */}
             <div style={{position: "relative", zIndex: 2}}>
                 <Navbar/>
             </div>

@@ -33,19 +33,8 @@ import BookingMysteryTripDate from "./pages/bookingMysteryTrip/BookingMysteryTri
 import BookingMysteryTripTravellers from "./pages/bookingMysteryTrip/BookingMysteryTripTravellers";
 import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryTripResult";
 import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
-import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMisteryTripBilling";
+import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
 
-
-const exampleTrip: Trip = {
-    id: 1,
-    name: "Luxury Paris Getaway",
-    description: "A luxurious 5-day trip to Paris including fine dining and exclusive experiences.",
-    shortDescription: "5-day luxury trip to Paris.",
-    price: 2500.00,
-    totalDuration: 5, // en jours
-    status: "Available",
-    purchaseDate: "2025-03-17"
-};
 
 
 
@@ -68,18 +57,18 @@ function App() {
                                     <Route path="recap" element={<BookingFormRecap/>}></Route>
                                 </Route>
                                 <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
-
-                                <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
-                                <Route path="mysteryTrip" element={<MysteryTrip/>}></Route>
-                                <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
-                                <Route path="date" element={<BookingMysteryTripDate/>}></Route>
-                                <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
-                                <Route path="result" element={<BookingMysteryTripResult/>}></Route>
-                                <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
-
+                                <Route path="/booking-mystery-trip">
+                                    <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
+                                    <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
+                                    <Route path="date" element={<BookingMysteryTripDate/>}></Route>
+                                    <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
+                                    <Route path="result" element={<BookingMysteryTripResult/>}></Route>
+                                    <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
+                                </Route>
                             </Route>
+
                             <Route path="/">
-                                {/*<Route index element={<HomePage/>}></Route>*/}
+                            {/*<Route index element={<HomePage/>}></Route>*/}
                               <Route path={"homePage"} element={<HomePage/>}></Route>
                                 <Route path="login" element={<LoginPage/>}></Route>
                                 <Route path="register" element={<RegisterPage/>}></Route>
@@ -91,8 +80,8 @@ function App() {
                                 <Route path="terms" element={<TermsOfUse/>}></Route>
                                 <Route path="aboutUs" element={<AboutUs/>}></Route>
                                 <Route path="contact" element={<Contact/>}></Route>
-                               <Route path="tripRecap" element={<TripRecap/>}></Route>
-
+                                <Route path="tripRecap" element={<TripRecap/>}></Route>
+                                <Route path="mystery-trip" element={<MysteryTrip/>}></Route>
 
                             </Route>
 

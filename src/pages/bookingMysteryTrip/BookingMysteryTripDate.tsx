@@ -11,37 +11,32 @@ const BookingMysteryTripDate: FC = () => {
     const [departureDate, setDepartureDate] = useState<Dayjs | null>(null);
     const navigate = useNavigate();
 
-    // Formate la date au format "DD/MM/YYYY"
     const formatDate = (date: Dayjs): string => {
         return date.format("DD/MM/YYYY");
     };
 
-    // Ajoute 12 jours à la date passée en paramètre
     const add12Days = (date: Dayjs): Dayjs => {
         return date.add(12, "day");
     };
 
-    // Lorsqu'une date est sélectionnée, on la stocke (on autorise une seule sélection)
     const handleDateSelect = (newDate: Dayjs | null) => {
         if (!departureDate && newDate) {
             setDepartureDate(newDate);
         }
     };
 
-    // Réinitialise la date sélectionnée
     const resetDate = () => {
         setDepartureDate(null);
     };
 
     const endDate = departureDate ? add12Days(departureDate) : null;
 
-    // Lors du clic sur "Result", on enregistre les dates dans le localStorage et on navigue vers "/traveller"
     const handleResultClick = () => {
         if (departureDate) {
             localStorage.setItem("departureDate", departureDate.toISOString());
             const retDate = add12Days(departureDate);
             localStorage.setItem("returnDate", retDate.toISOString());
-            navigate("/traveller");
+            navigate("/booking-mystery-trip/traveller");
         }
     };
 
