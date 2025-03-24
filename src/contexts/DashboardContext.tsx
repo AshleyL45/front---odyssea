@@ -2,6 +2,7 @@ import {createContext, JSX, useContext, useEffect, useMemo, useState} from "reac
 import {Trip} from "../@types/Trip";
 import {get} from "../API/api";
 import {useAuth} from "./AuthContext";
+import {useLocation} from "react-router-dom";
 
 interface DashboardContextProps {
     userReservations: Trip[];
@@ -9,30 +10,32 @@ interface DashboardContextProps {
     pastTrips: Trip[];
     currentTrips: Trip[];
     lastDoneReservation: Trip | undefined;
+    personalizedTrips: Trip[];
 }
 
 const DashboardContext = createContext<DashboardContextProps | null>(null);
 
 export const DashboardContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
     const [userReservations, setUserReservations] = useState<Trip[]>([]);
-    const {userId} = useAuth();
-    const userIdNumber = userId.toString()
+    const [personalizedTrips, setPersonalizedTrips] = useState<Trip[]>([]);
+    const {userId, token} = useAuth();
+    const location = useLocation();
 
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const reservations = await get(`/reservations/${userId}`);
-                if (reservations) {
+                const userItineraries = await get(`/userItinerary/all/${userId}`);
+                if (reservations && userItineraries) {
                     setUserReservations(reservations);
+                    setPersonalizedTrips(userItineraries);
                 }
-
-                console.log("fetching reservations : " + typeof userIdNumber);
             } catch (e) {
                 console.error("Error while fetching reservations: ", e);
             }
         };
         fetchReservations();
-    }, [userId]);
+    }, [token, location]);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -52,7 +55,7 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
     const currentTrips = userReservations.filter((reservation) => {
         if (!reservation.purchaseDate) return false;
         const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate >= today;
+        return (reservation.status === "En attente" || reservation.status === "Current") && reservationDate >= today;
     });
 
     const lastDoneReservation = userReservations.find((reservation) => {
@@ -63,7 +66,7 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
 
     return (
         <DashboardContext.Provider
-            value={{userReservations, firstCurrentReservation, pastTrips, currentTrips, lastDoneReservation}}>
+            value={{userReservations, firstCurrentReservation, pastTrips, currentTrips, lastDoneReservation, personalizedTrips}}>
             {children}
         </DashboardContext.Provider>
     );

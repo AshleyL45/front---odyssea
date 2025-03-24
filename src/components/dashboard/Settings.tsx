@@ -33,11 +33,17 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
         try{
             const deleteAccount = await deleteFromDB(`/auth/${userId}/deleteAccount`);
             if(deleteAccount){
-                navigate("/login");
+                navigate("/");
             }
         } catch (e) {
             console.error("Cannot delete account : ", e);
         }
+    }
+
+    const handleLogout = () => {
+        navigate("/");
+        logout();
+        console.log("Logout is now " + userId);
     }
 
 
@@ -83,7 +89,7 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
                             display: "block",
                             marginLeft: "8rem",
                             marginTop: "3rem"
-                        }} onClick={logout}>Log out</CustomButton>
+                        }} onClick={handleLogout}>Log out</CustomButton>
                 </div>
 
                 <CustomButton sx={{color: "red", width: "180px", alignSelf: "end"}} onClick={handleDeleteAccount}>Delete

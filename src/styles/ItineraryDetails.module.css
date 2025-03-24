@@ -1,0 +1,217 @@
+/* Styles pour l'en-tête de l'itinéraire */
+.headerContainer {
+    min-height: 99vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: flex-end;
+    align-self: end;
+    position: relative;
+    bottom: 150px;
+    z-index: -1;
+}
+
+.headerContent {
+    margin-top: auto;
+    margin-bottom: 4rem;
+    margin-right: 3rem;
+}
+
+.headerTitle {
+    font-size: 3.5rem;
+    color: white;
+}
+
+.headerDivider {
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    border: none;
+    border-top: 1px solid white;
+    width: 80%;
+    height: 3px;
+}
+
+/* Styles pour la barre d'actions (favoris, bouton de réservation) */
+.actionsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 2rem 1rem;
+    gap: 35px;
+}
+
+.favoriteContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Styles pour la section des détails de l'itinéraire */
+.itineraryDetails {
+    text-align: center;
+}
+
+.detailsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    width: 70%;
+    margin: 2rem auto;
+    text-align: center;
+    height: 50vh;
+}
+
+.gridItem {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gridItemFullWidth {
+    grid-column: span 2;
+    margin: auto;
+    border: 1px solid black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Styles pour la section des activités */
+.activitiesSection {
+    text-align: center;
+}
+
+.activitiesList {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Styles pour le collage d'images */
+.collage {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 2rem 0;
+}
+
+.collageItem {
+    background-size: cover;
+    background-position: center;
+}
+
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.div2 {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.div3 {
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+/* Styles pour la section de l'itinéraire */
+.itinerarySection {
+    text-align: center;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+
+.itinerarySection h2 {
+    margin-bottom: 3rem;
+}
+
+.itineraryContent {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.itineraryImage {
+    width: 40%;
+}
+
+/* Styles pour la section des détails du séjour */
+.stayDetailsSection {
+    text-align: center;
+    margin-top: 6rem;
+}
+
+.tripDetailsSeparator {
+    margin: 2rem 0;
+}
+
+/* Styles pour le bouton de réservation */
+.reservationButtonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 6rem;
+}
+
+
+@media screen and  (max-width: 800px) {
+
+    .headerTitle {
+        font-size: 2.6rem;
+        margin : 1rem 2rem;
+    }
+
+    .headerDivider {
+        margin: 1rem 2rem;
+    }
+
+    .actionsContainer {
+        margin-bottom: 4rem;
+    }
+
+    .headerContainer {
+        height: 60vh;
+    }
+
+    .favoriteContainer {
+        justify-content: center;
+        gap: 0;
+    }
+
+    .itineraryDetails {
+        margin: 1rem 2rem;
+    }
+
+    .detailsGrid {
+        width: 95%;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto auto;
+    }
+    .gridItemFullWidth {
+        grid-column: span 1;
+    }
+
+    .activitiesSection {
+        margin-top: 4.5rem;
+    }
+
+    .activitiesList {
+        margin-top: 2rem;
+    }
+
+    .itineraryContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2.5rem;
+        margin-top: 2rem;
+    }
+
+    .stayDetailsSection {
+        margin-bottom: -10rem;
+    }
+
+}

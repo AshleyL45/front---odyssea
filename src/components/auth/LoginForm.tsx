@@ -2,7 +2,7 @@ import {FC, JSX, useState} from 'react';
 import TextField from "@mui/material/TextField";
 import styles from "../../styles/LoginForm.module.css"
 import CustomButton from "../ReusableComponents/CustomButton";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../contexts/AuthContext";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {post} from "../../API/api";
@@ -18,6 +18,7 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
     const navigate = useNavigate()
     const {login} = useAuth();
     const [error, setError] = useState("");
+    const location = useLocation();
 
 
     const {register, handleSubmit, formState: {errors}} = useForm({
@@ -36,8 +37,10 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
             if (response.token) {
                 login(response.token);
-                navigate('/homePage');
-                console.log("response : " + response.token)}
+                const from = location.state?.from || '/';
+                navigate(from, {replace: true});
+                //console.log("response : " + response.token)
+            }
 
         } catch (e) {
             console.warn("Error logging in : ", e);

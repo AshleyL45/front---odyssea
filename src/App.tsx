@@ -34,28 +34,27 @@ import BookingMysteryTripTravellers from "./pages/bookingMysteryTrip/BookingMyst
 import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryTripResult";
 import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
 import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
-
+import BackToTopLayout from './layout/BackToTopLayout';
 
 
 
 function App() {
-  return (
-    <>
+    return (
         <AuthProvider>
             <DashboardContextProvider>
                 <MySelectionProvider>
                     <ReservationContextProvider>
                         <Routes>
                             <Route element={<ProtectedRoutes/>}>
-                                <Route path="dashboard" element={<Dashboard/>}></Route>
-                                {/*A mettre avec le layoutReservation*/}
+                                <Route path="dashboard" element={<Dashboard/>}/>
                                 <Route path="/booking">
-                                    <Route path="date" element={<BookingFormDate/>}></Route>
-                                    <Route path="people" element={<BookingFormPeople/>}></Route>
-                                    <Route path="options" element={<BookingFormOptions/>}></Route>
-                                    <Route path="billing" element={<BookingFormBilling/>}></Route>
-                                    <Route path="recap" element={<BookingFormRecap/>}></Route>
+                                    <Route path="date" element={<BookingFormDate/>}/>
+                                    <Route path="people" element={<BookingFormPeople/>}/>
+                                    <Route path="options" element={<BookingFormOptions/>}/>
+                                    <Route path="billing" element={<BookingFormBilling/>}/>
+                                    <Route path="recap" element={<BookingFormRecap/>}/>
                                 </Route>
+
                                 <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
                                 <Route path="/booking-mystery-trip">
                                     <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
@@ -65,6 +64,7 @@ function App() {
                                     <Route path="result" element={<BookingMysteryTripResult/>}></Route>
                                     <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
                                 </Route>
+                                <Route path="reservationDetails" element={<ReservationDetails/>}/>
                             </Route>
 
                             <Route path="/">
@@ -83,19 +83,27 @@ function App() {
                                 <Route path="tripRecap" element={<TripRecap/>}></Route>
                                 <Route path="mystery-trip" element={<MysteryTrip/>}></Route>
 
+                                <Route element={<BackToTopLayout/>}>
+                                    <Route index element={<HomePage/>}/>
+                                    <Route path="trips" element={<ItineraryListPage/>}/>
+                                    <Route path="trip/:tripId" element={<ItineraryDetails/>}/>
+                                </Route>
+                                <Route path="login" element={<LoginPage/>}/>
+                                <Route path="register" element={<RegisterPage/>}/>
+                                <Route path="cookies" element={<CookiesPolitic/>}/>
+                                <Route path="legal" element={<LegalInformation/>}/>
+                                <Route path="privacy" element={<PrivacyPreferences/>}/>
+                                <Route path="terms" element={<TermsOfUse/>}/>
+                                <Route path="aboutUs" element={<AboutUs/>}/>
+                                <Route path="contact" element={<Contact/>}/>
+                                <Route path="tripRecap" element={<TripRecap/>}/>
                             </Route>
-
                         </Routes>
                     </ReservationContextProvider>
                 </MySelectionProvider>
             </DashboardContextProvider>
         </AuthProvider>
-
-
-
-
-    </>
-  );
+    );
 }
 
 export default App;
