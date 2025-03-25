@@ -1008,12 +1008,12 @@ footer p {
 
 .option-layout {
     width: 80%;
-    margin: auto;
+    margin: 20px auto;
 }
 
 .option-layout-item {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
     align-items: center;
     margin: 10px 0;

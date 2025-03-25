@@ -4,25 +4,27 @@ import {Trip} from "../../../@types/Trip";
 import styles from "../../../styles/Reservation.module.css";
 import {get} from "../../../API/api";
 import {useAuth} from "../../../contexts/AuthContext";
-import {useReservation} from "../../../contexts/ReservationContext";
-import {useDashboard} from "../../../contexts/DashboardContext";
 import Pages from "../../../components/layout/Pages"
+
+
 
 const Reservation: ({}: {}) => JSX.Element = ({}) => {
     const [activeFilter, setActiveFilter] = useState<string>("Tout");
     const {userId} = useAuth();
-    const {personalizedTrips} = useDashboard();
     const [userReservations, setUserReservations] = useState<Trip[]>([]);
     const [filteredReservations, setFilteredReservations] = useState<Trip[]>([]);
+
+    console.log(userId)
 
     // Récupérer les réservations de l'utilisateur
     useEffect(() => {
         const fetchAndFilterReservations = async () => {
             try {
                 const reservations = await get(`/reservations/${userId}`);
-                console.log("Reservations : ", JSON.stringify(reservations));
+                const userItineraries = await get(`/userItinerary/all/${userId}`);
+                //console.log("Reservations : ", JSON.stringify(reservations));
 
-                if (reservations) {
+                if (reservations && userItineraries) {
                     setUserReservations(reservations);
                     const filtered = activeFilter === "Tout" ? reservations : reservations.filter((reservation: Trip) => reservation.status === activeFilter);
                     setFilteredReservations(filtered);
@@ -52,7 +54,7 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
     return (
         <>
             <Pages title="Reservation - Odyssea">
-            </Pages>
+
             <div className={styles.reservationContainer}>
                 <h1>My bookings</h1>
                 <h2 className={styles.titles}>Current</h2>
@@ -98,14 +100,8 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
                             <TripDashboard key={reservation.id} trip={reservation} page={"Reservations"}/>)
                     }
                 </div>
-                <div>
-                    {
-                        personalizedTrips && personalizedTrips.length > 0 && personalizedTrips.map((personalizedTrip) =>
-                            <TripDashboard trip={personalizedTrip} page={"Reservations"} type={"Tailor made"}/>
-                        )
-                    }
-                </div>
             </div>
+            </Pages>
         </>
     );
 };

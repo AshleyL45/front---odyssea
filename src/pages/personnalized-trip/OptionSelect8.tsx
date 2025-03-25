@@ -84,7 +84,7 @@ const OptionSelect8: FC<{}> = ({}) => {
             setUserItinerary(response)
             console.log("Response back : " + JSON.stringify(response, null, 2));
 
-            navigate("/personalized-trip/recap", {state: {itinerary: response}})
+            navigate("/personalized-trip/recap", {state: {itinerary: response, itineraryId: response.id}})
 
         } catch (e) {
             console.error(e)

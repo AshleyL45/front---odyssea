@@ -40,9 +40,9 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
         <div className="container-myselection">
             <h1>My selection</h1>
 
-            <div style={{display: "flex", justifyContent: "space-between", width: "40%", margin: "auto"}}>
+            <div style={{display: "flex", justifyContent: "center", width: "40%", margin: "auto"}}>
                 <p onClick={() => handleSorting("Prix")}
-                   style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Price {sortPrice ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
+                   style={{display: "flex", alignItems: "center", justifyContent: "center"}}>Price {sortPrice ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
             </div>
 
             {sortedFavorites && sortedFavorites.length > 0 ? (

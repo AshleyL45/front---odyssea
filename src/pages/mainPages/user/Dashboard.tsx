@@ -8,6 +8,7 @@ import PersonalInformation from "../../../components/dashboard/PersonalInformati
 import SideBoard from "../../../components/navbars/SideBoard";
 import NavbarDashboard from "../../../components/navbars/NavbarDashboard";
 import Pages from "../../../components/layout/Pages"
+import PersonalizedTrips from "../../../components/dashboard/PersonalizedTrips";
 
 const Dashboard: ({}: {}) => JSX.Element = ({}) => {
     const [activePage, setActivePage] = useState<string>("Overview");
@@ -30,6 +31,7 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                     {activePage === "My selection" && <MySelection/>}
                     {activePage === "Personal information" && <PersonalInformation/>}
                     {activePage === "Settings" && <Settings/>}
+                    {activePage === "My personalized trips" && <PersonalizedTrips/>}
                 </div>
 
             </div>

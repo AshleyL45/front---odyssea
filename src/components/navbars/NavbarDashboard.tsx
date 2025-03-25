@@ -14,8 +14,8 @@ const NavbarDashboard: FC<{}> = ({}) => {
             <nav className="navbar-dashboard">
 
                 <div>
-                    <p className="return-button" style={{display: "flex", alignItems: "center", textDecoration: "underline", cursor: "pointer"}}>
-                        <ArrowBackIosNewIcon sx={{fontSize: "12px"}} onClick={() => navigate("/")}/>
+                    <p onClick={() => navigate("/")} className="return-button" style={{display: "flex", alignItems: "center", textDecoration: "underline", cursor: "pointer"}}>
+                        <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/>
                         back to website
                     </p>
                 </div>

@@ -8,25 +8,37 @@ import {ItineraryDay, PersonalizedTripResponse} from "../../@types/PersonalizeTr
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
+import {post} from "../../API/api";
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 
 
 const TripPersRecap: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const itinerary = location.state?.itinerary || {};
-    /*const [itinerary, setItinerary] = useState<PersonalizedTripResponse | null>(null);
+    const {questionnaireAnswers} = usePersonalizedTrip()
+    const [message, setMessage] = useState("")
+    const itineraryId = Number(JSON.parse(localStorage.getItem("currentItineraryId") as string));
 
-    useEffect(() => {
-        // Récupérer les données depuis le localStorage
-        const storedItinerary = localStorage.getItem("questionnaireData");
-        if (storedItinerary) {
-            setItinerary(JSON.parse(storedItinerary));
+
+    const handleSubmit = async () => {
+        try {
+            // Si un nom d'itinéraire existe, on l'envoie à l'API
+            if (questionnaireAnswers.itineraryName) {
+                const response = await post(`/userItinerary/itineraryName/${itineraryId}`, {
+                    itineraryName: questionnaireAnswers.itineraryName
+                });
+                setMessage(response);
+            }
+
+            // Dans tous les cas, on navigue vers le dashboard
+            navigate("/dashboard");
+
+        } catch (e) {
+            console.error(e);
+            setMessage("Error saving itinerary name");
         }
-    }, []);
-
-    if (!itinerary) {
-        return <p>Loading itinerary...</p>;
-    }*/
+    };
 
     const endDate = itinerary.startDate
         ? dayjs(itinerary.startDate).add(13, "day").format("YYYY-MM-DD")
@@ -60,6 +72,8 @@ const TripPersRecap: FC = () => {
                 <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
 
                 <ItineraryNameInput/>
+                <p>{message}</p>
+
 
                 <div>
                     <div style={{display: "flex", justifyContent: "center", textAlign: "center", margin: "2rem auto"}}>
@@ -138,7 +152,7 @@ const TripPersRecap: FC = () => {
                     type="submit"
                     style={{width: "130px", marginTop: "70px"}}
                     variant="contained"
-                    onClick={() => navigate("/dashboard")}
+                    onClick={handleSubmit}
 
                 >
                     Submit

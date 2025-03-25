@@ -5,7 +5,7 @@ import Carousel from "../../components/homePage/Carousel";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
 import {useNavigate, useParams} from "react-router-dom";
-import itinerariesData from "../../assets/itinerary.json";
+import {imageData} from "../../assets/image"
 import {get} from "../../../src/API/api";
 import {useFavorites} from "../../contexts/MySelectionContext";
 import StarIcon from '@mui/icons-material/Star';
@@ -83,7 +83,7 @@ const ItineraryDetails: FC<{}> = () => {
         }
     };
 
-    const itineraryImage: Image | undefined = itinerariesData.find(
+    const itineraryImage: any = imageData.find(
         (it) => it.id === itineraryId
     );
 
@@ -116,12 +116,8 @@ const ItineraryDetails: FC<{}> = () => {
                 <>
                     <div
                         style={{
-                            height: 281,
-                            width: "100%",
-                            backgroundImage: `url(${itineraryImage?.images.header})`,
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            alignSelf: "end",
+                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.6)), 
+                          url(${itineraryImage?.images.header[0]})`
                         }}
                     >
                         <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>

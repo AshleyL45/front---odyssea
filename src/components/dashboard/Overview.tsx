@@ -12,7 +12,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
     const {userReservations, lastDoneReservation, pastTrips} = useDashboard();
     const navigate = useNavigate();
     const {favorites} = useFavorites();
-    console.log(userReservations)
+    //console.log(JSON.stringify(userReservations))
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
