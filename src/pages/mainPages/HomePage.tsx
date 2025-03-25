@@ -10,6 +10,7 @@ import Navbar from "../../components/navbars/Navbar";
 import BlogItemBlog from "../../components/ReusableComponents/BlogItemBlog";
 import {imageData} from "../../assets/image";
 import HomeCarousel from "../../components/homePage/HomeCarousel";
+import Pages from "../../components/layout/Pages";
 
 
 interface Itinerary {
@@ -79,6 +80,9 @@ const HomePage: React.FC = () => {
 
     return (
         <>
+            <Pages title="Home - Odyssea">
+            </Pages>
+
             {isMobileOrTablet ? (
                 <HomeCarousel images={data}/>
             ) : (
