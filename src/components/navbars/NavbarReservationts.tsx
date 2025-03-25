@@ -8,7 +8,7 @@ const NavbarReservation: FC<{}> = ({}) => {
     return (
         <>
 
-            <MenuOpenIcon/>
+           
 
             <nav className="navbar-reservation">
 

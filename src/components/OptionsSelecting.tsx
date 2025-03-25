@@ -57,9 +57,9 @@ const OptionsSelecting: FC<OptionsSelectingProps> = ({options, onOptionsChange})
 
     const categories = [
         "Luxury & Well-being",
-        "Transport & Exclusive Experiences",
+        "Exclusive Transport & Experiences",
         "Shopping & Events",
-        "Exceptional Services & Comfort"
+        "Exceptional & Comfort Services"
     ]
 
     const [selectedOptions, setSelectedOptions] = useState<number[]>([]);

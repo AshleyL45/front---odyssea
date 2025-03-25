@@ -64,7 +64,7 @@ function App() {
                             <Route element={<ProtectedRoutes/>}>
                                 <Route path="dashboard" element={<Dashboard/>}></Route>
                                 {/*A mettre avec le layoutReservation*/}
-                                <Route path="/booking">
+                                <Route path="/booking" element={<LayoutReservation/>}>
                                     <Route path="date" element={<BookingFormDate/>}></Route>
                                     <Route path="people" element={<BookingFormPeople/>}></Route>
                                     <Route path="options" element={<BookingFormOptions/>}></Route>
