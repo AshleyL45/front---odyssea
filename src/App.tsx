@@ -103,16 +103,18 @@ function App() {
 
                             <Route path="/personalized-trip" element={<LayoutReservation/>}>
                                 <Route path="summary" element={<TripSummary/>}/>
-                                <Route path="date" element={<DateSelect1/>}/>
-                                <Route path="traveler-selection" element={<TravelerSelect2/>}/>
-                                <Route path="departure" element={<CityFrom3/>}/>
-                                <Route path="country-selection" element={<CountrySelect4/>}/>
-                                <Route path="city-selection" element={<CitySelect5/>}/>
-                                <Route path="standing-selection" element={<StandingSelect6/>}/>
-                                <Route path="activity-selection" element={<ActivitySelect7/>}/>
-                                <Route path="option-selection" element={<OptionSelect8/>}/>
-                                <Route path="message-section" element={<Trip9/>}/>
-                                <Route path="recap" element={<TripPersRecap/>}/>
+                                <Route element={<ProtectedRoutes/>}>
+                                    <Route path="date" element={<DateSelect1/>}/>
+                                    <Route path="traveler-selection" element={<TravelerSelect2/>}/>
+                                    <Route path="departure" element={<CityFrom3/>}/>
+                                    <Route path="country-selection" element={<CountrySelect4/>}/>
+                                    <Route path="city-selection" element={<CitySelect5/>}/>
+                                    <Route path="standing-selection" element={<StandingSelect6/>}/>
+                                    <Route path="activity-selection" element={<ActivitySelect7/>}/>
+                                    <Route path="option-selection" element={<OptionSelect8/>}/>
+                                    <Route path="message-section" element={<Trip9/>}/>
+                                    <Route path="recap" element={<TripPersRecap/>}/>
+                                </Route>
                             </Route>
 
                             </Routes>

@@ -7,6 +7,7 @@ import {useAuth} from "../../contexts/AuthContext";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {post} from "../../API/api";
 import {Card} from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 interface LoginFormInput {
     email: string
@@ -55,6 +56,11 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <>
+            <a href="/" className="return-button"
+               style={{display: "flex", alignItems: "center", textDecoration: "underline", color: "white"}}>
+                <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/>
+                return to website
+            </a>
             <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
                 <h1>Login</h1>
                 <p>Don't have an account yet? <span style={{textDecoration: "underline", cursor: "pointer"}}

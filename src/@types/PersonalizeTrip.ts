@@ -80,12 +80,31 @@ export interface Hotel {
     price: number;
 }
 
-export interface FlightItineraryDTO {
+interface FlightItineraryDTO {
     id: number;
-    oneWay: boolean;
-    totalPrice: number;
-    currency: string;
-    createdAt: string;
+    duration: string; // ISO 8601 duration format (e.g., 'PT5H10M')
+    segments: FlightSegment[];
+}
+
+interface FlightSegment {
+    id: string;
+    departure: FlightLocation;
+    arrival: FlightLocation;
+    carrierCode: string;
+    aircraft: Aircraft;
+    duration: string;
+    price: number | null;
+    carrierName: string;
+    aircraftName: string;
+}
+
+interface FlightLocation {
+    iataCode: string;
+    at: string; // ISO 8601 date-time format (e.g., '2025-04-21T11:30:00')
+}
+
+interface Aircraft {
+    code: string;
 }
 
 export interface ItineraryDay {
