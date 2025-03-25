@@ -5,6 +5,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {useFavorites} from "../../contexts/MySelectionContext";
 import {Trip} from "../../@types/Trip";
 import {useNavigate} from "react-router-dom";
+import "../../App.css"
 
 const MySelection: ({}: {}) => JSX.Element = ({}) => {
     const[sortPrice, setSortPrice] = useState(false);
@@ -44,13 +45,8 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
     }
 
     return (
-        <div>
-            <h1 style={{
-                marginLeft: "8rem",
-                marginTop: "1.8rem",
-                marginBottom: "2rem",
-                fontSize: "1.8rem"
-            }}>My selection</h1>
+        <div className="container-myselection">
+            <h1>My selection</h1>
 
             <div style={{display: "flex", justifyContent: "space-between", width: "40%", margin: "auto"}}>
                 <p onClick={() => handleSorting("Prix")}

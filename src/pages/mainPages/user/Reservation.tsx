@@ -1,12 +1,12 @@
 import {FC, JSX, useEffect, useState} from 'react';
 import TripDashboard from "../../../components/ReusableComponents/TripDashboard";
 import {Trip} from "../../../@types/Trip";
-import styles from "../../../styles/Reservation.module.css"
+import styles from "../../../styles/Reservation.module.css";
 import {get} from "../../../API/api";
 import {useAuth} from "../../../contexts/AuthContext";
+import {useReservation} from "../../../contexts/ReservationContext";
 import {useDashboard} from "../../../contexts/DashboardContext";
 import Pages from "../../../components/layout/Pages"
-
 
 const Reservation: ({}: {}) => JSX.Element = ({}) => {
     const [activeFilter, setActiveFilter] = useState<string>("Tout");
@@ -18,27 +18,26 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
     // Récupérer les réservations de l'utilisateur
     useEffect(() => {
         const fetchAndFilterReservations = async () => {
-            try{
+            try {
                 const reservations = await get(`/reservations/${userId}`);
                 console.log("Reservations : ", JSON.stringify(reservations));
 
-                if(reservations){
+                if (reservations) {
                     setUserReservations(reservations);
-                    const filtered = activeFilter === "Tout" ? reservations : reservations.filter((reservation : Trip) => reservation.status === activeFilter);
+                    const filtered = activeFilter === "Tout" ? reservations : reservations.filter((reservation: Trip) => reservation.status === activeFilter);
                     setFilteredReservations(filtered);
                 }
             } catch (e) {
                 console.error("Error while fetching reservations : ", e);
             }
-        }
+        };
         fetchAndFilterReservations();
     }, [activeFilter]);
 
     // Gestion des filtres
-    const handleFiltering = (filterName : string) => {
+    const handleFiltering = (filterName: string) => {
         setActiveFilter(filterName);
     }
-
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -49,7 +48,6 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
         const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
         return reservation.status === "En attente" && reservationDate < today;
     });
-
 
     return (
         <>
