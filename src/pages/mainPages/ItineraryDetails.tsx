@@ -20,6 +20,7 @@ import {imageData} from "../../assets/image"
 import styles from "../../styles/ItineraryDetails.module.css"
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
 import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
+import Pages from "../../components/layout/Pages";
 
 
 interface ItineraryImages {
@@ -136,6 +137,9 @@ const ItineraryDetails: FC<{}> = () => {
             <Navbar/>
             {itineraryToDisplay ? (
                 <>
+                    <Pages title="Itinerary Details">
+                    </Pages>
+
                     <div
                         className={styles.headerContainer}
                         style={{

@@ -6,6 +6,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import dayjs, {Dayjs} from "dayjs";
+import Pages from "../../components/layout/Pages";
 
 const BookingMysteryTripDate: FC = () => {
     const [departureDate, setDepartureDate] = useState<Dayjs | null>(null);
@@ -42,6 +43,8 @@ const BookingMysteryTripDate: FC = () => {
 
     return (
         <>
+            <Pages title="Booking - Mystery Trip">
+            </Pages>
             <NavbarReservation/>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>

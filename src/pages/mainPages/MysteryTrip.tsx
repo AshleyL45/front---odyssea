@@ -6,10 +6,14 @@ import MysteryTripDetailsReverse from "../../components/ReusableComponents/Myste
 import MysteryTripBanner from "../../components/MysteryTripBanner";
 import Footer from "../../components/Footer";
 import {Link} from "react-router-dom";
+import Pages from "../../components/layout/Pages";
 
 const MysteryTrip: FC = () => {
     return (
         <>
+            <Pages title="Mystery Trip - Odyssea">
+            </Pages>
+
         <div style={{position: "relative", minHeight: "100vh"}}>
             <div
                 style={{

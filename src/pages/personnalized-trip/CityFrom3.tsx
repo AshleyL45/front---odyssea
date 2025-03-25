@@ -5,7 +5,8 @@ import "../../App.css";
 import {useNavigate} from "react-router-dom";
 import CityFromSelecting from "../../components/persTrip/CityFromSelecting";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
-import "../../App.css"
+import "../../App.css";
+import Pages from "../../components/layout/Pages";
 
 const CityFrom3: FC = () => {
     const navigate = useNavigate();
@@ -22,6 +23,9 @@ const CityFrom3: FC = () => {
 
     return (
         <div>
+            <Pages title="Personalized Trip">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div

@@ -9,6 +9,7 @@ import Footer from "../../components/Footer";
 import Sort from "../../components/Sort";
 import styles from "../../styles/TripListPage.module.css";
 import {imageData} from "../../assets/image";
+import Pages from "../../components/layout/Pages";
 
 interface TripExtended extends Trip {
     themeId: number;
@@ -113,6 +114,9 @@ const ItineraryListPage: FC = () => {
 
     return (
         <>
+            <Pages title="Our itineraries - Odyssea">
+            </Pages>
+
             <HeroSection/>
             <SearchBar/>
             <section className={styles.sortList}>

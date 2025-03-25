@@ -91,6 +91,7 @@ function App() {
                                 </Route>
                                 <Route path="login" element={<LoginPage/>}/>
                                 <Route path="register" element={<RegisterPage/>}/>
+                                 <Route path="mystery-trip" element={<MysteryTrip/>}></Route>
                                 <Route path="cookies" element={<CookiesPolitic/>}/>
                                 <Route path="legal" element={<LegalInformation/>}/>
                                 <Route path="privacy" element={<PrivacyPreferences/>}/>

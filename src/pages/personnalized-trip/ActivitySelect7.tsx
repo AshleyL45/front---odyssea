@@ -5,6 +5,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import "../../App.css";
 import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
+import Pages from "../../components/layout/Pages";
 
 const ActivitySelect7: FC<{}> = () => {
     const navigate = useNavigate();
@@ -46,6 +47,8 @@ const ActivitySelect7: FC<{}> = () => {
 
     return (
         <div>
+            <Pages title="Personalized Trip">
+            </Pages>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div
