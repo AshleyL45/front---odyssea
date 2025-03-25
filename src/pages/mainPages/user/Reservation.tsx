@@ -4,7 +4,9 @@ import {Trip} from "../../../@types/Trip";
 import styles from "../../../styles/Reservation.module.css";
 import {get} from "../../../API/api";
 import {useAuth} from "../../../contexts/AuthContext";
+import {useReservation} from "../../../contexts/ReservationContext";
 import {useDashboard} from "../../../contexts/DashboardContext";
+import Pages from "../../../components/layout/Pages"
 
 const Reservation: ({}: {}) => JSX.Element = ({}) => {
     const [activeFilter, setActiveFilter] = useState<string>("Tout");
@@ -48,69 +50,63 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
     });
 
     return (
-        <div className={styles.reservationContainer}>
-            <h1>My bookings</h1>
-            <h2 className={styles.titles}>En cours</h2>
-            {userReservations ? userReservations.map((reservation) => (
-                <TripDashboard trip={reservation} page={"Reservations"}/>
-            )) : (
-                <p style={{marginLeft: "8rem"}}>No current trip.</p>
-            )}
-
-            <div className={styles.filters}>
-                {/* Affichage des filtres en ligne pour les écrans plus larges */}
-                <p
-                    className={`${styles.filterItem} ${activeFilter === "Tout" ? styles.active : ""}`}
-                    onClick={() => handleFiltering("Tout")}
-                >
-                    Tout
-                </p>
-
-                <p
-                    className={`${styles.filterItem} ${activeFilter === "En attente" ? styles.active : ""}`}
-                    onClick={() => handleFiltering("En attente")}
-                >
-                    En attente
-                </p>
-
-                <p
-                    className={`${styles.filterItem} ${activeFilter === "Confirmé" ? styles.active : ""}`}
-                    onClick={() => handleFiltering("Confirmé")}
-                >
-                    Confirmé
-                </p>
-
-                <p
-                    className={`${styles.filterItem} ${activeFilter === "Annulé" ? styles.active : ""}`}
-                    onClick={() => handleFiltering("Annulé")}
-                >
-                    Annulé
-                </p>
-
-                {/* Affichage du menu déroulant pour les petits écrans */}
-                <select
-                    className={styles.filterDropdown}
-                    value={activeFilter}
-                    onChange={(e) => handleFiltering(e.target.value)}
-                >
-                    <option value="Tout">Tout</option>
-                    <option value="En attente">En attente</option>
-                    <option value="Confirmé">Confirmé</option>
-                    <option value="Annulé">Annulé</option>
-                </select>
-            </div>
-
-            <div>
-                {filteredReservations && filteredReservations.length > 0 && filteredReservations.map((reservation) =>
-                    <TripDashboard key={reservation.id} trip={reservation} page={"Reservations"}/>
+        <>
+            <Pages title="Reservation - Odyssea">
+            </Pages>
+            <div className={styles.reservationContainer}>
+                <h1>My bookings</h1>
+                <h2 className={styles.titles}>En cours</h2>
+                {userReservations ? userReservations.map((reservation) => (
+                    <TripDashboard trip={reservation} page={"Reservations"}/>
+                )) : (
+                    <p style={{marginLeft: "8rem"}}>No current trip.</p>
                 )}
+                <div className={styles.filters}>
+                    <p
+                        className={`${styles.filterItem} ${activeFilter === "Tout" ? styles.active : ""}`}
+                        onClick={() => handleFiltering("Tout")}
+                    >
+                        Tout
+                    </p>
+
+
+                    <p
+                        className={`${styles.filterItem} ${activeFilter === "En attente" ? styles.active : ""}`}
+                        onClick={() => handleFiltering("En attente")}
+                    >
+                        En attente
+                    </p>
+
+                    <p
+                        className={`${styles.filterItem} ${activeFilter === "Confirmé" ? styles.active : ""}`}
+                        onClick={() => handleFiltering("Confirmé")}
+                    >
+                        Confirmé
+                    </p>
+
+                    <p
+                        className={`${styles.filterItem} ${activeFilter === "Annulé" ? styles.active : ""}`}
+                        onClick={() => handleFiltering("Annulé")}
+                    >
+                        Annulé
+                    </p>
+                </div>
+
+                <div>
+                    {
+                        filteredReservations && filteredReservations.length > 0 && filteredReservations.map((reservation) =>
+                            <TripDashboard key={reservation.id} trip={reservation} page={"Reservations"}/>)
+                    }
+                </div>
+                <div>
+                    {
+                        personalizedTrips && personalizedTrips.length > 0 && personalizedTrips.map((personalizedTrip) =>
+                            <TripDashboard trip={personalizedTrip} page={"Reservations"} type={"Tailor made"}/>
+                        )
+                    }
+                </div>
             </div>
-            <div>
-                {personalizedTrips && personalizedTrips.length > 0 && personalizedTrips.map((personalizedTrip) =>
-                    <TripDashboard trip={personalizedTrip} page={"Reservations"} type={"Tailor made"}/>
-                )}
-            </div>
-        </div>
+        </>
     );
 };
 

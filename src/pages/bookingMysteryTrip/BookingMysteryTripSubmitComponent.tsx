@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import Pages from "../../components/layout/Pages";
 
 const BookingMysteryTripSubmitComponent = () => {
     const navigate = useNavigate();
@@ -30,15 +31,20 @@ const BookingMysteryTripSubmitComponent = () => {
     };
 
     return (
-        <div style={{textAlign: "center", marginTop: "2rem"}}>
-            <CustomButton
-                variant="contained"
-                onClick={handleSubmit}
-                style={{color: "white", backgroundColor: "#2C3E50"}}
-            >
-                Submit Reservation
-            </CustomButton>
-        </div>
+        <>
+            <Pages title="Submit - Mystery Trip">
+            </Pages>
+
+            <div style={{textAlign: "center", marginTop: "2rem"}}>
+                <CustomButton
+                    variant="contained"
+                    onClick={handleSubmit}
+                    style={{color: "white", backgroundColor: "#2C3E50"}}
+                >
+                    Submit Reservation
+                </CustomButton>
+            </div>
+        </>
     );
 };
 

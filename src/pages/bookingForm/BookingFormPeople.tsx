@@ -1,10 +1,11 @@
-import {FC, JSX, useState} from 'react';
+import React, {FC, JSX, useState} from 'react';
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import {useReservation} from "../../contexts/ReservationContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Pages from "../../components/layout/Pages";
 
 
 const BookingFormPeople: ({}: {}) => JSX.Element = ({}) => {
@@ -40,6 +41,9 @@ const BookingFormPeople: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <>
+            <Pages title="Booking Form">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{

@@ -74,14 +74,14 @@ const Navbar: () => JSX.Element = () => {
                         <div className="navbar-left">
                             <ul>
                                 <li><a href="/trips">Our itineraries </a></li>
-                                <li><a href="/tripRecap">Personalized trip</a></li>
+                                <li><a href="/personalized-trip/summary">Personalized trip</a></li>
                                 <li><a href="/mystery-trip">Mystery trip</a></li>
                             </ul>
                         </div>
                     </div>
 
                     <div className="navbar-center">
-                        <a href="/homePage" className="logo">
+                        <a href="/" className="logo">
                             <img className="logo-image" src={logo} alt="Odyssea logo"/>
                         </a>
                     </div>

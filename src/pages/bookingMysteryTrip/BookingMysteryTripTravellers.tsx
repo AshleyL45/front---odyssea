@@ -6,6 +6,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import {useReservation} from "../../contexts/ReservationContext";
+import Pages from "../../components/layout/Pages";
 
 const BookingFormPeople: FC = () => {
     const navigate = useNavigate();
@@ -42,6 +43,9 @@ const BookingFormPeople: FC = () => {
 
     return (
         <>
+            <Pages title="Booking - Mystery Trip">
+            </Pages>
+
             <NavbarReservation/>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>
