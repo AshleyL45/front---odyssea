@@ -1,12 +1,12 @@
 import {FC, JSX, useEffect, useRef, useState} from 'react';
-import styles from "../styles/components/SearchBar.module.css"
+import styles from "../../styles/components/SearchBar.module.css"
 import SearchIcon from '@mui/icons-material/Search';
 import {debounceTime, filter, fromEvent, map, switchMap, tap} from "rxjs";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {List, ListItemButton, ListItemText} from "@mui/material";
-import {Trip} from "../@types/Trip";
-import {get} from "../API/api";
+import {Trip} from "../../@types/Trip";
+import {get} from "../../API/api";
 
 const SearchBar: ({}: {}) => JSX.Element = ({}) => {
 

@@ -3,10 +3,10 @@ import {Trip} from "../../@types/Trip";
 import {get} from "../../API/api";
 import TripItemTravel from "../../components/ReusableComponents/TripItemTravel";
 import TripItemTravelReverse from "../../components/ReusableComponents/TripItemTravelReverse";
-import HeroSection from "../../components/HeroSection";
-import SearchBar from "../../components/SearchBar";
-import Footer from "../../components/Footer";
-import Sort from "../../components/Sort";
+import HeroSection from "../../components/itineraryList/HeroSection";
+import SearchBar from "../../components/allTrips/SearchBar";
+import Footer from "../../components/ReusableComponents/Footer";
+import Sort from "../../components/allTrips/Sort";
 import styles from "../../styles/TripListPage.module.css";
 import {imageData} from "../../assets/image";
 import Pages from "../../components/layout/Pages";
@@ -27,9 +27,9 @@ const ItineraryListPage: FC = () => {
     const [themes, setThemes] = useState<Theme[]>([]);
 
     const sortOptions = [
-        {id: "option 1", label: "Aucun"},
-        {id: "option 2", label: "Prix décroissant"},
-        {id: "option 3", label: "Prix croissant"}
+        {id: "option 1", label: "None"},
+        {id: "option 2", label: "Descending price"},
+        {id: "option 3", label: "Ascending price"}
     ];
 
     const themeOrder = [
@@ -121,7 +121,7 @@ const ItineraryListPage: FC = () => {
             <SearchBar/>
             <section className={styles.sortList}>
                 <Sort
-                    title="Thèmes"
+                    title="Themes"
                     options={[
                         {id: "", label: "All"},
                         ...themes.map((theme) => ({
@@ -147,7 +147,7 @@ const ItineraryListPage: FC = () => {
                     )
                 )
             ) : (
-                <p>Aucun voyage trouvé</p>
+                <p>No trips found</p>
             )}
 
             <Footer/>

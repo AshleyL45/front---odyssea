@@ -18,7 +18,7 @@ const TripItemTravelReverse: ({trip, headerImage}: { trip: Trip, headerImage: st
                     </p>
                     <p style={{margin: "30px 0"}}>Starting price : {trip.price}.00 €</p>
                     <a style={{textDecoration: "underline", fontSize: "18px", fontWeight: "bold", cursor: "pointer"}}
-                       onClick={() => navigate(`/trip/${trip.id}`)}>Détails</a>
+                       onClick={() => navigate(`/trip/${trip.id}`)}>Details</a>
                 </div>
 
                 <div className="trip-item-travel-photo" style={{

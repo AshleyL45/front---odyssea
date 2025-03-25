@@ -32,7 +32,7 @@ const TripItemHomeReverse: React.FC<TripItemHomeReverseProps> = ({id, name, desc
                     <h2 style={{fontSize: "25px", margin: "20px 0"}}>{name}</h2>
                     <p style={{marginBottom: "10px"}}>{description}</p>
                     <Link to={`/itineraryDetails/${id}`}>
-                        <CustomButton variant="contained">En Savoir Plus</CustomButton>
+                        <CustomButton variant="contained">Learn more</CustomButton>
                     </Link>
                 </div>
             </section>

@@ -1,6 +1,6 @@
 import {FC, useState} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import styles from "../styles/components/Sort.module.css"
+import styles from "../../styles/components/Sort.module.css"
 
 type SortProps = {
     title: string;

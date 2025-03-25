@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
 import {BackToTopProvider} from '../contexts/BackToTopProvider';
-import BackToTopButton from '../components/BackToTopButton';
+import BackToTopButton from '../components/ReusableComponents/BackToTopButton';
 
 const BackToTopLayout: React.FC = () => {
     return (

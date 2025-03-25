@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Box, IconButton} from "@mui/material";
-import photo from "../images/julia-worthington-qsZzCxorDF4-unsplash.jpg";
+import photo from "../../images/julia-worthington-qsZzCxorDF4-unsplash.jpg";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 

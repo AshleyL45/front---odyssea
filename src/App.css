@@ -910,15 +910,35 @@ footer p {
 }
 
 /* PERSONALIZED TRIP */
+.container-summary {
+    padding: 30px 10px;
+}
+
+.text-summary {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
 .search-input {
     width: 90%;
-    padding: 5px;
+    font-size: 1.05rem;
+    padding: 8px;
+    border: solid 2px lightgrey;
+    border-radius: 4px;
+}
+
+.search-input-city {
+    width: 95%;
+    margin: auto;
+    font-size: 1.05rem;
+    padding: 8px;
     border: solid 2px lightgrey;
     border-radius: 4px;
 }
 
 .selected-country {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 5px;
@@ -927,6 +947,7 @@ footer p {
     margin: 10px;
 }
 
+
 .container-city-selecting {
     width: 90%;
     margin: auto;
@@ -934,9 +955,9 @@ footer p {
 
 .city-selecting div {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /*textfield*/
@@ -945,18 +966,22 @@ footer p {
     margin: auto !important;
 }
 
+
 .MuiInputBase-root {
     padding: 2px 12px;
     border-radius: 20px;
 }
 
+
 .hotel-select {
     width: 90%;
 }
 
+
 .delete-icon {
     font-size: 20px;
 }
+
 
 .container-option-layout {
     display: flex;
@@ -966,6 +991,7 @@ footer p {
     margin: 60px 0;
 }
 
+
 .activity-layout {
     display: flex;
     flex-direction: column;
@@ -973,15 +999,18 @@ footer p {
     font-size: 0.9rem;
 }
 
+
 .option-select {
     width: 90%;
 }
+
 
 .container-option-layout {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
+
 
 .option-layout {
     width: 80%;
@@ -996,7 +1025,7 @@ footer p {
 
 .option-layout h4 {
     text-align: center;
-    margin: 30px 0;
+    margin: 30px 0
 }
 
 .option-layout-item div {
@@ -1010,12 +1039,13 @@ footer p {
     border: solid 2px black;
 }
 
+
 .option-layout-item div input[type="checkbox"] {
     width: 12px;
     height: 12px;
     border: 2px solid black;
     border-radius: 2px;
-    appearance: none;
+    appearance: none; /* Supprime le style par défaut */
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
@@ -1025,13 +1055,22 @@ footer p {
     background-color: black;
 }
 
+
 @media screen and (min-width: 600px) {
+
     .option-layout {
         width: 60%;
     }
+
 }
 
+
 @media screen and (min-width: 1000px) {
+
+    .container-summary {
+        width: 70%;
+        margin: 30px auto;
+    }
 
     .container-option-layout {
         display: flex;
@@ -1048,7 +1087,10 @@ footer p {
         text-align: start;
         margin-left: 20px;
     }
+
+
 }
+
 
 .activity-layout div {
     border: solid 1px grey;
@@ -1061,13 +1103,15 @@ footer p {
     justify-content: center;
 }
 
+
 .line-activity-layout {
     width: 3px;
     height: 45vh;
     background-color: black;
     margin-top: 70px;
-    border-radius: 10px;
+    border-radius: 10px
 }
+
 
 .activity-item.selected {
     background-color: #F8F1E5;
@@ -1080,7 +1124,9 @@ footer p {
     border: solid 4px black;
 }
 
+
 @media screen and (max-width: 800px) {
+
     .container-activity-layout {
         flex-direction: column;
     }
@@ -1089,7 +1135,9 @@ footer p {
         width: 30% !important;
         height: 3px;
     }
+
 }
+
 
 .input-user-trip {
     width: 80%;
@@ -1100,9 +1148,11 @@ footer p {
     background-color: #F0EFEF;
 }
 
+
 .container-user-select {
     flex-direction: column;
 }
+
 
 .recap-trip {
     display: flex;
@@ -1112,7 +1162,7 @@ footer p {
 }
 
 .recap-trip ul {
-    margin-left: 30px;
+    margin-left: 30px
 }
 
 .recap-trip span {
@@ -1124,12 +1174,14 @@ footer p {
     width: 100%;
 }
 
+
 .day-number {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 10px 0 20px;
 }
+
 
 .country-step {
     display: flex;
@@ -1156,8 +1208,25 @@ footer p {
     width: 80%;
 }
 
+.result-option {
+    display: block;
+    margin: auto;
+    width: 90%;
+    text-align: start;
+}
+
+.result-option li {
+    margin: auto;
+    background-color: white;
+    list-style: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    border: solid 1px lightgrey;
+}
+
 
 @media screen and (min-width: 1000px) {
+
     .search-input, .result-option {
         width: 400px;
     }
@@ -1181,6 +1250,7 @@ footer p {
         width: 85%;
     }
 
+
     .container-map {
         width: 100%;
     }
@@ -1189,6 +1259,7 @@ footer p {
         position: sticky;
         top: 30px;
     }
+
 
     .line-recap {
         width: 50%;
@@ -1202,14 +1273,11 @@ footer p {
         width: 500px;
     }
 
-    .city-selecting div {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: end;
-    }
 
+    /*textfield*/
     .MuiInputBase-root {
         width: 400px;
+
     }
 
     .hotel-input-selecting {

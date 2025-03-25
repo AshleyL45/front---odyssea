@@ -1,8 +1,8 @@
 import React, {FC, JSX, useEffect, useState} from 'react';
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
-import Calender from "../../components/Calender";
+import Calender from "../../components/bookingForm/Calender";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import ReservationCalendar from "../../components/ReservationCalendar";
+import ReservationCalendar from "../../components/bookingForm/ReservationCalendar";
 import {Trip} from "../../@types/Trip";
 import {useNavigate} from "react-router-dom";
 import {Dayjs} from "dayjs";

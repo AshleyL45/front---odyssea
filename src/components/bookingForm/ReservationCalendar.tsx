@@ -3,7 +3,7 @@ import {Dayjs} from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
-import CustomButton from "./ReusableComponents/CustomButton";
+import CustomButton from "../ReusableComponents/CustomButton";
 
 interface ReservationCalendar {
     days: number;

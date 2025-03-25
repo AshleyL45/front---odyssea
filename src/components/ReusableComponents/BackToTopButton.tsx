@@ -1,5 +1,5 @@
 import React from 'react';
-import {useBackToTop} from '../contexts/BackToTopProvider';
+import {useBackToTop} from '../../contexts/BackToTopProvider';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const BackToTopButton: React.FC = () => {

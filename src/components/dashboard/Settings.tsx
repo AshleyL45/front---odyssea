@@ -57,7 +57,7 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
                         marginTop: "1.8rem",
                         marginBottom: "2rem",
                         fontSize: "1.8rem"
-                    }}>Paramètres</h1>
+                    }}>Settings</h1>
 
                     <div style={{
                         marginLeft: "8rem",

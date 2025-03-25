@@ -23,7 +23,6 @@ interface InteractiveMapProps {
     className?: string;
 }
 
-// Composant qui ajuste la vue pour inclure toutes les positions
 const FitBounds: React.FC<{ positions: LatLngTuple[] }> = ({positions}) => {
     const map = useMap();
     useEffect(() => {
@@ -58,13 +57,10 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({userId, itineraryId, cla
             });
     }, [userId, itineraryId]);
 
-    // Si aucun marqueur, centre par défaut (ex : Paris)
     const defaultCenter: LatLngTuple = [48.8566, 2.3522];
-    // Construction du tableau des positions pour la polyline et le FitBounds
     const positions: LatLngTuple[] = markers.map(marker => [marker.latitude, marker.longitude] as LatLngTuple);
 
     const handleMarkerClick = (dayId: number) => {
-        // Déclenchement de l'événement custom avec l'ID du jour en détail
         window.dispatchEvent(new CustomEvent('scrollToDay', {detail: {dayId}}));
     };
 
@@ -88,7 +84,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({userId, itineraryId, cla
                 </Marker>
             ))}
             {markers.length > 1 && <Polyline positions={positions}/>}
-            {/* Composant pour centrer la carte sur les marqueurs */}
+
             {positions.length > 0 && <FitBounds positions={positions}/>}
         </MapContainer>
     );

@@ -55,7 +55,7 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
             </Pages>
             <div className={styles.reservationContainer}>
                 <h1>My bookings</h1>
-                <h2 className={styles.titles}>En cours</h2>
+                <h2 className={styles.titles}>Current</h2>
                 {userReservations ? userReservations.map((reservation) => (
                     <TripDashboard trip={reservation} page={"Reservations"}/>
                 )) : (
@@ -66,7 +66,7 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
                         className={`${styles.filterItem} ${activeFilter === "Tout" ? styles.active : ""}`}
                         onClick={() => handleFiltering("Tout")}
                     >
-                        Tout
+                        All
                     </p>
 
 
@@ -74,14 +74,14 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
                         className={`${styles.filterItem} ${activeFilter === "En attente" ? styles.active : ""}`}
                         onClick={() => handleFiltering("En attente")}
                     >
-                        En attente
+                        Pending
                     </p>
 
                     <p
                         className={`${styles.filterItem} ${activeFilter === "Confirmé" ? styles.active : ""}`}
                         onClick={() => handleFiltering("Confirmé")}
                     >
-                        Confirmé
+                        Confirmed
                     </p>
 
                     <p

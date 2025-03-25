@@ -29,14 +29,6 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
                 });
                 setSortPrice((prev) => !prev);
                 break;
-            case "Durée":
-                setSortPrice(false)
-                sorted.sort((a, b) => {
-                    return sortDuration ? a.totalDuration - b.totalDuration : b.totalDuration - a.totalDuration;
-                });
-                setSortDuration((prev) => !prev);
-                break;
-
             default:
                 break;
         }
@@ -51,9 +43,6 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
             <div style={{display: "flex", justifyContent: "space-between", width: "40%", margin: "auto"}}>
                 <p onClick={() => handleSorting("Prix")}
                    style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Price {sortPrice ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
-                <p onClick={() => handleSorting("Durée")}
-                   style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>Duration {sortDuration ? <ExpandLessIcon/> :
-                    <ExpandMoreIcon/>}</p>
             </div>
 
             {sortedFavorites && sortedFavorites.length > 0 ? (

@@ -4,6 +4,7 @@ import '../../App.css';
 interface MysteryTripDetailsReverseProps {
     title: string;
     paragraph: string;
+    photoUrl: string; // Nouvelle prop pour l'URL de l'image
     photoClassName?: string;
     stepNumber?: number;
 }
@@ -11,6 +12,7 @@ interface MysteryTripDetailsReverseProps {
 const MysteryTripDetailsReverse: FC<MysteryTripDetailsReverseProps> = ({
                                                                            title,
                                                                            paragraph,
+                                                                           photoUrl,
                                                                            photoClassName = "blog-details-reverse-photo",
                                                                            stepNumber = 1,
                                                                        }) => {
@@ -61,8 +63,13 @@ const MysteryTripDetailsReverse: FC<MysteryTripDetailsReverseProps> = ({
                     <h3 style={{fontSize: "28px", marginBottom: "30px"}}>{title}</h3>
                     <p style={{margin: "30px 0"}}>{paragraph}</p>
                 </div>
-                {/* Toujours afficher l'image */}
+                {/* Affichage de l'image */}
                 <div className={photoClassName} style={desktopImageContainerStyle}>
+                    <img
+                        src={photoUrl}
+                        alt={`Image étape ${stepNumber}`}
+                        style={{width: "100%", height: "auto"}}
+                    />
                     {!isMobile && (
                         <div style={desktopNumberStyle}>
                             {stepNumber}

@@ -28,7 +28,7 @@ const TripItemTravel: FC<TripItemTravelProps> = ({trip, headerImage}) => {
                         {trip.shortDescription}
                     </p>
                     <p style={{margin: "30px 0"}}>Starting price : {trip.price}.00 €</p>
-                    <a style={{textDecoration: "underline", fontSize: "18px", fontWeight: "bold", cursor: "pointer"}} onClick={() => navigate(`/trip/${trip.id}`)}>Détails</a>
+                    <a style={{textDecoration: "underline", fontSize: "18px", fontWeight: "bold", cursor: "pointer"}} onClick={() => navigate(`/trip/${trip.id}`)}>Details</a>
                 </div>
 
             </section>

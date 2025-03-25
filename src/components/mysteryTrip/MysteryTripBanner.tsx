@@ -1,6 +1,6 @@
 // MysteryTripBanner.tsx
 import React from 'react';
-import CustomButton from './ReusableComponents/CustomButton';
+import CustomButton from '../ReusableComponents/CustomButton';
 import {Link} from "react-router-dom"; // Ajustez le chemin si nécessaire
 
 const MysteryTripBanner: React.FC = () => {
