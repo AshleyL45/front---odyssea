@@ -7,6 +7,7 @@ import ItineraryNameInput from "../../components/persTrip/ItineraryNameInput";
 import {ItineraryDay, PersonalizedTripResponse} from "../../@types/PersonalizeTrip";
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
+import Pages from "../../components/layout/Pages"
 
 
 const TripPersRecap: FC = () => {
@@ -33,6 +34,9 @@ const TripPersRecap: FC = () => {
 
     return (
         <div>
+            <Pages title="Recap - Personalized Trip">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{

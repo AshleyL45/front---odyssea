@@ -1,4 +1,4 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import React, {FC, JSX, useEffect, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OptionsSelecting from "../../components/OptionsSelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
@@ -6,6 +6,7 @@ import {get} from "../../API/api";
 import {Option} from "../../@types/Option";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useNavigate} from "react-router-dom";
+import Pages from "../../components/layout/Pages";
 
 
 const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
@@ -43,6 +44,8 @@ const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
+            <Pages title="Booking Form">
+            </Pages>
 
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>

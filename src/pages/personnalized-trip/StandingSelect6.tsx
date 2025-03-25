@@ -4,6 +4,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import HotelSelecting from "../../components/persTrip/HotelSelecting";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
+import Pages from "../../components/layout/Pages";
 
 const StandingSelect6: ({}: {}) => JSX.Element = ({}) => {
 
@@ -11,6 +12,9 @@ const StandingSelect6: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
+            <Pages title="Personalized Trip">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{

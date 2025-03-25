@@ -1,11 +1,12 @@
-import {FC, JSX, useState} from 'react';
+import React, {FC, JSX, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OptionsSelecting from "../../components/OptionsSelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
-import styles from "../../styles/BookingFormBilling.module.css"
+import styles from "../../styles/BookingFormBilling.module.css";
+import Pages from "../../components/layout/Pages";
 
 
 const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
@@ -67,6 +68,9 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
+            <Pages title="Booking Form">
+            </Pages>
+
             {/* Barre de progression */}
             <div className={styles.progressBarContainer}>
                 <div className={styles.progressBar}></div>

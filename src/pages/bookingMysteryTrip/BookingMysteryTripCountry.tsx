@@ -2,6 +2,7 @@ import React, {FC, useState, useEffect, ChangeEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
 import NavbarReservation from "../../components/navbars/NavbarReservationts";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
+import Pages from "../../components/layout/Pages";
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
@@ -43,6 +44,9 @@ const BookingMysteryTripCountry: FC = () => {
 
     return (
         <>
+            <Pages title="Booking - Mystery Trip">
+            </Pages>
+
             <NavbarReservation/>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>

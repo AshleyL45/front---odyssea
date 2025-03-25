@@ -6,6 +6,7 @@ import {useAuth} from "../../contexts/AuthContext";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useNavigate} from "react-router-dom";
 import "../../App.css";
+import Pages from "../../components/layout/Pages";
 
 const BookingMysteryTripBilling: FC = () => {
     const {email, firstName, lastName} = useAuth();
@@ -56,106 +57,118 @@ const BookingMysteryTripBilling: FC = () => {
     };
 
     return (
-        <div>
-            {trip ? <NavbarReservation/> : <div style={{height: "50px"}}></div>}
+        <>
+            <Pages title="Booking - Mystery Trip">
+            </Pages>
 
-            <div className="progress-bar">
-                <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                <div
-                    style={{
-                        width: "80%",
-                        height: "6px",
-                        borderRadius: "0 5px 5px 0",
-                        backgroundColor: "#2C3E50",
-                        position: "relative",
-                        top: "-6px"
-                    }}
-                ></div>
-            </div>
+            <div>
+                {trip ? <NavbarReservation/> : <div style={{height: "50px"}}></div>}
 
-            <p style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}
-            >
-                <ArrowBackIcon sx={{fontSize: "15px"}}/>
-                previous step
-            </p>
-
-            <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
-                <h1 style={{fontSize: "25px", margin: "10px 0"}}>Your billing information</h1>
-                <p>This information is required to finalize your reservation.</p>
-
-                <h3 style={{marginTop: "2rem"}}>Contact Details</h3>
-                <div style={{
-                    display: "grid",
-                    gridTemplateRows: "1fr 1fr",
-                    gridTemplateColumns: "1fr 1fr",
-                    width: "50%",
-                    gap: 25,
-                    margin: "auto"
-                }}>
-                    <input type="text"
-                           placeholder="Last Name*"
-                           defaultValue={lastName?.toString()}
-                           className="inputBooking"
-                           required/>
-                    <input type="text"
-                           placeholder="First Name*"
-                           defaultValue={firstName?.toString()}
-                           className="inputBooking"
-                           required/>
-                    <input type="email"
-                           placeholder="Email*"
-                           defaultValue={email?.toString()}
-                           className="inputBooking"
-                           required/>
-                    <input type="text"
-                           placeholder="Phone Number*"
-                           className="inputBooking"
-                           required/>
+                <div className="progress-bar">
+                    <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
+                    <div
+                        style={{
+                            width: "80%",
+                            height: "6px",
+                            borderRadius: "0 5px 5px 0",
+                            backgroundColor: "#2C3E50",
+                            position: "relative",
+                            top: "-6px"
+                        }}
+                    ></div>
                 </div>
 
-                <h3>Address</h3>
-                <div style={{
-                    display: "grid",
-                    gridTemplateRows: "1fr 1fr",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                    width: "50%",
-                    gap: 25,
-                    margin: "auto"
-                }}>
-                    <input type="text" placeholder="Company Name" className="inputBooking"/>
-                    <input type="text" placeholder="Address*" className="inputBooking" required/>
-                    <input type="text" placeholder="Address details" className="inputBooking"/>
-                    <input type="text" placeholder="Postal code*" className="inputBooking" required/>
-                    <input type="text" placeholder="City*" className="inputBooking" required/>
-                    <input type="text" placeholder="Country*" className="inputBooking" required/>
-                </div>
+                <p style={{
+                    display: 'flex',
+                    alignItems: "center",
+                    fontSize: "16px",
+                    margin: "10px 40px",
+                    cursor: "pointer"
+                }}
+                   onClick={() => navigate(-1)}
+                >
+                    <ArrowBackIcon sx={{fontSize: "15px"}}/>
+                    previous step
+                </p>
 
-                <div style={{marginTop: "2rem"}}>
-                    <input type="checkbox" id="validationCheckbox" style={{marginRight: "0.5rem"}}/>
-                    <label htmlFor="validationCheckbox" className="inputBooking">
-                        By validating this form, I agree to be contacted by a Travel Designer to finalize my reservation
-                        and receive personalized support.
-                    </label>
-                </div>
+                <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
+                    <h1 style={{fontSize: "25px", margin: "10px 0"}}>Your billing information</h1>
+                    <p>This information is required to finalize your reservation.</p>
 
-                {errors.length > 0 && (
-                    <div style={{color: "red", margin: "10px 0"}}>
-                        <ul>
-                            {errors.map((error, idx) => (
-                                <li key={idx} style={{listStyleType: "none"}}>{error}</li>
-                            ))}
-                        </ul>
+                    <h3 style={{marginTop: "2rem"}}>Contact Details</h3>
+                    <div style={{
+                        display: "grid",
+                        gridTemplateRows: "1fr 1fr",
+                        gridTemplateColumns: "1fr 1fr",
+                        width: "50%",
+                        gap: 25,
+                        margin: "auto"
+                    }}>
+                        <input type="text"
+                               placeholder="Last Name*"
+                               defaultValue={lastName?.toString()}
+                               className="inputBooking"
+                               required/>
+                        <input type="text"
+                               placeholder="First Name*"
+                               defaultValue={firstName?.toString()}
+                               className="inputBooking"
+                               required/>
+                        <input type="email"
+                               placeholder="Email*"
+                               defaultValue={email?.toString()}
+                               className="inputBooking"
+                               required/>
+                        <input type="text"
+                               placeholder="Phone Number*"
+                               className="inputBooking"
+                               required/>
                     </div>
-                )}
 
-                <div style={{display: "block", marginTop: "2rem"}}>
-                    <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNextClick}>
-                        Next
-                    </CustomButton>
+                    <h3>Address</h3>
+                    <div style={{
+                        display: "grid",
+                        gridTemplateRows: "1fr 1fr",
+                        gridTemplateColumns: "1fr 1fr 1fr",
+                        width: "50%",
+                        gap: 25,
+                        margin: "auto"
+                    }}>
+                        <input type="text" placeholder="Company Name" className="inputBooking"/>
+                        <input type="text" placeholder="Address*" className="inputBooking" required/>
+                        <input type="text" placeholder="Address details" className="inputBooking"/>
+                        <input type="text" placeholder="Postal code*" className="inputBooking" required/>
+                        <input type="text" placeholder="City*" className="inputBooking" required/>
+                        <input type="text" placeholder="Country*" className="inputBooking" required/>
+                    </div>
+
+                    <div style={{marginTop: "2rem"}}>
+                        <input type="checkbox" id="validationCheckbox" style={{marginRight: "0.5rem"}}/>
+                        <label htmlFor="validationCheckbox" className="inputBooking">
+                            By validating this form, I agree to be contacted by a Travel Designer to finalize my
+                            reservation
+                            and receive personalized support.
+                        </label>
+                    </div>
+
+                    {errors.length > 0 && (
+                        <div style={{color: "red", margin: "10px 0"}}>
+                            <ul>
+                                {errors.map((error, idx) => (
+                                    <li key={idx} style={{listStyleType: "none"}}>{error}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    <div style={{display: "block", marginTop: "2rem"}}>
+                        <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNextClick}>
+                            Next
+                        </CustomButton>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

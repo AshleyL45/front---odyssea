@@ -5,7 +5,8 @@ import Calender from "../../components/persTrip/CalenderPersTrip";
 import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import dayjs from "dayjs";
-import "../../App.css"
+import "../../App.css";
+import Pages from "../../components/layout/Pages";
 
 
 const DateSelect1: FC<{}> = ({}) => {
@@ -25,6 +26,9 @@ const DateSelect1: FC<{}> = ({}) => {
 
     return (
         <div>
+            <Pages title="Personalized Trip">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{

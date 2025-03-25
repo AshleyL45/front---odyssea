@@ -4,6 +4,7 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 import TravelerSelecting from "../../components/persTrip/TravelerSelecting";
 import "../../App.css"
+import Pages from "../../components/layout/Pages"
 
 const TravelerSelect2: FC<{}> = ({}) => {
 
@@ -13,6 +14,9 @@ const TravelerSelect2: FC<{}> = ({}) => {
 
     return (
         <div>
+            <Pages title="Personalized Trip">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{

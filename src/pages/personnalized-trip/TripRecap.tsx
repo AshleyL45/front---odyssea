@@ -4,6 +4,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import "../../App.css";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import InteractiveMap from "../../components/interactiveMaps/InteractiveMap";
+import Pages from "../../components/layout/Pages"
 
 interface UserPlanDetails {
     userId: number;
@@ -21,6 +22,9 @@ const TripRecap: React.FC = () => {
 
     return (
         <div>
+            <Pages title="Recap - Personalized Trip">
+            </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{

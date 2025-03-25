@@ -9,6 +9,7 @@ import {useAuth} from "../../contexts/AuthContext";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import {CircularProgress} from "@mui/material";
 import {PersonalizedTripResponse} from "../../@types/PersonalizeTrip";
+import Pages from "../../components/layout/Pages";
 
 const OptionSelect8: FC<{}> = ({}) => {
 
@@ -93,6 +94,8 @@ const OptionSelect8: FC<{}> = ({}) => {
 
     return (
         <div>
+            <Pages title="Personalized Trip">
+            </Pages>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
