@@ -58,10 +58,10 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
             <div className={styles.reservationContainer}>
                 <h1>My bookings</h1>
                 <h2 className={styles.titles}>Current</h2>
-                {userReservations ? userReservations.map((reservation) => (
+                {userReservations.length > 0 && userReservations ? userReservations.map((reservation) => (
                     <TripDashboard trip={reservation} page={"Reservations"}/>
                 )) : (
-                    <p style={{marginLeft: "8rem"}}>No current trip.</p>
+                    <p style={{marginLeft: "4rem"}}>No current trip.</p>
                 )}
                 <div className={styles.filters}>
                     <p

@@ -42,7 +42,7 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
 
                 <div style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     flexDirection: "column",
                     minHeight: "80vh"
                 }}>
