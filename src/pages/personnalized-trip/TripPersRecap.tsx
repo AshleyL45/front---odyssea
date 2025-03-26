@@ -10,6 +10,7 @@ import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
 import {post} from "../../API/api";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
+import InteractiveMapPersItinerary from "../../components/interactiveMaps/InteractiveMapPersItinerary";
 
 
 const TripPersRecap: FC = () => {
@@ -24,7 +25,6 @@ const TripPersRecap: FC = () => {
 
     const handleSubmit = async () => {
         try {
-            // Ajoutez un loading state pour éviter les interactions pendant la soumission
             setMessage("Saving...");
 
             if (questionnaireAnswers.itineraryName) {
@@ -34,7 +34,6 @@ const TripPersRecap: FC = () => {
                 setMessage(response);
             }
 
-            // Utilisez setTimeout pour séparer la navigation de la mise à jour d'état
             setTimeout(() => navigate("/dashboard"), 100);
 
         } catch (e) {
@@ -118,18 +117,8 @@ const TripPersRecap: FC = () => {
                 </div>
 
                 <div className="recap-trip">
-                    {/*<div>
-                        <h2 style={{textAlign: "center", margin: "20px 0"}}>Itinerary Days</h2>
-
-                        <div className="container-map">
-                            <img
-                                src="https://www.cartographie-georeflet.com/wp-content/uploads/2022/12/carte-de-france-administrative-vintage-des-departements-1.jpg"
-                                alt="france map"
-                                className="map"
-                            />
-                        </div>
-                    </div>*/}
                     <div>
+                        <h2 style={{textAlign: "center", margin: "20px 0"}}>Itinerary Days</h2>
                         {itinerary.itineraryDays?.map((day: any) => (
                             <RecapOneDay key={day.dayNumber} day={day}/>
                         ))}
@@ -137,6 +126,12 @@ const TripPersRecap: FC = () => {
                 </div>
 
                 {/*<h2>Total Price : {itinerary.startingPrice} €</h2>*/}
+            </div>
+
+            <div style={{display: "flex", justifyContent: "center", margin: "50px 0"}}>
+                <div className="map-wrapper">
+                    <InteractiveMapPersItinerary/>
+                </div>
             </div>
 
 
