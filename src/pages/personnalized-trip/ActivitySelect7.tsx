@@ -1,4 +1,4 @@
-import {FC, useState, useEffect} from "react";
+import {FC, useState, useEffect, JSX} from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ActivitySelecting from "../../components/persTrip/ActivitySelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
@@ -6,14 +6,16 @@ import "../../App.css";
 import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import Pages from "../../components/layout/Pages";
+import {CircularProgress} from "@mui/material";
 
-const ActivitySelect7: FC<{}> = () => {
+const ActivitySelect7: () => JSX.Element = () => {
     const navigate = useNavigate();
     const {questionnaireAnswers} = usePersonalizedTrip();
     const {countrySelection} = questionnaireAnswers;
     const [selectedActivitiesByCountry, setSelectedActivitiesByCountry] = useState<{ [key: string]: number }>({});
     const [selectedCitiesByCountry, setSelectedCitiesByCountry] = useState<{ [key: string]: any[] }>({});
     const [errorMessage, setErrorMessage] = useState<string | null>(null); // Message d’erreur
+    const [isLoader, setLoader] = useState(false);
 
     // 🔹 Récupérer les villes sélectionnées pour chaque pays
     useEffect(() => {
@@ -22,10 +24,14 @@ const ActivitySelect7: FC<{}> = () => {
             const selectedCitiesFromStorage = localStorage.getItem(`selectedCities_${country.id}`);
             if (selectedCitiesFromStorage) {
                 try {
+                    setLoader(true)
                     const parsedCities = JSON.parse(selectedCitiesFromStorage);
                     citiesByCountry[country.id] = parsedCities;
                 } catch (e) {
                     console.error("Error parsing selected cities:", e);
+                }
+                finally {
+                    setLoader(false)
                 }
             }
         });
@@ -80,13 +86,17 @@ const ActivitySelect7: FC<{}> = () => {
 
             {/* Afficher un bloc par pays */}
             {countrySelection.map((country) => (
-                <ActivitySelecting
-                    key={country.id}
-                    countryName={country.name}
-                    selectedCities={selectedCitiesByCountry[country.id] || []}
-                    onSelectionChange={(count) => handleSelectionChange(country.id, count)}
-                    setErrorMessage={setErrorMessage} // Permet d'afficher un message d'erreur si trop d'activités
-                />
+                isLoader ? (
+                    <CircularProgress key={country.id}/>
+                ) : (
+                    <ActivitySelecting
+                        key={country.id}
+                        countryName={country.name}
+                        selectedCities={selectedCitiesByCountry[country.id] || []}
+                        onSelectionChange={(count) => handleSelectionChange(country.id, count)}
+                        setErrorMessage={setErrorMessage}
+                    />
+                )
             ))}
 
             {/* Afficher le message d'erreur si l'utilisateur tente d'ajouter plus de 2 activités */}

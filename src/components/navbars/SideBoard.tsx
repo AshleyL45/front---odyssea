@@ -92,6 +92,11 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
                                         {activeLink === 'My selection' && <span className="active"></span>}
                                         <a href="#">My selection</a>
                                     </li>
+                                    <li
+                                        onClick={() => handleClick('My personalized trips')}>
+                                        {activeLink === 'My personalized trips' && <span className="active"></span>}
+                                        <a href="#">My personalized trips</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div>

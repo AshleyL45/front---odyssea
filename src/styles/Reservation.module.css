@@ -1,6 +1,6 @@
 .reservationContainer h1 {
     margin: 1.8rem 0 2rem 4rem;
-    font-size: 1.8rem;
+    font-size: 1.8rem !important;
 }
 
 .titles {
@@ -10,6 +10,7 @@
 .filters {
     width: 100%;
     margin-top: 4rem;
+    margin-bottom: 4rem;
     display: flex;
     justify-content: space-around;
     align-items: center;

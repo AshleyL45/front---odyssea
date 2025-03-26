@@ -70,7 +70,7 @@ const OptionsSelecting: FC = () => {
     }
 
     return (
-        <div className="container-option-layout">
+        <div className="container-option-layout" style={{textAlign: "start"}}>
             {Object.keys(options).map((category) => (
                 <div className="option-layout" key={category}>
                     <h4 style={{fontSize: "1.1rem"}}>{category}</h4>

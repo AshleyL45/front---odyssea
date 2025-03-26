@@ -6,6 +6,7 @@
     width: 30%;
     margin-left: 4rem;
     color: white;
+    font-size: 1.3rem;
 }
 
 .inputValidation {
@@ -28,6 +29,7 @@
 
 .submitButton {
     margin-top: 2rem;
+    width: 5rem;
 }
 
 @media (max-width: 800px) {

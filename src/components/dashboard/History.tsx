@@ -10,7 +10,7 @@ const History: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div className="container-history">
-            <h1>Travel History</h1>
+            <h1 style={{fontSize: "1.8rem"}}>Travel History</h1>
             <div>
                 {
                     userReservations && userReservations.length > 0 ? userReservations.map((userReservation) => (

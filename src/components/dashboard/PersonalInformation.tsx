@@ -32,7 +32,7 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div className="container-perso-infos">
-            <h1>Personal information</h1>
+            <h1 style={{marginLeft: "7.5rem", marginTop: "2rem", fontSize: "1.9rem"}}>Personal information</h1>
 
             <section style={{display: "flex", justifyContent: "space-between", width: "85%", margin: "auto"}}>
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>

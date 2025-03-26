@@ -8,25 +8,37 @@ import {ItineraryDay, PersonalizedTripResponse} from "../../@types/PersonalizeTr
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
+import {post} from "../../API/api";
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 
 
 const TripPersRecap: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const itinerary = location.state?.itinerary || {};
-    /*const [itinerary, setItinerary] = useState<PersonalizedTripResponse | null>(null);
+    const {questionnaireAnswers} = usePersonalizedTrip()
+    const [message, setMessage] = useState("")
+    const itineraryId = Number(JSON.parse(localStorage.getItem("currentItineraryId") as string));
 
-    useEffect(() => {
-        // Récupérer les données depuis le localStorage
-        const storedItinerary = localStorage.getItem("questionnaireData");
-        if (storedItinerary) {
-            setItinerary(JSON.parse(storedItinerary));
+
+    const handleSubmit = async () => {
+        try {
+            // Si un nom d'itinéraire existe, on l'envoie à l'API
+            if (questionnaireAnswers.itineraryName) {
+                const response = await post(`/userItinerary/itineraryName/${itineraryId}`, {
+                    itineraryName: questionnaireAnswers.itineraryName
+                });
+                setMessage(response);
+            }
+
+            // Dans tous les cas, on navigue vers le dashboard
+            navigate("/dashboard");
+
+        } catch (e) {
+            console.error(e);
+            setMessage("Error saving itinerary name");
         }
-    }, []);
-
-    if (!itinerary) {
-        return <p>Loading itinerary...</p>;
-    }*/
+    };
 
     const endDate = itinerary.startDate
         ? dayjs(itinerary.startDate).add(13, "day").format("YYYY-MM-DD")
@@ -60,40 +72,45 @@ const TripPersRecap: FC = () => {
                 <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
 
                 <ItineraryNameInput/>
+                <p>{message}</p>
 
-                <div className="main-infos">
-                    <div>
-                        <h2 style={{textAlign: "center", margin: "20px 0"}}>Main informations</h2>
-                        <p>Start Date: {itinerary.startDate}</p>
-                        <p>End Date: {endDate}</p>
-                        <p>Total Duration: 13 days</p>
-                        <p>Departure City: {itinerary.departureCity}</p>
-                        {/*<p>Starting Price: {itinerary.startingPrice} EUR</p>*/}
-                        <p>Number of Adults: {itinerary.numberOfAdults}</p>
-                        <p>Number of Kids: {itinerary.numberOfKids}</p>
+
+                <div>
+                    <div style={{display: "flex", justifyContent: "center", textAlign: "center", margin: "2rem auto"}}>
+                        <div>
+                            <h2 style={{textAlign: "center", margin: "20px 0"}}>Main informations</h2>
+                            <p>Start Date: {itinerary.startDate}</p>
+                            <p>End Date: {endDate}</p>
+                            <p>Total Duration: 13 days</p>
+                            <p>Departure City: {itinerary.departureCity}</p>
+                            {/*<p>Starting Price: {itinerary.startingPrice} EUR</p>*/}
+                            <p>Number of Adults: {itinerary.numberOfAdults}</p>
+                            <p>Number of Kids: {itinerary.numberOfKids}</p>
+                        </div>
+
                     </div>
 
-                    <div>
-                        {
-                            itinerary.options && itinerary.options.length > 0 ? (
-                                <>
-                                    <h2 style={{textAlign: "center", margin: "20px 0"}}>Options</h2>
-                                    {itinerary.options.map((option: any) => (
-                                        <div key={option.id} style={{marginBottom: '10px'}}>
-                                            <h3 style={{margin: "10px 0 10px 15px"}}>{option.name}</h3>
-                                            <p>{option.description}</p>
-                                            <p>Price: {option.price} $</p>
-                                            <p>Category: {option.category}</p>
-                                        </div>
-                                    ))}
-                                </>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <div>
+                            {
+                                itinerary.options && itinerary.options.length > 0 ? (
+                                    <>
+                                        <h2 style={{textAlign: "center", margin: "20px 0"}}>Options</h2>
+                                        {itinerary.options.map((option: any) => (
+                                            <div key={option.id} style={{marginBottom: '10px', textAlign: "center"}}>
+                                                <h3>{option.name}</h3>
+                                                <p>{option.description}</p>
+                                                <p>Price: {option.price} $</p>
+                                                <p>Category: {option.category}</p>
+                                            </div>
+                                        ))}
+                                    </>
 
-                            ) : (
-                                <p>No options were chosen.</p>
-                            )
-                        }
-
-
+                                ) : (
+                                    <p>No options were chosen.</p>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
 
@@ -135,6 +152,7 @@ const TripPersRecap: FC = () => {
                     type="submit"
                     style={{width: "130px", marginTop: "70px"}}
                     variant="contained"
+                    onClick={handleSubmit}
 
                 >
                     Submit

@@ -5,7 +5,7 @@ import Carousel from "../../components/homePage/Carousel";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
 import {useNavigate, useParams} from "react-router-dom";
-import itinerariesData from "../../assets/itinerary.json";
+import {imageData} from "../../assets/image"
 import {get} from "../../../src/API/api";
 import {useFavorites} from "../../contexts/MySelectionContext";
 import StarIcon from '@mui/icons-material/Star';
@@ -19,6 +19,7 @@ import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
 import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
+import styles from "../../styles/ItineraryDetails.module.css"
 
 
 interface ItineraryImages {
@@ -36,7 +37,7 @@ interface Image {
 const ItineraryDetails: FC<{}> = () => {
     const {tripId} = useParams<{ tripId: string }>();
     const itineraryId = Number(tripId);
-    const {userId} = useAuth();
+    const {userId, token} = useAuth();
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
     const navigate = useNavigate();
@@ -76,6 +77,10 @@ const ItineraryDetails: FC<{}> = () => {
     }, [tripId]);
 
     const handleFavorites = () => {
+        if (!token) {
+            navigate("/login", {state: {from: `/trip/${itineraryId}`}});
+            return;
+        }
         if (isFavorite && itineraryToDisplay) {
             handleRemoveFromFavorites(itineraryToDisplay);
         } else if (itineraryToDisplay) {
@@ -83,7 +88,7 @@ const ItineraryDetails: FC<{}> = () => {
         }
     };
 
-    const itineraryImage: Image | undefined = itinerariesData.find(
+    const itineraryImage: any = imageData.find(
         (it) => it.id === itineraryId
     );
 
@@ -108,6 +113,15 @@ const ItineraryDetails: FC<{}> = () => {
             },
         }));
 
+    const activities = itineraryToDisplay?.days
+        .filter((day) => day.activityName !== null)
+        .map((day) => day.activityName)
+        .slice(0, 3) || [];
+
+    // Extraire les 3 premiers pays
+    const countries = Array.from(
+        new Set(itineraryToDisplay?.days.map((day) => day.countryName))
+    ).slice(0, 3) || [];
 
     return (
         <div>
@@ -115,17 +129,14 @@ const ItineraryDetails: FC<{}> = () => {
             {itineraryToDisplay ? (
                 <>
                     <div
+                        className={styles.headerContainer}
                         style={{
-                            height: 281,
-                            width: "100%",
-                            backgroundImage: `url(${itineraryImage?.images.header})`,
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            alignSelf: "end",
+                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.6)), 
+                          url(${itineraryImage?.images.header[0]})`
                         }}
                     >
                         <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>
-                            <h1 style={{color: "white"}}>{itineraryToDisplay.name}</h1>
+                            <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
                             <hr
                                 style={{
                                     marginLeft: "1rem",
@@ -213,7 +224,7 @@ const ItineraryDetails: FC<{}> = () => {
                                 }}
                             >
                                 <h3>Key activities</h3>
-                                <p>Hot-air balloon | Ngorongoro Crater | Coffee roasting</p>
+                                <p>{activities.join(" | ")}</p>
                             </div>
                             <div
                                 style={{
@@ -239,7 +250,7 @@ const ItineraryDetails: FC<{}> = () => {
                                 }}
                             >
                                 <h3>Visited countries</h3>
-                                <p>South Africa, Kenya, Tanzania and Ouganda</p>
+                                <p>{countries.join(", ")}</p>
                             </div>
                         </section>
 
@@ -279,14 +290,20 @@ const ItineraryDetails: FC<{}> = () => {
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "300px"}}>
                             <InteractiveMapTrip markers={markers}/>
                             <div>
-                                {itineraryToDisplay.days.map((day: Day) => (
-                                    <div key={day.dayNumber}>
-                                        <p className="span-country">
-                                            <RoomOutlinedIcon/>
-                                            {day.cityName}, {day.countryName}
-                                        </p>
-                                    </div>
-                                ))}
+                                {itineraryToDisplay && (
+                                    Array.from(new Set(itineraryToDisplay.days.map((day) => day.cityName)))
+                                        .map((cityName, index) => {
+                                            const day = itineraryToDisplay?.days.find((day) => day.cityName === cityName);
+                                            return (
+                                                <div key={index}>
+                                                    <p className="span-country">
+                                                        <RoomOutlinedIcon/>
+                                                        {day?.cityName}, {day?.countryName}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })
+                                )}
                             </div>
                         </div>
 

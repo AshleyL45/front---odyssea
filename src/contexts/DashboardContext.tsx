@@ -29,6 +29,7 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
                 if (reservations && userItineraries) {
                     setUserReservations(reservations);
                     setPersonalizedTrips(userItineraries);
+                    console.table(personalizedTrips);
                 }
             } catch (e) {
                 console.error("Error while fetching reservations: ", e);

@@ -46,7 +46,6 @@ const BookingFormPeople: FC = () => {
             <Pages title="Booking - Mystery Trip">
             </Pages>
 
-            <NavbarReservation/>
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>
                 <div

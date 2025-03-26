@@ -12,6 +12,8 @@ interface UserPlanDetails {
 }
 
 const TripRecap: React.FC = () => {
+
+
     // Pour l'exemple, on fixe les valeurs dynamiques (à remplacer par votre logique réelle)
     const [userPlanDetails] = useState<UserPlanDetails>({
         userId: 1,
