@@ -1,6 +1,6 @@
 .reservationContainer h1 {
     margin: 1.8rem 0 2rem 4rem;
-    font-size: 1.8rem;
+    font-size: 1.8rem !important;
 }
 
 .titles {

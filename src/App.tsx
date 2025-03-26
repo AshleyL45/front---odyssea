@@ -72,14 +72,18 @@ function App() {
                                     <Route path="recap" element={<BookingFormRecap/>}></Route>
                                 </Route>
                                 <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
-                                <Route path="/booking-mystery-trip">
-                                    <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
-                                    <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
-                                    <Route path="date" element={<BookingMysteryTripDate/>}></Route>
-                                    <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
+
+                                <Route path="/booking-mystery-trip" >
+                                    <Route element={<LayoutReservation/>} >
+                                        <Route path="billing" element={<BookingMysteryTripBilling/>}></Route>
+                                        <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
+                                        <Route path="date" element={<BookingMysteryTripDate/>}></Route>
+                                        <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
+                                        <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
+                                    </Route>
                                     <Route path="result" element={<BookingMysteryTripResult/>}></Route>
-                                    <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
                                 </Route>
+
                             </Route>
 
 

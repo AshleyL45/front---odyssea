@@ -62,7 +62,6 @@ const BookingMysteryTripBilling: FC = () => {
             </Pages>
 
             <div>
-                {trip ? <NavbarReservation/> : <div style={{height: "50px"}}></div>}
 
                 <div className="progress-bar">
                     <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>

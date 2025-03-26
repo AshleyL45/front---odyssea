@@ -38,7 +38,7 @@ const MySelection: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div className="container-myselection">
-            <h1>My selection</h1>
+            <h1 style={{fontSize: "1.8rem"}}>My selection</h1>
 
             <div style={{display: "flex", justifyContent: "center", width: "40%", margin: "auto"}}>
                 <p onClick={() => handleSorting("Prix")}

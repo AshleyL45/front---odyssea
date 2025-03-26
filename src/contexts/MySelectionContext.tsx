@@ -22,19 +22,19 @@ export const MySelectionProvider: ({children}: { children: any }) => JSX.Element
 
     // Mise à jour de l'UI optimiste, documentation sur useOptimistic : https://react.dev/reference/react/useOptimistic
     const [optimisticFavorites, setOptimisticFavorites] = useOptimistic(favorites,
-        (currentFavorites, action : any) => {
-        if(action.type === "add"){
-            return[...currentFavorites, action.payload]
-        } else if(action.type === "delete"){
-            return currentFavorites.filter((item) => item.id === action.payload.id)
-        }
-        return currentFavorites;
-    })
+        (currentFavorites, action: any) => {
+            if (action.type === "add") {
+                return [...currentFavorites, action.payload]
+            } else if (action.type === "delete") {
+                return currentFavorites.filter((item) => item.id === action.payload.id)
+            }
+            return currentFavorites;
+        })
 
     // Synchroniser les favoris de la BDD avec le localStorage
     useEffect(() => {
         const syncFavoritesWithDB = async () => {
-            if(userId){
+            if (userId) {
                 try {
                     const serverFavorites = await get(`/mySelection/${userId}`);
 
@@ -68,7 +68,7 @@ export const MySelectionProvider: ({children}: { children: any }) => JSX.Element
         }
     }
 
-    const handleRemoveFromFavorites = async (trip : Trip) => {
+    const handleRemoveFromFavorites = async (trip: Trip) => {
         startTransition(() => {
             setOptimisticFavorites({type: "delete", payload: trip})  // Met à jour l'UI
         })
