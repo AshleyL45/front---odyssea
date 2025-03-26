@@ -71,7 +71,7 @@ const OptionSelect8: FC<{}> = ({}) => {
         options,
     };
 
-    console.log(formattedData)
+    //console.log(formattedData)
 
     const handleSubmitUserItinerary = async () => {
         try {

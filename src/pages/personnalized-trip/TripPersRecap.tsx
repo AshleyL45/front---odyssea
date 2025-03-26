@@ -18,12 +18,15 @@ const TripPersRecap: FC = () => {
     const itinerary = location.state?.itinerary || {};
     const {questionnaireAnswers} = usePersonalizedTrip()
     const [message, setMessage] = useState("")
-    const itineraryId = Number(JSON.parse(localStorage.getItem("currentItineraryId") as string));
+    const itineraryId = location.state?.itineraryId;
+    //console.log(itineraryId)
 
 
     const handleSubmit = async () => {
         try {
-            // Si un nom d'itinéraire existe, on l'envoie à l'API
+            // Ajoutez un loading state pour éviter les interactions pendant la soumission
+            setMessage("Saving...");
+
             if (questionnaireAnswers.itineraryName) {
                 const response = await post(`/userItinerary/itineraryName/${itineraryId}`, {
                     itineraryName: questionnaireAnswers.itineraryName
@@ -31,8 +34,8 @@ const TripPersRecap: FC = () => {
                 setMessage(response);
             }
 
-            // Dans tous les cas, on navigue vers le dashboard
-            navigate("/dashboard");
+            // Utilisez setTimeout pour séparer la navigation de la mise à jour d'état
+            setTimeout(() => navigate("/dashboard"), 100);
 
         } catch (e) {
             console.error(e);

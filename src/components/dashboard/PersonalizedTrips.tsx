@@ -3,6 +3,7 @@ import UserItinerary from "./UserItinerary";
 import {get} from "../../API/api";
 import {Trip} from "../../@types/Trip";
 import {useAuth} from "../../contexts/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 interface UserItineraryType {
     id: number;
@@ -20,6 +21,7 @@ interface UserItineraryType {
 const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
     const [personalizedTrips, setPersonnalizedTrips] = useState<UserItineraryType[]>([]);
     const {userId} = useAuth()
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserItineraries = async () => {
@@ -42,7 +44,7 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
 
                 <div style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     flexDirection: "column",
                     minHeight: "80vh"
                 }}>
@@ -57,8 +59,10 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
 
                     <div>
                         {
-                            personalizedTrips && personalizedTrips.length > 0 && personalizedTrips.map((personalizedTrip) =>
+                            personalizedTrips && personalizedTrips.length > 0 ? personalizedTrips.map((personalizedTrip) =>
                                 <UserItinerary userItinerary={personalizedTrip}/>
+                            ) : (
+                                <p>You haven't booked a personalized trip. <span onClick={() => navigate("/personalized-trip/summary") }>Get your personalized trip</span></p>
                             )
                         }
                     </div>

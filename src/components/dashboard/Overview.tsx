@@ -30,7 +30,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
 
             <h2 className="sub-title">Current trip</h2>
             {
-                userReservations ? userReservations.map((trip) => (
+                userReservations.length > 0 ? userReservations.map((trip) => (
                     <TripDashboard trip={trip} page="Overview"/>
                     )
                 ) : <p style={{marginLeft: "8rem"}}>No current trips.</p>
