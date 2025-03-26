@@ -162,7 +162,7 @@ const HomePage: React.FC = () => {
             <BlogItemBlog
                 title="A unique itinerary designed just for you."
                 paragraph="Because every traveler is unique, we create tailor-made itineraries to suit your desires, your dreams and your pace."
-                linkUrl="/trips"
+                linkUrl="/personalized-trip/summary"
                 linkText="Personalize my trip"
             />
 
