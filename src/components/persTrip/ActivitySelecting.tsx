@@ -7,15 +7,27 @@ interface ActivitySelectingProps {
     countryName: string;
     selectedCities: any[];
     onSelectionChange: (count: number) => void;
-    setErrorMessage: (message: string | null) => void; // Nouvelle prop pour gérer les erreurs
+    setErrorMessage: (message: string | null) => void;
 }
 
-const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCities, onSelectionChange, setErrorMessage}) => {
+const ActivitySelecting: FC<ActivitySelectingProps> = ({
+                                                           countryName,
+                                                           selectedCities,
+                                                           onSelectionChange,
+                                                           setErrorMessage
+                                                       }) => {
     const [activities, setActivities] = useState<{ [key: number]: Activity[] }>({});
     const [selected, setSelected] = useState<{ [key: number]: Activity[] }>({});
     const [countryMap, setCountryMap] = useState<{ [key: number]: string }>({});
+    const [expandedActivities, setExpandedActivities] = useState<{ [key: number]: boolean }>({});
 
-    // 🔹 Charger les activités sélectionnées depuis localStorage au montage
+    const toggleExpand = (id: number) => {
+        setExpandedActivities((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
+
     useEffect(() => {
         const storedSelections: { [key: number]: Activity[] } = {};
 
@@ -33,14 +45,12 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCit
         setSelected(storedSelections);
     }, [selectedCities]);
 
-    // 🔹 Sauvegarder en `localStorage` lorsque `selected` change
     useEffect(() => {
         Object.entries(selected).forEach(([cityId, activities]) => {
             localStorage.setItem(`selectedActivitiesByCity_${cityId}`, JSON.stringify(activities));
         });
     }, [selected]);
 
-    // 🔹 Récupérer les activités pour chaque ville
     useEffect(() => {
         const fetchActivities = async () => {
             const activitiesByCity: { [key: number]: Activity[] } = {};
@@ -64,7 +74,6 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCit
         fetchActivities();
     }, [selectedCities]);
 
-    // 🔹 Charger la correspondance ville-pays depuis `localStorage`
     useEffect(() => {
         const countrySelection = JSON.parse(localStorage.getItem("countrySelection") || "[]");
         const countryMap = selectedCities.reduce((acc, city) => {
@@ -78,13 +87,11 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCit
         setCountryMap(countryMap);
     }, [selectedCities]);
 
-    // 🔹 Mettre à jour le nombre total d'activités sélectionnées
     useEffect(() => {
         const totalSelected = Object.values(selected).reduce((acc, curr) => acc + curr.length, 0);
         onSelectionChange(totalSelected);
     }, [selected]);
 
-    // 🔹 Gérer la sélection des activités (stocker les objets entiers)
     const handleSelect = (cityId: number, activity: Activity) => {
         setSelected((prev) => {
             const currentSelection = prev[cityId] || [];
@@ -97,13 +104,18 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCit
                 if (currentSelection.length < 2) {
                     newSelection = [...currentSelection, activity];
                 } else {
-                   alert("You must select only up to 2 activities per city.")
+                    alert("You must select only up to 2 activities per city.");
                     return prev;
                 }
             }
 
             return {...prev, [cityId]: newSelection};
         });
+    };
+
+    const getTruncatedDescription = (description: string, id: number) => {
+        if (expandedActivities[id] || description.length <= 100) return description;
+        return description.slice(0, 100) + "...";
     };
 
     return (
@@ -130,9 +142,35 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({countryName, selectedCit
                                             key={activity.id}
                                             className={`activity-item ${selected[city.id]?.some((act) => act.id === activity.id) ? "selected" : ""}`}
                                             onClick={() => handleSelect(city.id, activity)}
+                                            style={{
+                                                transition: "all 0.3s ease",
+                                                height: expandedActivities[activity.id] ? "auto" : "250px",
+                                                overflow: "hidden"
+                                            }}
                                         >
                                             <h4>{activity.name}</h4>
-                                            <p>{activity.description}</p>
+                                            <p
+                                                className={`activity-description`}
+                                            >
+                                                {getTruncatedDescription(activity.description, activity.id)}
+                                            </p>
+                                            {activity.description.length > 100 && (
+                                                <span
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleExpand(activity.id);
+                                                    }}
+                                                    style={{
+                                                        color: "black",
+                                                        textDecoration: "underline",
+                                                        cursor: "pointer",
+                                                        marginTop: "10px",
+                                                        display: "inline-block"
+                                                    }}
+                                                >
+                                                    {expandedActivities[activity.id] ? "See more" : "See less"}
+                                                </span>
+                                            )}
                                         </div>
                                     ))
                                 ) : (

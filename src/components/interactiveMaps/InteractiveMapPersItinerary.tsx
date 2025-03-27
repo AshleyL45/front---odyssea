@@ -60,7 +60,6 @@ const InteractiveMapPersItinerary: React.FC = () => {
         const data = JSON.parse(stored);
 
         let dayCounter = 1;
-        const cityIdList: number[] = [];
 
         const fetchDeparture = async (): Promise<MarkerData | null> => {
             if (!data.departureCity) return null;
@@ -114,6 +113,12 @@ const InteractiveMapPersItinerary: React.FC = () => {
         };
 
         fetchAllMarkers();
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            window.dispatchEvent(new Event("resize"));
+        }, 300);
     }, []);
 
     const positions = markers.map((m) => [m.lat, m.lng] as [number, number]);
