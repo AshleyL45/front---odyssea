@@ -275,14 +275,16 @@ const ItineraryDetails: FC<{}> = () => {
                     </section>
 
                     <div className="collage">
-                        <div className="collageItem div1"
-                             style={{backgroundImage: `url(${itineraryImage?.images.countries[0]})`}}>
-                            {/*<img src={itineraryImage?.images.countries[0]} style={{objectFit: "contain", width: "100%", height: "100%"}} />*/}
+                        <div className="collageItem div1">
+                            <img src={itineraryImage?.images.countries[0]} alt="Country"/>
                         </div>
-                        <div className="collageItem div2"
-                             style={{backgroundImage: `url(${itineraryImage?.images.countries[1]})`}}></div>
-                        <div className="collageItem div3"
-                             style={{backgroundImage: `url(${itineraryImage?.images.countries[2]})`}}></div>
+
+                        <div className="collageItem div2">
+                            <img src={itineraryImage?.images.countries[1]} alt="Country"/>
+                        </div>
+                        <div className="collageItem div3">
+                            <img src={itineraryImage?.images.countries[2]} alt="Country"/>
+                        </div>
                     </div>
 
                     <section>
