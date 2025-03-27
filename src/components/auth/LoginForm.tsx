@@ -86,8 +86,11 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
                 {error && (<p style={{color: "red"}}>{error}</p>)}
 
-                <CustomButton type="submit" variant="contained"
-                              className={styles.submitButtonLogin}>Login</CustomButton>
+                <div style={{display: "flex", justifyContent: "center"}}>
+                    <CustomButton type="submit" variant="contained"
+                                  className={styles.submitButtonLogin}>Login</CustomButton>
+                </div>
+
             </form>
 
         </>
