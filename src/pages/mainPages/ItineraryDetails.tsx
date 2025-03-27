@@ -265,7 +265,8 @@ const ItineraryDetails: FC<{}> = () => {
                             <h2 style={{fontSize: "1.7rem", margin: "50px 0", textAlign: "center",}}>
                                 Your all-inclusive trip, designed for an uncompromising experience. Every detail is
                                 designed to offer you comfort, exclusivity and total immersion.</h2>
-                            <ul style={{display: "flex", flexDirection: "column", gap: "10px", listStyle: "none"}}>
+                            <ul style={{display: "flex", flexDirection: "column", gap: "10px", listStyle: "none",
+                                alignItems: "center"}}>
                                 <li>Premium transportation: Business-class flights, private transfers and personalized
                                     routes for a stress-free trip.
                                 </li>

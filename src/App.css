@@ -1091,12 +1091,12 @@ footer p {
 }
 
 .map-wrapper {
-    width: 100%;
-    max-width: 800px;
-    height: 400px;
+    width: 95%;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 40px;
 }
 
 .line-recap {
@@ -1187,7 +1187,7 @@ footer p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 60px 0 100px;
+    width: 92%;
 }
 
 .recap-trip ul {
@@ -1456,6 +1456,9 @@ footer p {
     width: 34%;
 }
 
+.div1 img{
+    height: 60vh;
+}
 
 .div2 {
     position: relative;
@@ -1473,6 +1476,7 @@ footer p {
     transform: rotate(15deg) scale(1.2);
     position: relative;
     left: -5%;
+    height: 60vh;
     object-fit: cover;
 }
 
@@ -1488,4 +1492,6 @@ footer p {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: relative;
+    right: 20px;
 }

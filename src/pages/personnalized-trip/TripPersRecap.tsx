@@ -22,6 +22,13 @@ const TripPersRecap: FC = () => {
     const itineraryId = location.state?.itineraryId;
     //console.log(itineraryId)
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
 
     const handleSubmit = async () => {
         try {
@@ -116,22 +123,24 @@ const TripPersRecap: FC = () => {
                     </div>
                 </div>
 
+                {/*<h2>Total Price : {itinerary.startingPrice} €</h2>*/}
+            </div>
+
+            <h2 style={{textAlign: "center", margin: "20px 0", fontSize: "1.5rem"}}>Itinerary Days</h2>
+
+            <div style={{display: "flex", justifyContent: "space-around", alignItems: "start", gap: 50, padding: 40}}>
+                <div className="map-wrapper">
+                    <InteractiveMapPersItinerary/>
+                </div>
                 <div className="recap-trip">
                     <div>
-                        <h2 style={{textAlign: "center", margin: "20px 0"}}>Itinerary Days</h2>
                         {itinerary.itineraryDays?.map((day: any) => (
                             <RecapOneDay key={day.dayNumber} day={day}/>
                         ))}
                     </div>
                 </div>
 
-                {/*<h2>Total Price : {itinerary.startingPrice} €</h2>*/}
-            </div>
 
-            <div style={{display: "flex", justifyContent: "center", margin: "50px 0"}}>
-                <div className="map-wrapper">
-                    <InteractiveMapPersItinerary/>
-                </div>
             </div>
 
 
