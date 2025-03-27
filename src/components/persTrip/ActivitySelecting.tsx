@@ -168,7 +168,7 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({
                                                         display: "inline-block"
                                                     }}
                                                 >
-                                                    {expandedActivities[activity.id] ? "See more" : "See less"}
+                                                    {expandedActivities[activity.id] ? "See less" : "See more"}
                                                 </span>
                                             )}
                                         </div>
