@@ -1,0 +1,61 @@
+.reservationContainer h1 {
+    margin: 1.8rem 0 2rem 4rem;
+    font-size: 1.8rem !important;
+}
+
+.titles {
+    margin-left: 4rem;
+    font-size: 1.5rem;
+}
+
+.filters {
+    width: 100%;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filterItem {
+    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-align: center;
+    width:140px;
+}
+
+.filters .filterItem.active {
+    border-bottom: 2px solid black;
+}
+
+/* Cacher le menu de filtres en ligne pour les écrans plus petits */
+@media (max-width: 900px) {
+    .filters {
+        display: block;
+    }
+
+    .filterItem {
+        display: none;
+    }
+
+    .filterDropdown {
+        display: block;
+    }
+}
+
+/* Afficher les filtres en ligne pour les écrans plus grands que 900px */
+@media (min-width: 901px) {
+    .filterItem {
+        display: inline-block;
+    }
+
+    .filterDropdown {
+        display: none;
+    }
+}
+
+.Reservation_filterDropdown__kwFS4{
+    margin: auto;
+}

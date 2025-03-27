@@ -1,0 +1,41 @@
+.loginForm {
+    margin-left: 2rem;
+    width: 30%;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: white;
+    font-size: 1.3rem;
+}
+
+.fields {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    gap: 1rem;
+    width: 40%;
+}
+
+.fieldsLogin div {
+    display: flex;
+    flex-direction: column;
+}
+
+.fieldsLogin div input {
+    border: 1px solid black;
+    outline: none;
+    padding: 6px;
+}
+
+.submitButtonLogin {
+    margin-top: 2rem !important;
+    margin-left: 0 !important;
+    width: 100%;
+}
+
+@media (max-width: 800px) {
+    .loginForm {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

@@ -1,0 +1,56 @@
+.sortContainer {
+    position: relative;
+}
+
+.sortButtonContainer {
+    position: relative;
+}
+
+.sortButton {
+    width: 135px;
+    padding: 8px 16px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.sortTitle {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.arrowIcon {
+    cursor: pointer;
+}
+
+.sortDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 8px 0;
+}
+
+.sortItem {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.sortItem:hover {
+    background-color: #f0f0f0;
+}
+
+@media only screen and (max-width: 900px) {
+    .sortContainer {
+        justify-content: center;
+    }
+}
+

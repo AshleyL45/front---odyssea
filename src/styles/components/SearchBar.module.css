@@ -1,0 +1,31 @@
+.searchContainer{
+    width: 80%;
+    margin-top: 2rem;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.searchInput {
+    border-radius: 16px;
+    border: none;
+    width: 100%;
+    padding: 12px 40px;
+    margin-top: 2rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.searchIcon {
+    position: relative;
+    left: 35px;
+    top: 15px;
+}
+
+@media screen and (max-width: 800px) {
+    .searchList {
+        left: 35px;
+        width: 70%;
+    }
+}
