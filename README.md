@@ -77,11 +77,8 @@ Ashley Labory - Cheffe de Projet / Référente Git => Back-end
 │   ├── API
 │   │   └── api.ts
 │   ├── components
-│   │   └── (fichiers composants React)
 │   ├── pages
-│   │   └── (pages principales de l'application)
 │   ├── assets
-│   │   └── (images et ressources)
 │   ├── contexts
 │   ├── images
 │   ├── layout
