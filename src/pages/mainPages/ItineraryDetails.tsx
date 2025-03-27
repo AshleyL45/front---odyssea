@@ -180,7 +180,14 @@ const ItineraryDetails: FC<{}> = () => {
                     </div>
 
                     <section className="itinerary-details">
-                        <div style={{textAlign: "center"}}>
+                        <div style={{
+                            textAlign: "center",
+                            width: "80%",
+                            margin: "100px auto",
+                            fontWeight: "700",
+                            fontStyle: "italic",
+                            fontSize: "1.3rem"
+                        }}>
                             <p>{itineraryToDisplay.shortDescription}</p>
                         </div>
 
@@ -224,7 +231,7 @@ const ItineraryDetails: FC<{}> = () => {
                                 }}
                             >
                                 <h3>Key activities</h3>
-                                <p>{activities.join(" | ")}</p>
+                                <p style={{width: "88%", margin: "10px auto 0"}}>{activities.join(" | ")}</p>
                             </div>
                             <div
                                 style={{
@@ -254,10 +261,11 @@ const ItineraryDetails: FC<{}> = () => {
                             </div>
                         </section>
 
-                        <div style={{textAlign: "center"}}>
-                            <h2>Your all-inclusive trip, designed for an uncompromising experience. Every detail is
+                        <div style={{width: "85%", margin: "150px auto"}}>
+                            <h2 style={{fontSize: "1.7rem", margin: "50px 0", textAlign: "center",}}>
+                                Your all-inclusive trip, designed for an uncompromising experience. Every detail is
                                 designed to offer you comfort, exclusivity and total immersion.</h2>
-                            <ul>
+                            <ul style={{display: "flex", flexDirection: "column", gap: "10px", listStyle: "none"}}>
                                 <li>Premium transportation: Business-class flights, private transfers and personalized
                                     routes for a stress-free trip.
                                 </li>
@@ -288,7 +296,12 @@ const ItineraryDetails: FC<{}> = () => {
                     </div>
 
                     <section>
-                        <h2 style={{textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
+                        <h2 style={{
+                            fontSize: "2rem",
+                            textAlign: "center",
+                            marginTop: "6rem",
+                            marginBottom: "6rem"
+                        }}>Itinerary</h2>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "300px"}}>
                             <InteractiveMapTrip markers={markers}/>
                             <div>
@@ -297,8 +310,9 @@ const ItineraryDetails: FC<{}> = () => {
                                         .map((cityName, index) => {
                                             const day = itineraryToDisplay?.days.find((day) => day.cityName === cityName);
                                             return (
-                                                <div key={index}>
-                                                    <p className="span-country">
+                                                <div key={index} style={{margin: "10px 0"}}>
+                                                    <p className="span-country"
+                                                       style={{display: "flex", alignItems: "center", gap: "10px"}}>
                                                         <RoomOutlinedIcon/>
                                                         {day?.cityName}, {day?.countryName}
                                                     </p>
@@ -313,7 +327,8 @@ const ItineraryDetails: FC<{}> = () => {
 
                     <section>
                         <div>
-                            <h2 style={{textAlign: "center", marginTop: "6rem"}}>Details of your stay</h2>
+                            <h2 style={{fontSize: "2rem", textAlign: "center", marginTop: "16rem"}}>Details of your
+                                stay</h2>
                         </div>
                         {itineraryToDisplay.days.map((day: Day, index: number) =>
                             index % 2 === 0 ? (
