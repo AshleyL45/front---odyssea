@@ -1,46 +1,118 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ReadMe Front-end 
 
-## Available Scripts
+Ce projet est une application React permettant aux utilisateurs de réserver des voyages autour du monde haut de gamme et personnalisés. Réalisé en groupe, l'objectif était de proposer une expérience utilisateur optimale grâce à un site web sobre, élégant et intuitif.
 
-In the project directory, you can run:
+## Équipe
 
-### `npm start`
+Kenza Chrifi - Web Designer / Directrice Artistique / Conceptrice => Front-end
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Liliana Amangoua - Scrum Master / Responsable Debuggage => Fullstack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Ashley Labory - Cheffe de Projet / Référente Git => Back-end
 
-### `npm test`
+## Fonctionnalités :
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Ajouter des itinéraires en favoris : Les utilisateurs peuvent sauvegarder les voyages qui les intéressent afin de les retrouver facilement pour consultation ou réservation ultérieure;
 
-### `npm run build`
+- Réserver des itinéraires standards ou personnalisés : Les utilisateurs peuvent réserver directement des voyages prédéfinis ou composer leurs propres itinéraires en sélectionnant les destinations, hôtels, activités et options souhaitées;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Découvrir et réserver des itinéraires mystère : Une fonctionnalité permettant aux utilisateurs de réserver des voyages surprises, où les destinations et activités sont révélées seulement après la réservation, apportant une dimension de découverte et de surprise;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Gérer ses réservations et favoris via un tableau de bord interactif : Chaque utilisateur bénéficie d'un tableau de bord personnel clair et interactif pour suivre facilement ses réservations, gérer ses favoris, et consulter les détails de ses prochains voyages.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Technologies utilisées
 
-### `npm run eject`
+- React 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- TypeScript 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- MUI 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Leaflet 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Swiper 
 
-## Learn More
+- Axios 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Figma
+## Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+├── .gitattributes
+├── .gitignore
+├── .idea
+│   ├── .gitignore
+│   ├── dataSources.xml
+│   ├── front-odyssea.iml
+│   ├── inspectionProfiles
+│   │   └── Project_Default.xml
+│   ├── material_theme_project_new.xml
+│   ├── modules.xml
+│   └── vcs.xml
+├── README.md
+├── package-lock.json
+├── package.json
+├── public
+│   ├── carouselImages.json
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo-odyssea-symbol.png
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src
+│   ├── @types
+│   │   ├── City.ts
+│   │   ├── Country.ts
+│   │   ├── DailyPlanWithCityDto.ts
+│   │   ├── ItineraryDetailsResponse.ts
+│   │   ├── Option.ts
+│   │   ├── PersonalizeTrip.ts
+│   │   ├── Reservation.ts
+│   │   ├── ReservationRequest.ts
+│   │   ├── Trip.ts
+│   │   └── type.ts
+│   ├── API
+│   │   └── api.ts
+│   ├── components
+│   │   └── (fichiers composants React)
+│   ├── pages
+│   │   └── (pages principales de l'application)
+│   ├── assets
+│   │   └── (images et ressources)
+│   ├── contexts
+│   ├── images
+│   ├── layout
+│   ├── styles
+│   ├── App.tsx
+│   ├── index.tsx
+│   └── react-app-env.d.ts
+└── tsconfig.json
+```
+
+## Installation
+
+Clonez le projet et installez les dépendances :
+
+```
+git clone front---odyssea
+cd front---odyssea
+npm install
+```
+
+Démarrez le serveur local :
+
+```
+npm start
+```
+
+
+Accédez à l'application sur : http://localhost:3000
+
+## Méthodologie de gestion de projet
+
+Application de la méthode Kanban pour un flux de travail continu.
+
+Utilisation de l'outil Trello pour organiser les tâches : "À faire", "En cours", "Terminé".
