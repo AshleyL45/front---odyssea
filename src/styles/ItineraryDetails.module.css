@@ -92,18 +92,8 @@
     padding: 0;
 }
 
-/* Styles pour le collage d'images */
-.collage {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin: 2rem 0;
-}
 
-.collageItem {
-    background-size: cover;
-    background-position: center;
-}
+
 
 .div1 {
     grid-area: 1 / 1 / 2 / 2;
