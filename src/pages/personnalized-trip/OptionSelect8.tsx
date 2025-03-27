@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, JSX, useEffect, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import OptionsSelecting from "../../components/persTrip/OptionsSelecting";
@@ -7,11 +7,11 @@ import "../../App.css"
 import {post} from "../../API/api";
 import {useAuth} from "../../contexts/AuthContext";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
-import {CircularProgress} from "@mui/material";
+import {Backdrop, CircularProgress} from "@mui/material";
 import {PersonalizedTripResponse} from "../../@types/PersonalizeTrip";
 import Pages from "../../components/layout/Pages";
 
-const OptionSelect8: FC<{}> = ({}) => {
+const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
 
     const navigate = useNavigate();
     const {userId} = useAuth();
@@ -93,8 +93,45 @@ const OptionSelect8: FC<{}> = ({}) => {
         }
     }
 
+    const [loadingText, setLoadingText] = useState("Creating your personalized itinerary...");
+
+    useEffect(() => {
+        if (!loading) return;
+
+        const messages = [
+            "Analyzing your preferences...",
+            "Be ready for an exceptional experience...",
+            "Finalizing the details...",
+            "Almost there..."
+        ];
+
+        let currentIndex = 0;
+        const interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % messages.length;
+            setLoadingText(messages[currentIndex]);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [loading]);
+
     return (
         <div>
+            <Backdrop
+                sx={{
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)'
+                }}
+                open={loading}
+            >
+                <div style={{textAlign: 'center'}}>
+                    <CircularProgress color="inherit" size={80} thickness={4}/>
+                    <p style={{marginTop: '20px', fontSize: '1.5rem'}}>
+                        {loadingText}
+                    </p>
+                </div>
+            </Backdrop>
+
             <Pages title="Personalized Trip">
             </Pages>
             <div className="progress-bar">
@@ -128,12 +165,6 @@ const OptionSelect8: FC<{}> = ({}) => {
                                   onClick={handleSubmitUserItinerary}
                     >Next</CustomButton>
                 </div>
-
-                {
-                    loading && (
-                        <CircularProgress/>
-                    )
-                }
 
 
             </div>
