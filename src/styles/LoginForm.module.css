@@ -18,6 +18,7 @@
 .fieldsLogin div {
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
 }
 
 .fieldsLogin div input {
@@ -29,7 +30,7 @@
 .submitButtonLogin {
     margin-top: 2rem !important;
     margin-left: 0 !important;
-    width: 100%;
+    width: 200px;
 }
 
 @media (max-width: 800px) {

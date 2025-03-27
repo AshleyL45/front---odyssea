@@ -26,6 +26,13 @@ const ItineraryListPage: FC = () => {
     const [filteredTrips, setFilteredTrips] = useState<TripExtended[]>([]);
     const [themes, setThemes] = useState<Theme[]>([]);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
     const sortOptions = [
         {id: "option 1", label: "None"},
         {id: "option 2", label: "Descending price"},

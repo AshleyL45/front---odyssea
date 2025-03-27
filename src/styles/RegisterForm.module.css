@@ -9,6 +9,10 @@
     font-size: 1.3rem;
 }
 
+.registerForm label {
+    margin-top: 1rem;
+}
+
 .inputValidation {
     border: 1px solid black;
     outline: none;
@@ -29,7 +33,7 @@
 
 .submitButton {
     margin-top: 2rem;
-    width: 5rem;
+    width: 200px;
 }
 
 @media (max-width: 800px) {

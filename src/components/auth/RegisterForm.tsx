@@ -98,7 +98,10 @@ const RegisterForm: ({}: {}) => JSX.Element = ({}) => {
             {errors.password_confirmation && <p style={{color: "red"}}>{errors.password_confirmation.message}</p>}
 
             {error && (<p style={{color: "red"}}>{error}</p>)}
-            <CustomButton type="submit" variant="contained" className={styles.submitButton}>Register</CustomButton>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <CustomButton type="submit" variant="contained" className={styles.submitButton}>Register</CustomButton>
+            </div>
+
         </form>
     );
 };
