@@ -291,21 +291,21 @@ const ItineraryDetails: FC = () => {
                     </section>
 
                     {/* Collage */}
-                    <div className={styles.collage}>
-                        <div className={`${styles.collageItem} ${styles.div1}`}>
-                            {imgLoading ? <div>Loading images…</div> : (
-                                <img src={images.countries[0] || ""} alt="Country"/>
-                            )}
+                    <div className="collage">
+                        <div className="collageItem div1">
+                            {imgLoading
+                                ? <div>Loading images…</div>
+                                : <img src={images.countries[0] || ""} alt="Country 1"/>}
                         </div>
-                        <div className={`${styles.collageItem} ${styles.div2}`}>
-                            {imgLoading ? <div>Loading…</div> : (
-                                <img src={images.countries[1] || ""} alt="Country"/>
-                            )}
+                        <div className="collageItem div2">
+                            {imgLoading
+                                ? <div>Loading…</div>
+                                : <img src={images.countries[1] || ""} alt="Country 2"/>}
                         </div>
-                        <div className={`${styles.collageItem} ${styles.div3}`}>
-                            {imgLoading ? <div>Loading…</div> : (
-                                <img src={images.countries[2] || ""} alt="Country"/>
-                            )}
+                        <div className="collageItem div3">
+                            {imgLoading
+                                ? <div>Loading…</div>
+                                : <img src={images.countries[2] || ""} alt="Country 3"/>}
                         </div>
                     </div>
 

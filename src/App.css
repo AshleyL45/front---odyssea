@@ -166,8 +166,6 @@ body {
 }
 
 
-
-
 @media screen and (min-width: 600px) {
     .icon-side-bar {
         display: none;
@@ -287,16 +285,16 @@ body {
         height: 70vh;
     }
 
-    .side-board-container{
+    .side-board-container {
         width: 35% !important;
     }
 }
 
- @media screen and (min-width: 1000px) {
-     .side-board-container{
-         width: 350px !important;
-     }
- }
+@media screen and (min-width: 1000px) {
+    .side-board-container {
+        width: 350px !important;
+    }
+}
 
 
 @media screen and (max-width: 600px) {
@@ -316,16 +314,14 @@ body {
 }
 
 
+/* DASHBOARD */
 
-
-        /* DASHBOARD */
-
-.dashboard{
+.dashboard {
     display: flex;
     justify-content: space-around;
 }
 
-.container-overview h1{
+.container-overview h1 {
     font-size: 1.8rem;
     margin: 1.8rem 0 2rem 4rem;
 }
@@ -335,7 +331,7 @@ body {
     margin: 1.8rem 0 2rem 4rem;
 }
 
-.container-trip-number{
+.container-trip-number {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -344,11 +340,10 @@ body {
     margin: 40px 0 70px;
 }
 
-.container-trip-number div{
+.container-trip-number div {
     width: 200px;
     height: 220px;
 }
-
 
 
 @media screen and (min-width: 600px) {
@@ -367,12 +362,11 @@ body {
 }
 
 
-
-.container-history h1{
+.container-history h1 {
     margin: 1.8rem 0 2rem 4rem;
 }
 
-.container-myselection h1{
+.container-myselection h1 {
     margin: 1.8rem 0 2rem 4rem;
 }
 
@@ -1008,7 +1002,6 @@ footer p {
 }
 
 
-
 .option-layout {
     width: 80%;
     margin: 20px auto;
@@ -1383,7 +1376,8 @@ footer p {
 /* Styles pour le collage d'images */
 
 
-{/*
+{
+/*
 .collage {
     display: flex;
     position: relative;
@@ -1440,7 +1434,8 @@ footer p {
 .div3 img {
     transform: rotate(10deg) scale(1.2);
 }
-*/}
+*/
+}
 
 .collage {
     display: flex;
@@ -1452,11 +1447,11 @@ footer p {
     overflow: hidden;
 }
 
-.collageItem{
+.collageItem {
     width: 34%;
 }
 
-.div1 img{
+.div1 img {
     height: 60vh;
 }
 
@@ -1469,7 +1464,7 @@ footer p {
     bottom: 110px;
     left: -20px;
     height: 80vh;
-    overflow: hidden;  /*Important pour cacher les débordements */
+    overflow: hidden; /*Important pour cacher les débordements */
 }
 
 .div2 img {
