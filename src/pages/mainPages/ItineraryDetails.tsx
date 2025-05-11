@@ -67,34 +67,64 @@ const ItineraryDetails: FC = () => {
     }, [itineraryId]);
 
     // 3) Fetch images by role
+    // 3) Fetch images by role
     useEffect(() => {
-        // reset on ID change
         setImages({header: [], countries: [], days: [], map: ""});
         setImgLoading(true);
 
         const fetchImgs = async () => {
             try {
-                const rolesResp = await get<string[] | null>(`/api/itinerary-images/${itineraryId}`);
-                const roles = rolesResp ?? [];
-                if (!roles.length) {
-                    setImgLoading(false);
-                    return;
-                }
+                const roles = await get<string[]>(`/api/itinerary-images/${itineraryId}`) ?? [];
+
+                // On ne garde qu'un seul firstHeader
+                const headerRole = roles.find(r => r === 'firstHeader');
+                // On prend les trois pays
+                const countryRoles = ['firstCountry', 'secondCountry', 'thirdCountry'].filter(r => roles.includes(r));
+                // On prend tous les jours existants (day1...dayN)
+                const dayRoles = roles
+                    .filter(r => r.startsWith('day'))
+                    .sort((a, b) => {
+                        const na = parseInt(a.replace('day', ''), 10);
+                        const nb = parseInt(b.replace('day', ''), 10);
+                        return na - nb;
+                    });
+                // La map, si elle existe
+                const mapRole = roles.includes('map') ? 'map' : undefined;
 
                 const loaded: ItineraryImages = {header: [], countries: [], days: [], map: ""};
-                await Promise.all(
-                    roles.map(async role => {
-                        const res = await fetch(`/api/itinerary-images/${itineraryId}/${role}`);
-                        if (!res.ok) return;
-                        const blob = await res.blob();
-                        const url = URL.createObjectURL(blob);
-                        const lower = role.toLowerCase();
-                        if (lower.includes("header")) loaded.header.push(url);
-                        else if (lower.includes("country")) loaded.countries.push(url);
-                        else if (lower.includes("day")) loaded.days.push(url);
-                        else if (lower === "map") loaded.map = url;
-                    })
-                );
+
+                // Charger le header (s'il y en a un)
+                if (headerRole) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${headerRole}`);
+                    if (res.ok) {
+                        const url = URL.createObjectURL(await res.blob());
+                        loaded.header = [url];
+                    }
+                }
+
+                // Charger les pays
+                for (const cr of countryRoles) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${cr}`);
+                    if (res.ok) {
+                        loaded.countries.push(URL.createObjectURL(await res.blob()));
+                    }
+                }
+
+                // Charger les days
+                for (const dr of dayRoles) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${dr}`);
+                    if (res.ok) {
+                        loaded.days.push(URL.createObjectURL(await res.blob()));
+                    }
+                }
+
+                // Charger la map
+                if (mapRole) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${mapRole}`);
+                    if (res.ok) {
+                        loaded.map = URL.createObjectURL(await res.blob());
+                    }
+                }
 
                 setImages(loaded);
             } catch (e) {
@@ -107,10 +137,14 @@ const ItineraryDetails: FC = () => {
         fetchImgs();
 
         return () => {
-            [...images.header, ...images.countries, ...images.days, images.map]
-                .forEach(URL.revokeObjectURL);
+            // Cleanup
+            images.header.forEach(URL.revokeObjectURL);
+            images.countries.forEach(URL.revokeObjectURL);
+            images.days.forEach(URL.revokeObjectURL);
+            if (images.map) URL.revokeObjectURL(images.map);
         };
     }, [itineraryId]);
+
 
     const handleFavorites = () => {
         if (!token) {
