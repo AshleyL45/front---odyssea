@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import logo from "../../images/logo_name.png";
+import logo from "../../assets/logo/logo_name.png";
 
 const MyComponent: FC<{}> = ({}) => {
     return (

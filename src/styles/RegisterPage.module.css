@@ -1,5 +1,5 @@
 .registerPage {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url("../images/keith-hardy-PP8Escz15d8-unsplash.jpg") no-repeat center;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url("../assets/pages/RegisterPage/register-page-image.jpg") no-repeat center;
     background-size: cover;
     height: 100vh
 }

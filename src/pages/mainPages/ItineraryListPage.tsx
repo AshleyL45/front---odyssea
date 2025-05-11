@@ -8,7 +8,6 @@ import SearchBar from "../../components/allTrips/SearchBar";
 import Footer from "../../components/ReusableComponents/Footer";
 import Sort from "../../components/allTrips/Sort";
 import styles from "../../styles/TripListPage.module.css";
-import {imageData} from "../../assets/image";
 import Pages from "../../components/layout/Pages";
 
 interface TripExtended extends Trip {
@@ -108,22 +107,19 @@ const ItineraryListPage: FC = () => {
     }, [trips, selectedTheme, selectedSort]);
 
     useEffect(() => {
-        // Dès que `filteredTrips` est mis à jour, on charge leurs headers
         const loadHeaders = async () => {
             const map: HeaderMap = {};
             await Promise.all(
                 filteredTrips.map(async trip => {
                     try {
-                        // 1) Récupérer la liste des rôles
                         const roles = await get<string[]>(`/api/itinerary-images/${trip.id}`) ?? [];
                         if (!roles.includes("firstHeader")) return;
-                        // 2) Charger le blob
                         const res = await fetch(`/api/itinerary-images/${trip.id}/firstHeader`);
                         if (!res.ok) return;
                         const blob = await res.blob();
                         map[trip.id] = URL.createObjectURL(blob);
                     } catch {
-                        /* ignore errors */
+
                     }
                 })
             );
@@ -131,7 +127,7 @@ const ItineraryListPage: FC = () => {
         };
 
         loadHeaders();
-        // cleanup : révoquer les URLs si besoin
+
         return () => {
             Object.values(headerMap).forEach(URL.revokeObjectURL);
         };

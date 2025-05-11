@@ -47,7 +47,6 @@ const ItineraryDetails: FC = () => {
 
     const isFavorite = favorites.some(fav => fav.id === itineraryId);
 
-    // 1) Fetch itinerary details
     useEffect(() => {
         get<ItineraryDetailsResponse>(`/api/itineraries/${itineraryId}/details`)
             .then(data => {
@@ -56,7 +55,6 @@ const ItineraryDetails: FC = () => {
             .catch(e => console.error("Cannot get itinerary:", itineraryId, e));
     }, [itineraryId]);
 
-    // 2) Fetch daily plans
     useEffect(() => {
         get<DailyPlanWithCityDto[] | null>(`/api/itineraries/${itineraryId}/daily`)
             .then(resp => setDailyPlans(resp ?? []))
@@ -66,8 +64,6 @@ const ItineraryDetails: FC = () => {
             });
     }, [itineraryId]);
 
-    // 3) Fetch images by role
-    // 3) Fetch images by role
     useEffect(() => {
         setImages({header: [], countries: [], days: [], map: ""});
         setImgLoading(true);
@@ -75,12 +71,8 @@ const ItineraryDetails: FC = () => {
         const fetchImgs = async () => {
             try {
                 const roles = await get<string[]>(`/api/itinerary-images/${itineraryId}`) ?? [];
-
-                // On ne garde qu'un seul firstHeader
                 const headerRole = roles.find(r => r === 'firstHeader');
-                // On prend les trois pays
                 const countryRoles = ['firstCountry', 'secondCountry', 'thirdCountry'].filter(r => roles.includes(r));
-                // On prend tous les jours existants (day1...dayN)
                 const dayRoles = roles
                     .filter(r => r.startsWith('day'))
                     .sort((a, b) => {
@@ -88,12 +80,10 @@ const ItineraryDetails: FC = () => {
                         const nb = parseInt(b.replace('day', ''), 10);
                         return na - nb;
                     });
-                // La map, si elle existe
                 const mapRole = roles.includes('map') ? 'map' : undefined;
 
                 const loaded: ItineraryImages = {header: [], countries: [], days: [], map: ""};
 
-                // Charger le header (s'il y en a un)
                 if (headerRole) {
                     const res = await fetch(`/api/itinerary-images/${itineraryId}/${headerRole}`);
                     if (res.ok) {
@@ -102,7 +92,6 @@ const ItineraryDetails: FC = () => {
                     }
                 }
 
-                // Charger les pays
                 for (const cr of countryRoles) {
                     const res = await fetch(`/api/itinerary-images/${itineraryId}/${cr}`);
                     if (res.ok) {
@@ -110,7 +99,6 @@ const ItineraryDetails: FC = () => {
                     }
                 }
 
-                // Charger les days
                 for (const dr of dayRoles) {
                     const res = await fetch(`/api/itinerary-images/${itineraryId}/${dr}`);
                     if (res.ok) {
@@ -118,7 +106,6 @@ const ItineraryDetails: FC = () => {
                     }
                 }
 
-                // Charger la map
                 if (mapRole) {
                     const res = await fetch(`/api/itinerary-images/${itineraryId}/${mapRole}`);
                     if (res.ok) {
