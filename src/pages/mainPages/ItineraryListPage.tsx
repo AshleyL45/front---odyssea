@@ -21,10 +21,13 @@ type Theme = {
     themeName: string;
 };
 
+type HeaderMap = Record<number, string>;
+
 const ItineraryListPage: FC = () => {
     const [trips, setTrips] = useState<TripExtended[]>([]);
     const [filteredTrips, setFilteredTrips] = useState<TripExtended[]>([]);
     const [themes, setThemes] = useState<Theme[]>([]);
+    const [headerMap, setHeaderMap] = useState<HeaderMap>({});
 
     useEffect(() => {
         window.scrollTo({
@@ -104,6 +107,36 @@ const ItineraryListPage: FC = () => {
         setFilteredTrips(filtered);
     }, [trips, selectedTheme, selectedSort]);
 
+    useEffect(() => {
+        // Dès que `filteredTrips` est mis à jour, on charge leurs headers
+        const loadHeaders = async () => {
+            const map: HeaderMap = {};
+            await Promise.all(
+                filteredTrips.map(async trip => {
+                    try {
+                        // 1) Récupérer la liste des rôles
+                        const roles = await get<string[]>(`/api/itinerary-images/${trip.id}`) ?? [];
+                        if (!roles.includes("firstHeader")) return;
+                        // 2) Charger le blob
+                        const res = await fetch(`/api/itinerary-images/${trip.id}/firstHeader`);
+                        if (!res.ok) return;
+                        const blob = await res.blob();
+                        map[trip.id] = URL.createObjectURL(blob);
+                    } catch {
+                        /* ignore errors */
+                    }
+                })
+            );
+            setHeaderMap(map);
+        };
+
+        loadHeaders();
+        // cleanup : révoquer les URLs si besoin
+        return () => {
+            Object.values(headerMap).forEach(URL.revokeObjectURL);
+        };
+    }, [filteredTrips]);
+
     const handleThemeChange = (selectedOption: string) => {
         console.log("Filtre thème sélectionné :", selectedOption);
         setSelectedTheme(selectedOption);
@@ -114,10 +147,7 @@ const ItineraryListPage: FC = () => {
         setSelectedSort(selectedOption);
     };
 
-    const getHeaderImage = (tripId: number) => {
-        const imageSet = imageData.find((data) => data.id === tripId);
-        return imageSet ? imageSet.images.header[0] : '';
-    };
+
 
     return (
         <>
@@ -148,9 +178,17 @@ const ItineraryListPage: FC = () => {
             {filteredTrips.length > 0 ? (
                 filteredTrips.map((trip, index) =>
                     index % 2 === 0 ? (
-                        <TripItemTravel key={trip.id} trip={trip} headerImage={getHeaderImage(trip.id)}/>
+                        <TripItemTravel
+                            key={trip.id}
+                            trip={trip}
+                            headerImage={headerMap[trip.id] || ''}
+                        />
                     ) : (
-                        <TripItemTravelReverse key={trip.id} trip={trip} headerImage={getHeaderImage(trip.id)}/>
+                        <TripItemTravelReverse
+                            key={trip.id}
+                            trip={trip}
+                            headerImage={headerMap[trip.id] || ''}
+                        />
                     )
                 )
             ) : (
