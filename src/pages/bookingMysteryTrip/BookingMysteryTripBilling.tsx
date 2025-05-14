@@ -7,25 +7,28 @@ import {useReservation} from "../../contexts/ReservationContext";
 import {useNavigate} from "react-router-dom";
 import "../../App.css";
 import Pages from "../../components/layout/Pages";
+import styles from "../../styles/BookingFormBilling.module.css";
 
 const BookingMysteryTripBilling: FC = () => {
     const {email, firstName, lastName} = useAuth();
-    const {trip} = useReservation(); // On récupère le trip depuis le contexte
     const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
 
-    const validateForm = (): boolean => {
+
+    const validateForm = () => {
         const newErrors: string[] = [];
+
         const inputs = document.querySelectorAll("input");
 
         inputs.forEach((input) => {
             if (input.required && !input.value.trim()) {
+
                 newErrors.push(`The field ${input.placeholder.slice(0, -1)} is required.`);
             }
         });
 
         const checkbox = document.getElementById("validationCheckbox") as HTMLInputElement;
-        if (!checkbox || !checkbox.checked) {
+        if (!checkbox.checked) {
             newErrors.push("You must agree to the terms and conditions.");
         }
 
@@ -33,12 +36,16 @@ const BookingMysteryTripBilling: FC = () => {
             setErrors(newErrors);
             return false;
         }
+
         return true;
     };
 
     const handleNextClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (validateForm()) {
+
+        const isFormValid = validateForm();
+
+        if (isFormValid) {
             const billingInfo = {
                 lastName: (document.querySelector("input[placeholder='Last Name*']") as HTMLInputElement)?.value,
                 firstName: (document.querySelector("input[placeholder='First Name*']") as HTMLInputElement)?.value,
@@ -51,123 +58,85 @@ const BookingMysteryTripBilling: FC = () => {
                 city: (document.querySelector("input[placeholder='City*']") as HTMLInputElement)?.value,
                 country: (document.querySelector("input[placeholder='Country*']") as HTMLInputElement)?.value,
             };
+
             localStorage.setItem("billingInfo", JSON.stringify(billingInfo));
+
             navigate("/booking-mystery-trip/result");
         }
     };
 
     return (
-        <>
-            <Pages title="Booking - Mystery Trip">
+        <div>
+            <Pages title="Booking Form">
             </Pages>
 
-            <div>
+            {/* Barre de progression */}
+            <div className={styles.progressBarContainer}>
+                <div className={styles.progressBar}></div>
+            </div>
 
-                <div className="progress-bar">
-                    <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                    <div
-                        style={{
-                            width: "80%",
-                            height: "6px",
-                            borderRadius: "0 5px 5px 0",
-                            backgroundColor: "#2C3E50",
-                            position: "relative",
-                            top: "-6px"
-                        }}
-                    ></div>
+            {/* Lien "previous step" */}
+            <p className={styles.previousStep} onClick={() => navigate(-1)}>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
+                previous step
+            </p>
+
+            {/* Conteneur principal */}
+            <div className={styles.optionSelect}>
+                <h1>Your billing information</h1>
+                <p>This information is required to finalize your reservation.</p>
+
+                <h3>Contact Details</h3>
+                <div className={styles.formGrid}>
+                    <input type="text" placeholder="Last Name*" defaultValue={lastName?.toString()}
+                           className={styles.inputBooking} required/>
+                    <input type="text" placeholder="First Name*" defaultValue={firstName?.toString()}
+                           className={styles.inputBooking} required/>
+                    <input type="email" placeholder="Email*" defaultValue={email?.toString()}
+                           className={styles.inputBooking} required/>
+                    <input type="text" placeholder="Phone Number*" className={styles.inputBooking} required/>
                 </div>
 
-                <p style={{
-                    display: 'flex',
-                    alignItems: "center",
-                    fontSize: "16px",
-                    margin: "10px 40px",
-                    cursor: "pointer"
-                }}
-                   onClick={() => navigate(-1)}
-                >
-                    <ArrowBackIcon sx={{fontSize: "15px"}}/>
-                    previous step
-                </p>
+                <h3>Address</h3>
+                <div className={styles.formGridAddress}>
+                    <input type="text" placeholder="Company Name" className={styles.inputBooking}/>
+                    <input type="text" placeholder="Address*" className={styles.inputBooking} required/>
+                    <input type="text" placeholder="Address details" className={styles.inputBooking}/>
+                    <input type="text" placeholder="Postal code*" className={styles.inputBooking} required/>
+                    <input type="text" placeholder="City*" className={styles.inputBooking} required/>
+                    <input type="text" placeholder="Country*" className={styles.inputBooking} required/>
+                </div>
 
-                <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
-                    <h1 style={{fontSize: "25px", margin: "10px 0"}}>Your billing information</h1>
-                    <p>This information is required to finalize your reservation.</p>
+                {/* Case à cocher */}
+                <div className={styles.terms}>
+                    <input type="checkbox" id="validationCheckbox" className={styles.validationCheckbox}/>
+                    <label htmlFor="validationCheckbox" className={styles.validationLabel}>
+                        By validating this form, I agree to be contacted by a Travel Designer to finalize my reservation
+                        and
+                        receive personalized support.
+                    </label>
+                </div>
 
-                    <h3 style={{marginTop: "2rem"}}>Contact Details</h3>
-                    <div style={{
-                        display: "grid",
-                        gridTemplateRows: "1fr 1fr",
-                        gridTemplateColumns: "1fr 1fr",
-                        width: "50%",
-                        gap: 25,
-                        margin: "auto"
-                    }}>
-                        <input type="text"
-                               placeholder="Last Name*"
-                               defaultValue={lastName?.toString()}
-                               className="inputBooking"
-                               required/>
-                        <input type="text"
-                               placeholder="First Name*"
-                               defaultValue={firstName?.toString()}
-                               className="inputBooking"
-                               required/>
-                        <input type="email"
-                               placeholder="Email*"
-                               defaultValue={email?.toString()}
-                               className="inputBooking"
-                               required/>
-                        <input type="text"
-                               placeholder="Phone Number*"
-                               className="inputBooking"
-                               required/>
+
+                {/* Messages d'erreur */}
+                {errors.length > 0 && (
+                    <div className={styles.errorContainer}>
+                        <ul className={styles.errorList}>
+                            {errors.map((error, idx) => (
+                                <li key={idx}>{error}</li>
+                            ))}
+                        </ul>
                     </div>
+                )}
 
-                    <h3>Address</h3>
-                    <div style={{
-                        display: "grid",
-                        gridTemplateRows: "1fr 1fr",
-                        gridTemplateColumns: "1fr 1fr 1fr",
-                        width: "50%",
-                        gap: 25,
-                        margin: "auto"
-                    }}>
-                        <input type="text" placeholder="Company Name" className="inputBooking"/>
-                        <input type="text" placeholder="Address*" className="inputBooking" required/>
-                        <input type="text" placeholder="Address details" className="inputBooking"/>
-                        <input type="text" placeholder="Postal code*" className="inputBooking" required/>
-                        <input type="text" placeholder="City*" className="inputBooking" required/>
-                        <input type="text" placeholder="Country*" className="inputBooking" required/>
-                    </div>
-
-                    <div style={{marginTop: "2rem"}}>
-                        <input type="checkbox" id="validationCheckbox" style={{marginRight: "0.5rem"}}/>
-                        <label htmlFor="validationCheckbox" className="inputBooking">
-                            By validating this form, I agree to be contacted by a Travel Designer to finalize my
-                            reservation
-                            and receive personalized support.
-                        </label>
-                    </div>
-
-                    {errors.length > 0 && (
-                        <div style={{color: "red", margin: "10px 0"}}>
-                            <ul>
-                                {errors.map((error, idx) => (
-                                    <li key={idx} style={{listStyleType: "none"}}>{error}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    <div style={{display: "block", marginTop: "2rem"}}>
-                        <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNextClick}>
-                            Next
-                        </CustomButton>
-                    </div>
+                {/* Bouton "Next" */}
+                <div className={styles.buttonContainer}>
+                    <CustomButton className={styles.customButton} variant="contained" onClick={handleNextClick}>
+                        Next
+                    </CustomButton>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

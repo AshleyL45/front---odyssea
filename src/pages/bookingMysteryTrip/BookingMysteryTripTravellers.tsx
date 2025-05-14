@@ -7,10 +7,15 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import {useReservation} from "../../contexts/ReservationContext";
 import Pages from "../../components/layout/Pages";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {Dayjs} from "dayjs";
 
 const BookingFormPeople: FC = () => {
     const navigate = useNavigate();
     const {updateResponse} = useReservation();
+
+    const [startDate, setStartDate] = useState<Dayjs | null>(null);
+    const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
     const [adults, setAdults] = useState(0);
     const [kids, setKids] = useState(0);
@@ -38,7 +43,13 @@ const BookingFormPeople: FC = () => {
         reservation.numberOfKids = kids;
         localStorage.setItem('reservation', JSON.stringify(reservation));
 
-        navigate("/booking-mystery-trip/billing");
+        navigate("/booking-mystery-trip/options");
+    };
+
+    const handlePrevious = () => navigate(-1);
+    const resetDate = () => {
+        setStartDate(null);
+        setEndDate(null);
     };
 
     return (
@@ -60,23 +71,18 @@ const BookingFormPeople: FC = () => {
                 />
             </div>
 
-            <div
+            <p
                 style={{
                     display: "flex",
-                    justifyContent: "center",
                     alignItems: "center",
-                    gap: "2rem",
-                    marginTop: "2rem",
+                    fontSize: "16px",
+                    margin: "10px 40px",
+                    cursor: "pointer"
                 }}
+                onClick={handlePrevious}
             >
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>1. Countries</span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>2. Dates</span>
-                <span
-                    style={{fontSize: "2rem", fontWeight: "bold", textDecoration: "underline"}}
-                >
-                    3. Travellers
-                </span>
-            </div>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/> previous step
+            </p>
 
             {/* Contenu principal : sélection du nombre de voyageurs */}
             <div style={{padding: "20px 40px", width: "70%", margin: "auto", textAlign: "center"}}>

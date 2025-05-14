@@ -1,44 +1,39 @@
 import React, {FC, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
-import dayjs, {Dayjs} from "dayjs";
+import ReservationCalendar from "../../components/bookingForm/ReservationCalendar";
 import Pages from "../../components/layout/Pages";
+import dayjs, {Dayjs} from "dayjs";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useReservation} from "../../contexts/ReservationContext";
 
 const BookingMysteryTripDate: FC = () => {
-    const [departureDate, setDepartureDate] = useState<Dayjs | null>(null);
     const navigate = useNavigate();
+    const {trip, updateResponse} = useReservation();
 
-    const formatDate = (date: Dayjs): string => {
-        return date.format("DD/MM/YYYY");
+    const [startDate, setStartDate] = useState<Dayjs | null>(null);
+    const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
+    // Fixed duration of 12 days for mystery trip
+    const duration = 12;
+
+    const handleDateSelection = (date: Dayjs | null) => {
+        setStartDate(date);
+        setEndDate(date ? date.add(duration, "days") : null);
     };
 
-    const add12Days = (date: Dayjs): Dayjs => {
-        return date.add(12, "day");
-    };
-
-    const handleDateSelect = (newDate: Dayjs | null) => {
-        if (!departureDate && newDate) {
-            setDepartureDate(newDate);
-        }
-    };
-
-    const resetDate = () => {
-        setDepartureDate(null);
-    };
-
-    const endDate = departureDate ? add12Days(departureDate) : null;
-
-    const handleResultClick = () => {
-        if (departureDate) {
-            localStorage.setItem("departureDate", departureDate.toISOString());
-            const retDate = add12Days(departureDate);
-            localStorage.setItem("returnDate", retDate.toISOString());
+    const handleNextStep = () => {
+        if (startDate && endDate) {
+            updateResponse("departureDate", startDate.format("DD-MM-YYYY"));
+            updateResponse("returnDate", endDate.format("DD-MM-YYYY"));
             navigate("/booking-mystery-trip/traveller");
         }
+    };
+
+    const handlePrevious = () => navigate(-1);
+    const resetDate = () => {
+        setStartDate(null);
+        setEndDate(null);
     };
 
     return (
@@ -50,7 +45,7 @@ const BookingMysteryTripDate: FC = () => {
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>
                 <div
                     style={{
-                        width: "30%",
+                        width: "20%",
                         height: "6px",
                         borderRadius: "0 5px 5px 0",
                         backgroundColor: "#2C3E50",
@@ -60,95 +55,46 @@ const BookingMysteryTripDate: FC = () => {
                 />
             </div>
 
-            <div
+            <p
                 style={{
                     display: "flex",
-                    justifyContent: "center",
                     alignItems: "center",
-                    gap: "2rem",
-                    marginTop: "2rem",
+                    fontSize: "16px",
+                    margin: "10px 40px",
+                    cursor: "pointer"
                 }}
+                onClick={handlePrevious}
             >
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>1. Countries</span>
-                <span
-                    style={{
-                        fontSize: "2rem",
-                        fontWeight: "bold",
-                        textDecoration: "underline",
-                    }}
-                >
-          2. Dates
-        </span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>3. Travellers</span>
-            </div>
+                <ArrowBackIcon sx={{fontSize: "15px"}}/> previous step
+            </p>
 
-            <div
-                style={{
+            <div style={{width: "90%", textAlign: "center", margin: "0 auto"}}>
+                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>When would you like to leave?</h1>
+                <p style={{margin: "20px 0 50px"}}>
+                    Select a departure date. Return date will be fixed at {duration} days
+                    later.
+                </p>
+
+                <ReservationCalendar days={duration} onDateSelect={handleDateSelection}/>
+
+                <div style={{
                     display: "flex",
-                    justifyContent: "space-around",
-                    alignItems: "flex-start",
-                    marginTop: "3rem",
-                }}
-            >
-                <div
-                    style={{
-                        width: "40%",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                    }}
-                >
-                    <h2 style={{fontSize: "2rem"}}>Choose your availability</h2>
-                    <p style={{fontSize: "1rem", lineHeight: "1.5"}}>
-                        Select departure date. Dates prior to today cannot be selected.
-                        Once the date has been selected, your trip will automatically end 12 days later.
-                    </p>
-                    <div>
-                        <CustomButton
-                            disabled={!departureDate}
-                            onClick={handleResultClick}
-                            style={{
-                                color: "white",
-                                backgroundColor: departureDate ? "#2C3E50" : "grey",
-                            }}
-                        >
-                            Result
-                        </CustomButton>
-                    </div>
-                </div>
-
-                <div
-                    style={{
-                        width: "40%",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                        alignItems: "center",
-                    }}
-                >
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <div style={{pointerEvents: departureDate ? "none" : "auto"}}>
-                            <DateCalendar
-                                value={departureDate}
-                                onChange={handleDateSelect}
-                                minDate={dayjs().startOf("day")}
-                            />
-                        </div>
-                    </LocalizationProvider>
-
-                    <CustomButton
-                        onClick={resetDate}
-                        style={{color: "white", backgroundColor: "#2C3E50"}}
-                    >
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "1rem",
+                    marginTop: "1rem"
+                }}>
+                    <CustomButton onClick={resetDate} style={{color: "white", backgroundColor: "#2C3E50"}}>
                         Reset
                     </CustomButton>
-
-                    {departureDate && endDate && (
-                        <p style={{marginTop: "1rem", textAlign: "center"}}>
-                            Your journey begins on <strong>{formatDate(departureDate)}</strong> and will end on{" "}
-                            <strong>{formatDate(endDate)}</strong>.
-                        </p>
-                    )}
+                    <CustomButton
+                        variant="contained"
+                        onClick={handleNextStep}
+                        disabled={!startDate || !endDate}
+                        style={{width: "130px", marginTop: "50px"}}
+                    >
+                        Next
+                    </CustomButton>
                 </div>
             </div>
         </>

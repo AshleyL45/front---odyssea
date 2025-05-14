@@ -50,6 +50,7 @@ import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryT
 import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
 import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
 import BackToTopLayout from './layout/BackToTopLayout';
+import BookingMysteryTripOptions from "./pages/bookingMysteryTrip/BookingMysteryTripOptions";
 
 
 
@@ -79,6 +80,7 @@ function App() {
                                         <Route path="country" element={<BookingMysteryTripCountry/>}></Route>
                                         <Route path="date" element={<BookingMysteryTripDate/>}></Route>
                                         <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
+                                        <Route path="options" element={<BookingMysteryTripOptions/>}></Route>
                                         <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
                                     </Route>
                                     <Route path="result" element={<BookingMysteryTripResult/>}></Route>

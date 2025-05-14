@@ -33,8 +33,8 @@ const ReservationCalendar: FC<ReservationCalendar> = ({days, onDateSelect}) => {
                 {startDate && endDate && (
                     <div>
                         <p>Select
-                            Date de départ: {startDate.format("DD/MM/YYYY")} -{" "}
-                            Date de fin: {endDate.format("DD/MM/YYYY")}
+                            Departure date: {startDate.format("DD/MM/YYYY")} -{" "}
+                            End date: {endDate.format("DD/MM/YYYY")}
                         </p>
                     </div>
                 )}

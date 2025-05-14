@@ -130,7 +130,7 @@ const BookingMysteryTripSubmit: FC = () => {
                 <div>
                     <h1 style={{fontSize: "25px", margin: "10px 0", textAlign: "center"}}>Summary of your trip</h1>
                     <div style={{width: 2, height: 30, backgroundColor: "black", margin: "auto"}}></div>
-                    <h2 className={styles.tripDashboardTitle}>{validTrip.name}</h2>
+                    <h2 className={styles.tripDashboardTitle} style={{textAlign: "center"}}>{validTrip.name}</h2>
                     <hr/>
                     <div>
                         <div className="recapDivs">

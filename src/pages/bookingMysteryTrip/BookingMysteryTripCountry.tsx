@@ -1,8 +1,9 @@
-import React, {FC, useState, useEffect, ChangeEvent} from 'react';
+import React, {FC, useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import Pages from "../../components/layout/Pages";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Select from 'react-select';
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
@@ -13,11 +14,16 @@ const BookingMysteryTripCountry: FC = () => {
         const fetchCountries = async () => {
             try {
                 const response = await fetch("http://localhost:8080/countries");
-                if (!response.ok) {
-                    throw new Error("Error when retrieving countries");
-                }
+                if (!response.ok) throw new Error("Error when retrieving countries");
                 const data = await response.json();
-                setCountries(data);
+                // Préparer et trier la liste de pays
+                const countryList: any[] = Array.isArray(data)
+                    ? data
+                    : Array.isArray((data as any).countries)
+                        ? (data as any).countries
+                        : [];
+                const sorted = [...countryList].sort((a, b) => a.name.localeCompare(b.name));
+                setCountries(sorted);
             } catch (error) {
                 console.error("Unable to retrieve list of countries:", error);
             }
@@ -25,22 +31,33 @@ const BookingMysteryTripCountry: FC = () => {
         fetchCountries();
     }, []);
 
-    const handleSelectCountry = (event: ChangeEvent<HTMLSelectElement>) => {
-        const newCountry = event.target.value;
-        if (newCountry && !selectedCountries.includes(newCountry) && selectedCountries.length < 10) {
-            setSelectedCountries((prev) => [...prev, newCountry]);
+    const handleSelectCountry = (option: { value: string; label: string } | null) => {
+        const newCountry = option?.value;
+        if (!newCountry) return;
+
+        if (selectedCountries.length >= 10) {
+            window.alert("Vous ne pouvez pas sélectionner plus de 10 pays.");
+            return;
         }
-        event.target.value = "";
+
+        if (!selectedCountries.includes(newCountry)) {
+            setSelectedCountries(prev => [...prev, newCountry]);
+        }
     };
 
     const handleRemoveCountry = (country: string) => {
-        setSelectedCountries((prev) => prev.filter(c => c !== country));
+        setSelectedCountries(prev => prev.filter(c => c !== country));
     };
 
     const handleNext = () => {
-        localStorage.setItem("excludedCountries", JSON.stringify(selectedCountries));
+        localStorage.setItem(
+            "excludedCountries",
+            JSON.stringify(selectedCountries)
+        );
         navigate("/booking-mystery-trip/date");
     };
+
+    const handlePrevious = () => navigate(-1);
 
     return (
         <>
@@ -48,102 +65,99 @@ const BookingMysteryTripCountry: FC = () => {
             </Pages>
 
             <div className="progress-bar">
-                <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                <div style={{
-                    width: "30%",
-                    height: "6px",
-                    borderRadius: "0 5px 5px 0",
-                    backgroundColor: "#2C3E50",
-                    position: "relative",
-                    top: "-6px"
-                }}></div>
+                <div style={{width: '100%', height: '6px', backgroundColor: 'lightgrey'}}/>
+                <div
+                    style={{
+                        width: '30%',
+                        height: '6px',
+                        borderRadius: '0 5px 5px 0',
+                        backgroundColor: '#2C3E50',
+                        position: 'relative',
+                        top: '-6px',
+                    }}
+                />
             </div>
 
-            <div style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "20rem",
-                marginTop: "2rem"
-            }}>
-        <span style={{fontSize: "2rem", fontWeight: "bold", textDecoration: "underline"}}>
-          1. Countries
-        </span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>
-          2. Dates
-        </span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>
-          3. Travellers
-        </span>
-            </div>
+            <p
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontSize: '16px',
+                    margin: '10px 40px',
+                    cursor: 'pointer'
+                }}
+                onClick={handlePrevious}
+            >
+                <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
+            </p>
 
-            <div style={{display: "flex", justifyContent: "space-around", alignItems: "flex-start", marginTop: "3rem"}}>
-                <div style={{width: "40%", display: "flex", flexDirection: "column", gap: "1rem"}}>
-                    <h2 style={{fontSize: "2rem"}}>Exclude your destinations</h2>
-                    <p style={{fontSize: "1rem", lineHeight: "1.5"}}>
-                        Indicate the countries you do not wish to visit to personalize your stay.
-                    </p>
-                    <div>
-                        <CustomButton style={{color: "white", backgroundColor: "#2C3E50"}} onClick={handleNext}>
-                            Next
-                        </CustomButton>
-                    </div>
-                </div>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    gap: '1.5rem',
+                    width: '90%',
+                    margin: '0 auto',
+                    marginTop: '2rem',
+                }}
+            >
+                <h1 style={{fontSize: '25px', margin: '30px 0 0'}}>Exclude your destinations</h1>
+                <p style={{fontSize: '1rem', lineHeight: '1.5'}}>
+                    Indicate the countries you do not wish to visit to personalize your stay.
+                </p>
 
-                {/* Colonne de droite */}
-                <div style={{width: "40%", display: "flex", flexDirection: "column", gap: "1rem"}}>
-                    <label htmlFor="countrySelect" style={{fontWeight: "bold"}}>
-                        Choose a country to exclude:
-                    </label>
-                    <select
-                        id="countrySelect"
+                <label htmlFor="countrySelect" style={{fontWeight: 'bold', marginTop: '50px'}}>
+                    Choose a country to exclude:
+                </label>
+                <p style={{fontSize: '0.9rem', color: 'grey', marginTop: '0.25rem'}}>
+                    Maximum 10 countries
+                </p>
+                <div style={{width: '100%', maxWidth: '300px'}}>
+
+                    {/*Permet d'enlever els pays de la liste quand ils sont sélectionnés*/}
+                    <Select
+                        options={countries
+                            .filter(c => !selectedCountries.includes(c.name))
+                            .map(c => ({value: c.name, label: c.name}))
+                        }
                         onChange={handleSelectCountry}
-                        style={{padding: "0.5rem", fontSize: "1rem"}}
-                        defaultValue=""
-                    >
-                        <option value="" disabled>
-                            -- Select a country --
-                        </option>
-                        {countries.map((country) => (
-                            <option key={country.id} value={country.name}>
-                                {country.name}
-                            </option>
-                        ))}
-                    </select>
-
-                    <div style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                    }}>
-                        {selectedCountries.map((country, index) => (
-                            <div
-                                key={`${country}-${index}`}
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    backgroundColor: "#f0f0f0",
-                                    borderRadius: "20px",
-                                    padding: "0.3rem 0.8rem",
-                                }}
-                            >
-                                <span style={{marginRight: "0.5rem"}}>{country}</span>
-                                <button
-                                    onClick={() => handleRemoveCountry(country)}
-                                    style={{
-                                        background: "none",
-                                        border: "none",
-                                        fontWeight: "bold",
-                                        cursor: "pointer",
-                                    }}
-                                >
-                                    x
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                        placeholder="-- Select a country --"
+                        menuPlacement="bottom"
+                    />
                 </div>
+
+                <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center'}}>
+                    {selectedCountries.map((country, index) => (
+                        <div
+                            key={`${country}-${index}`}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                backgroundColor: '#f0f0f0',
+                                borderRadius: '20px',
+                                padding: '0.3rem 0.8rem'
+                            }}
+                        >
+                            <span style={{marginRight: '0.5rem'}}>{country}</span>
+                            <button
+                                onClick={() => handleRemoveCountry(country)}
+                                style={{background: 'none', border: 'none', fontWeight: 'bold', cursor: 'pointer'}}
+                            >
+                                x
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                <CustomButton
+                    variant="contained"
+                    onClick={handleNext}
+                    style={{width: '130px', marginTop: '70px', alignSelf: 'center'}}
+                >
+                    Next
+                </CustomButton>
             </div>
         </>
     );
