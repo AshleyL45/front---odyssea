@@ -34,10 +34,10 @@ const BookingMysteryTripSubmit: FC = () => {
 
     // Prepare formatted dates for display and payload
     const formattedDeparture = questionnaireAnswers.departureDate
-        ? dayjs(questionnaireAnswers.departureDate).format('DD-MM-YYYY')
+        ? dayjs(questionnaireAnswers.departureDate, 'DD-MM-YYYY').format('DD-MM-YYYY')
         : '';
     const formattedReturn = questionnaireAnswers.returnDate
-        ? dayjs(questionnaireAnswers.returnDate).format('DD-MM-YYYY')
+        ? dayjs(questionnaireAnswers.returnDate, 'DD-MM-YYYY').format('DD-MM-YYYY')
         : '';
 
     const handleSubmit = async () => {
