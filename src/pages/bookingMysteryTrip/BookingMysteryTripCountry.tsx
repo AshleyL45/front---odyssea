@@ -4,44 +4,46 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import Pages from "../../components/layout/Pages";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Select from 'react-select';
+import {useReservation} from '../../contexts/ReservationContext';
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
+    const {questionnaireAnswers, updateResponse} = useReservation();
+
+    // on initialise la liste depuis le context (ou vide si jamais)
     const [countries, setCountries] = useState<any[]>([]);
-    const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+    const [selectedCountries, setSelectedCountries] = useState<string[]>(
+        questionnaireAnswers.excludedCountries || []
+    );
 
     useEffect(() => {
-        const fetchCountries = async () => {
+        async function fetchCountries() {
             try {
-                const response = await fetch("http://localhost:8080/countries");
-                if (!response.ok) throw new Error("Error when retrieving countries");
-                const data = await response.json();
-                // Préparer et trier la liste de pays
-                const countryList: any[] = Array.isArray(data)
+                const res = await fetch("http://localhost:8080/countries");
+                if (!res.ok) throw new Error("Error when retrieving countries");
+                const data = await res.json();
+                const list: any[] = Array.isArray(data)
                     ? data
                     : Array.isArray((data as any).countries)
                         ? (data as any).countries
                         : [];
-                const sorted = [...countryList].sort((a, b) => a.name.localeCompare(b.name));
-                setCountries(sorted);
-            } catch (error) {
-                console.error("Unable to retrieve list of countries:", error);
+                setCountries(list.sort((a, b) => a.name.localeCompare(b.name)));
+            } catch (err) {
+                console.error(err);
             }
-        };
+        }
+
         fetchCountries();
     }, []);
 
     const handleSelectCountry = (option: { value: string; label: string } | null) => {
-        const newCountry = option?.value;
-        if (!newCountry) return;
-
+        if (!option) return;
+        const country = option.value;
         if (selectedCountries.length >= 10) {
-            window.alert("Vous ne pouvez pas sélectionner plus de 10 pays.");
-            return;
+            return window.alert("Vous ne pouvez pas sélectionner plus de 10 pays.");
         }
-
-        if (!selectedCountries.includes(newCountry)) {
-            setSelectedCountries(prev => [...prev, newCountry]);
+        if (!selectedCountries.includes(country)) {
+            setSelectedCountries(prev => [...prev, country]);
         }
     };
 
@@ -50,10 +52,8 @@ const BookingMysteryTripCountry: FC = () => {
     };
 
     const handleNext = () => {
-        localStorage.setItem(
-            "excludedCountries",
-            JSON.stringify(selectedCountries)
-        );
+        // on stocke dans le context, persistence gérée par le provider
+        updateResponse("excludedCountries", selectedCountries);
         navigate("/booking-mystery-trip/date");
     };
 
@@ -66,43 +66,37 @@ const BookingMysteryTripCountry: FC = () => {
 
             <div className="progress-bar">
                 <div style={{width: '100%', height: '6px', backgroundColor: 'lightgrey'}}/>
-                <div
-                    style={{
-                        width: '30%',
-                        height: '6px',
-                        borderRadius: '0 5px 5px 0',
-                        backgroundColor: '#2C3E50',
-                        position: 'relative',
-                        top: '-6px',
-                    }}
+                <div style={{
+                    width: '30%',
+                    height: '6px',
+                    borderRadius: '0 5px 5px 0',
+                    backgroundColor: '#2C3E50',
+                    position: 'relative',
+                    top: '-6px',
+                }}
                 />
             </div>
 
-            <p
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontSize: '16px',
-                    margin: '10px 40px',
-                    cursor: 'pointer'
-                }}
-                onClick={handlePrevious}
-            >
+            <p onClick={handlePrevious} style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '16px',
+                margin: '10px 40px',
+                cursor: 'pointer'
+            }}>
                 <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
             </p>
 
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    gap: '1.5rem',
-                    width: '90%',
-                    margin: '0 auto',
-                    marginTop: '2rem',
-                }}
-            >
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                gap: '1.5rem',
+                width: '90%',
+                margin: '0 auto',
+                marginTop: '2rem',
+            }}>
                 <h1 style={{fontSize: '25px', margin: '30px 0 0'}}>Exclude your destinations</h1>
                 <p style={{fontSize: '1rem', lineHeight: '1.5'}}>
                     Indicate the countries you do not wish to visit to personalize your stay.
@@ -115,13 +109,10 @@ const BookingMysteryTripCountry: FC = () => {
                     Maximum 10 countries
                 </p>
                 <div style={{width: '100%', maxWidth: '300px'}}>
-
-                    {/*Permet d'enlever els pays de la liste quand ils sont sélectionnés*/}
                     <Select
                         options={countries
                             .filter(c => !selectedCountries.includes(c.name))
-                            .map(c => ({value: c.name, label: c.name}))
-                        }
+                            .map(c => ({value: c.name, label: c.name}))}
                         onChange={handleSelectCountry}
                         placeholder="-- Select a country --"
                         menuPlacement="bottom"
@@ -129,23 +120,19 @@ const BookingMysteryTripCountry: FC = () => {
                 </div>
 
                 <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center'}}>
-                    {selectedCountries.map((country, index) => (
-                        <div
-                            key={`${country}-${index}`}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                backgroundColor: '#f0f0f0',
-                                borderRadius: '20px',
-                                padding: '0.3rem 0.8rem'
-                            }}
-                        >
+                    {selectedCountries.map((country, idx) => (
+                        <div key={`${country}-${idx}`} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            backgroundColor: '#f0f0f0',
+                            borderRadius: '20px',
+                            padding: '0.3rem 0.8rem'
+                        }}>
                             <span style={{marginRight: '0.5rem'}}>{country}</span>
                             <button
                                 onClick={() => handleRemoveCountry(country)}
                                 style={{background: 'none', border: 'none', fontWeight: 'bold', cursor: 'pointer'}}
-                            >
-                                x
+                            >×
                             </button>
                         </div>
                     ))}
@@ -154,7 +141,7 @@ const BookingMysteryTripCountry: FC = () => {
                 <CustomButton
                     variant="contained"
                     onClick={handleNext}
-                    style={{width: '130px', marginTop: '70px', alignSelf: 'center'}}
+                    style={{width: '130px', marginTop: '70px'}}
                 >
                     Next
                 </CustomButton>

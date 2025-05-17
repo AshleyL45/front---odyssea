@@ -7,4 +7,18 @@ export interface Reservation {
     numberOfAdults: number
     numberOfKids: number;
     optionIds: number[] | null;
+    excludedCountries: string[];
+
+    lastName: string;
+    firstName: string;
+    email: string;
+    phoneNumber: string;
+    companyName: string;
+    address: string;
+    addressDetails: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    agreedToTerms: boolean;
 }
+

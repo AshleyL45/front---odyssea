@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC, useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import ReservationCalendar from "../../components/bookingForm/ReservationCalendar";
@@ -9,12 +9,22 @@ import {useReservation} from "../../contexts/ReservationContext";
 
 const BookingMysteryTripDate: FC = () => {
     const navigate = useNavigate();
-    const {trip, updateResponse} = useReservation();
+    const {questionnaireAnswers, updateResponse} = useReservation();
 
-    const [startDate, setStartDate] = useState<Dayjs | null>(null);
-    const [endDate, setEndDate] = useState<Dayjs | null>(null);
+    // 1) Parser depuis le context (format stocké en DD-MM-YYYY), ou null
+    const initialStart: Dayjs | null = questionnaireAnswers.departureDate
+        ? dayjs(questionnaireAnswers.departureDate, "DD-MM-YYYY")
+        : null;
 
-    // Fixed duration of 12 days for mystery trip
+    const initialEnd: Dayjs | null = questionnaireAnswers.returnDate
+        ? dayjs(questionnaireAnswers.returnDate, "DD-MM-YYYY")
+        : null;
+
+    // 2) On initialise le state avec ces valeurs
+    const [startDate, setStartDate] = useState<Dayjs | null>(initialStart);
+    const [endDate, setEndDate] = useState<Dayjs | null>(initialEnd);
+
+    // Durée fixe
     const duration = 12;
 
     const handleDateSelection = (date: Dayjs | null) => {
@@ -24,6 +34,7 @@ const BookingMysteryTripDate: FC = () => {
 
     const handleNextStep = () => {
         if (startDate && endDate) {
+            // 3) On écrit dans le context, et le provider persistera en localStorage
             updateResponse("departureDate", startDate.format("DD-MM-YYYY"));
             updateResponse("returnDate", endDate.format("DD-MM-YYYY"));
             navigate("/booking-mystery-trip/traveller");
@@ -41,50 +52,31 @@ const BookingMysteryTripDate: FC = () => {
             <Pages title="Booking - Mystery Trip">
             </Pages>
 
-            <div className="progress-bar">
-                <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>
-                <div
-                    style={{
-                        width: "20%",
-                        height: "6px",
-                        borderRadius: "0 5px 5px 0",
-                        backgroundColor: "#2C3E50",
-                        position: "relative",
-                        top: "-6px",
-                    }}
-                />
-            </div>
-
-            <p
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "16px",
-                    margin: "10px 40px",
-                    cursor: "pointer"
-                }}
-                onClick={handlePrevious}
-            >
-                <ArrowBackIcon sx={{fontSize: "15px"}}/> previous step
-            </p>
+            {/* … votre barre de progression et bouton « previous step » … */}
 
             <div style={{width: "90%", textAlign: "center", margin: "0 auto"}}>
-                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>When would you like to leave?</h1>
+                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>
+                    When would you like to leave?
+                </h1>
                 <p style={{margin: "20px 0 50px"}}>
-                    Select a departure date. Return date will be fixed at {duration} days
-                    later.
+                    Select a departure date. Return date will be fixed at {duration} days later.
                 </p>
 
                 <ReservationCalendar days={duration} onDateSelect={handleDateSelection}/>
 
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "1rem",
-                    marginTop: "1rem"
-                }}>
-                    <CustomButton onClick={resetDate} style={{color: "white", backgroundColor: "#2C3E50"}}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "1rem",
+                        marginTop: "1rem",
+                    }}
+                >
+                    <CustomButton
+                        onClick={resetDate}
+                        style={{color: "white", backgroundColor: "#2C3E50"}}
+                    >
                         Reset
                     </CustomButton>
                     <CustomButton
