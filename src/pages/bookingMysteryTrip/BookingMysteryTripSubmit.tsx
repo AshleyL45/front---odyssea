@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import CustomButton from '../../components/ReusableComponents/CustomButton';
 import Pages from '../../components/layout/Pages';
 import styles from '../../styles/components/TripDashboard.module.css';
+import dayjs from 'dayjs';
 import {get, post} from '../../API/api';
 import {useReservation} from '../../contexts/ReservationContext';
 import {useAuth} from '../../contexts/AuthContext';
@@ -23,22 +24,24 @@ const BookingMysteryTripSubmit: FC = () => {
 
     // Fetch selected options details
     useEffect(() => {
-        const fetchOptions = async () => {
-            const ids = questionnaireAnswers.optionIds;
-            if (!ids || ids.length === 0) return;
-            try {
-                const query = ids.map(id => `ids=${id}`).join('&');
-                const opts = await get(`/options/allById?${query}`);
-                if (opts) setOptionsToDisplay(opts);
-            } catch (e) {
-                console.error('Cannot fetch options', e);
-            }
-        };
-        fetchOptions();
+        const ids = questionnaireAnswers.optionIds ?? [];
+        if (ids.length === 0) return;
+        const query = ids.map(id => `ids=${id}`).join('&');
+        get<Option[]>(`/options/allById?${query}`)
+            .then(opts => Array.isArray(opts) && setOptionsToDisplay(opts))
+            .catch(e => console.error('Cannot fetch options', e));
     }, [questionnaireAnswers.optionIds]);
 
+    // Prepare formatted dates for display and payload
+    const formattedDeparture = questionnaireAnswers.departureDate
+        ? dayjs(questionnaireAnswers.departureDate).format('DD-MM-YYYY')
+        : '';
+    const formattedReturn = questionnaireAnswers.returnDate
+        ? dayjs(questionnaireAnswers.returnDate).format('DD-MM-YYYY')
+        : '';
+
     const handleSubmit = async () => {
-        if (!trip || !trip.id) {
+        if (!trip?.id) {
             setError('No trip selected.');
             return;
         }
@@ -47,31 +50,33 @@ const BookingMysteryTripSubmit: FC = () => {
             return;
         }
 
+        // The dates in context are already formatted as "DD-MM-YYYY"
+        const payloadDeparture = questionnaireAnswers.departureDate;
+        const payloadReturn = questionnaireAnswers.returnDate;
+
+        const safeOptionIds: number[] = questionnaireAnswers.optionIds ?? [];
+
+        const reservationPayload = {
+            userId,
+            itineraryId: trip.id,
+            status: questionnaireAnswers.status || 'PENDING',
+            departureDate: payloadDeparture,
+            returnDate: payloadReturn,
+            numberOfAdults: questionnaireAnswers.numberOfAdults,
+            numberOfKids: questionnaireAnswers.numberOfKids,
+            optionIds: safeOptionIds,
+        };
+
+        // Debug: show what we’re sending
+        console.log('>>> reservationPayload:', reservationPayload);
+        alert('Sending payload:\n' + JSON.stringify(reservationPayload, null, 2));
+
         try {
             // 1) Create reservation
-            await post('/reservations', {
-                userId,
-                itineraryId: trip.id,
-                status: questionnaireAnswers.status || 'PENDING',
-                departureDate: questionnaireAnswers.departureDate,
-                returnDate: questionnaireAnswers.returnDate,
-                numberOfAdults: questionnaireAnswers.numberOfAdults,
-                numberOfKids: questionnaireAnswers.numberOfKids,
-                lastName: questionnaireAnswers.lastName,
-                firstName: questionnaireAnswers.firstName,
-                email: questionnaireAnswers.email,
-                phoneNumber: questionnaireAnswers.phoneNumber,
-                companyName: questionnaireAnswers.companyName,
-                address: questionnaireAnswers.address,
-                addressDetails: questionnaireAnswers.addressDetails,
-                postalCode: questionnaireAnswers.postalCode,
-                city: questionnaireAnswers.city,
-                country: questionnaireAnswers.country,
-            });
+            await post('/reservations', reservationPayload);
 
-            // 2) Link each selected option via reservationOptions endpoint
-            const selectedIds = questionnaireAnswers.optionIds || [];
-            for (const optId of selectedIds) {
+            // 2) Link each selected option
+            for (const optId of safeOptionIds) {
                 await post('/reservationOptions', {
                     userId,
                     itineraryId: trip.id,
@@ -83,12 +88,15 @@ const BookingMysteryTripSubmit: FC = () => {
             navigate('/dashboard');
         } catch (err: unknown) {
             if (isAxiosError(err)) {
+                console.error('Axios error response:', err.response);
+                alert('Server error:\n' + JSON.stringify(err.response?.data, null, 2));
                 setError(err.response?.data?.message || 'Error submitting reservation.');
             } else {
                 setError('Unexpected error.');
             }
         }
     };
+
 
     if (!trip) return <p>Loading trip...</p>;
 
@@ -108,15 +116,21 @@ const BookingMysteryTripSubmit: FC = () => {
 
                     <div className="recapDivs">
                         <h3>Dates</h3>
-                        <p>Departure: {questionnaireAnswers.departureDate}</p>
-                        <p>Return: {questionnaireAnswers.returnDate}</p>
+                        <p>Departure: {formattedDeparture}</p>
+                        <p>Return: {formattedReturn}</p>
                     </div>
 
                     <div className="recapDivs">
                         <h3>Travellers</h3>
-                        <p>{questionnaireAnswers.numberOfAdults} adult{questionnaireAnswers.numberOfAdults > 1 ? 's' : ''}</p>
+                        <p>
+                            {questionnaireAnswers.numberOfAdults} adult
+                            {questionnaireAnswers.numberOfAdults > 1 ? 's' : ''}
+                        </p>
                         {questionnaireAnswers.numberOfKids > 0 && (
-                            <p>{questionnaireAnswers.numberOfKids} kid{questionnaireAnswers.numberOfKids > 1 ? 's' : ''}</p>
+                            <p>
+                                {questionnaireAnswers.numberOfKids} kid
+                                {questionnaireAnswers.numberOfKids > 1 ? 's' : ''}
+                            </p>
                         )}
                     </div>
 
