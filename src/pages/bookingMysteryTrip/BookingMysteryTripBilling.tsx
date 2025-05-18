@@ -14,7 +14,6 @@ const BookingMysteryTripBilling: FC = () => {
     const {email: authEmail, firstName: authFirstName, lastName: authLastName} = useAuth();
     const {questionnaireAnswers, updateResponse} = useReservation();
 
-    // Initialize local state from context (or auth where appropriate)
     const [lastName, setLastName] = useState<string>(questionnaireAnswers.lastName || authLastName || "");
     const [firstName, setFirstName] = useState<string>(questionnaireAnswers.firstName || authFirstName || "");
     const [email, setEmail] = useState<string>(questionnaireAnswers.email || authEmail || "");

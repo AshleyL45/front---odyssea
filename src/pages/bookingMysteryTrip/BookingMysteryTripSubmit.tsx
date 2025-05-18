@@ -10,7 +10,6 @@ import {useAuth} from '../../contexts/AuthContext';
 import {Option} from '../../@types/Option';
 import {AxiosError} from 'axios';
 
-// Helper to detect Axios errors
 function isAxiosError(error: unknown): error is AxiosError<{ message?: string }> {
     return (error as AxiosError).isAxiosError !== undefined;
 }
@@ -22,7 +21,6 @@ const BookingMysteryTripSubmit: FC = () => {
     const [optionsToDisplay, setOptionsToDisplay] = useState<Option[]>([]);
     const [error, setError] = useState<string>('');
 
-    // Fetch selected options details
     useEffect(() => {
         const ids = questionnaireAnswers.optionIds ?? [];
         if (ids.length === 0) return;
@@ -32,7 +30,6 @@ const BookingMysteryTripSubmit: FC = () => {
             .catch(e => console.error('Cannot fetch options', e));
     }, [questionnaireAnswers.optionIds]);
 
-    // Prepare formatted dates for display and payload
     const formattedDeparture = questionnaireAnswers.departureDate
         ? dayjs(questionnaireAnswers.departureDate, 'DD-MM-YYYY').format('DD-MM-YYYY')
         : '';
@@ -50,7 +47,6 @@ const BookingMysteryTripSubmit: FC = () => {
             return;
         }
 
-        // The dates in context are already formatted as "DD-MM-YYYY"
         const payloadDeparture = questionnaireAnswers.departureDate;
         const payloadReturn = questionnaireAnswers.returnDate;
 
@@ -59,23 +55,19 @@ const BookingMysteryTripSubmit: FC = () => {
         const reservationPayload = {
             userId,
             itineraryId: trip.id,
-            status: questionnaireAnswers.status || 'PENDING',
+            status: 'En attente',
             departureDate: payloadDeparture,
             returnDate: payloadReturn,
             numberOfAdults: questionnaireAnswers.numberOfAdults,
             numberOfKids: questionnaireAnswers.numberOfKids,
             optionIds: safeOptionIds,
+            purchaseDate: dayjs().format("DD-MM-YYYY"),
         };
 
-        // Debug: show what we’re sending
-        console.log('>>> reservationPayload:', reservationPayload);
-        alert('Sending payload:\n' + JSON.stringify(reservationPayload, null, 2));
-
         try {
-            // 1) Create reservation
-            await post('/reservations', reservationPayload);
+            const res = await post('/reservations', reservationPayload);
+            console.log(">>> Réservation enregistrée :", res);
 
-            // 2) Link each selected option
             for (const optId of safeOptionIds) {
                 await post('/reservationOptions', {
                     userId,
@@ -105,8 +97,8 @@ const BookingMysteryTripSubmit: FC = () => {
             <Pages title="Recap & Submit - Mystery Trip">
             </Pages>
 
-            <div style={{display: 'flex', justifyContent: 'center', padding: '2rem'}}>
-                <div>
+            <div style={{display: 'flex', justifyContent: 'center', padding: '2rem 1rem'}}>
+                <div style={{width: '100%', maxWidth: '700px'}}>
                     <h1 style={{fontSize: 25, textAlign: 'center'}}>Review & Submit Your Booking</h1>
                     <div style={{width: 2, height: 30, backgroundColor: 'black', margin: 'auto'}}/>
                     <div style={{textAlign: 'center', margin: '1rem 0'}}>

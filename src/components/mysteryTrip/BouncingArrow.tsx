@@ -1,7 +1,6 @@
 import React, {FC, MouseEventHandler} from "react";
 import styled, {keyframes} from "styled-components";
 
-// Animation de rebond
 const bounce = keyframes`
     0%, 100% {
         transform: translateY(0);

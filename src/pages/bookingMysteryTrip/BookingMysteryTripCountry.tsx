@@ -40,7 +40,7 @@ const BookingMysteryTripCountry: FC = () => {
         if (!option) return;
         const country = option.value;
         if (selectedCountries.length >= 10) {
-            window.alert('Vous ne pouvez pas sélectionner plus de 10 pays.');
+            window.alert('You can select no more than 10 countries.');
             return;
         }
         if (!selectedCountries.includes(country)) {
@@ -64,8 +64,8 @@ const BookingMysteryTripCountry: FC = () => {
 
         const maybeTrip = await get<Trip>(url);
         if (!maybeTrip) {
-            console.error('Erreur récupération itinéraire: trip is null');
-            window.alert('Impossible de récupérer un itinéraire. Réessayez.');
+            console.error('Error route recovery: trip is null');
+            window.alert('Unable to retrieve a route. Please try again.');
             return;
         }
 

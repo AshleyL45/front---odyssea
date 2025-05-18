@@ -11,20 +11,19 @@ const BookingFormPeople: FC = () => {
     const navigate = useNavigate();
     const {questionnaireAnswers, updateResponse} = useReservation();
 
-    // 1) Initialise depuis le context
     const [adults, setAdults] = useState<number>(questionnaireAnswers.numberOfAdults);
     const [kids, setKids] = useState<number>(questionnaireAnswers.numberOfKids);
 
     const handleAdultChange = (delta: number) => {
         const newAdults = Math.max(0, adults + delta);
         setAdults(newAdults);
-        updateResponse("numberOfAdults", newAdults);       // 2) updateContext
+        updateResponse("numberOfAdults", newAdults);
     };
 
     const handleKidsChange = (delta: number) => {
         const newKids = Math.max(0, kids + delta);
         setKids(newKids);
-        updateResponse("numberOfKids", newKids);           // 2) updateContext
+        updateResponse("numberOfKids", newKids);
     };
 
     const handleNext = () => {
@@ -32,7 +31,6 @@ const BookingFormPeople: FC = () => {
             alert("Please select at least 1 adult.");
             return;
         }
-        // 3) plus de localStorage ici !
         navigate("/booking-mystery-trip/options");
     };
 

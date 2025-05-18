@@ -11,7 +11,6 @@ const BookingMysteryTripDate: FC = () => {
     const navigate = useNavigate();
     const {questionnaireAnswers, updateResponse} = useReservation();
 
-    // 1) Parser depuis le context (format stocké en DD-MM-YYYY), ou null
     const initialStart: Dayjs | null = questionnaireAnswers.departureDate
         ? dayjs(questionnaireAnswers.departureDate, "DD-MM-YYYY")
         : null;
@@ -20,11 +19,9 @@ const BookingMysteryTripDate: FC = () => {
         ? dayjs(questionnaireAnswers.returnDate, "DD-MM-YYYY")
         : null;
 
-    // 2) On initialise le state avec ces valeurs
     const [startDate, setStartDate] = useState<Dayjs | null>(initialStart);
     const [endDate, setEndDate] = useState<Dayjs | null>(initialEnd);
 
-    // Durée fixe
     const duration = 12;
 
     const handleDateSelection = (date: Dayjs | null) => {
@@ -34,7 +31,6 @@ const BookingMysteryTripDate: FC = () => {
 
     const handleNextStep = () => {
         if (startDate && endDate) {
-            // 3) On écrit dans le context, et le provider persistera en localStorage
             updateResponse("departureDate", startDate.format("DD-MM-YYYY"));
             updateResponse("returnDate", endDate.format("DD-MM-YYYY"));
             navigate("/booking-mystery-trip/traveller");
@@ -51,8 +47,6 @@ const BookingMysteryTripDate: FC = () => {
         <>
             <Pages title="Booking - Mystery Trip">
             </Pages>
-
-            {/* … votre barre de progression et bouton « previous step » … */}
 
             <div style={{width: "90%", textAlign: "center", margin: "0 auto"}}>
                 <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>

@@ -21,20 +21,29 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
         const fetchAndFilterReservations = async () => {
             try {
                 const reservations = await get(`/reservations/${userId}`);
-                const userItineraries = await get(`/userItinerary/all/${userId}`);
-                //console.log("Reservations : ", JSON.stringify(reservations));
+                setUserReservations(reservations);
 
-                if (reservations && userItineraries) {
-                    setUserReservations(reservations);
-                    const filtered = activeFilter === "Tout" ? reservations : reservations.filter((reservation: Trip) => reservation.status === activeFilter);
-                    setFilteredReservations(filtered);
-                }
+                const filtered = activeFilter === "Tout"
+                    ? reservations
+                    : reservations.filter((reservation: Trip) => reservation.status === activeFilter);
+                setFilteredReservations(filtered);
+
+                // Appel à userItinerary sans bloquer l'affichage
+                get(`/userItinerary/all/${userId}`)
+                    .then((userItineraries) => {
+                        console.log("Fetched user itineraries (optional):", userItineraries);
+                    })
+                    .catch((e) => {
+                        console.warn("Could not load user itineraries (non-blocking):", e.message);
+                    });
+
             } catch (e) {
                 console.error("Error while fetching reservations : ", e);
             }
         };
         fetchAndFilterReservations();
     }, [activeFilter]);
+
 
     // Gestion des filtres
     const handleFiltering = (filterName: string) => {
