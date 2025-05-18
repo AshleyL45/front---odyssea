@@ -60,8 +60,17 @@ const BookingFormPeople: FC = () => {
                 <h1 style={{fontSize: "25px", margin: "30px 0"}}>
                     How many travellers are you?
                 </h1>
-                <div style={{display: "flex", justifyContent: "center", margin: "50px 0"}}>
-                    {/* Adultes */}
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        margin: "50px 0",
+                        flexWrap: "wrap",
+                        gap: "2rem",
+                    }}
+                >
+
+                {/* Adultes */}
                     <div style={{margin: "0 60px"}}>
                         <h2>Adults</h2>
                         <div style={{display: "flex", gap: "20px", margin: "20px 0", justifyContent: "center"}}>
