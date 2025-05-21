@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import logo from "../../images/logo_name.png";
+import logo from "../../assets/logo/logo_name.png";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useNavigate} from "react-router-dom";
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';

@@ -1,30 +1,26 @@
 import React, {FC, useState, useEffect} from 'react';
 import Navbar from "../../components/navbars/Navbar";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import Carousel from "../../components/homePage/Carousel";
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
-import {useNavigate, useParams} from "react-router-dom";
-import {imageData} from "../../assets/image"
-import {get} from "../../../src/API/api";
-import {useFavorites} from "../../contexts/MySelectionContext";
 import StarIcon from '@mui/icons-material/Star';
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import TripDetails from "../../components/ReusableComponents/TripDetails";
 import TripDetailsReverse from "../../components/ReusableComponents/TripDetailsReverse";
 import Footer from "../../components/ReusableComponents/Footer";
-import "../../App.css";
-import CustomButton from "../../components/ReusableComponents/CustomButton";
 import StickyBar from "../../components/itinerary-details/StickyBar";
-import {useReservation} from "../../contexts/ReservationContext";
-import {useAuth} from "../../contexts/AuthContext";
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
+import {ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
 import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
 import styles from "../../styles/ItineraryDetails.module.css"
 import BookButton from "../../components/itinerary-details/BookButton";
-
+import {useNavigate, useParams} from "react-router-dom";
+import {get} from "../../API/api";
+import {useFavorites} from "../../contexts/MySelectionContext";
+import {useReservation} from "../../contexts/ReservationContext";
+import {useAuth} from "../../contexts/AuthContext";
+import "../../App.css";
 
 interface ItineraryImages {
-    header: string;
+    header: string[];
     countries: string[];
     map: string;
     days: string[];
@@ -35,63 +31,120 @@ interface Image {
     images: ItineraryImages;
 }
 
-const ItineraryDetails: FC<{}> = () => {
+const ItineraryDetails: FC = () => {
     const {tripId} = useParams<{ tripId: string }>();
     const itineraryId = Number(tripId);
     const {userId, token} = useAuth();
-    const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
-    const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
     const navigate = useNavigate();
+    const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
     const {setTrip, updateResponse} = useReservation();
+
+    const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const [dailyPlans, setDailyPlans] = useState<DailyPlanWithCityDto[]>([]);
+    const [images, setImages] = useState<ItineraryImages>({
+        header: [],
+        countries: [],
+        days: [],
+        map: ""
+    });
+    const [imgLoading, setImgLoading] = useState(true);
 
-    const isFavorite = favorites.find((favorite) => favorite.id === itineraryId);
+    const isFavorite = favorites.some(fav => fav.id === itineraryId);
 
     useEffect(() => {
-        const fetchItinerary = async () => {
+        get<ItineraryDetailsResponse>(`/api/itineraries/${itineraryId}/details`)
+            .then(data => {
+                if (data) setItineraryToDisplay(data);
+            })
+            .catch(e => console.error("Cannot get itinerary:", itineraryId, e));
+    }, [itineraryId]);
+
+    useEffect(() => {
+        get<DailyPlanWithCityDto[] | null>(`/api/itineraries/${itineraryId}/daily`)
+            .then(resp => setDailyPlans(resp ?? []))
+            .catch(e => {
+                console.error("Error fetching daily plans:", e);
+                setDailyPlans([]);
+            });
+    }, [itineraryId]);
+
+    useEffect(() => {
+        setImages({header: [], countries: [], days: [], map: ""});
+        setImgLoading(true);
+
+        const fetchImgs = async () => {
             try {
-                const itinerary = await get(`api/itineraries/${tripId}/details`);
-                if (itinerary) {
-                    setItineraryToDisplay(itinerary);
+                const roles = await get<string[]>(`/api/itinerary-images/${itineraryId}`) ?? [];
+                const headerRole = roles.find(r => r === 'firstHeader');
+                const countryRoles = ['firstCountry', 'secondCountry', 'thirdCountry'].filter(r => roles.includes(r));
+                const dayRoles = roles
+                    .filter(r => r.startsWith('day'))
+                    .sort((a, b) => {
+                        const na = parseInt(a.replace('day', ''), 10);
+                        const nb = parseInt(b.replace('day', ''), 10);
+                        return na - nb;
+                    });
+                const mapRole = roles.includes('map') ? 'map' : undefined;
+
+                const loaded: ItineraryImages = {header: [], countries: [], days: [], map: ""};
+
+                if (headerRole) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${headerRole}`);
+                    if (res.ok) {
+                        const url = URL.createObjectURL(await res.blob());
+                        loaded.header = [url];
+                    }
                 }
+
+                for (const cr of countryRoles) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${cr}`);
+                    if (res.ok) {
+                        loaded.countries.push(URL.createObjectURL(await res.blob()));
+                    }
+                }
+
+                for (const dr of dayRoles) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${dr}`);
+                    if (res.ok) {
+                        loaded.days.push(URL.createObjectURL(await res.blob()));
+                    }
+                }
+
+                if (mapRole) {
+                    const res = await fetch(`/api/itinerary-images/${itineraryId}/${mapRole}`);
+                    if (res.ok) {
+                        loaded.map = URL.createObjectURL(await res.blob());
+                    }
+                }
+
+                setImages(loaded);
             } catch (e) {
-                console.error("Cannot get itinerary : " + tripId + " " + e);
-            }
-        };
-        fetchItinerary();
-    }, [tripId]);
-
-    useEffect(() => {
-        const fetchDailyPlans = async () => {
-            try {
-                const response = await get(`api/itineraries/${tripId}/daily`);
-                console.log("dailyPlans response:", response);
-                if (response) {
-                    setDailyPlans(response);
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération du daily plan", error);
+                console.error("Error loading images:", e);
+            } finally {
+                setImgLoading(false);
             }
         };
 
-        fetchDailyPlans();
-    }, [tripId]);
+        fetchImgs();
+
+        return () => {
+            // Cleanup
+            images.header.forEach(URL.revokeObjectURL);
+            images.countries.forEach(URL.revokeObjectURL);
+            images.days.forEach(URL.revokeObjectURL);
+            if (images.map) URL.revokeObjectURL(images.map);
+        };
+    }, [itineraryId]);
+
 
     const handleFavorites = () => {
         if (!token) {
             navigate("/login", {state: {from: `/trip/${itineraryId}`}});
             return;
         }
-        if (isFavorite && itineraryToDisplay) {
-            handleRemoveFromFavorites(itineraryToDisplay);
-        } else if (itineraryToDisplay) {
-            handleAddToFavorites(itineraryToDisplay);
-        }
+        if (isFavorite && itineraryToDisplay) handleRemoveFromFavorites(itineraryToDisplay);
+        else if (itineraryToDisplay) handleAddToFavorites(itineraryToDisplay);
     };
-
-    const itineraryImage: any = imageData.find(
-        (it) => it.id === itineraryId
-    );
 
     const handleReservation = () => {
         if (itineraryToDisplay) {
@@ -102,27 +155,21 @@ const ItineraryDetails: FC<{}> = () => {
         navigate("/booking/date");
     };
 
-    const markerIndexes: number[] = [0, 4, 8];
+    const markerIndexes = [0, 4, 8];
     const markers = dailyPlans
-        .filter((plan: DailyPlanWithCityDto, index: number) => markerIndexes.includes(index))
-        .map((plan: DailyPlanWithCityDto) => ({
+        .filter((_, idx) => markerIndexes.includes(idx))
+        .map(plan => ({
             dayNumber: plan.dayNumber,
-            city: {
-                name: plan.cityName,
-                latitude: plan.latitude,
-                longitude: plan.longitude,
-            },
+            city: {name: plan.cityName, latitude: plan.latitude, longitude: plan.longitude}
         }));
 
     const activities = itineraryToDisplay?.days
-        .filter((day) => day.activityName !== null)
-        .map((day) => day.activityName)
+        .filter(d => !!d.activityName)
+        .map(d => d.activityName)
         .slice(0, 3) || [];
 
-    // Extraire les 3 premiers pays
-    const countries = Array.from(
-        new Set(itineraryToDisplay?.days.map((day) => day.countryName))
-    ).slice(0, 3) || [];
+    const countries = Array.from(new Set(itineraryToDisplay?.days.map(d => d.countryName)))
+        .slice(0, 3) || [];
 
     return (
         <div>
@@ -132,8 +179,7 @@ const ItineraryDetails: FC<{}> = () => {
                     <div
                         className={styles.headerContainer}
                         style={{
-                            backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.6)), 
-                          url(${itineraryImage?.images.header[0]})`
+                            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8),rgba(255,255,255,0.6)), url(${images.header[0] || ""})`
                         }}
                     >
                         <div className={styles.headerContent}>
@@ -147,6 +193,13 @@ const ItineraryDetails: FC<{}> = () => {
                                     height: "3px",
                                 }}
                             />
+                            <hr style={{
+                                marginLeft: "1rem",
+                                border: "none",
+                                borderTop: "1px solid white",
+                                width: "80%",
+                                height: "3px"
+                            }}/>
                         </div>
                     </div>
 
@@ -278,14 +331,19 @@ const ItineraryDetails: FC<{}> = () => {
 
                     <div className="collage">
                         <div className="collageItem div1">
-                            <img src={itineraryImage?.images.countries[0]} alt="Country"/>
+                            {imgLoading
+                                ? <div>Loading images…</div>
+                                : <img src={images.countries[0] || ""} alt="Country 1"/>}
                         </div>
-
                         <div className="collageItem div2">
-                            <img src={itineraryImage?.images.countries[1]} alt="Country"/>
+                            {imgLoading
+                                ? <div>Loading…</div>
+                                : <img src={images.countries[1] || ""} alt="Country 2"/>}
                         </div>
                         <div className="collageItem div3">
-                            <img src={itineraryImage?.images.countries[2]} alt="Country"/>
+                            {imgLoading
+                                ? <div>Loading…</div>
+                                : <img src={images.countries[2] || ""} alt="Country 3"/>}
                         </div>
                     </div>
 
@@ -299,21 +357,23 @@ const ItineraryDetails: FC<{}> = () => {
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "300px"}}>
                             <InteractiveMapTrip markers={markers}/>
                             <div>
-                                {itineraryToDisplay && (
-                                    Array.from(new Set(itineraryToDisplay.days.map((day) => day.cityName)))
-                                        .map((cityName, index) => {
-                                            const day = itineraryToDisplay?.days.find((day) => day.cityName === cityName);
-                                            return (
-                                                <div key={index} style={{margin: "10px 0"}}>
-                                                    <p className="span-country"
-                                                       style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                                                        <RoomOutlinedIcon/>
-                                                        {day?.cityName}, {day?.countryName}
-                                                    </p>
-                                                </div>
-                                            );
-                                        })
-                                )}
+                                {Array.from(new Set(itineraryToDisplay.days.map(d => d.cityName)))
+                                    .map((cityName, index) => {
+                                        const day = itineraryToDisplay.days.find(d => d.cityName === cityName);
+                                        return (
+                                            <div key={index} style={{margin: "10px 0"}}>
+                                                <p className="span-country" style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "10px"
+                                                }}>
+                                                    <RoomOutlinedIcon/>
+                                                    {day?.cityName}, {day?.countryName}
+                                                </p>
+                                            </div>
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
                     </section>
@@ -323,14 +383,14 @@ const ItineraryDetails: FC<{}> = () => {
                         <div>
                             <h2 style={{fontSize: "2rem", textAlign: "center", marginTop: "8rem"}}>Details of your stay</h2>
                         </div>
-                        {itineraryToDisplay.days.map((day: Day, index: number) =>
-                            index % 2 === 0 ? (
-                                <TripDetails day={day} image={itineraryImage?.images.days[index] || ""} key={index}/>
+                        {itineraryToDisplay.days.map((day, idx) =>
+                            idx % 2 === 0 ? (
+                                <TripDetails key={idx} day={day} image={images.days[idx] || ""}/>
                             ) : (
-                                <TripDetailsReverse day={day} image={itineraryImage?.images.days[index] || ""} key={index}/>
+                                <TripDetailsReverse key={idx} day={day} image={images.days[idx] || ""}/>
                             )
                         )}
-                        <div className="trip-details-separator"></div>
+                        <div className="trip-details-separator"/>
                     </section>
 
                 </>
