@@ -6,9 +6,8 @@ import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 
 const TravelerSelecting: FC = () => {
     const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
-
     const {numberOfAdults, numberOfKids} = questionnaireAnswers;
-    console.log(questionnaireAnswers)
+
     // Initialiser le nombre d'adultes à 2 par défaut
     useEffect(() => {
         if (numberOfAdults === 0) {

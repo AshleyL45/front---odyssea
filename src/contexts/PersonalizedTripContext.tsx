@@ -18,6 +18,7 @@ export const PersonalizedTripContextProvider: ({children}: { children: any }) =>
         const savedData  = localStorage.getItem("questionnaireData");
         return savedData ? JSON.parse(savedData) : {
             userId: userId,
+            duration: '',
             startDate: '',
             departureCity: '',
             countrySelection: [],

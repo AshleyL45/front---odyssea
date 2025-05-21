@@ -5,15 +5,49 @@ import CitySelecting from "../../components/persTrip/CitySelecting";
 import "../../App.css";
 import {useNavigate} from "react-router-dom";
 import Pages from "../../components/layout/Pages";
+import PersTripData from "../../assets/persTripData.json";
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
+import {post} from "../../API/api";
 
 const CitySelect5: FC<{}> = () => {
     const navigate = useNavigate();
     const storedData = localStorage.getItem("questionnaireData");
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const numberOfDays = questionnaireAnswers.duration;
+
+    const selectedTrip = PersTripData.find((opt) => opt.numberOfDays === numberOfDays);
 
     // 🔹 Mémorisation des pays pour éviter les re-renders inutiles
     const countries = useMemo(() => {
         return storedData ? JSON.parse(storedData).countrySelection : [];
     }, [storedData]);
+
+    const selectedCitiesIds: number[] = [];
+
+    countries.forEach((country: any) => {
+        const selectedCitiesRaw = localStorage.getItem(`selectedCities_${country.id}`);
+        const selectedCities = selectedCitiesRaw ? JSON.parse(selectedCitiesRaw) : [];
+        const cityIds = selectedCities.map((city: any) => city.id);
+        selectedCitiesIds.push(...cityIds); // Ajoute tous les IDs au tableau global
+    });
+
+    console.log(selectedCitiesIds)
+
+    const generateStepFive = async () => {
+        if(selectedCitiesIds){
+            try {
+                const response = await post("/generate/step5", {cities: selectedCitiesIds});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/standing-selection");
+                    console.log(response)
+                }
+            } catch (e) {
+                console.error("Cannot generate cities")
+            }
+        } else {
+            alert("Please select the cities")
+        }
+    }
 
     const [selectedCitiesCount, setSelectedCitiesCount] = useState<{ [key: number]: number }>({});
 
@@ -30,6 +64,7 @@ const CitySelect5: FC<{}> = () => {
         setSelectedCitiesCount(prev => ({...prev, ...initialCounts}));
     }, [countries.length]); // ✅ Ajouté `.length` pour éviter les changements d'objet inutiles
 
+
     // 🔥 Met à jour le nombre de villes sélectionnées par pays
     const handleCitySelectionChange = useCallback((countryId: number, count: number) => {
         setSelectedCitiesCount(prev => ({
@@ -43,11 +78,6 @@ const CitySelect5: FC<{}> = () => {
         return Object.values(selectedCitiesCount).reduce((acc, count) => acc + count, 0);
     }, [selectedCitiesCount]);
 
-    const handleNextStep = () => {
-        if (totalSelectedCities === 6) {
-            navigate("/personalized-trip/standing-selection");
-        }
-    };
 
     return (
         <div>
@@ -100,8 +130,8 @@ const CitySelect5: FC<{}> = () => {
                     <CustomButton
                         style={{width: "130px", marginTop: "70px"}}
                         variant="contained"
-                        onClick={handleNextStep}
-                        disabled={totalSelectedCities !== 6} // ✅ Désactivé tant que 6 villes ne sont pas sélectionnées
+                        onClick={generateStepFive}
+                        disabled={totalSelectedCities !== selectedTrip?.numberOfCities} // ✅ Désactivé tant que 6 villes ne sont pas sélectionnées
                     >Next</CustomButton>
                 </div>
             </div>

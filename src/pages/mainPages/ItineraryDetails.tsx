@@ -20,6 +20,7 @@ import {useAuth} from "../../contexts/AuthContext";
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
 import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
 import styles from "../../styles/ItineraryDetails.module.css"
+import BookButton from "../../components/itinerary-details/BookButton";
 
 
 interface ItineraryImages {
@@ -135,11 +136,11 @@ const ItineraryDetails: FC<{}> = () => {
                           url(${itineraryImage?.images.header[0]})`
                         }}
                     >
-                        <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>
+                        <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
                             <hr
                                 style={{
-                                    marginLeft: "1rem",
+                                    marginLeft: "6rem",
                                     border: "none",
                                     borderTop: "1px solid white",
                                     width: "80%",
@@ -149,46 +150,38 @@ const ItineraryDetails: FC<{}> = () => {
                         </div>
                     </div>
 
-                    <StickyBar/>
-
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "90%",
-                        margin: "2rem 1rem",
-                        gap: 35
-                    }}>
+                    <div className={styles.favoriteBook}>
                         <div style={{
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            cursor: "pointer"
+                            cursor: "pointer",
+                            fontSize: "2rem",
+                            position: 'absolute',
+                            right: '50px',
+                            top: '700px'
                         }}>
                             {isFavorite ? (
                                 <>
-                                    <StarIcon onClick={handleFavorites}/> <p>Remove from your selection</p>
-                                </>
+                                    <StarIcon onClick={handleFavorites}/> <p style={{fontSize: "1.5rem"}}>Remove from your selection</p>                                </>
                             ) : (
                                 <>
-                                    <StarBorderIcon onClick={handleFavorites}/> <p>Add to your selection</p>
+                                    <StarBorderIcon onClick={handleFavorites}/> <p style={{fontSize: "1.5rem"}}>Add to your selection</p>
                                 </>
                             )}
                         </div>
-                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your
-                            itinerary</CustomButton>
                     </div>
+
+                    <BookButton onClick={handleReservation} />
 
                     <section className="itinerary-details">
                         <div style={{
                             textAlign: "center",
                             width: "80%",
-                            margin: "100px auto",
-                            fontWeight: "700",
-                            fontStyle: "italic",
-                            fontSize: "1.3rem"
+                            margin: "30px auto 70px",
+                            fontWeight: "700"
                         }}>
-                            <p>{itineraryToDisplay.shortDescription}</p>
+                            <p style={{fontSize: "1.6rem"}}>{itineraryToDisplay.shortDescription}</p>
                         </div>
 
                         <section
@@ -323,33 +316,23 @@ const ItineraryDetails: FC<{}> = () => {
                                 )}
                             </div>
                         </div>
-
                     </section>
 
+                    <StickyBar/>
                     <section>
                         <div>
-                            <h2 style={{fontSize: "2rem", textAlign: "center", marginTop: "16rem"}}>Details of your
-                                stay</h2>
+                            <h2 style={{fontSize: "2rem", textAlign: "center", marginTop: "8rem"}}>Details of your stay</h2>
                         </div>
                         {itineraryToDisplay.days.map((day: Day, index: number) =>
                             index % 2 === 0 ? (
                                 <TripDetails day={day} image={itineraryImage?.images.days[index] || ""} key={index}/>
                             ) : (
-                                <TripDetailsReverse day={day} image={itineraryImage?.images.days[index] || ""}
-                                                    key={index}/>
+                                <TripDetailsReverse day={day} image={itineraryImage?.images.days[index] || ""} key={index}/>
                             )
                         )}
                         <div className="trip-details-separator"></div>
                     </section>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        marginBottom: "6rem"
-                    }}>
-                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>Book your
-                            itinerary</CustomButton>
-                    </div>
+
                 </>
             ) : (
                 <p>Sorry, no itinerary found. Please try again later.</p>

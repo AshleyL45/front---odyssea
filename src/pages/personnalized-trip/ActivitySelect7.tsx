@@ -1,4 +1,4 @@
-import {FC, useState, useEffect, JSX} from "react";
+import {FC, useState, useEffect, JSX, useMemo} from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ActivitySelecting from "../../components/persTrip/ActivitySelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
@@ -7,15 +7,40 @@ import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import Pages from "../../components/layout/Pages";
 import {CircularProgress} from "@mui/material";
+import PersTripData from "../../assets/persTripData.json";
+import {post} from "../../API/api";
 
 const ActivitySelect7: () => JSX.Element = () => {
     const navigate = useNavigate();
-    const {questionnaireAnswers} = usePersonalizedTrip();
-    const {countrySelection} = questionnaireAnswers;
     const [selectedActivitiesByCountry, setSelectedActivitiesByCountry] = useState<{ [key: string]: number }>({});
     const [selectedCitiesByCountry, setSelectedCitiesByCountry] = useState<{ [key: string]: any[] }>({});
     const [errorMessage, setErrorMessage] = useState<string | null>(null); // Message d’erreur
     const [isLoader, setLoader] = useState(false);
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const {countrySelection} = questionnaireAnswers;
+    const numberOfDays = questionnaireAnswers.duration;
+
+    const selectedTrip = PersTripData.find((opt) => opt.numberOfDays === numberOfDays);
+
+    const selectedActivitiesRaw = localStorage.getItem("selectedActivities");
+    const selectedActivities = selectedActivitiesRaw ? JSON.parse(selectedActivitiesRaw) : [];
+    const selectedActivitiesIds = selectedActivities.map((activity: any) => activity.id);
+    console.log(selectedActivitiesIds);
+
+    const generateStepSeven = async () => {
+        if (selectedActivitiesIds){
+            try {
+                const response = await post("/generate/step6", {activities: selectedActivitiesIds});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/option-selection");
+                }
+            } catch (e) {
+                console.error("Cannot generate activities")
+            }
+        } else {
+            alert("Please select the activities")
+        }
+    }
 
     // 🔹 Récupérer les villes sélectionnées pour chaque pays
     useEffect(() => {
@@ -47,9 +72,12 @@ const ActivitySelect7: () => JSX.Element = () => {
     };
 
     // 🔹 Vérifier si chaque pays a au moins 2 activités sélectionnées
-    const isNextDisabled = countrySelection.some(
-        (country) => (selectedActivitiesByCountry[country.id] || 0) *3 < 12
-    );
+    const isNextDisabled = countrySelection.some((country) => {
+        const selectedCount = selectedActivitiesByCountry[country.id] || 0;
+        const requiredCount = (selectedTrip?.activitiesPerCities || 0) * (selectedTrip?.numberOfCities || 0) / countrySelection.length;
+        return selectedCount < requiredCount;
+    });
+
 
     return (
         <div>
@@ -75,7 +103,7 @@ const ActivitySelect7: () => JSX.Element = () => {
                     display: "flex",
                     alignItems: "center",
                     fontSize: "16px",
-                    margin: "10px 40px",
+                    margin: "10px 30px",
                     cursor: "pointer"
                 }}
                 onClick={() => navigate(-1)}
@@ -106,10 +134,10 @@ const ActivitySelect7: () => JSX.Element = () => {
 
             <div style={{textAlign: "center"}}>
                 <CustomButton
-                    style={{width: "130px", marginTop: "50px"}}
+                    style={{width: "130px"}}
                     variant="contained"
-                    onClick={() => navigate("/personalized-trip/option-selection")}
-                    disabled={isNextDisabled} // Désactiver si moins de 2 activités par pays
+                    onClick={generateStepSeven}
+                    disabled={isNextDisabled}
                 >
                     Next
                 </CustomButton>

@@ -11,19 +11,19 @@ const TripIncludesIcons: React.FC = () => {
             <h2 className={styles.iconsTitle}>The trip includes :</h2>
             <div className={styles.iconsRow}>
                 <div className={styles.iconBox}>
-                    <DirectionsCarIcon sx={{fontSize: 120, color: '#2C3E50'}}/>
+                    <DirectionsCarIcon sx={{fontSize: 100, color: '#2C3E50'}}/>
                     <p>Transport</p>
                 </div>
                 <div className={styles.iconBox}>
-                    <HotelIcon sx={{fontSize: 120, color: '#2C3E50'}}/>
+                    <HotelIcon sx={{fontSize: 100, color: '#2C3E50'}}/>
                     <p>Hosting</p>
                 </div>
                 <div className={styles.iconBox}>
-                    <HikingIcon sx={{fontSize: 120, color: '#2C3E50'}}/>
+                    <HikingIcon sx={{fontSize: 100, color: '#2C3E50'}}/>
                     <p>Activities</p>
                 </div>
                 <div className={styles.iconBox}>
-                    <RestaurantIcon sx={{fontSize: 120, color: '#2C3E50'}}/>
+                    <RestaurantIcon sx={{fontSize: 100, color: '#2C3E50'}}/>
                     <p>Catering</p>
                 </div>
             </div>

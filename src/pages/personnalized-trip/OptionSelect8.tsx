@@ -28,12 +28,44 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
     const itineraryName = questionnaireAnswers.itineraryName || "null";
     const options = questionnaireAnswers.options || [];
 
+    console.log(options)
+    let selectedOptions: any[] = [];
+
+    try {
+        selectedOptions = options ? JSON.parse(options) : [];
+        if (!Array.isArray(selectedOptions)) {
+            console.error("Parsed options is not an array:", selectedOptions);
+            selectedOptions = [];
+        }
+    } catch (e) {
+        console.error("Error parsing options from localStorage:", e);
+        selectedOptions = [];
+    }
+
+    const selectedOptionsIds = selectedOptions.map((option) => option.id);
+    console.log(selectedOptionsIds);
+
+
+    const generateStepEight = async () => {
+        if(selectedOptionsIds){
+            try {
+                const response = await post("/generate/step8", {options: selectedOptionsIds});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/activity-selection");
+                }
+            } catch (e) {
+                console.error("Cannot generate options")
+            }
+        }
+    }
+
+
+
     const [loading, setLoading] = useState(false);
     // 🔹 Récupérer la sélection des pays
-    const countrySelection = questionnaireAnswers.countrySelection;
 
     // 🔹 Construire l'objet de l'itinéraire
-    const formattedData = {
+    /* const formattedData = {
         userId,
         startDate,
         departureCity,
@@ -77,9 +109,9 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
         try {
             setLoading(true);
             const response = await post("/userItinerary/generate", formattedData);
-            /*if (!response.ok) {
+            if (!response.ok) {
                 throw new Error(`Erreur HTTP: ${response.status}`);
-            }*/
+            }
 
             setUserItinerary(response)
             console.log("Response back : " + JSON.stringify(response, null, 2));
@@ -91,7 +123,7 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
         } finally {
             setLoading(false);
         }
-    }
+    } */
 
     const [loadingText, setLoadingText] = useState("Creating your personalized itinerary...");
 
@@ -134,6 +166,7 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
 
             <Pages title="Personalized Trip">
             </Pages>
+
             <div className="progress-bar">
                 <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
                 <div style={{
@@ -153,22 +186,20 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
                 previous step
             </a>
 
-            <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
-                <h1 style={{fontSize: "25px", margin: "10px 0"}}>Would you like to add any options to your
-                    itinerary?</h1>
+            <div className="option-select" style={{textAlign: "center", width: "95%", margin: 'auto'}} >
+                <h1 style={{fontSize: "25px", margin: "40px 0 10px"}}>Would you like to add any options to your itinerary?</h1>
                 <p style={{color: "grey"}}>Optional</p>
-
                 <OptionsSelecting/>
-
                 <div style={{display: "block"}}>
-                    <CustomButton style={{width: "130px"}} variant="contained"
-                                  onClick={handleSubmitUserItinerary}
-                    >Next</CustomButton>
+                    <CustomButton
+                        style={{width: "130px"}}
+                        variant="contained"
+                        onClick={generateStepEight}
+                    >
+                        Next
+                    </CustomButton>
                 </div>
-
-
             </div>
-
         </div>
     );
 };
