@@ -4,7 +4,7 @@ import '../../App.css';
 interface MysteryTripDetailsProps {
     title: string;
     paragraph: string;
-    photoUrl: string; // Ajout d'une prop pour l'URL de l'image
+    photoUrl: string;
     photoClassName?: string;
     stepNumber?: number;
 }
@@ -13,26 +13,23 @@ const MysteryTripDetails: FC<MysteryTripDetailsProps> = ({
                                                              title,
                                                              paragraph,
                                                              photoUrl,
-                                                             photoClassName = "blog-details-photo",
+                                                             photoClassName = "mystery-trip-details-photo",
                                                              stepNumber = 1,
                                                          }) => {
     return (
         <div className="mystery-trip-details-container">
-            <section className="component blog-details mystery-trip-details">
+            <section className="component mystery-trip-details mystery-trip-details">
                 <div className={`${photoClassName} mystery-trip-details-photo-container`}>
-                    {/* Affichage de l'image */}
                     <img
                         src={photoUrl}
                         alt={`Image étape ${stepNumber}`}
-                        style={{width: '100%', height: 'auto'}}
+                        style={{width: '100%'}}
                     />
-                    {/* Version desktop : numéro sur l'image */}
                     <div className="mystery-trip-details-number desktop-number">
                         {stepNumber}
                     </div>
                 </div>
-                <div className="text-blog-details">
-                    {/* Version mobile : numéro inline à gauche du titre */}
+                <div className="text-mystery-trip-details">
                     <div className="mystery-trip-details-number mobile-number">
                         {stepNumber}
                     </div>
