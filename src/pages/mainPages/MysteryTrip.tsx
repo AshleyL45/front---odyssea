@@ -11,6 +11,7 @@ import Pages from "../../components/layout/Pages";
 const MysteryTrip: FC = () => {
     return (
         <>
+            <div className="mysterytrip-page" style={{overflowX: 'hidden'}}>
             <Pages title="Mystery Trip - Odyssea">
             </Pages>
 
@@ -99,6 +100,7 @@ const MysteryTrip: FC = () => {
         </section>
             <MysteryTripBanner/>
             <Footer/>
+            </div>
     </>
     );
 };
