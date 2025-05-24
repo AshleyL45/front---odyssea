@@ -4,7 +4,7 @@ import '../../App.css';
 interface MysteryTripDetailsProps {
     title: string;
     paragraph: string;
-    photoUrl: string; // Ajout d'une prop pour l'URL de l'image
+    photoUrl: string;
     photoClassName?: string;
     stepNumber?: number;
 }
@@ -20,19 +20,20 @@ const MysteryTripDetails: FC<MysteryTripDetailsProps> = ({
         <div className="mystery-trip-details-container">
             <section className="component blog-details mystery-trip-details">
                 <div className={`${photoClassName} mystery-trip-details-photo-container`}>
-                    {/* Affichage de l'image */}
-                    <img
-                        src={photoUrl}
-                        alt={`Image étape ${stepNumber}`}
-                        style={{width: '100%', height: 'auto'}}
-                    />
-                    {/* Version desktop : numéro sur l'image */}
+                    <div className="photo-clip-wrapper">
+                        <img
+                            src={photoUrl}
+                            alt={`Image étape ${stepNumber}`}
+                            style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                        />
+                    </div>
                     <div className="mystery-trip-details-number desktop-number">
                         {stepNumber}
                     </div>
                 </div>
+
                 <div className="text-blog-details">
-                    {/* Version mobile : numéro inline à gauche du titre */}
+
                     <div className="mystery-trip-details-number mobile-number">
                         {stepNumber}
                     </div>

@@ -7,72 +7,23 @@ import MysteryTripBanner from "../../components/mysteryTrip/MysteryTripBanner";
 import Footer from "../../components/ReusableComponents/Footer";
 import {Link} from "react-router-dom";
 import Pages from "../../components/layout/Pages";
+import styles from "../../styles/components/MysteryTripHeroSection.module.css";
+import MysteryTripHeroSection from "../../components/mysteryTrip/MysteryTripHeroSection";
 
 const MysteryTrip: FC = () => {
     return (
         <>
-            <div className="mysterytrip-page" style={{overflowX: 'hidden'}}>
             <Pages title="Mystery Trip - Odyssea">
             </Pages>
 
-        <div style={{position: "relative", minHeight: "100vh"}}>
-            <div
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "80vh",
-                    background:
-                        'url("https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") no-repeat center center/cover',
-                    zIndex: 1,
-                }}
-            >
-                <div
-                    style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        background:
-                            "linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,0.7) 100%)",
-                    }}
-                />
-                <div
-                    style={{
-                        position: "relative",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: "100%",
-                        color: "#fff",
-                        textAlign: "center",
-                        zIndex: 2,
-                        marginTop: "20px",
-                    }}
-                >
-                    <h1 style={{fontSize: "2.5rem", marginBottom: "1rem"}}>
-                        Go on a Mystery Tour
-                    </h1>
-                    <p style={{fontSize: "1.2rem", marginBottom: "2rem", lineHeight: 1.5}}>
-                        Get ready for an unforgettable adventure with no planning!
-                    </p>
-                    <CustomButton style={{color: "#fff", marginTop: "2rem"}}>
-                        <Link to="/booking-mystery-trip/country" style={{textDecoration: "none", color: "inherit"}}>
-                            I'll go for it!
-                        </Link>
-                    </CustomButton>
-                </div>
-            </div>
+            <MysteryTripHeroSection
+                imageUrl="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80…"
+                title="Go on a Mystery Trip"
+                subtitle="Get ready for an unforgettable adventure with no planning"
+            />
 
-            <div style={{position: "relative", zIndex: 2}}>
-                <Navbar/>
-            </div>
-        </div>
 
-        <section className="hero section" style={{marginTop: "-19rem"}}>
+            <section className="hero section" style={{marginTop: "-19rem"}}>
             <div className="mystery-details-components">
             <MysteryTripDetails
                 title="Select your preferences"
@@ -100,7 +51,6 @@ const MysteryTrip: FC = () => {
         </section>
             <MysteryTripBanner/>
             <Footer/>
-            </div>
     </>
     );
 };

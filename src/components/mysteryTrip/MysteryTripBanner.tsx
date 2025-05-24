@@ -11,7 +11,7 @@ const MysteryTripBanner: React.FC = () => {
             <div className="mystery-trip-banner-button-container">
                 <CustomButton className="mystery-trip-banner-button">
                     <Link to="/country" style={{textDecoration: "none", color: "inherit"}}>
-                        Where am I going?
+                        Booking
                     </Link>
                 </CustomButton>
             </div>

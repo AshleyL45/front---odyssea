@@ -18,7 +18,7 @@ const MysteryTripDetailsReverse: FC<MysteryTripDetailsReverseProps> = ({
                                                                        }) => (
     <div className="mystery-trip-details-container">
         <section className="component blog-details-reverse mystery-trip-details">
-            {/* 1️⃣ Texte (avec mobile-number) */}
+
             <div className="text-blog-details">
                 <div className="mystery-trip-details-number mobile-number">
                     {stepNumber}
@@ -31,17 +31,19 @@ const MysteryTripDetailsReverse: FC<MysteryTripDetailsReverseProps> = ({
                 </p>
             </div>
 
-            {/* 2️⃣ Image + desktop-number */}
             <div className={`${photoClassName} mystery-trip-details-photo-container`}>
-                <img
-                    src={photoUrl}
-                    alt={`Image étape ${stepNumber}`}
-                    style={{width: '100%', height: 'auto', objectFit: 'cover'}}
-                />
+                <div className="photo-clip-wrapper">
+                    <img
+                        src={photoUrl}
+                        alt={`Image étape ${stepNumber}`}
+                        style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                    />
+                </div>
                 <div className="mystery-trip-details-number desktop-number">
                     {stepNumber}
                 </div>
             </div>
+
         </section>
     </div>
 );
