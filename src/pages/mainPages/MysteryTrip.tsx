@@ -1,14 +1,12 @@
 import React, {FC} from "react";
-import Navbar from "../../components/navbars/Navbar";
-import CustomButton from "../../components/ReusableComponents/CustomButton";
 import MysteryTripDetails from "../../components/ReusableComponents/MysteryTripDetails";
 import MysteryTripDetailsReverse from "../../components/ReusableComponents/MysteryTripDetailsReverse";
 import MysteryTripBanner from "../../components/mysteryTrip/MysteryTripBanner";
 import Footer from "../../components/ReusableComponents/Footer";
-import {Link} from "react-router-dom";
 import Pages from "../../components/layout/Pages";
-import styles from "../../styles/components/MysteryTripHeroSection.module.css";
 import MysteryTripHeroSection from "../../components/mysteryTrip/MysteryTripHeroSection";
+import '../../App.css';
+
 
 const MysteryTrip: FC = () => {
     return (
