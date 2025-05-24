@@ -894,6 +894,9 @@ footer p{
 */
 
 
+
+
+
 /* ========== BLOG DETAILS ========== */
 .blog-details,
 .blog-details-reverse {
@@ -956,10 +959,17 @@ footer p{
         justify-content: center;
         align-items: start;
         font-size: 20px;
+        margin: initial;
     }
 
-    .blog-details-reverse {
+    /* Aligne à droite pour la version normale */
+    .blog-details .text-blog-details {
         text-align: right;
+    }
+
+    /* Aligne à gauche pour la version reverse */
+    .blog-details-reverse .text-blog-details {
+        text-align: left;
     }
 
     .blog-details-photo,
@@ -1076,7 +1086,6 @@ footer p{
 
 
 }
-
 
 
 

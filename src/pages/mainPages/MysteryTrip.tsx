@@ -14,6 +14,8 @@ const MysteryTrip: FC = () => {
             <Pages title="Mystery Trip - Odyssea">
             </Pages>
 
+
+
             <MysteryTripHeroSection
                 imageUrl="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80…"
                 title="Go on a Mystery Trip"
@@ -49,6 +51,7 @@ const MysteryTrip: FC = () => {
         </section>
             <MysteryTripBanner/>
             <Footer/>
+
     </>
     );
 };
