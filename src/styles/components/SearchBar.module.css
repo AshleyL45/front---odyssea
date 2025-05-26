@@ -1,20 +1,15 @@
 .searchContainer{
-    width: 80%;
-    margin-top: 2rem;
-    margin-right: auto;
-    margin-left: auto;
+    width: 90%;
+    margin: 2rem 7% 0 auto;
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .searchInput {
-    border-radius: 16px;
-    border: none;
+    border-radius: 10px;
+    border: solid 1px gray;
     width: 100%;
     padding: 12px 40px;
-    margin-top: 2rem;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 .searchIcon {

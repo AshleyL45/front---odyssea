@@ -14,7 +14,7 @@ interface TripItemHomeProps {
 const TripItemHome: React.FC<TripItemHomeProps> = ({id, name, description, headerImage1, headerImage2, ...rest}) => {
 
     return (
-        <div style={{margin: "300px 0"}}>
+        <div style={{margin: "250px 0"}}>
 
             <section className="component trip-item-home" {...rest}>
             <div className="text-home">

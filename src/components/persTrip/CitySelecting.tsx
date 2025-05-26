@@ -14,6 +14,7 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
     const [selected, setSelected] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [cachedCities, setCachedCities] = useState<{ [key: number]: any[] }>({}); // Cache des villes
+    const [isInputFocused, setIsInputFocused] = useState(false);
 
     // 🔹 Récupération des villes sélectionnées stockées en localStorage au chargement
     useEffect(() => {
@@ -29,48 +30,53 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
         }
     }, [countryId]);
 
-    // 🔹 Fonction pour récupérer et filtrer les villes (en utilisant un cache)
-    useEffect(() => {
-        const fetchCities = async () => {
-            if (cachedCities[countryId]) {
-                console.log(`Using cached cities for country ${countryId}`);
-                filterCities(cachedCities[countryId]);
-                return;
-            }
-
-            try {
-                console.log(`Fetching cities for country ${countryId}...`);
-                const response = await get<any[]>("/cities");
-
-                if (!response || !Array.isArray(response)) {
-                    throw new Error("Invalid response format");
-                }
-
-                setCachedCities(prev => ({...prev, [countryId]: response}));
-                filterCities(response);
-            } catch (e) {
-                console.error("Error fetching cities:", e);
-            }
-        };
-
-        const filterCities = (citiesData: any[]) => {
-            const selectedIds = selected.map((city) => city.id);
-            const filteredCities = citiesData.filter(
-                (city) =>
-                    city.countryId === countryId &&
-                    city.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-                    !selectedIds.includes(city.id)
-            );
-            setCities(filteredCities);
-        };
-
-        if (searchQuery) {
-            const debounce = setTimeout(fetchCities, 200);
-            return () => clearTimeout(debounce);
-        } else {
-            setCities([]);
+    const fetchCities = async (query: string = "") => {
+        if (cachedCities[countryId]) {
+            console.log(`Using cached cities for country ${countryId}`);
+            filterCities(cachedCities[countryId], query);
+            return;
         }
-    }, [searchQuery, countryId]); // ❌ Supprimé `selected` pour éviter les requêtes répétées
+
+        try {
+            console.log(`Fetching cities for country ${countryId}...`);
+            const response = await get("/cities");
+
+            if (!response || !Array.isArray(response?.data)) {
+                throw new Error("Invalid response format");
+            }
+            console.log(response.data)
+            setCachedCities(prev => ({...prev, [countryId]: response.data}));
+            filterCities(response?.data, query);
+        } catch (e) {
+            console.error("Error fetching cities:", e);
+        }
+    };
+
+    const filterCities = (citiesData: any[], query: string = "") => {
+        const selectedIds = selected.map((city) => city.id);
+        const filteredCities = citiesData.filter(
+            (city) =>
+                city.countryId === countryId &&
+                city.name.toLowerCase().includes(query.toLowerCase()) &&
+                !selectedIds.includes(city.id)
+        );
+        setCities(filteredCities);
+    };
+
+
+    useEffect(() => {
+        const debounce = setTimeout(() => {
+            fetchCities(searchQuery);
+        }, 200);
+        return () => clearTimeout(debounce);
+    }, [searchQuery, countryId]);
+
+    useEffect(() => {
+        if (!cachedCities[countryId]) {
+            fetchCities("");
+        }
+    }, [countryId]);
+
 
     // 🔹 Sélectionner une ville
     const handleSelect = (city: CitySelection) => {
@@ -87,8 +93,11 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
             localStorage.setItem(`selectedCities_${countryId}`, JSON.stringify(newSelection));
             onCitySelectionChange(countryId, newSelection.length);
         }
+
+        setError(null);
         setSearchQuery("");
         setCities([]);
+        setIsInputFocused(false)
     };
 
     // 🔹 Supprimer une ville
@@ -97,6 +106,10 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
         setSelected(updatedSelection);
         localStorage.setItem(`selectedCities_${countryId}`, JSON.stringify(updatedSelection));
         onCitySelectionChange(countryId, updatedSelection.length);
+
+        if(updatedSelection.length < 2 ){
+            setError(null);
+        }
     };
 
     return (
@@ -107,10 +120,15 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
                 className="search-input-city"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => {
+                    setIsInputFocused(true);
+                    fetchCities(""); // Charger les villes au focus même si rien n'est tapé
+                }}
+                onBlur={() => setTimeout(() => setIsInputFocused(false), 300)}
             />
             {error && <div style={{color: "red", margin: "10px 0"}}>{error}</div>}
             <div className="searchResults">
-                {cities.length > 0 && (
+                {isInputFocused && cities.length > 0 && (
                     <ul className="result-option">
                         {cities.map((city) => (
                             <li key={city.id} onClick={() => handleSelect(city)}>

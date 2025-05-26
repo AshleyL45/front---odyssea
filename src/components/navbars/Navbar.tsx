@@ -22,7 +22,7 @@ const Navbar: () => JSX.Element = () => {
     }, [menuOpen]);
 
     return (
-        <div className={`container-navbar ${menuOpen ? 'open' : ''}`} style={{position: "relative"}}>
+        <div className={`container-navbar ${menuOpen ? 'open' : ''}`}>
             <style>{`
               .navbar-links ul li a {
                 position: relative;
@@ -64,7 +64,7 @@ const Navbar: () => JSX.Element = () => {
 
             {menuOpen && (
                 <div className="close-menu-icon" onClick={toggleMenu}>
-                    <CloseIcon sx={{fontSize: "52px", color: "#2C3E50"}}/>
+                    <CloseIcon sx={{fontSize: "48px", color: "#2C3E50"}}/>
                 </div>
             )}
 
@@ -89,19 +89,22 @@ const Navbar: () => JSX.Element = () => {
                     <div className="navbar-links">
                         <div className="navbar-right">
                             <ul>
-                                <li><a href="#">Blog articles</a></li>
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">About Odyssea</a></li>
+                                <li><a href="#">Contact us</a></li>
+                                <li>
+                                    <PermIdentityIcon
+                                        className="login-logo" sx={{fontSize: "40px"}}
+                                        onClick={() => navigate('/dashboard')}
+                                    />
+                                </li>
                             </ul>
+
                         </div>
                     </div>
                 </div>
             </nav>
 
-            <div className="dashboard-icon">
-                <PermIdentityIcon className="login-logo" sx={{fontSize: "40px"}} onClick={() => navigate('/dashboard')} />
 
-            </div>
         </div>
     );
 };

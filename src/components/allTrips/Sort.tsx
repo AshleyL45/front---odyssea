@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, useEffect, useRef, useState} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styles from "../../styles/components/Sort.module.css"
 
@@ -11,10 +11,11 @@ type SortProps = {
 const Sort: FC<SortProps> = ({title, options, onChange}) => {
     const [displaySortItems, setDisplaySortItems] = useState(false);
     const [selectedOption, setSelectedOption] = useState("");
+    const sortRef = useRef<HTMLDivElement>(null);
 
-    const displayItems = () => {
-        setDisplaySortItems(prevState => !prevState);
-    }
+    const toggleDropdown = () => {
+        setDisplaySortItems(prev => !prev);
+    };
 
     const handleSelection = (id: string) => {
         setSelectedOption(id);
@@ -22,12 +23,24 @@ const Sort: FC<SortProps> = ({title, options, onChange}) => {
         setDisplaySortItems(false);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if(sortRef.current && !sortRef.current.contains(event.target as Node)){
+                setDisplaySortItems(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, []);
+
     return (
-        <div className={styles.sortContainer}>
+        <div className={styles.sortContainer} ref={sortRef}>
             <div className={styles.sortButtonContainer}>
-                <div className={styles.sortButton}>
+                <div className={styles.sortButton} onClick={toggleDropdown}>
                     <h3 className={styles.sortTitle}>{title}</h3>
-                    <KeyboardArrowDownIcon onClick={displayItems} className={styles.arrowIcon}/>
+                    <KeyboardArrowDownIcon className={styles.arrowIcon}/>
                 </div>
                 {displaySortItems && (
                     <div className={styles.sortDropdown}>

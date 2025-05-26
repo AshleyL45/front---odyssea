@@ -4,7 +4,7 @@ import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useLocation, useNavigate} from "react-router-dom";
 import ItineraryNameInput from "../../components/persTrip/ItineraryNameInput";
-import {ItineraryDay, PersonalizedTripResponse} from "../../@types/PersonalizeTrip";
+import {ItineraryDay} from "../../@types/PersonalizeTrip";
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
@@ -20,20 +20,30 @@ const TripPersRecap: FC = () => {
     const {questionnaireAnswers} = usePersonalizedTrip()
     const [message, setMessage] = useState("")
     const itineraryId = location.state?.itineraryId;
-    //console.log(itineraryId)
+
+    const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>([]);
+
+    // useEffect(() => {
+    //    const days = buildItineraryDaysFromLocalStorage(questionnaireAnswers.startDate);
+    //    setItineraryDays(days);
+    //}, []);
+
 
     useEffect(() => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-    }, []);
+        if (itinerary.data && itinerary.data.itineraryDays) {
+            setItineraryDays(itinerary.data.itineraryDays);
+        }
+        console.log("itinerary: ", itinerary)
+    }, [itinerary]);
 
 
     const handleSubmit = async () => {
         try {
             setMessage("Saving...");
-
             if (questionnaireAnswers.itineraryName) {
                 const response = await post(`/userItinerary/itineraryName/${itineraryId}`, {
                     itineraryName: questionnaireAnswers.itineraryName
@@ -42,15 +52,14 @@ const TripPersRecap: FC = () => {
             }
 
             setTimeout(() => navigate("/dashboard"), 100);
-
         } catch (e) {
             console.error(e);
             setMessage("Error saving itinerary name");
         }
     };
 
-    const endDate = itinerary.startDate
-        ? dayjs(itinerary.startDate).add(13, "day").format("YYYY-MM-DD")
+    const endDate = questionnaireAnswers.startDate
+        ? dayjs(questionnaireAnswers.startDate).add(questionnaireAnswers.duration, "day").format("YYYY-MM-DD")
         : "N/A";
 
     return (
@@ -77,44 +86,39 @@ const TripPersRecap: FC = () => {
             </a>
 
             <div style={{width: "80%", margin: "auto"}}>
-
                 <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
-
                 <ItineraryNameInput/>
                 <p>{message}</p>
-
 
                 <div>
                     <div style={{display: "flex", justifyContent: "center", textAlign: "center", margin: "2rem auto"}}>
                         <div>
-                            <h2 style={{textAlign: "center", margin: "20px 0"}}>Main informations</h2>
-                            <p>Start Date: {itinerary.startDate}</p>
-                            <p>End Date: {endDate}</p>
-                            <p>Total Duration: 13 days</p>
-                            <p>Departure City: {itinerary.departureCity}</p>
-                            {/*<p>Starting Price: {itinerary.startingPrice} EUR</p>*/}
-                            <p>Number of Adults: {itinerary.numberOfAdults}</p>
-                            <p>Number of Kids: {itinerary.numberOfKids}</p>
+                            <h2 style={{fontSize: "1.5rem", textAlign: "center", margin: "20px 0"}}>Main informations</h2>
+                            <p>Start Date: <b>{questionnaireAnswers.startDate}</b></p>
+                            <p>End Date: <b>{endDate}</b></p>
+                            <p>Total Duration: <b>{questionnaireAnswers.duration} days</b></p>
+                            <p>Departure City: <b>{questionnaireAnswers.departureCity}</b></p>
+                            <p>Starting Price: <b>{itinerary.startingPrice}$</b></p>
+                            <p>Number of Adults: <b>{questionnaireAnswers.numberOfAdults}</b></p>
+                            <p>Number of Kids: <b>{questionnaireAnswers.numberOfKids}</b></p>
                         </div>
 
                     </div>
 
                     <div style={{display: "flex", justifyContent: "center"}}>
                         <div>
-                            {
-                                itinerary.options && itinerary.options.length > 0 ? (
+                            {questionnaireAnswers.options && questionnaireAnswers.options.length > 0 ? (
                                     <>
-                                        <h2 style={{textAlign: "center", margin: "20px 0"}}>Options</h2>
-                                        {itinerary.options.map((option: any) => (
-                                            <div key={option.id} style={{marginBottom: '10px', textAlign: "center"}}>
+                                        <h2 style={{fontSize: "1.5rem", textAlign: "center", margin: "20px 0"}}>Options</h2>
+                                        {questionnaireAnswers.options.map((option: any) => (
+                                            <div key={option.id} style={{marginBottom: '20px'}}>
                                                 <h3>{option.name}</h3>
                                                 <p>{option.description}</p>
-                                                <p>Price: {option.price} $</p>
+                                                <p>Price: {option.price}$</p>
                                                 <p>Category: {option.category}</p>
                                             </div>
                                         ))}
                                     </>
-
                                 ) : (
                                     <p>No options were chosen.</p>
                                 )
@@ -134,13 +138,11 @@ const TripPersRecap: FC = () => {
                 </div>
                 <div className="recap-trip">
                     <div>
-                        {itinerary.itineraryDays?.map((day: any) => (
+                        {itineraryDays?.map((day: any) => (
                             <RecapOneDay key={day.dayNumber} day={day}/>
                         ))}
                     </div>
                 </div>
-
-
             </div>
 
 

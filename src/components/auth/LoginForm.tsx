@@ -40,7 +40,6 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
                 login(response.data.token);
                 const from = location.state?.from || '/';
                 navigate(from, {replace: true});
-                //console.log("response : " + response.token)
             }
 
         } catch (e) {

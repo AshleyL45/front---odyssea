@@ -4,7 +4,7 @@ import {Day} from "../../@types/ItineraryDetailsResponse";
 
 const TripDetails: ({day, image}: { day: Day, image: string }) => JSX.Element = ({day, image}) => {
     return (
-        <div style={{margin: "300px 0"}} id={day.dayNumber.toString()}>
+        <div style={{margin: "150px 0"}} id={day.dayNumber.toString()}>
 
             <section className="component trip-details">
                 <div className="trip-details-photo"

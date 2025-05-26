@@ -1,17 +1,29 @@
-import React, {FC, JSX} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../../App.css"
 
 
-const StickyBar: ({}: {}) => JSX.Element = ({}) => {
+const StickyBar: React.FC = () => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const toggleVisivility = () => {
+            setIsVisible(window.scrollY > 3400);
+        };
+
+        window.addEventListener('scroll', toggleVisivility);
+        return () => window.removeEventListener('scroll', toggleVisivility);
+    }, []);
+
     const handleClick = (sectionId: string) => {
         const section = document.getElementById(sectionId);
         if (section) {
-            section.scrollIntoView({behavior: 'smooth'});
-
+            const yOffset = -80;
+            const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
         }
     };
 
-    return (
+    return isVisible ? (
         <div className="progress-sticky-bar">
             <ul>
                 <li onClick={() => handleClick("1")}>Day 1</li>
@@ -28,7 +40,7 @@ const StickyBar: ({}: {}) => JSX.Element = ({}) => {
                 <li onClick={() => handleClick("12")}>Day 12</li>
             </ul>
         </div>
-    );
+    ) : null;
 };
 
 export default StickyBar;

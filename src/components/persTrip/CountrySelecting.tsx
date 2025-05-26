@@ -3,26 +3,23 @@ import {get} from "../../API/api";
 import "../../App.css";
 import CloseIcon from "@mui/icons-material/Close";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
-import {CountrySelection} from "../../@types/PersonalizeTrip";
+import {CountrySelection, PersTripData} from "../../@types/PersonalizeTrip";
 
 // Interface définissant les propriétés du composant
 interface CountrySelectingProps {
-    onSelectionChange: (count: number) => void; // Fonction callback pour signaler le nombre de pays sélectionnés
+    onSelectionChange: (count: number) => void;
+    maxCountries: number;
 }
 
 // Composant principal de sélection des pays
-const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange}) => {
+const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange, maxCountries}) => {
 
-    // État contenant la liste des pays disponibles
     const [countries, setCountries] = useState<any[]>([]);
-    // État pour stocker la recherche utilisateur
     const [searchQuery, setSearchQuery] = useState("");
-    // Récupération du contexte contenant les réponses du questionnaire
     const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
-    // État pour stocker les pays sélectionnés par l'utilisateur
     const [selected, setSelected] = useState<any[]>([]);
-    // État pour gérer les erreurs
     const [error, setError] = useState<string | null>(null);
+    const [isInputFocused, setIsInputFocused] = useState(false);
 
     // 🔹 Au montage du composant, charger les pays déjà sélectionnés depuis le contexte
     useEffect(() => {
@@ -31,46 +28,36 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange}) => {
         }
     }, [questionnaireAnswers.countrySelection]);
 
-    // 🔹 Met à jour le parent avec le nombre de pays sélectionnés
-    useEffect(() => {
-        onSelectionChange(selected.length);
-    }, [selected, onSelectionChange]);
-
-    // 🔹 Fonction pour récupérer la liste des pays depuis l'API
-    const fetchCountry = async (query: string = "") => {
+    const fetchCountry = async (query: string) => {
         try {
-            const getCountries = await get("/countries"); // Récupération des pays depuis l'API
-
-            if (Array.isArray(getCountries)) {
-                // Filtrer les pays pour ne garder que ceux qui correspondent à la recherche
-                // et qui ne sont pas déjà sélectionnés
-                const filteredCountries = getCountries
+            const getCountries = await get("/countries");
+            if (Array.isArray(getCountries.data)) {
+                const filteredCountries = getCountries.data
                     .filter((country: any) =>
                         country.name.toLowerCase().includes(query.toLowerCase()) &&
                         !selected.some((selectedCountry) => selectedCountry.id === country.id)
                     );
-
-                setCountries(filteredCountries); // Mise à jour de l'état avec les pays filtrés
+                setCountries(filteredCountries);
             }
         } catch (e) {
             console.error("Cannot get countries", e);
         }
     };
 
-    // 🔹 Effet pour exécuter `fetchCountry` avec un délai (debounce) lors de la saisie dans l'input
+
+    // 🔹 Effet pour exécuter fetchCountry avec un délai (debounce) lors de la saisie dans l'input
     useEffect(() => {
-        if (searchQuery) {
-            const debounce = setTimeout(() => fetchCountry(searchQuery), 200);
-            return () => clearTimeout(debounce); // Annule la requête si l'utilisateur continue de taper
-        } else {
-            setCountries([]); // Efface les résultats si le champ de recherche est vide
-        }
-    }, [searchQuery, selected]); // Dépendances : déclenché quand la recherche ou la sélection change
+        const debounce = setTimeout(() => {
+            fetchCountry(searchQuery);
+        }, 200);
+        return () => clearTimeout(debounce);
+    }, [searchQuery, selected]);
+
 
     // 🔹 Fonction pour sélectionner un pays
     const handleSelect = (country: CountrySelection) => {
-        if (selected.length >= 3) {
-            setError("You can only select up to 3 countries."); // Affiche une erreur si plus de 3 pays
+        if (selected.length >= maxCountries) {
+            setError(`You can only select up to ${maxCountries} countries.`); // Affiche une erreur si plus de 3 pays
             setSearchQuery("");
             return;
         }
@@ -80,8 +67,8 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange}) => {
         }
 
         setError(null); // Supprime l'erreur si la sélection est valide
-
         const updatedSelection = [...selected, country];
+        setIsInputFocused(false);
 
         setSelected(updatedSelection); // Mise à jour de l'état des pays sélectionnés
         updateResponse("countrySelection", updatedSelection); // Mise à jour du contexte
@@ -114,9 +101,9 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange}) => {
     return (
         <div>
             {/* 🔹 Affichage d'un message si 3 pays ne sont pas encore sélectionnés */}
-            {selected.length !== 3 && (
-                <div style={{color: "red", margin: "0 0 40px"}}>
-                    You must select exactly 3 countries.
+            {selected.length !== maxCountries && (
+                <div style={{color: "red", margin: "0 0 20px"}}>
+                    You must select exactly {maxCountries} countries.
                 </div>
             )}
 
@@ -127,15 +114,21 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange}) => {
                 className="search-input"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => {
+                    setIsInputFocused(true);
+                    fetchCountry(searchQuery); // Appelle directement au focus
+                }}
+                onBlur={() => setTimeout(() => setIsInputFocused(false), 250)} // Optionnel : laisse le temps pour cliquer
                 required
             />
+
 
             {/* 🔹 Affichage des erreurs */}
             {error && <div style={{color: "red", margin: "10px 0"}}>{error}</div>}
 
             {/* 🔹 Liste des pays disponibles pour la sélection */}
             <div className="searchResults">
-                {countries.length > 0 && (
+                {isInputFocused && countries.length > 0 && (
                     <ul className="result-option">
                         {countries.map((country) => (
                             <li key={country.id} onClick={() => handleSelect(country)}>
@@ -144,6 +137,7 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange}) => {
                         ))}
                     </ul>
                 )}
+
             </div>
 
             {/* 🔹 Affichage des pays sélectionnés avec possibilité de suppression */}
