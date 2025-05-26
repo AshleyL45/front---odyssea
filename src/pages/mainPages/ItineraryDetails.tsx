@@ -3,28 +3,32 @@ import Navbar from "../../components/navbars/Navbar";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import Carousel from "../../components/homePage/Carousel";
 import TripDetails from "../../components/ReusableComponents/TripDetails";
 import TripDetailsReverse from "../../components/ReusableComponents/TripDetailsReverse";
 import Footer from "../../components/ReusableComponents/Footer";
-import CustomButton from "../../components/ReusableComponents/CustomButton";
 import StickyBar from "../../components/itinerary-details/StickyBar";
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
-import {Day, ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
+import {ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
 import {DailyPlanWithCityDto} from '../../@types/DailyPlanWithCityDto';
+import styles from "../../styles/ItineraryDetails.module.css"
+import BookButton from "../../components/itinerary-details/BookButton";
 import {useNavigate, useParams} from "react-router-dom";
-import {get} from "../../../src/API/api";
+import {get} from "../../API/api";
 import {useFavorites} from "../../contexts/MySelectionContext";
 import {useReservation} from "../../contexts/ReservationContext";
 import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css";
-import styles from "../../styles/ItineraryDetails.module.css";
 
 interface ItineraryImages {
     header: string[];
     countries: string[];
-    days: string[];
     map: string;
+    days: string[];
+}
+
+interface Image {
+    id: number;
+    images: ItineraryImages;
 }
 
 const ItineraryDetails: FC = () => {
@@ -48,9 +52,9 @@ const ItineraryDetails: FC = () => {
     const isFavorite = favorites.some(fav => fav.id === itineraryId);
 
     useEffect(() => {
-        get<ItineraryDetailsResponse>(`/api/itineraries/${itineraryId}/details`)
+        get(`/api/itineraries/${itineraryId}/details`)
             .then(data => {
-                if (data) setItineraryToDisplay(data);
+                if (data) setItineraryToDisplay(data.data);
             })
             .catch(e => console.error("Cannot get itinerary:", itineraryId, e));
     }, [itineraryId]);
@@ -178,8 +182,17 @@ const ItineraryDetails: FC = () => {
                             backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8),rgba(255,255,255,0.6)), url(${images.header[0] || ""})`
                         }}
                     >
-                        <div style={{marginTop: "auto", marginBottom: "2rem", marginRight: "1rem"}}>
+                        <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
+                            <hr
+                                style={{
+                                    marginLeft: "6rem",
+                                    border: "none",
+                                    borderTop: "1px solid white",
+                                    width: "80%",
+                                    height: "3px",
+                                }}
+                            />
                             <hr style={{
                                 marginLeft: "1rem",
                                 border: "none",
@@ -190,51 +203,51 @@ const ItineraryDetails: FC = () => {
                         </div>
                     </div>
 
-                    <StickyBar/>
-
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "90%",
-                        margin: "2rem 1rem",
-                        gap: 35
-                    }}>
+                    <div className={styles.favoriteBook}>
                         <div style={{
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            cursor: "pointer"
-                        }} onClick={handleFavorites}>
-                            {isFavorite ? <StarIcon/> : <StarBorderIcon/>}
-                            <p>{isFavorite ? "Remove from your selection" : "Add to your selection"}</p>
+                            cursor: "pointer",
+                            fontSize: "2rem",
+                            position: 'absolute',
+                            right: '50px',
+                            top: '700px'
+                        }}>
+                            {isFavorite ? (
+                                <>
+                                    <StarIcon onClick={handleFavorites}/> <p style={{fontSize: "1.5rem"}}>Remove from your selection</p>                                </>
+                            ) : (
+                                <>
+                                    <StarBorderIcon onClick={handleFavorites}/> <p style={{fontSize: "1.5rem"}}>Add to your selection</p>
+                                </>
+                            )}
                         </div>
-                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>
-                            Book your itinerary
-                        </CustomButton>
                     </div>
+
+                    <BookButton onClick={handleReservation} />
 
                     <section className="itinerary-details">
                         <div style={{
                             textAlign: "center",
                             width: "80%",
-                            margin: "100px auto",
-                            fontWeight: 700,
-                            fontStyle: "italic",
-                            fontSize: "1.3rem"
+                            margin: "30px auto 70px",
+                            fontWeight: "700"
                         }}>
-                            <p>{itineraryToDisplay.shortDescription}</p>
+                            <p style={{fontSize: "1.6rem"}}>{itineraryToDisplay.shortDescription}</p>
                         </div>
 
-                        <section style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
-                            gridTemplateRows: "auto auto auto",
-                            width: "70%",
-                            margin: "2rem auto",
-                            textAlign: "center",
-                            height: "50vh"
-                        }}>
+                        <section
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 1fr",
+                                gridTemplateRows: "auto auto auto",
+                                width: "70%",
+                                margin: "2rem auto",
+                                textAlign: "center",
+                                height: "50vh",
+                            }}
+                        >
                             <div style={{
                                 border: "1px solid black",
                                 display: "flex",
@@ -244,74 +257,78 @@ const ItineraryDetails: FC = () => {
                                 <h3>Duration</h3>
                                 <p>{itineraryToDisplay.totalDuration} days</p>
                             </div>
-                            <div style={{
-                                border: "1px solid black",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"
-                            }}>
+                            <div
+                                style={{
+                                    border: "1px solid black",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
+                            >
                                 <h3>Accommodation</h3>
                                 <p>4-Stars and 5-Stars hotels</p>
                             </div>
-                            <div style={{
-                                border: "1px solid black",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"
-                            }}>
+                            <div
+                                style={{
+                                    border: "1px solid black",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
+                            >
                                 <h3>Key activities</h3>
-                                <p style={{width: "88%", margin: "10px auto 0"}}>
-                                    {activities.join(" | ")}
-                                </p>
+                                <p style={{width: "88%", margin: "10px auto 0"}}>{activities.join(" | ")}</p>
                             </div>
-                            <div style={{
-                                border: "1px solid black",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"
-                            }}>
+                            <div
+                                style={{
+                                    border: "1px solid black",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
+                            >
                                 <h3>Price guide</h3>
                                 <p>{itineraryToDisplay.price} €</p>
                             </div>
-                            <div style={{
-                                gridColumn: "span 2",
-                                margin: "auto",
-                                border: "1px solid black",
-                                width: "100%",
-                                height: "100%",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"
-                            }}>
+                            <div
+                                style={{
+                                    gridColumn: "span 2",
+                                    margin: "auto",
+                                    border: "1px solid black",
+                                    width: "100%",
+                                    height: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
+                            >
                                 <h3>Visited countries</h3>
                                 <p>{countries.join(", ")}</p>
                             </div>
                         </section>
 
                         <div style={{width: "85%", margin: "150px auto"}}>
-                            <h2 style={{
-                                fontSize: "1.7rem",
-                                margin: "50px 0",
-                                textAlign: "center"
-                            }}>
-                                Your all-inclusive trip, designed for an uncompromising experience…
-                            </h2>
-                            <ul style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "10px",
-                                listStyle: "none",
-                                alignItems: "center"
-                            }}>
-                                <li>Premium transportation: Business-class flights…</li>
-                                <li>Exceptional accommodations: Refined lodges…</li>
-                                <li>Exclusive activities: Private safaris…</li>
-                                <li>Refined gastronomy: Dinners under the stars…</li>
+                            <h2 style={{fontSize: "1.7rem", margin: "50px 0", textAlign: "center",}}>
+                                Your all-inclusive trip, designed for an uncompromising experience. Every detail is
+                                designed to offer you comfort, exclusivity and total immersion.</h2>
+                            <ul style={{display: "flex", flexDirection: "column", gap: "10px", listStyle: "none",
+                                alignItems: "center"}}>
+                                <li>Premium transportation: Business-class flights, private transfers and personalized
+                                    routes for a stress-free trip.
+                                </li>
+                                <li>Exceptional accommodations: Stay in refined lodges, 5-star hotels or private villas
+                                    offering luxury and serenity.
+                                </li>
+                                <li>Exclusive activities: Private safaris, tailor-made excursions, meetings with expert
+                                    guides and unique experiences close to nature.
+                                </li>
+                                <li>Refined gastronomy: dinners under the stars, exceptional wine tastings and menus
+                                    designed by renowned chefs.
+                                </li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Collage */}
                     <div className="collage">
                         <div className="collageItem div1">
                             {imgLoading
@@ -337,12 +354,7 @@ const ItineraryDetails: FC = () => {
                             marginTop: "6rem",
                             marginBottom: "6rem"
                         }}>Itinerary</h2>
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "300px"
-                        }}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "300px"}}>
                             <InteractiveMapTrip markers={markers}/>
                             <div>
                                 {Array.from(new Set(itineraryToDisplay.days.map(d => d.cityName)))
@@ -366,13 +378,10 @@ const ItineraryDetails: FC = () => {
                         </div>
                     </section>
 
+                    <StickyBar/>
                     <section>
                         <div>
-                            <h2 style={{
-                                fontSize: "2rem",
-                                textAlign: "center",
-                                marginTop: "16rem"
-                            }}>Details of your stay</h2>
+                            <h2 style={{fontSize: "2rem", textAlign: "center", marginTop: "8rem"}}>Details of your stay</h2>
                         </div>
                         {itineraryToDisplay.days.map((day, idx) =>
                             idx % 2 === 0 ? (
@@ -384,16 +393,6 @@ const ItineraryDetails: FC = () => {
                         <div className="trip-details-separator"/>
                     </section>
 
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        marginBottom: "6rem"
-                    }}>
-                        <CustomButton sx={{color: "white"}} onClick={handleReservation}>
-                            Book your itinerary
-                        </CustomButton>
-                    </div>
                 </>
             ) : (
                 <p>Sorry, no itinerary found. Please try again later.</p>

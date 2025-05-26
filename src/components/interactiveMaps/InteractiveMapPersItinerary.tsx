@@ -44,7 +44,8 @@ const getCityById = async (id: number): Promise<City | null> => {
     try {
         const res = await fetch(`http://localhost:8080/cities/${id}`);
         if (!res.ok) throw new Error("Erreur réseau");
-        return await res.json();
+        const json = await res.json(); // On attend d'abord le JSON
+        return json.data as City;
     } catch (err) {
         console.error(`Erreur fetch city ${id}`, err);
         return null;
@@ -65,7 +66,8 @@ const InteractiveMapPersItinerary: React.FC = () => {
             if (!data.departureCity) return null;
             const res = await fetch("http://localhost:8080/cities");
             const allCities = await res.json();
-            const match = allCities.find(
+            console.log(allCities);
+            const match = allCities.data.find(
                 (c: any) =>
                     (c.name || c.cityName)?.toLowerCase() === data.departureCity.toLowerCase()
             );

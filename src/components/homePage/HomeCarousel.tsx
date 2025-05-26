@@ -54,14 +54,17 @@ const HomeCarousel: React.FC<HomeCarouselProps> = ({images}) => {
                     onClick={handleClick}
                 />
                 <div className={styles.overlay}>
-                    <h2>{images[currentIndex].title}</h2>
-                    {images[currentIndex].description && <p>{images[currentIndex].description}</p>}
+                    <div className={styles.overlayContent}>
+                        <h2>{images[currentIndex].title}</h2>
+                        {images[currentIndex].description && <p>{images[currentIndex].description}</p>}
+                    </div>
                 </div>
+
                 <button className={styles.arrowLeft} onClick={goToPrev}>
                     &#9664;
                 </button>
                 <button className={styles.arrowRight} onClick={goToNext}>
-                    &#9654;
+                &#9654;
                 </button>
             </div>
             <div className={styles.dotsContainer}>

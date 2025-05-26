@@ -11,7 +11,7 @@
 
 .carouselImage {
     width: 100%;
-    height: auto;
+    height: 470px;
     object-fit: cover;
     filter: brightness(0.8);
     cursor: pointer;
@@ -26,13 +26,15 @@
     bottom: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     color: #fff;
-    opacity: 0;
     transition: opacity 0.3s ease, background-color 0.3s ease;
     text-align: center;
-    padding: 0 50px;
+}
+
+.overlayContent {
+    margin-bottom: 70px;
 }
 
 .carouselWrapper:hover .overlay {

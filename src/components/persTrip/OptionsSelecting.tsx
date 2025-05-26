@@ -14,22 +14,22 @@ const OptionsSelecting: FC = () => {
     // Fonction pour récupérer les options
     const fetchOptions = async () => {
         try {
-            const response = await fetch("http://localhost:8080/options/all");
+            const response: any = await fetch("http://localhost:8080/options/all");
             //console.log("Réponse de l'API :", response); // Log de la réponse
-            if (!response.ok) {
+            if (response.success) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            //console.log("Options reçues :", data); // Log des données reçues
-
+            console.log(data)
             // Vérifiez que la réponse est bien un tableau
-            if (!Array.isArray(data)) {
+            if (!Array.isArray(data.data)) {
                 throw new Error("Les données reçues ne sont pas un tableau d'options");
             }
 
             // Grouper les options par catégorie
             const groupedOptions: { [key: string]: Option[] } = {};
-            data.forEach(({id, name, description, category, price}) => {
+            // @ts-ignore
+            data.data.forEach(({id, name, description, category, price}) => {
                 if (!groupedOptions[category]) {
                     groupedOptions[category] = [];
                 }
@@ -70,10 +70,10 @@ const OptionsSelecting: FC = () => {
     }
 
     return (
-        <div className="container-option-layout" style={{textAlign: "start"}}>
+        <div className="container-option-layout">
             {Object.keys(options).map((category) => (
                 <div className="option-layout" key={category}>
-                    <h4 style={{fontSize: "1.1rem"}}>{category}</h4>
+                    <h4 style={{fontSize: "1.2rem", margin: '30px 0'}}>{category}</h4>
                     <div className="option-layout-item">
                         {options[category].map((option, idx) => (
                             <div key={idx}>

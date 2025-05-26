@@ -68,8 +68,8 @@ const ItineraryListPage: FC = () => {
                 console.log("Thèmes API :", themesResponse);
 
                 if (itinerariesResponse && themesResponse) {
-                    setTrips(itinerariesResponse);
-                    setFilteredTrips(itinerariesResponse);
+                    setTrips(itinerariesResponse.data);
+                    setFilteredTrips(itinerariesResponse.data);
 
                     const fetchedThemes = themesResponse as Theme[];
                     const sortedThemes = fetchedThemes.sort((a, b) => {

@@ -1,12 +1,10 @@
 import {FC, useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import "../../App.css"
 
-const ItineraryNameInput: FC<{}> = ({}) => {
+const ItineraryNameInput: FC<{}> = () => {
 
-    const [itineraryName, setItineraryName] = useState<string>(''); // Déclaration de l'état
-    const navigate = useNavigate();
+    const [itineraryName, setItineraryName] = useState<string>('');
     const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
 
     // Mettre à jour le state avec le nom de l'itinéraire récupéré du contexte

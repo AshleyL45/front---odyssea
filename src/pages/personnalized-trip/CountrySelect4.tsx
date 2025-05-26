@@ -6,23 +6,41 @@ import CountrySelecting from "../../components/persTrip/CountrySelecting";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import "../../App.css";
 import Pages from "../../components/layout/Pages";
+import PersTripData from "../../assets/persTripData.json";
+import {post} from "../../API/api";
 
 const CountrySelect4: FC<{}> = ({}) => {
 
     const navigate = useNavigate();
     const {questionnaireAnswers} = usePersonalizedTrip();
     const {countrySelection} = questionnaireAnswers;
+    const numberOfDays = questionnaireAnswers.duration;
+
+    const selectedTrip = PersTripData.find((opt) => opt.numberOfDays === numberOfDays);
+
+    const selectedCountriesRaw = localStorage.getItem("selectedCountries");
+    const selectedCountries = selectedCountriesRaw ? JSON.parse(selectedCountriesRaw) : [];
+    // On extrait uniquement les IDs :
+    const selectedCountryIds = selectedCountries.map((country: any) => country.id);
+    console.log(selectedCountryIds)
+
+    const generateStepFour = async () => {
+        if(selectedCountryIds){
+            try {
+                const response = await post("/generate/step4", {countries: selectedCountryIds});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/city-selection");
+                }
+            } catch (e) {
+                console.error("Cannot generate countries")
+            }
+        } else {
+            alert("Please select the countries")
+        }
+    }
 
     // État pour suivre le nombre de pays sélectionnés
     const [selectedCountryCount, setSelectedCountryCount] = useState(countrySelection?.length || 0);
-
-    const handleNextStep = () => {
-        if (countrySelection) {
-            navigate("/personalized-trip/city-selection");
-        } else {
-            alert("Please select 3 countries before the next step.");
-        }
-    };
 
     return (
         <div>
@@ -47,18 +65,23 @@ const CountrySelect4: FC<{}> = ({}) => {
                 previous step
             </a>
 
-            <div style={{padding: "20px 40px", width: "70%", margin: "auto", textAlign: "center"}}>
+            <div style={{padding: "20px", margin: "auto", textAlign: "center"}}>
 
-                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Select 3 countries</h1>
+                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Select the countries</h1>
 
-                <CountrySelecting onSelectionChange={(count) => setSelectedCountryCount(count)}/>
+                {selectedTrip && (
+                    <CountrySelecting
+                        onSelectionChange={(count) => setSelectedCountryCount(count)}
+                        maxCountries={selectedTrip.numberOfCountries}
+                    />
+                )}
 
 
                 <CustomButton
-                    style={{width: "130px", marginTop: "150px"}}
+                    style={{width: "130px", marginTop: "70px"}}
                     variant="contained"
-                    onClick={handleNextStep}
-                    disabled={selectedCountryCount !== 3}
+                    onClick={generateStepFour}
+                    disabled={selectedCountryCount !== selectedTrip?.numberOfCountries}
                 >
                     Next</CustomButton>
 

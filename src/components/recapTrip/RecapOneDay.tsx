@@ -1,12 +1,8 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX, useState} from 'react';
 import {ItineraryDay} from "../../@types/PersonalizeTrip";
 
-
 const RecapOneDay: ({day}: { day: ItineraryDay }) => JSX.Element = ({day}) => {
-
     const [itineraryPerDay, setItineraryPerDay] = useState(day);
-
-
 
     if (!itineraryPerDay) {
         return <p>An error occurred. Please try again.</p>;
@@ -16,8 +12,6 @@ const RecapOneDay: ({day}: { day: ItineraryDay }) => JSX.Element = ({day}) => {
         <div style={{marginBottom: '20px', border: '1px solid #ccc', padding: '25px', borderRadius: '5px'}}>
             <h3>Day {day.dayNumber}: {day.cityName}, {day.countryName}</h3>
             <p>Date: {day.date}</p>
-
-
             {day.flightItineraryDTO && (
                 <>
                     <div style={{marginTop: "2rem"}}>
