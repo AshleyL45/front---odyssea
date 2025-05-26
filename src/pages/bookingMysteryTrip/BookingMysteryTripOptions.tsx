@@ -18,16 +18,23 @@ const BookingFormOptions: FC = () => {
     useEffect(() => {
         const fetchOptions = async () => {
             try {
-                const getOptions = await get("/options/all");
-                if (Array.isArray(getOptions)) {
-                    setOptions(getOptions);
+                // on précise le type qu'on attend pour avoir l'autocomplétion
+                type ApiResp<T> = { success: boolean; message: string; data: T };
+
+                const resp = await get<ApiResp<Option[]>>("/options/all");
+                if (resp && Array.isArray(resp.data)) {
+                    setOptions(resp.data);
+                } else {
+                    console.error("Format inattendu :", resp);
                 }
             } catch (e) {
                 console.error("Cannot get options", e);
             }
         };
+
         fetchOptions();
     }, []);
+
 
     const handleOptionsChange = (selectedOptions: number[]) => {
         setOptionIds(selectedOptions);

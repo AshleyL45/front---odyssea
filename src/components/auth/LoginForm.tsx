@@ -36,11 +36,10 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
                 password: data.password
             })
 
-            if (response.token) {
-                login(response.token);
+            if (response.data.token) {
+                login(response.data.token);
                 const from = location.state?.from || '/';
                 navigate(from, {replace: true});
-                //console.log("response : " + response.token)
             }
 
         } catch (e) {

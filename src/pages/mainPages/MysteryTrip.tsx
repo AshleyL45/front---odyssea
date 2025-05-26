@@ -15,15 +15,15 @@ const MysteryTrip: FC = () => {
             </Pages>
 
 
-
+        <header>
             <MysteryTripHeroSection
                 imageUrl="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80…"
                 title="Go on a Mystery Trip"
                 subtitle="Get ready for an unforgettable adventure with no planning"
             />
-
-
-            <section className="hero section" style={{marginTop: "-19rem"}}>
+        </header>
+            <main>
+                <section className="hero section" style={{marginTop: "-19rem"}}>
             <div className="mystery-details-components">
             <MysteryTripDetails
                 title="Select your preferences"
@@ -50,6 +50,7 @@ const MysteryTrip: FC = () => {
             </div>
         </section>
             <MysteryTripBanner/>
+            </main>
             <Footer/>
 
     </>

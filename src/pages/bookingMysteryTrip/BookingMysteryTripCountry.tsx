@@ -7,6 +7,7 @@ import Select from 'react-select';
 import {get} from '../../API/api';
 import {useReservation} from '../../contexts/ReservationContext';
 import {Trip} from '../../@types/Trip';
+import {Country} from "../../@types/Country";
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
@@ -16,18 +17,21 @@ const BookingMysteryTripCountry: FC = () => {
         questionnaireAnswers.excludedCountries || []
     );
 
+
     useEffect(() => {
         async function fetchCountries() {
             try {
                 const res = await fetch('http://localhost:8080/countries');
-                if (!res.ok) throw new Error('Error when retrieving countries');
-                const data = await res.json();
-                const list: any[] = Array.isArray(data)
-                    ? data
-                    : Array.isArray((data as any).countries)
-                        ? (data as any).countries
-                        : [];
-                setCountries(list.sort((a, b) => a.name.localeCompare(b.name)));
+                const json = await res.json();
+                console.log(json);
+                const list = Array.isArray(json.data)
+                    ? json.data
+                    : [];
+                setCountries(
+                    list.sort((a: Country, b: Country) =>
+                        a.name.localeCompare(b.name)
+                    )
+                );
             } catch (err) {
                 console.error(err);
             }
@@ -35,6 +39,7 @@ const BookingMysteryTripCountry: FC = () => {
 
         fetchCountries();
     }, []);
+
 
     const handleSelectCountry = (option: { value: string; label: string } | null) => {
         if (!option) return;
@@ -53,7 +58,7 @@ const BookingMysteryTripCountry: FC = () => {
     };
 
     const handleNext = async () => {
-        updateResponse('excludedCountries', selectedCountries);
+        updateResponse("excludedCountries", selectedCountries);
 
         const queryParam = selectedCountries.length
             ? encodeURIComponent(selectedCountries.join(','))
@@ -62,18 +67,16 @@ const BookingMysteryTripCountry: FC = () => {
             ? `/api/itineraries/valid?excludedCountries=${queryParam}`
             : `/api/itineraries/valid`;
 
-        const maybeTrip = await get<Trip>(url);
+        const maybeTrip = await get<Trip>(`/api/itineraries/valid?excludedCountries=${queryParam}`);
         if (!maybeTrip) {
-            console.error('Error route recovery: trip is null');
-            window.alert('Unable to retrieve a route. Please try again.');
+            alert("Unable to retrieve a route. Please try again.");
             return;
         }
-
         setTrip(maybeTrip);
-        navigate('/booking-mystery-trip/date');
+        navigate("/booking-mystery-trip/date");
     };
 
-    const handlePrevious = () => navigate(-1);
+        const handlePrevious = () => navigate(-1);
 
     return (
         <>
