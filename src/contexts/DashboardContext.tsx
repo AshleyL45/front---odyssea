@@ -21,7 +21,7 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
     const {userId, token} = useAuth();
     const location = useLocation();
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const reservations = await get(`/reservations/${userId}`);
@@ -36,7 +36,7 @@ export const DashboardContextProvider: ({children}: { children: any }) => JSX.El
             }
         };
         fetchReservations();
-    }, [token, location]);
+    }, [token]);*/
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);

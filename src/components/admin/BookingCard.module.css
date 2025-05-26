@@ -1,0 +1,42 @@
+.bookingCard {
+    width: 90%;
+    margin: 2rem auto;
+    border: 1px solid black;
+    height: 220px;
+}
+
+
+.bookingCardSection {
+    display: flex;
+    background-color: #F8F1E5;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    align-items: center;
+    height: 55px;
+    border-bottom: 1px solid black;
+}
+
+.bookingCardSectionLink {
+    text-decoration: underline;
+}
+
+.bookingCardSectionLink:hover {
+    cursor: pointer;
+}
+
+.bookingCardInformation {
+   display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 1rem;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+@media (min-width: 425px) {
+    .bookingCard {
+        width: 335px;
+    }
+}

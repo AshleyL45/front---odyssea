@@ -23,7 +23,7 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
     const {userId} = useAuth()
     const navigate = useNavigate();
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchUserItineraries = async () => {
             try {
                 const userItineraries = await get(`/userItinerary/all/${userId}`);
@@ -36,7 +36,7 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
             }
         };
         fetchUserItineraries();
-    }, []);
+    }, []);*/
 
     return (
         <div>

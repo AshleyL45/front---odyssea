@@ -50,6 +50,7 @@ import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryT
 import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
 import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
 import BackToTopLayout from './layout/BackToTopLayout';
+import AdminDashboard from "./pages/mainPages/AdminDashboard";
 
 
 
@@ -103,6 +104,7 @@ function App() {
                                 <Route path="aboutUs" element={<AboutUs/>}/>
                                 <Route path="contact" element={<Contact/>}/>
                                 <Route path="tripRecap" element={<TripRecap/>}/>
+                                 <Route path="admin" element={<AdminDashboard/>}/>
                              </Route>
 
                             <Route path="/personalized-trip" element={<LayoutReservation/>}>
