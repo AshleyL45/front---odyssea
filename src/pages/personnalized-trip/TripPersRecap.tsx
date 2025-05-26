@@ -34,9 +34,10 @@ const TripPersRecap: FC = () => {
             top: 0,
             behavior: 'smooth'
         });
-        if (itinerary && itinerary.itineraryDays) {
-            setItineraryDays(itinerary.itineraryDays);
+        if (itinerary.data && itinerary.data.itineraryDays) {
+            setItineraryDays(itinerary.data.itineraryDays);
         }
+        console.log("itinerary: ", itinerary)
     }, [itinerary]);
 
 
