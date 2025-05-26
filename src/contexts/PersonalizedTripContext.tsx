@@ -63,7 +63,7 @@ export const PersonalizedTripContextProvider: ({children}: { children: any }) =>
     };
 
 
-    // Ajoute une activité à une ville
+    // A RETIRER ?
     const addActivityToCity = (countryName: string, cityName: string, activity: Activity) => {
         setQuestionnaireAnswers((prevState: PersonalizeTrip) => {
             const updatedCountrySelection = prevState.countrySelection.map((country) => {
@@ -93,14 +93,8 @@ export const PersonalizedTripContextProvider: ({children}: { children: any }) =>
         });
     };
 
-
-
-
-
-
     return (
-        <PersonalizedTripContext.Provider value={{questionnaireAnswers, updateResponse, addCityToCountry,
-            addActivityToCity}}>
+        <PersonalizedTripContext.Provider value={{questionnaireAnswers, updateResponse, addCityToCountry, addActivityToCity}}>
             {children}
         </PersonalizedTripContext.Provider>
     )

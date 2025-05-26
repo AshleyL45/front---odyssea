@@ -28,13 +28,6 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange, maxCoun
         }
     }, [questionnaireAnswers.countrySelection]);
 
-
-    // 🔹 Met à jour le parent avec le nombre de pays sélectionnés
-    useEffect(() => {
-        onSelectionChange(selected.length);
-    }, [selected, onSelectionChange]);
-
-
     const fetchCountry = async (query: string) => {
         try {
             const getCountries = await get("/countries");

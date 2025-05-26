@@ -4,13 +4,7 @@ import "../../App.css"
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useLocation, useNavigate} from "react-router-dom";
 import ItineraryNameInput from "../../components/persTrip/ItineraryNameInput";
-import {
-    Activity,
-    CitySelection,
-    CountrySelection,
-    ItineraryDay,
-    PersonalizedTripResponse
-} from "../../@types/PersonalizeTrip";
+import {ItineraryDay} from "../../@types/PersonalizeTrip";
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
@@ -29,38 +23,10 @@ const TripPersRecap: FC = () => {
 
     const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>([]);
 
-    useEffect(() => {
-        const days = buildItineraryDaysFromLocalStorage(questionnaireAnswers.startDate);
-        setItineraryDays(days);
-    }, []);
-
-    const buildItineraryDaysFromLocalStorage = (startDate: string): ItineraryDay[] => {
-        const countries = JSON.parse(localStorage.getItem("selectedCountries") || "[]");
-
-        let itineraryDays: ItineraryDay[] = [];
-        let dayCounter = 1;
-
-        countries.forEach((country: CountrySelection, id: number) => {
-            const cities = JSON.parse(localStorage.getItem(`selectedCities_${id}`) || "[]");
-
-            cities.forEach((city: CitySelection) => {
-                const activities: Activity = JSON.parse(localStorage.getItem(`selectedActivitiesByCity_${city.id}`) || "[]");
-
-                const day: { cityName: string; countryName: string; dayNumber: number; date: string; activity: any } = {
-                    cityName: city.cityName,
-                    countryName: country.countryName,
-                    dayNumber: dayCounter,
-                    date: dayjs(startDate).add(dayCounter, "day").format("YYYY-MM-DD"),
-                    activity: activities.name || null
-                };
-
-                itineraryDays.push(day as ItineraryDay);
-                dayCounter++;
-            });
-        });
-
-        return itineraryDays;
-    };
+    // useEffect(() => {
+    //    const days = buildItineraryDaysFromLocalStorage(questionnaireAnswers.startDate);
+    //    setItineraryDays(days);
+    //}, []);
 
 
     useEffect(() => {
@@ -68,7 +34,10 @@ const TripPersRecap: FC = () => {
             top: 0,
             behavior: 'smooth'
         });
-    }, []);
+        if (itinerary && itinerary.itineraryDays) {
+            setItineraryDays(itinerary.itineraryDays);
+        }
+    }, [itinerary]);
 
 
     const handleSubmit = async () => {

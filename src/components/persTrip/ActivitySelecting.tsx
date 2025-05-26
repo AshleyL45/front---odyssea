@@ -17,7 +17,6 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
     const [countryMap, setCountryMap] = useState<{ [key: number]: string }>({});
     const [expandedActivities, setExpandedActivities] = useState<{ [key: number]: boolean }>({});
 
-
     const toggleExpand = (id: number) => {
         setExpandedActivities((prev) => ({
             ...prev,
@@ -42,7 +41,6 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
                     }
                 }
             });
-
             return mergedSelections;
         });
     }, [selectedCities]);
@@ -79,7 +77,6 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
                     countryMap[city.id] = country.name;
                 }
             }
-
             setActivities(activitiesByCity);
             setCountryMap(countryMap);
             clearTimeout(timeoutId);
@@ -151,7 +148,6 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
         return activity.description.slice(0, 150 - activity.name.length) + "...";  // Tronquer à 100 caractères au total (nom + description)
     };
 
-
     return (
         <div>
             <h1 style={{textAlign: "center", fontSize: '1.5rem'}}>What to do in {countryName} ?</h1>
@@ -165,12 +161,11 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
                                 <div className="activity-layout" style={{margin: "30px auto"}}>
                                     {activities[city.id]?.length > 0 ? (
                                         activities[city.id].map((activity) => {
-                                            const combinedText = activity.name + activity.description; // Calculer combinedText ici
+                                            const combinedText = activity.name + activity.description;
                                             return (
                                                 <div
                                                     key={activity.id}
-                                                    className={`activity-item ${
-                                                        selected[city.id]?.some((act) => act.id === activity.id)
+                                                    className={`activity-item ${selected[city.id]?.some((act) => act.id === activity.id)
                                                             ? "selected"
                                                             : ""
                                                     }`}
