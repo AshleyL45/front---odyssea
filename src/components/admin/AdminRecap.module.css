@@ -1,0 +1,32 @@
+.container {
+    background-color: #F8F1E5;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+    height: 300px;
+}
+
+.informationContainer {
+    padding: 20px;
+}
+
+.informationContainer button {
+    border: none;
+    background: none;
+    text-decoration: underline;
+}
+
+.recapInformation {
+    display: flex;
+    flex-direction: column;
+}
+
+.informationD{
+    display: flex;
+}
+
+.information {
+    display: flex;
+    justify-content: space-between;
+}

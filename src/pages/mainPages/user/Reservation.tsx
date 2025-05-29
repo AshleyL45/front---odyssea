@@ -90,7 +90,7 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
                         className={`${styles.filterItem} ${activeFilter === "Annulé" ? styles.active : ""}`}
                         onClick={() => handleFiltering("Annulé")}
                     >
-                        Annulé
+                        Cancelled
                     </p>
                 </div>
 

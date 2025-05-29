@@ -31,6 +31,7 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
     const postUser = async (data: LoginFormInput) => {
         try {
+            setError("")
             const response = await post("/auth/login", {
                 email: data.email,
                 password: data.password
@@ -40,6 +41,8 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
                 login(response.data.token);
                 const from = location.state?.from || '/';
                 navigate(from, {replace: true});
+            } else {
+                setError("Invalid password or username. Please try again.");
             }
 
         } catch (e) {
