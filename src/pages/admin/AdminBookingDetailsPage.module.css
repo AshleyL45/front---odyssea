@@ -1,0 +1,20 @@
+.details-title {
+    text-align: left;
+    margin-left: 10%;
+}
+
+.information-section {
+    margin: 1rem auto;
+}
+
+
+
+@media (min-width: 768px){
+    .information-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        justify-items: start;
+    }
+
+}

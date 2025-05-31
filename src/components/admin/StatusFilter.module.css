@@ -1,0 +1,36 @@
+.status-container {
+    width: 190px
+}
+
+.status-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid black;
+    font-weight: 600;
+
+}
+
+.filter-item {
+    background: none;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: none;
+    padding: 8px;
+    text-align: left;
+}
+
+.filter-item__container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px){
+    .filter-item__container {
+        position: absolute;
+        width: 190px;
+        background-color: #F6F5F5;
+    }
+}

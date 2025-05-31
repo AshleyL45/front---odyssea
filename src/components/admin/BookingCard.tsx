@@ -5,9 +5,10 @@ import {useNavigate} from "react-router-dom";
 
 interface BookingCardProps {
     booking: AdminBooking;
+    type: string;
 }
 
-const BookingCard: FC<BookingCardProps> = ({booking}) => {
+const BookingCard: FC<BookingCardProps> = ({booking, type}) => {
     const navigate = useNavigate();
 
     return (
@@ -16,8 +17,8 @@ const BookingCard: FC<BookingCardProps> = ({booking}) => {
                 <h3 id={`booking-${booking.bookingId}-id`}>
                     Booking: #{booking.bookingId}
                 </h3>
-                <a className={styles.bookingCardSectionLink} onClick={() => navigate(`/bookings/${booking.bookingId}`)}
-                   aria-labelledby={`booking-${booking.bookingId}-id`}> Details </a>
+                <button className={styles.bookingCardSectionButton} onClick={() => navigate(`bookings/${booking.bookingId}?type=${type}`)}
+                        aria-labelledby={`booking-${booking.bookingId}-id`}> Details </button>
             </section>
             <section className={styles.bookingCardInformation}>
                 <p>Customer: {booking.userFirstName} </p>

@@ -4,18 +4,23 @@ import AdminBooking from "../../@types/AdminBooking";
 import {
     fetchAdminBookings,
     fetchAdminUserItineraries,
-    searchBookings,
-    searchUserItineraries
 } from "../../services/AdminService";
 import styles from "./AdminDashboard.module.css";
 import AdminSearchBar from "../../components/admin/AdminSearchBar";
 import {CircularProgress} from "@mui/material";
+import AdminSort from "../../components/admin/AdminSort";
+import StatusFilter from "../../components/admin/StatusFilter";
+
+type bookingType = "Standard" | "Personalized";
 
 const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
     const [bookings, setBookings] = useState<AdminBooking[] | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [activeItem, setActiveItem] = useState<string | null>("Standard");
+    const [activeItem, setActiveItem] = useState<bookingType>("Standard");
     const [value, setValue] = useState<string | null>(null);
+    const [statusFilter, setStatusFilter] = useState<string | null>(null);
+    const [sortField, setSortField] = useState<string | null>(null);
+    const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
 
@@ -23,18 +28,21 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                let result;
-                if (value && value.length > 3) {
-                    result = (activeItem === "Standard")
-                        ? await searchBookings(value)
-                        : await searchUserItineraries(value);
+                const filters = {
+                    search: value || undefined,
+                    status: statusFilter || undefined,
+                    sortField: sortField || undefined,
+                    sortDirection: sortDirection || undefined ,
+                };
+
+                if(activeItem === "Standard"){
+                    const result = await fetchAdminBookings(filters);
+                    setBookings(result.data);
                 } else {
-                    result = (activeItem === "Standard")
-                        ? await fetchAdminBookings()
-                        : await fetchAdminUserItineraries();
+                    const result = await fetchAdminUserItineraries(filters);
+                    setBookings(result.data);
                 }
 
-                setBookings(result?.data);
             } catch (e) {
                 console.error("Erreur de chargement des réservations", error);
                 setBookings(null);
@@ -44,7 +52,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
             }
         }
        fetchData()
-    }, [value, activeItem]);
+    }, [value, activeItem, statusFilter, sortField, sortDirection]);
 
 
     const handleInputValue = (event : ChangeEvent<HTMLInputElement>) => {
@@ -52,25 +60,47 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
         console.log(event.target.value);
     }
 
+    const handleStatusFilter = (status : string) => {
+        setStatusFilter(status);
+    }
+
+    const handleSortChange = (field: string, direction: "asc" | "desc") => {
+        setSortField(field);
+        setSortDirection(direction);
+    };
+
+    const switchType = (type: bookingType) => {
+        setActiveItem(type);
+        setValue(null);
+        setStatusFilter(null);
+        setSortField(null);
+        setSortDirection(null);
+    };
 
 
     return (
         <div>
             <h1>Welcome to your dashboard, admin</h1>
 
+
             {error && <p style={{color: "red"}}>{error}</p>}
 
             <div className={styles.buttonContainer}>
-                <button onClick={() => setActiveItem("Standard")} className={activeItem === "Standard" ? styles.active : styles.typeButton}>
+                <button onClick={() => switchType("Standard")} className={activeItem === "Standard" ? styles.active : styles.typeButton}>
                     Standard
                 </button>
-                <button onClick={() => setActiveItem("Personalized")}
+                <button onClick={() => switchType("Personalized")}
                         className={activeItem === "Personalized" ? styles.active : styles.typeButton}>
                     Personalized
                 </button>
             </div>
 
-            <AdminSearchBar onChange={handleInputValue}/>
+            <section className={styles.filters}>
+                <AdminSearchBar onChange={handleInputValue}/>
+                <AdminSort type={activeItem} onSortChange={handleSortChange}/>
+                <StatusFilter onStatusChange={handleStatusFilter}/>
+            </section>
+
 
             {
                 loading && <CircularProgress sx={{display: "flex", justifyContent: "center", alignItems: "center", margin: "auto"}}/>
@@ -80,7 +110,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
             <section className={styles.bookingSection}>
                 {
                     (bookings && bookings?.length > 0) ? bookings.map((booking: AdminBooking) => (
-                            <BookingCard booking={booking} key={booking.bookingId}/>
+                            <BookingCard booking={booking} type={activeItem} key={booking.bookingId}/>
                         )) :
                         <p className={styles.noDataMessage}> No bookings are available.</p>
                 }

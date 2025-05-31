@@ -18,11 +18,13 @@
     border-bottom: 1px solid black;
 }
 
-.bookingCardSectionLink {
+.bookingCardSectionButton {
     text-decoration: underline;
+    background: none;
+    border: none;
 }
 
-.bookingCardSectionLink:hover {
+.bookingCardSectionButton:hover {
     cursor: pointer;
 }
 

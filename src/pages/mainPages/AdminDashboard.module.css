@@ -34,6 +34,14 @@ h1 {
     text-align: center;
 }
 
+.filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
+}
+
 @media (min-width: 725px) {
     h1 {
         width: auto;
@@ -46,6 +54,13 @@ h1 {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(2, 1fr);
+    }
+
+    .filters {
+       display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        justify-items: start;
+        margin: 3rem;
     }
 }
 
