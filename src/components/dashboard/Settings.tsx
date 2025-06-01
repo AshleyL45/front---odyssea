@@ -4,46 +4,55 @@ import {useAuth} from "../../contexts/AuthContext";
 import {patch} from "../../API/api";
 import {deleteFromDB} from "../../API/api";
 import {useNavigate} from "react-router-dom";
+import MessageBox from "../auth/MessageBox";
 
 const Settings: ({}: {}) => JSX.Element = ({}) => {
-    const {userId, logout} = useAuth();
-    const [confirmationMessage, setConfirmationMessage] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
+    const {logout} = useAuth();
+    const [message, setMessage] = useState<{ type: "error" | "success", text: string } | null>(null);
     const navigate = useNavigate();
 
     const [inputValue, setInputValue] = useState<string>("");
 
 
     const handleUpdatePassword = async () => {
+        if (inputValue.trim() === "") {
+            setMessage({type: "error", text: "Password cannot be empty."});
+            return;
+        }
+
+        if (inputValue.length < 14) {
+            setMessage({type: "error", text: "Password must be at least 14 characters."});
+            return;
+        }
+
         try {
-            const changePassword = await patch(`/auth/${userId}/password`, {
-                password: inputValue
-            });
-            if (changePassword === "Password successfully updated.") {
-                setConfirmationMessage(true);
-                setMessage("Password successfully updated.");
+            const res = await patch(`/auth/password`, {password: inputValue});
+            if (res.success === true) {
+                setMessage({type: "success", text: "Password successfully updated."});
             }
         } catch (e) {
             console.error("Cannot change password : ", e);
+            setMessage({type: "error", text: "An error occurred while updating your password."});
         }
-
-    }
+    };
 
     const handleDeleteAccount = async () => {
-        try{
-            const deleteAccount = await deleteFromDB(`/auth/${userId}/deleteAccount`);
-            if(deleteAccount){
+        try {
+            const res = await deleteFromDB(`/auth/`);
+            if (res.success === true) {
+                logout();
                 navigate("/");
             }
         } catch (e) {
             console.error("Cannot delete account : ", e);
+            setMessage({type: "error", text: "Account deletion failed. Please try again."});
         }
-    }
+    };
+
 
     const handleLogout = () => {
         navigate("/");
         logout();
-        console.log("Logout is now " + userId);
     }
 
 
@@ -69,16 +78,13 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
                         <div style={{display: "flex", flexDirection: "column"}}>
                             <label htmlFor={"updatePassword"}>Change my password</label>
                             <input type={"password"} style={{padding: "0.5rem 1rem"}} id={"updatePassword"}
+                                   placeholder={"Insert your new password."}
                                    value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
                         </div>
                         <CustomButton sx={{color: "white", marginBottom: 0}}
                                       onClick={handleUpdatePassword}>Save</CustomButton>
                     </div>
-                    {
-                        confirmationMessage && message.length > 0 && (
-                            <p style={{color: "green", marginLeft: "8rem"}}>Password successfully updated.</p>
-                        )
-                    }
+                    {message && <MessageBox type={message.type} text={message.text}/>}
 
 
                     <CustomButton

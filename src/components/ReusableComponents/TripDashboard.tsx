@@ -3,37 +3,41 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Trip} from "../../@types/Trip";
 import styles from "../../styles/components/TripDashboard.module.css"
 import RemoveIcon from '@mui/icons-material/Remove';
-import {useFavorites} from "../../contexts/MySelectionContext";
+import {useMySelectionContext} from "../../contexts/MySelectionContext";
+import {BookingConfirmation} from "../../@types/BookingConfirmation";
 
 type DashboardProps = {
-    trip: Trip
+    booking?: BookingConfirmation
+    trip?: Trip
     page: "Overview" | "Reservations" | "Travel History" | "My selection" | "Personal information" | "Settings"
-    type?: "Tailor made" | "Pre-designed trip"
+    type?: "Personalized" | "Pre-designed trip"
+    status?: "CANCELLED" | "PENDING" | "CONFIRMED"
 }
-const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
+const TripDashboard: FC<DashboardProps> = ({trip, booking, page, type, status}) => {
     const navigate = useNavigate();
-    const {tripId} = useParams<{tripId: string}>();
-    const {handleRemoveFromFavorites} = useFavorites();
+    const {removeFromFavorites} = useMySelectionContext();
 
     return (
         <div className={`${styles.tripDashboardContainer} ${page === "My selection"}`}>
             <div  className={styles.tripTitle}>
-                <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
-                {page === "My selection" && (
-                    <RemoveIcon sx={{bottom: 150, right: 25}}
-                                onClick={() => handleRemoveFromFavorites(trip)}/>
+                {booking && <h2 className={styles.tripDashboardTitle}>{booking.itinerary.name}</h2>}
+                {page === "My selection" && trip && trip.id && (
+                    <RemoveIcon
+                        sx={{bottom: 150, right: 25}}
+                        onClick={() => removeFromFavorites(trip!.id)}
+                    />
                 )}
             </div>
 
             <hr/>
 
 
-            <p className={styles.tripDashboardDescription}>{trip.description}</p>
-            <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${trip.id}`)}>Details</p>
-            {page === "Reservations" && (
+            {booking && <p className={styles.tripDashboardDescription}>{booking.itinerary.description}</p>}
+            {booking && <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${booking!.id}`)}>Details</p>}
+            {page === "Reservations" && booking && (
                 <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "1rem"}}>
-                    <p>Status : {trip.status}</p>
-                    <p>Price: {trip.price} €</p>
+                    <p>Status : {status}</p>
+                    <p>Price: {booking.price} €</p>
                 </div>
 
             )}

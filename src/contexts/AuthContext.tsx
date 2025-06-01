@@ -11,6 +11,7 @@ interface AuthContext {
     logout: () => void;
     decodeToken: () => void;
     token: string | null;
+    role: "USER" | "ADMIN" | null;
 }
 
 export const AuthContext = createContext<AuthContext | undefined>(undefined);
@@ -18,10 +19,10 @@ export const AuthContext = createContext<AuthContext | undefined>(undefined);
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [userId, setUserId] = useState<number>(0);
-    //console.log(typeof userId)
     const [email, setEmail] = useState<string | null>(null);
     const [firstName, setFirstName] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
+    const [role, setRole] = useState<"USER" | "ADMIN" | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,7 +32,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
 
             if (currentTime > 0) {
                 const logoutTimer = setTimeout(() => {
-                    //console.log("Déconnexion automatique après expiration du token.");
                     logout();
                 }, currentTime);
 
@@ -53,15 +53,15 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
         setFirstName(null);
         setLastName(null);
         setEmail(null)
+        setRole(null);
 
-        navigate('/', {replace: true}); // Ne marche pas
-
-
+        navigate('/', {replace: true});
     }
 
     const decodeToken = () => {
         if (token) {
-            try { // Récupérer l'id de l'utilisateur depuis le token
+            try {
+                // Récupérer l'id de l'utilisateur depuis le token
                 const decoded: any = jwtDecode(token);
                 const currentTime = Date.now() / 1000;
 
@@ -72,6 +72,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
                     setFirstName(decoded.firstName);
                     setLastName(decoded.lastName);
                     setEmail(decoded.sub);
+                    setRole(decoded.role);
                 }
 
             } catch (error) {
@@ -84,7 +85,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{userId, firstName, lastName, email, token, login, logout, decodeToken}}>
+        <AuthContext.Provider value={{userId, firstName, lastName, email, token, login, logout, decodeToken, role}}>
             {children}
         </AuthContext.Provider>
     )

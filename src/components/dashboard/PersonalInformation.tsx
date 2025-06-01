@@ -1,12 +1,13 @@
-import {FC, JSX, useState} from 'react';
+import {JSX, useState} from 'react';
 import CustomButton from "../ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
-import {post, put} from "../../API/api";
+import {put} from "../../API/api";
 import "../../App.css"
+import {useUserDashboard} from "../../contexts/DashboardContext";
 
 const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
-    const {firstName, lastName, email} = useAuth();
-    const {userId} = useAuth();
+    const {firstName, lastName} = useUserDashboard()
+    const {email} = useAuth();
 
     const [newFirstName, setNewFirstName] = useState(firstName?.toString() || "");
     const [newLastName, setNewLastName] = useState(lastName?.toString() || "");
@@ -16,7 +17,7 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
 
     const handleAccountChange = async () => {
         try {
-            const postNewInfo = await put(`/auth/${userId}/update`, {
+            const postNewInfo = await put(`/auth/`, {
                 email: newEmail,
                 firstName: newFirstName,
                 lastName: newLastName
@@ -51,7 +52,8 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
 
                 <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                     <label htmlFor={"updateEmail"}>E-mail</label>
-                    <input type={"email"} style={{padding: "0.5rem 1rem"}} id={"updateEmail"} defaultValue={email?.toString()}
+                    <input type={"email"} style={{padding: "0.5rem 1rem"}} id={"updateEmail"}
+                           placeholder={"Insert your new email."}
                            onChange={(e) => setNewEmail(e.target.value)}
                     />
                 </div>

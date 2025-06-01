@@ -3,78 +3,89 @@ import {Trip} from "../@types/Trip";
 import {get} from "../API/api";
 import {useAuth} from "./AuthContext";
 import {useLocation} from "react-router-dom";
+import {BookingConfirmation} from "../@types/BookingConfirmation";
+import {PersonalizedTripResponse} from "../@types/PersonalizeTrip";
+import {useUserBookings} from "../hooks/UseUserBookings";
+import {useUsernames} from "../hooks/UseUsernames";
 
 interface DashboardContextProps {
-    userReservations: Trip[];
-    firstCurrentReservation: Trip | undefined;
-    pastTrips: Trip[];
-    currentTrips: Trip[];
-    lastDoneReservation: Trip | undefined;
-    personalizedTrips: Trip[];
+    userBookings: BookingConfirmation[];
+    firstCurrentBooking: BookingConfirmation | undefined;
+    pastTrips: BookingConfirmation[];
+    currentTrips: BookingConfirmation[];
+    lastDoneBooking: BookingConfirmation | undefined;
+    personalizedTrips: PersonalizedTripResponse[];
+    loading: boolean;
+    firstName: string | null;
+    lastName: string | null;
 }
+
+interface DashboardProviderProps {
+    children: React.ReactNode;
+}
+
 
 const DashboardContext = createContext<DashboardContextProps | null>(null);
 
-export const DashboardContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
-    const [userReservations, setUserReservations] = useState<Trip[]>([]);
-    const [personalizedTrips, setPersonalizedTrips] = useState<Trip[]>([]);
-    const {userId, token} = useAuth();
-    const location = useLocation();
-
-    /*useEffect(() => {
-        const fetchReservations = async () => {
-            try {
-                const reservations = await get(`/reservations/${userId}`);
-                const userItineraries = await get(`/userItinerary/all/${userId}`);
-                if (reservations && userItineraries) {
-                    setUserReservations(reservations);
-                    setPersonalizedTrips(userItineraries);
-                    //console.table(personalizedTrips);
-                }
-            } catch (e) {
-                console.error("Error while fetching reservations: ", e);
-            }
-        };
-        fetchReservations();
-    }, [token]);*/
+export const DashboardContextProvider = ({children} : DashboardProviderProps) => {
+    const {token} = useAuth(); // Récupération du token utilisateur
+    const {userBookings, personalizedTrips, loading} = useUserBookings(token); // Hook personnalisé qui fetch les données
+    const {firstName, lastName} = useUsernames()
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const firstCurrentReservation = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate >= today;
-    });
+    const isBeforeToday = (date: Date): boolean => {
+        return date < today;
+    };
 
-    const pastTrips = userReservations.filter((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "Confirmé" && reservationDate < today;
-    });
+    const isAfterOrToday = (date: Date): boolean => {
+        return date >= today;
+    };
 
-    const currentTrips = userReservations.filter((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return (reservation.status === "En attente" || reservation.status === "Current") && reservationDate >= today;
-    });
+    // Première réservation future en attente
+    const firstCurrentBooking = useMemo(() => {
+        return userBookings.find((booking: BookingConfirmation) => {
+            if (!booking.departureDate) return false;
+            return booking.status === "PENDING" && isAfterOrToday(booking.departureDate);
+        });
+    }, [userBookings]);
 
-    const lastDoneReservation = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "Confirmé" && reservationDate < today;
-    });
+    // Voyages déjà effectués (confirmés dans le passé)
+    const pastTrips = useMemo(() => {
+        return userBookings.filter((reservation : BookingConfirmation) => {
+            if (!reservation.departureDate) return false;
+            return reservation.status === "CONFIRMED" && isBeforeToday(reservation.departureDate);
+        });
+    }, [userBookings]);
+
+    // Voyages à venir en attente
+    const currentTrips = useMemo(() => {
+        return userBookings.filter((reservation : BookingConfirmation) => {
+            if (!reservation.purchaseDate) return false;
+            return reservation.status === "PENDING" && isAfterOrToday(reservation.purchaseDate);
+        });
+    }, [userBookings]);
+
+    // Dernière réservation effectuée
+    const lastDoneBooking = useMemo(() => {
+        return userBookings.find((reservation : BookingConfirmation) => {
+            if (!reservation.returnDate) return false;
+            return reservation.status === "CONFIRMED" && isBeforeToday(reservation.returnDate);
+        });
+    }, [userBookings]);
+
 
     return (
         <DashboardContext.Provider
-            value={{userReservations, firstCurrentReservation, pastTrips, currentTrips, lastDoneReservation, personalizedTrips}}>
+            value={{userBookings, firstCurrentBooking, pastTrips, currentTrips, lastDoneBooking, personalizedTrips, loading, firstName, lastName}}>
             {children}
         </DashboardContext.Provider>
     );
 };
 
 // Hook personnalisé
-export const useDashboard = () => {
+export const useUserDashboard = () => {
     const context = useContext(DashboardContext);
     if(!context) {
         throw new Error("useDashboard must be used within a DashboardProvider");

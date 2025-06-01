@@ -56,7 +56,7 @@ export interface PersonalizedTripResponse {
     numberOfAdults: number;
     numberOfKids: number;
     itineraryDays: ItineraryDay[];
-    options: Option[]; // A importer
+    options: Option[];
 }
 
 export interface Activity {

@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {useAuth} from "../../contexts/AuthContext";
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import "../../App.css"
+import {useUserDashboard} from "../../contexts/DashboardContext";
 
 interface SideBoardProps {
     activePage: string;
@@ -12,10 +13,9 @@ interface SideBoardProps {
 const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
 
     const [activeLink, setActiveLink] = useState<string>('Overview');
-    const {firstName, lastName} = useAuth();
+    const {firstName, lastName} = useUserDashboard();
     const [menuOpen, setMenuOpen] = useState(window.innerWidth > 600);
 
-    // TODO: Faire une requête pour avoir le prénom et le nom de l'utilisateur
 
     const handleClick = (page: string) => {
         setActiveLink(page);
@@ -62,7 +62,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
 
                 <div>
                     <div className="user-name">
-                        <h1>{firstName} {lastName}</h1> {/*TODO: Remplacer avec le prénom et nom de famille de l'utilisateur*/}
+                        <h1>{firstName} {lastName}</h1>
                     </div>
                     <div className="side-board-menu">
                         <nav>

@@ -1,7 +1,6 @@
 import {FC, JSX} from 'react';
-import {useParams} from "react-router-dom";
 import styles from "../../styles/components/TripDashboard.module.css"
-import {Reservation} from "../../@types/Reservation";
+import {useNavigate} from "react-router-dom";
 
 interface UserItinerary {
     id: number;
@@ -21,6 +20,7 @@ type UserItineraryProps = {
 }
 
 const UserItinerary: FC<UserItineraryProps> = ({userItinerary}) => {
+    const navigate = useNavigate();
 
     return (
         <div className={styles.tripDashboardContainer} style={{minHeight: 210}}>
@@ -29,6 +29,8 @@ const UserItinerary: FC<UserItineraryProps> = ({userItinerary}) => {
             <p>Start date : {userItinerary.startDate}</p>
             <p>End date : {userItinerary.endDate}</p>
             <p style={{marginTop: "1.5rem"}}>Starting price : {userItinerary.startingPrice} €</p>
+
+            <button className={styles.detailsButton} onClick={() => navigate(`/personalized-trip/details/${userItinerary.id}`)}>Details</button>
 
         </div>
     );

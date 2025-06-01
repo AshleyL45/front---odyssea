@@ -52,6 +52,7 @@ import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMystery
 import BackToTopLayout from './layout/BackToTopLayout';
 import AdminDashboard from "./pages/mainPages/AdminDashboard";
 import AdminBookingDetailsPage from "./pages/admin/AdminBookingDetailsPage";
+import PersonalizedTripDetailsPage from "./pages/personnalized-trip/PersonalizedTripDetailsPage";
 
 
 
@@ -122,6 +123,7 @@ function App() {
                                     <Route path="option-selection" element={<OptionSelect8/>}/>
                                     <Route path="message-section" element={<Trip9/>}/>
                                     <Route path="recap" element={<TripPersRecap/>}/>
+                                    <Route path="details/:id" element={<PersonalizedTripDetailsPage/>}></Route>
                                 </Route>
                             </Route>
 

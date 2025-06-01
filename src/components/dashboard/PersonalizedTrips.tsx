@@ -1,42 +1,13 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX} from 'react';
 import UserItinerary from "./UserItinerary";
-import {get} from "../../API/api";
-import {Trip} from "../../@types/Trip";
-import {useAuth} from "../../contexts/AuthContext";
 import {useNavigate} from "react-router-dom";
+import {Backdrop, CircularProgress} from "@mui/material";
+import {useUserDashboard} from "../../contexts/DashboardContext";
 
-interface UserItineraryType {
-    id: number;
-    userId: number;
-    startDate: string;
-    endDate: string;
-    startingPrice: number;
-    totalDuration: number;
-    departureCity: string;
-    itineraryName: string | null;
-    numberOfAdults: number;
-    numberOfKids: number;
-}
 
 const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
-    const [personalizedTrips, setPersonnalizedTrips] = useState<UserItineraryType[]>([]);
-    const {userId} = useAuth()
+    const {personalizedTrips, loading} = useUserDashboard();
     const navigate = useNavigate();
-
-    /*useEffect(() => {
-        const fetchUserItineraries = async () => {
-            try {
-                const userItineraries = await get(`/userItinerary/all/${userId}`);
-
-                if (userItineraries) {
-                    setPersonnalizedTrips(userItineraries)
-                }
-            } catch (e) {
-                console.error("Error while fetching reservations : ", e);
-            }
-        };
-        fetchUserItineraries();
-    }, []);*/
 
     return (
         <div>
@@ -48,6 +19,20 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
                     flexDirection: "column",
                     minHeight: "80vh"
                 }}>
+
+                    {
+                        loading && <Backdrop
+                            sx={{
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                color: '#fff',
+                                zIndex: (theme) => theme.zIndex.drawer + 1,
+                            }}
+                            open={loading}
+                        >
+                            <CircularProgress color="inherit"/>
+                        </Backdrop>
+                    }
+
                     <div>
                         <h1 style={{
                             marginLeft: "8rem",

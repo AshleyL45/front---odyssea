@@ -1,4 +1,4 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX, useState} from 'react';
 import Overview from "../../../components/dashboard/Overview";
 import Reservation from "../../mainPages/user/Reservation";
 import History from "../../../components/dashboard/History";
@@ -29,9 +29,10 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                     {activePage === "My bookings" && <Reservation/>}
                     {activePage === "Travel History" && <History/>}
                     {activePage === "My selection" && <MySelection/>}
+                    {activePage === "My personalized trips" && <PersonalizedTrips/>}
                     {activePage === "Personal information" && <PersonalInformation/>}
                     {activePage === "Settings" && <Settings/>}
-                    {activePage === "My personalized trips" && <PersonalizedTrips/>}
+
                 </div>
 
             </div>

@@ -1,12 +1,10 @@
 import {FC, JSX, useState} from 'react';
-import TextField from "@mui/material/TextField";
 import styles from "../../styles/LoginForm.module.css"
 import CustomButton from "../ReusableComponents/CustomButton";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../contexts/AuthContext";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {post} from "../../API/api";
-import {Card} from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 interface LoginFormInput {

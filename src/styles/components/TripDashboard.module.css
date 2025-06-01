@@ -41,3 +41,9 @@
     justify-content: flex-end;
     cursor: pointer;
 }
+
+.detailsButton {
+    background: none;
+    border: none;
+    text-decoration: underline;
+}

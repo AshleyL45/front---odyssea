@@ -2,7 +2,7 @@ import {FC, JSX, useEffect, useState} from 'react';
 import TripDashboard from "../ReusableComponents/TripDashboard";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import {useFavorites} from "../../contexts/MySelectionContext";
+import {useMySelectionContext} from "../../contexts/MySelectionContext";
 import {Trip} from "../../@types/Trip";
 import {useNavigate} from "react-router-dom";
 import "../../App.css"
@@ -10,7 +10,7 @@ import "../../App.css"
 const MySelection: ({}: {}) => JSX.Element = ({}) => {
     const[sortPrice, setSortPrice] = useState(false);
     const [sortDuration, setSortDuration] = useState(false);
-    const {favorites} = useFavorites();
+    const {favorites} = useMySelectionContext();
     const [sortedFavorites, setSortedFavorites] = useState<Trip[]>([]);
     const navigate = useNavigate();
 
