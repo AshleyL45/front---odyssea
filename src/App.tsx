@@ -1,53 +1,51 @@
 import React from 'react';
-import './App.css';
-import LoginPage from "./pages/auth/LoginPage";
 import {Routes, Route} from 'react-router-dom';
-import RegisterPage from "./pages/auth/RegisterPage";
 import {AuthProvider} from "./contexts/AuthContext";
-import {ProtectedRoutes} from "./protected-routes/ProtectedRoutes";
-import ItineraryListPage from "./pages/mainPages/ItineraryListPage";
-import CookiesPolitic from "./pages/legals/CookiesPolitic";
-import LegalInformation from "./pages/legals/LegalInformation";
-import PrivacyPreferences from "./pages/legals/PrivacyPreferences";
-import TermsOfUse from "./pages/legals/TermsOfUse";
-import Dashboard from "./pages/mainPages/user/Dashboard";
-import AboutUs from "./pages/mainPages/company/AboutUs";
-import Contact from "./pages/mainPages/company/Contact";
-import ReservationDetails from "./pages/mainPages/user/ReservationDetails";
-import HomePage from "./pages/mainPages/HomePage";
-import ItineraryDetails from "./pages/mainPages/ItineraryDetails";
 import {MySelectionProvider} from "./contexts/MySelectionContext";
 import {DashboardContextProvider} from "./contexts/DashboardContext";
 import {ReservationContextProvider} from "./contexts/ReservationContext";
+import {PersonalizedTripContextProvider} from "./contexts/PersonalizedTripContext";
+import {ProtectedRoutes} from "./protected-routes/ProtectedRoutes";
+import LayoutMain from "./layout/LayoutMain";
+import BackToTopLayout from './layout/BackToTopLayout';
+import LayoutReservation from './layout/LayoutReservation';
+import './App.css';
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+import HomePage from "./pages/mainPages/HomePage";
+import ItineraryListPage from "./pages/mainPages/ItineraryListPage";
+import ItineraryDetails from "./pages/mainPages/ItineraryDetails";
+import Dashboard from "./pages/mainPages/user/Dashboard";
 import BookingFormDate from "./pages/bookingForm/BookingFormDate";
 import BookingFormPeople from "./pages/bookingForm/BookingFormPeople";
 import BookingFormBilling from "./pages/bookingForm/BookingFormBilling";
-import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
-//import TripRecap from "./pages/personnalized-trip/TripRecap";
+import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import TripSummary from './pages/personnalized-trip/TripSummary';
-import LayoutReservation from './layout/LayoutReservation';
 import DateSelect1 from './pages/personnalized-trip/DateSelect1';
 import TravelerSelect2 from "./pages/personnalized-trip/TravelerSelect2";
 import CityFrom3 from "./pages/personnalized-trip/CityFrom3";
 import CountrySelect4 from "./pages/personnalized-trip/CountrySelect4";
 import CitySelect5 from "./pages/personnalized-trip/CitySelect5";
 import StandingSelect6 from "./pages/personnalized-trip/StandingSelect6";
-import OptionSelect8 from "./pages/personnalized-trip/OptionSelect8";
 import ActivitySelect7 from "./pages/personnalized-trip/ActivitySelect7";
+import OptionSelect8 from "./pages/personnalized-trip/OptionSelect8";
 import Trip9 from "./pages/personnalized-trip/Trip9";
 import TripPersRecap from "./pages/personnalized-trip/TripPersRecap";
-import {PersonalizedTripContextProvider} from "./contexts/PersonalizedTripContext";
 import TripRecap from "./pages/personnalized-trip/TripRecap";
 import MysteryTrip from "./pages/mainPages/MysteryTrip";
-import BookingMysteryTripCountry from "./pages/bookingMysteryTrip/BookingMysteryTripCountry";
 import BookingMysteryTripDate from "./pages/bookingMysteryTrip/BookingMysteryTripDate";
+import BookingMysteryTripCountry from "./pages/bookingMysteryTrip/BookingMysteryTripCountry";
 import BookingMysteryTripTravellers from "./pages/bookingMysteryTrip/BookingMysteryTripTravellers";
-import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryTripResult";
-import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
 import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
-import BackToTopLayout from './layout/BackToTopLayout';
-import LayoutMain from "./layout/LayoutMain";
+import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
+import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryTripResult";
+import AboutUs from "./pages/mainPages/company/AboutUs";
+import Contact from "./pages/mainPages/company/Contact";
+import CookiesPolitic from "./pages/legals/CookiesPolitic";
+import LegalInformation from "./pages/legals/LegalInformation";
+import PrivacyPreferences from "./pages/legals/PrivacyPreferences";
+import TermsOfUse from "./pages/legals/TermsOfUse";
 
 
 function App() {
@@ -68,7 +66,6 @@ function App() {
                                     <Route path="billing" element={<BookingFormBilling/>}></Route>
                                     <Route path="recap" element={<BookingFormRecap/>}></Route>
                                 </Route>
-                                <Route path="reservationDetails" element={<ReservationDetails/>}></Route>
 
                                 <Route path="/booking-mystery-trip" >
                                     <Route element={<LayoutReservation/>} >
