@@ -6,7 +6,6 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import TripIncludesIcons from "../../components/homePage/TripIncludesIcons";
 import Footer from "../../components/ReusableComponents/Footer";
 import {Link} from "react-router-dom";
-import Navbar from "../../components/navbars/Navbar";
 import BlogItemBlog from "../../components/ReusableComponents/BlogItemBlog";
 import HomeCarousel from "../../components/homePage/HomeCarousel";
 import Pages from "../../components/layout/Pages";
@@ -63,12 +62,12 @@ const HomePage: React.FC = () => {
         const fetchData = async () => {
             try {
                 const res = await fetch('http://localhost:8080/api/itineraries');
-                const all: Itinerary[] = await res.json();
-                const slice3 = all.slice(0, 3);
+                const all = await res.json();
+                const slice3 = all.data.slice(0, 3);
                 setItineraries(slice3);
 
                 const map: Record<number, HeaderPair> = {};
-                await Promise.all(slice3.map(async trip => {
+                await Promise.all(slice3.map(async (trip: { id: number }) => {
                     const roles: string[] = await fetch(`/api/itinerary-images/${trip.id}`)
                         .then(r => r.ok ? r.json() : [])
                         .catch(() => []);
@@ -113,12 +112,6 @@ const HomePage: React.FC = () => {
                 : <HomeImages images={carouselData}/>
             }
 
-            <div style={{
-                position: 'absolute', top: 0, left: 0, width: '100%',
-                background: 'transparent', zIndex: 1000
-            }}>
-                <Navbar/>
-            </div>
 
             <section className="home-itineraries">
                 <h1 style={{textAlign: 'center', fontSize: '3rem', marginTop: '5rem'}}>
@@ -177,8 +170,6 @@ const HomePage: React.FC = () => {
                 linkUrl="/personalized-trip/summary"
                 linkText="Personalize my trip"
             />
-
-            <Footer/>
         </>
     );
 };

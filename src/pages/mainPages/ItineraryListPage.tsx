@@ -190,8 +190,6 @@ const ItineraryListPage: FC = () => {
             ) : (
                 <p>No trips found</p>
             )}
-
-            <Footer/>
         </>
     );
 };
