@@ -1,6 +1,6 @@
 import {FC, JSX, useEffect, useState} from 'react';
 import logo from "../../assets/logo/logo_symbol.png";
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import userIcon from "../../assets/userIcontwo.png";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import {useNavigate} from "react-router-dom";
@@ -23,39 +23,6 @@ const Navbar: () => JSX.Element = () => {
 
     return (
         <div className={`container-navbar ${menuOpen ? 'open' : ''}`}>
-            <style>{`
-              .navbar-links ul li a {
-                position: relative;
-                text-decoration: none;
-                color: inherit;
-              }
-              
-              .navbar-links ul li a::after {
-                content: '';
-                position: absolute;
-                width: 0;
-                height: 2px;
-                background-color: #2C3E50;
-                bottom: -4px;
-                left: 0;
-                transition: width 0.3s ease-in-out;
-              }
-
-              .navbar-links ul li a:hover::after {
-                width: 100%;
-              }
-
-              .dashboard-icon {
-                cursor: pointer;
-                transition: color 0.3s ease-in-out;
-                color: #2C3E50;
-              }
-
-              .dashboard-icon:hover {
-                color: #1ABC9C;
-              }
-            `}</style>
-
             {!menuOpen && (
                 <div className="menu-logo" onClick={toggleMenu}>
                     <MenuIcon sx={{fontSize: "50px", color: "#2C3E50"}}/>
@@ -89,11 +56,13 @@ const Navbar: () => JSX.Element = () => {
                     <div className="navbar-links">
                         <div className="navbar-right">
                             <ul>
-                                <li><a href="#">About Odyssea</a></li>
-                                <li><a href="#">Contact us</a></li>
+                                <li><a href="/aboutUs">About Odyssea</a></li>
+                                <li><a href="/contact">Contact us</a></li>
                                 <li>
-                                    <PermIdentityIcon
-                                        className="login-logo" sx={{fontSize: "40px"}}
+                                    <img
+                                        src={userIcon}
+                                        alt='user icon'
+                                        className="login-logo" style={{width: "25px"}}
                                         onClick={() => navigate('/dashboard')}
                                     />
                                 </li>

@@ -48,33 +48,16 @@ body {
 }
 
 
-.navbar-links {
-    display: none;
-}
 
 .container-navbar {
     padding: 8px 20px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-}
-
-.logo-image {
-    width: 80px;
-    cursor: pointer;
-}
-
-.navbar.open .navbar-links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    width: 100%;
-    margin-bottom: 58px;
-    animation: slideInFromTop 1s linear forwards;
-    animation-delay: 0.2s;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
 }
 
 .container-navbar.open {
@@ -87,6 +70,21 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
+}
+
+.navbar-links {
+    display: none;
+}
+
+.navbar.open .navbar-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 58px;
+    animation: slideInFromTop 0.8s linear;
+    animation-delay: 0.2s;
 }
 
 .navbar.open .navbar-links:last-of-type {
@@ -114,6 +112,8 @@ body {
 
 .menu-logo {
     cursor: pointer;
+    position: absolute;
+    left: 20px
 }
 
 .close-menu-icon {
@@ -124,18 +124,22 @@ body {
     left: 20px;
 }
 
+.logo-image {
+    width: 80px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
 @media screen and (min-width: 1066px) {
+
     .container-navbar {
         padding: 20px 20px;
         justify-content: center;
+        width: 100%;
     }
 
-    .menu-logo {
-        display: none !important;
-    }
-
-    .close-menu-icon {
-        display: none !important;
+    .navbar {
+        margin-right: 10%;
     }
 
     .navbar-menu {
@@ -157,19 +161,21 @@ body {
         align-items: center;
     }
 
-
-
     .navbar-center {
         margin: 0 40px;
-    }
-
-    .navbar {
-        margin-right: 8%;
     }
 
     .dashboard-icon {
         position: absolute;
         right: 30px;
+    }
+
+    .menu-logo {
+        display: none !important;
+    }
+
+    .close-menu-icon {
+        display: none !important;
     }
 }
 
@@ -1170,32 +1176,50 @@ footer p {
     }
 }
 
+
+
 .container-activity-layout{
     margin: 20px 0;
     padding: 0 10px;
-   /* display: flex;
-    gap: 150px;
-    align-items: start;
-    justify-content: center*/
+}
 
+.activity-scroll-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-color: #888 transparent; /* Firefox */
+    scrollbar-width: thin;
+}
+
+.activity-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.activity-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.activity-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
 }
 
 .activity-layout {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
+    min-width: max-content;
 }
 
 .activity-item {
-    width: 236px !important;
-    max-width: 250px;
+    width: 210px !important;
+    min-height: 230px;
     border: solid 1px grey;
     border-radius: 4px;
     padding: 20px 30px;
-    /*display: flex;
+    display: flex;
     flex-direction: column;
-    justify-content: center;*/
+    align-items: flex-start;
 }
 
 .activity-item.selected {
@@ -1209,39 +1233,8 @@ footer p {
     border: solid 4px black;
 }
 
-
-.line-activity-layout {
-    width: 3px;
-    height: 45vh;
-    background-color: black;
-    margin-top: 70px;
-    border-radius: 10px
-}
-
-@media screen and (min-width: 768px) {
-
-    .container-activity-layout {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 10%;
-    }
-
-    .activity-item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 240px;
-    }
-}
-
-
-@media screen and (max-width: 800px) {
-    .line-activity-layout {
-        width: 30% !important;
-        height: 3px;
-    }
-
+.activity-item.expanded {
+    position: relative;
 }
 
 

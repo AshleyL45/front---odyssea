@@ -14,7 +14,6 @@ import Dashboard from "./pages/mainPages/user/Dashboard";
 import AboutUs from "./pages/mainPages/company/AboutUs";
 import Contact from "./pages/mainPages/company/Contact";
 import ReservationDetails from "./pages/mainPages/user/ReservationDetails";
-import Reservation from "./pages/mainPages/user/Reservation";
 import HomePage from "./pages/mainPages/HomePage";
 import ItineraryDetails from "./pages/mainPages/ItineraryDetails";
 import {MySelectionProvider} from "./contexts/MySelectionContext";
@@ -25,7 +24,6 @@ import BookingFormPeople from "./pages/bookingForm/BookingFormPeople";
 import BookingFormBilling from "./pages/bookingForm/BookingFormBilling";
 import BookingFormRecap from "./pages/bookingForm/BookingFormRecap";
 import BookingFormOptions from "./pages/bookingForm/BookingFormOptions";
-import {Trip} from "./@types/Trip";
 //import TripRecap from "./pages/personnalized-trip/TripRecap";
 import TripSummary from './pages/personnalized-trip/TripSummary';
 import LayoutReservation from './layout/LayoutReservation';
@@ -40,7 +38,6 @@ import ActivitySelect7 from "./pages/personnalized-trip/ActivitySelect7";
 import Trip9 from "./pages/personnalized-trip/Trip9";
 import TripPersRecap from "./pages/personnalized-trip/TripPersRecap";
 import {PersonalizedTripContextProvider} from "./contexts/PersonalizedTripContext";
-
 import TripRecap from "./pages/personnalized-trip/TripRecap";
 import MysteryTrip from "./pages/mainPages/MysteryTrip";
 import BookingMysteryTripCountry from "./pages/bookingMysteryTrip/BookingMysteryTripCountry";
@@ -50,7 +47,7 @@ import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryT
 import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
 import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
 import BackToTopLayout from './layout/BackToTopLayout';
-
+import LayoutMain from "./layout/LayoutMain";
 
 
 function App() {
@@ -83,11 +80,9 @@ function App() {
                                     </Route>
                                     <Route path="result" element={<BookingMysteryTripResult/>}></Route>
                                 </Route>
-
                             </Route>
 
-
-                             <Route path="/">
+                             <Route path="/" element={<LayoutMain />}>
                                 <Route element={<BackToTopLayout/>}>
                                     <Route index element={<HomePage/>}/>
                                     <Route path="trips" element={<ItineraryListPage/>}/>
@@ -117,7 +112,9 @@ function App() {
                                     <Route path="activity-selection" element={<ActivitySelect7/>}/>
                                     <Route path="option-selection" element={<OptionSelect8/>}/>
                                     <Route path="message-section" element={<Trip9/>}/>
-                                    <Route path="recap" element={<TripPersRecap/>}/>
+                                    <Route element={<BackToTopLayout/>}>
+                                        <Route path="recap" element={<TripPersRecap/>}/>
+                                    </Route>
                                 </Route>
                             </Route>
 

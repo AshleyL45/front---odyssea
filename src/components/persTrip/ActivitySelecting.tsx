@@ -14,7 +14,7 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
     const [activities, setActivities] = useState<{ [key: number]: Activity[] }>({});
     const [selected, setSelected] = useState<{ [key: number]: Activity[] }>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [countryMap, setCountryMap] = useState<{ [key: number]: string }>({});
+    const [countryMap, setCountryMap] = useState<{ [key: number]: string }>({}); // Mappe chaque ville à son pays.
     const [expandedActivities, setExpandedActivities] = useState<{ [key: number]: boolean }>({});
 
     const toggleExpand = (id: number) => {
@@ -31,7 +31,7 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
 
             selectedCities.forEach((city) => {
                 if (!mergedSelections[city.id]) {
-                    const stored = localStorage.getItem(`selectedActivitiesByCity_${city.id}`);
+                    const stored = localStorage.getItem(`selectedActivities`);
                     if (stored) {
                         try {
                             mergedSelections[city.id] = JSON.parse(stored);
@@ -52,9 +52,7 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
             setIsLoading(true);
             let timeoutId: NodeJS.Timeout;
 
-            timeoutId = setTimeout(() => {
-                setIsLoading(false);
-            }, 10000);
+            timeoutId = setTimeout(() => { setIsLoading(false) }, 10000);
 
             const activitiesByCity: { [key: number]: Activity[] } = {};
             const countryMap: { [key: number]: string } = {};
@@ -114,6 +112,13 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
             ...newSelections,
         ];
 
+       /* const minInfos = Object.entries(selected).flatMap(([cityId, activities]) =>
+            activities.map((activity) => ({
+                cityId: Number(cityId),
+                activityId: activity.id
+            }))
+        );*/
+
         localStorage.setItem("selectedActivities", JSON.stringify(updatedSelections));
         onSelectionChange(updatedSelections.length);
     }, [selected]);
@@ -140,71 +145,74 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCi
         });
     };
 
-    // Nouvelle logique pour tronquer en fonction du nom + description combinés
-    const getTruncatedDescription = (activity: Activity, id: number) => {
-        const combinedText = activity.name + activity.description; // Combiner le nom et la description
-        if (expandedActivities[id] || combinedText.length <= 150) return activity.description;
+    // retourne true si la description est trop longue (+ de 150 caractères en tout)
+    const isTruncated = (activity: Activity): boolean => {
+        return activity.description.length > (150 - activity.name.length);
+    };
 
-        return activity.description.slice(0, 150 - activity.name.length) + "...";  // Tronquer à 100 caractères au total (nom + description)
+    // fais la différence entre la longueur du non et de la description
+    const getTruncatedDescription = (activity: Activity, id: number) => {
+        if (expandedActivities[id] || !isTruncated(activity)) { // l'utilisateur a cliqué sur "See more" ? || description pas besoin d’être tronquée ?
+        // Si l’une des deux est vraie, on retourne toute la description sans troncature.
+            return activity.description;
+        }
+
+        return activity.description.slice(0, 120 - activity.name.length) + "..."; // Sinon, on applique la troncature
     };
 
     return (
         <div>
-            <h1 style={{textAlign: "center", fontSize: '1.5rem'}}>What to do in {countryName} ?</h1>
+            <h1 style={{textAlign: "center", fontSize: '1.5rem', marginTop: "70px"}}>What to do in {countryName} ?</h1>
             <div className="container-activity-layout">
                 {isLoading ? (
                     <p style={{textAlign: "center", marginTop: "40px"}}>Loading activities...</p>
                 ) : selectedCities.length > 0 ? (
                         selectedCities.map((city) => (
-                            <div key={city.id}>
-                                <h3 style={{margin: "50px 0 30px", textAlign: "center", fontSize:"1.2rem"}}>{city.name}</h3>
-                                <div className="activity-layout" style={{margin: "30px auto"}}>
-                                    {activities[city.id]?.length > 0 ? (
-                                        activities[city.id].map((activity) => {
-                                            const combinedText = activity.name + activity.description;
-                                            return (
-                                                <div
-                                                    key={activity.id}
-                                                    className={`activity-item ${selected[city.id]?.some((act) => act.id === activity.id)
-                                                            ? "selected"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() => handleSelect(city.id, activity)}
-                                                    style={{
-                                                        transition: "all 0.3s ease",
-                                                        overflow: "hidden",
-                                                    }}
-                                                >
-                                                    <h4>{activity.name}</h4>
-                                                    <p className="activity-description">
-                                                        {getTruncatedDescription(activity, activity.id)}{" "}
-                                                        {/* Affichage de la description tronquée */}
-                                                    </p>
-                                                    {combinedText.length > 100 && (
-                                                        <span
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                toggleExpand(activity.id); // Gérer l'extension de la description
-                                                            }}
-                                                            style={{
-                                                                color: "black",
-                                                                textDecoration: "underline",
-                                                                cursor: "pointer",
-                                                                marginTop: "10px",
-                                                                display: "inline-block",
-                                                            }}
-                                                        >
-                                                            {expandedActivities[activity.id] ? "See less" : "See more"}
-                                                       </span>
-                                                    )}
-                                                </div>
-                                            );
-                                        })
-                                    ) : (
-                                        <p style={{textAlign: "center", marginTop: "40px"}}>No activities found for this city.</p>
-                                    )}
+                            <section key={city.id}>
+                                <h3 style={{margin: "50px 0 0 30px", fontSize:"1.35rem"}}>- {city.name} -</h3>
+                                <div className="activity-scroll-container">
+                                    <div className="activity-layout" style={{margin: "30px auto"}}>
+                                        {activities[city.id]?.length > 0 ? (
+                                            activities[city.id].map((activity) => {
+                                                return (
+                                                    <div
+                                                        key={activity.id}
+                                                        className={`activity-item 
+                                                            ${selected[city.id]?.some((act) => act.id === activity.id) ? "selected" : ""}
+                                                            ${expandedActivities[activity.id] ? "expanded" : ""}
+                                                        `}
+                                                        onClick={() => handleSelect(city.id, activity)}
+                                                        style={{
+                                                            transition: "all 0.3s ease",
+                                                            overflow: "hidden",
+                                                        }}
+                                                    >
+                                                        <h4>{activity.name}</h4>
+                                                        <p className="activity-description">
+                                                            {getTruncatedDescription(activity, activity.id)}{" "}
+                                                            {/* Affichage de la description tronquée */}
+                                                        </p>
+                                                        {isTruncated(activity) && (
+                                                            <span
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    toggleExpand(activity.id); // Gérer l'extension de la description
+                                                                }}
+                                                                style={{color: "black", textDecoration: "underline", textUnderlineOffset: '5px', cursor: "pointer", marginTop: "10px", display: "inline-block",
+                                                                }}
+                                                            >
+                                                                {expandedActivities[activity.id] ? "See less" : "See more"}
+                                                           </span>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })
+                                        ) : (
+                                            <p style={{textAlign: "center", marginTop: "40px"}}>No activities found for this city.</p>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
                         ))
                     ) : ( <p style={{textAlign: "center", marginTop: "40px"}}>No cities selected</p>
                 )}
