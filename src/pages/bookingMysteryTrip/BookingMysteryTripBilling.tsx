@@ -5,14 +5,13 @@ import {useAuth} from "../../contexts/AuthContext";
 import {useReservation} from "../../contexts/ReservationContext";
 import Pages from "../../components/layout/Pages";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
-import styles from "../../styles/BookingFormBilling.module.css";
+import styles from "../../styles/BookingMysteryTrip/BookingMysteryTrip.module.css";
 
 const BookingMysteryTripBilling: FC = () => {
     const navigate = useNavigate();
     const {email: authEmail, firstName: authFirstName, lastName: authLastName} = useAuth();
     const {questionnaireAnswers, updateResponse} = useReservation();
 
-    // Valeurs initiales : soit ce qui était dans le contexte, soit les infos de l’utilisateur connecté
     const [lastName, setLastName] = useState(
         questionnaireAnswers.lastName || authLastName || ""
     );

@@ -2,32 +2,45 @@ import React, {FC, useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import CustomButton from '../../components/ReusableComponents/CustomButton';
 import Pages from '../../components/layout/Pages';
-import styles from '../../styles/components/TripDashboard.module.css';
 import dayjs from 'dayjs';
 import {get, post} from '../../API/api';
 import {useReservation} from '../../contexts/ReservationContext';
-import {useAuth} from '../../contexts/AuthContext';
 import {Option} from '../../@types/Option';
-import {AxiosError} from 'axios';
-
-function isAxiosError(error: unknown): error is AxiosError<{ message?: string }> {
-    return (error as AxiosError).isAxiosError !== undefined;
-}
+import {useAuth} from "../../contexts/AuthContext";
+import styles from "../../styles/BookingMysteryTrip/BookingMysteryTrip.module.css";
 
 const BookingMysteryTripSubmit: FC = () => {
     const navigate = useNavigate();
-    const {trip, questionnaireAnswers} = useReservation();
-    const {userId} = useAuth();
+    const {trip, questionnaireAnswers, updateResponse} = useReservation();
     const [optionsToDisplay, setOptionsToDisplay] = useState<Option[]>([]);
     const [error, setError] = useState<string>('');
+    const {userId: authUserId} = useAuth();
+
+
+    let pageUserId = 0;
+    const rawToken = localStorage.getItem('token');
+    if (rawToken) {
+        try {
+            const base64Payload = rawToken.split('.')[1];
+            const decodedJson = JSON.parse(window.atob(base64Payload)) as Record<string, any>;
+            const subValue = decodedJson.sub;
+            const subAsNumber = typeof subValue === 'string' ? parseInt(subValue, 10) : subValue;
+            pageUserId = decodedJson.id ?? subAsNumber ?? 0;
+        } catch (e) {
+            console.error('Impossible de décoder le token :', e);
+        }
+    }
 
     useEffect(() => {
         const ids = questionnaireAnswers.optionIds ?? [];
         if (ids.length === 0) return;
-        const query = ids.map(id => `ids=${id}`).join('&');
-        get<Option[]>(`/options/allById?${query}`)
-            .then(opts => Array.isArray(opts) && setOptionsToDisplay(opts))
-            .catch(e => console.error('Cannot fetch options', e));
+
+        get<{ success: boolean; message: string; data: Option[] }>('/options/all')
+            .then(resp => {
+                const allOpts = resp?.data ?? [];
+                setOptionsToDisplay(allOpts.filter(opt => ids.includes(opt.id)));
+            })
+            .catch(e => console.error('Impossible de récupérer les options :', e));
     }, [questionnaireAnswers.optionIds]);
 
     const formattedDeparture = questionnaireAnswers.departureDate
@@ -37,77 +50,67 @@ const BookingMysteryTripSubmit: FC = () => {
         ? dayjs(questionnaireAnswers.returnDate, 'DD-MM-YYYY').format('DD-MM-YYYY')
         : '';
 
+
     const handleSubmit = async () => {
-        if (!trip?.id) {
-            setError('No trip selected.');
-            return;
-        }
-        if (!userId) {
-            setError('User not logged in.');
-            return;
-        }
-
-        const payloadDeparture = questionnaireAnswers.departureDate;
-        const payloadReturn = questionnaireAnswers.returnDate;
-
-        const safeOptionIds: number[] = questionnaireAnswers.optionIds ?? [];
+        updateResponse('userId', authUserId);
 
         const reservationPayload = {
-            userId,
-            itineraryId: trip.id,
+            userId: authUserId,
+            itineraryId: trip!.id,
             status: 'En attente',
-            departureDate: payloadDeparture,
-            returnDate: payloadReturn,
+            departureDate: questionnaireAnswers.departureDate,
+            returnDate: questionnaireAnswers.returnDate,
             numberOfAdults: questionnaireAnswers.numberOfAdults,
             numberOfKids: questionnaireAnswers.numberOfKids,
-            optionIds: safeOptionIds,
-            purchaseDate: dayjs().format("DD-MM-YYYY"),
+            optionIds: questionnaireAnswers.optionIds ?? [],
+            purchaseDate: dayjs().format('DD-MM-YYYY'),
         };
 
         try {
-            const res = await post('/reservations', reservationPayload);
-            console.log(">>> Réservation enregistrée :", res);
-
-            for (const optId of safeOptionIds) {
-                await post('/reservationOptions', {
-                    userId,
-                    itineraryId: trip.id,
-                    optionId: optId,
-                });
-            }
-
-            setError('');
+            await post('/reservations', reservationPayload);
+            await Promise.all(
+                reservationPayload.optionIds.map(optId =>
+                    post('/reservationOptions', {
+                        userId: authUserId,
+                        itineraryId: trip!.id,
+                        optionId: optId,
+                    })
+                )
+            );
             navigate('/dashboard');
-        } catch (err: unknown) {
-            if (isAxiosError(err)) {
-                console.error('Axios error response:', err.response);
-                alert('Server error:\n' + JSON.stringify(err.response?.data, null, 2));
-                setError(err.response?.data?.message || 'Error submitting reservation.');
+        } catch (err: any) {
+            console.error('Erreur lors de la soumission :', err);
+
+            if (err?.message) {
+                setError(err.message);
             } else {
-                setError('Unexpected error.');
+                setError('Une erreur est survenue lors de la soumission.');
             }
         }
     };
 
-
-    if (!trip) return <p>Loading trip...</p>;
+    if (!trip)
+        return <p>Route loading...</p>;
 
     return (
         <>
-            <Pages title="Recap & Submit - Mystery Trip">
+            <Pages title="Récap & Soumission – Mystery Trip">
             </Pages>
 
             <div style={{display: 'flex', justifyContent: 'center', padding: '2rem 1rem'}}>
                 <div style={{width: '100%', maxWidth: '700px'}}>
-                    <h1 style={{fontSize: 25, textAlign: 'center'}}>Review & Submit Your Booking</h1>
+                    <h1 style={{fontSize: 25, textAlign: 'center'}}>Summary and booking</h1>
                     <div style={{width: 2, height: 30, backgroundColor: 'black', margin: 'auto'}}/>
+
+                    {/* Nom de l’itinéraire */}
                     <div style={{textAlign: 'center', margin: '1rem 0'}}>
                         <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
                     </div>
+
                     <hr/>
 
                     <div className="recapDivs">
-                        <h3>Dates</h3>
+                        <h3>Dates:</h3>
                         <p>Departure: {formattedDeparture}</p>
                         <p>Return: {formattedReturn}</p>
                     </div>
@@ -115,44 +118,44 @@ const BookingMysteryTripSubmit: FC = () => {
                     <div className="recapDivs">
                         <h3>Travellers</h3>
                         <p>
-                            {questionnaireAnswers.numberOfAdults} adult
+                            {questionnaireAnswers.numberOfAdults} adults
                             {questionnaireAnswers.numberOfAdults > 1 ? 's' : ''}
                         </p>
                         {questionnaireAnswers.numberOfKids > 0 && (
                             <p>
-                                {questionnaireAnswers.numberOfKids} kid
+                                {questionnaireAnswers.numberOfKids} kids
                                 {questionnaireAnswers.numberOfKids > 1 ? 's' : ''}
                             </p>
                         )}
                     </div>
 
                     <div className="recapDivs">
-                        <h3>Customer Information</h3>
-                        <p><strong>Last Name:</strong> {questionnaireAnswers.lastName}</p>
-                        <p><strong>First Name:</strong> {questionnaireAnswers.firstName}</p>
-                        <p><strong>Email:</strong> {questionnaireAnswers.email}</p>
-                        <p><strong>Phone:</strong> {questionnaireAnswers.phoneNumber}</p>
-                        <p><strong>Company:</strong> {questionnaireAnswers.companyName || 'N/A'}</p>
-                        <p><strong>Address:</strong> {questionnaireAnswers.address}</p>
-                        <p><strong>Details:</strong> {questionnaireAnswers.addressDetails || 'N/A'}</p>
-                        <p><strong>Postal Code:</strong> {questionnaireAnswers.postalCode}</p>
-                        <p><strong>City:</strong> {questionnaireAnswers.city}</p>
-                        <p><strong>Country:</strong> {questionnaireAnswers.country}</p>
+                        <h3>Customer Informations</h3>
+                        <p>Lastname: {questionnaireAnswers.lastName}</p>
+                        <p>Firstname: {questionnaireAnswers.firstName}</p>
+                        <p>Email: {questionnaireAnswers.email}</p>
+                        <p>Telephone: {questionnaireAnswers.phoneNumber}</p>
+                        <p>Adress: {questionnaireAnswers.address}</p>
+                        <p>Complement : {questionnaireAnswers.addressDetails || 'N/A'}</p>
+                        <p>Postal Code: {questionnaireAnswers.postalCode}</p>
+                        <p>City: {questionnaireAnswers.city}</p>
+                        <p>Country: {questionnaireAnswers.country}</p>
                     </div>
 
                     <div className="recapDivs">
                         <h3>Options</h3>
-                        {optionsToDisplay.length > 0
-                            ? optionsToDisplay.map(opt => <p key={opt.id}>{opt.name}</p>)
-                            : <p>No options selected.</p>
-                        }
+                        {optionsToDisplay.length > 0 ? (
+                            optionsToDisplay.map(opt => <p key={opt.id}>• {opt.name}</p>)
+                        ) : (
+                            <p>No option selected.</p>
+                        )}
                     </div>
 
                     {error && <p style={{color: 'red'}}>{error}</p>}
 
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
                         <CustomButton style={{width: 130}} variant="contained" onClick={handleSubmit}>
-                            Submit
+                            SUBMIT
                         </CustomButton>
                     </div>
                 </div>

@@ -82,10 +82,9 @@ function App() {
                                         <Route path="traveller" element={<BookingMysteryTripTravellers/>}></Route>
                                         <Route path="options" element={<BookingMysteryTripOptions/>}></Route>
                                         <Route path="submit" element={<BookingMysteryTripSubmit/>}></Route>
+                                        <Route path="result" element={<BookingMysteryTripResult/>}></Route>
                                     </Route>
-                                    <Route path="result" element={<BookingMysteryTripResult/>}></Route>
                                 </Route>
-
                             </Route>
 
 

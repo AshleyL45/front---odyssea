@@ -9,9 +9,15 @@ import {DotWave} from "ldrs/react";
 import "ldrs/react/DotWave.css";
 import BouncingArrow from "../../components/mysteryTrip/BouncingArrow";
 
+interface ApiResp<T> {
+    success: boolean;
+    message: string;
+    data: T;
+}
+
 const BookingMysteryTripResult: FC = () => {
     const navigate = useNavigate();
-    const {setTrip} = useReservation();
+    const {setTrip, questionnaireAnswers} = useReservation();
 
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("Prepare for the unexpected...");
@@ -31,11 +37,16 @@ const BookingMysteryTripResult: FC = () => {
             setShowArrow(true);
 
             const images = itineraryImages.images || [];
-            const valid = images.filter(img => img.idItinerary);
-            if (valid.length) {
+            const valid = images.filter(img => img.idItinerary != null);
+            if (valid.length > 0) {
                 const pick = valid[Math.floor(Math.random() * valid.length)];
-                get(`/api/itineraries/${pick.idItinerary}`)
-                    .then((fullTrip: Trip) => {
+                get<ApiResp<Trip>>(`/api/itineraries/${pick.idItinerary}`)
+                    .then(envelope => {
+                        if (!envelope?.data) {
+                            console.error("No trip data returned");
+                            return;
+                        }
+                        const fullTrip = envelope.data;
                         setTrip(fullTrip);
                         setSelectedTrip(fullTrip);
                         localStorage.setItem("validTrip", JSON.stringify(fullTrip));
@@ -48,143 +59,117 @@ const BookingMysteryTripResult: FC = () => {
         return () => clearTimeout(timer);
     }, [setTrip]);
 
-    const handleArrowClick = () => {
-        setShowImage(true);
-    };
-
-    const handleBooking = () => {
-        navigate("/booking-mystery-trip/submit");
-    };
+    const handleArrowClick = () => setShowImage(true);
+    const handleBooking = () => navigate("/booking-mystery-trip/submit");
 
     if (!showImage) {
         return (
-            <>
-                <style>{`
-          @keyframes slideInFromTop {
-            0% { transform: translateY(-100%); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
-
-          body {
-            overflow: hidden;
-          }
-        `}</style>
-
-                <div
+            <div
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "#333",
+                    color: "white",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    overflow: "hidden",
+                }}
+            >
+                <h1
                     style={{
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        width: "100vw",
-                        height: "100vh",
-                        backgroundColor: "#333",
-                        color: "white",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-
-                        textAlign: "center",
-                        overflow: "hidden",
-                    }}
-                >
-                    <h1 style={{
                         margin: 0,
                         fontSize: "clamp(1.5rem, 6vw, 3rem)",
                         fontWeight: 600,
                         maxWidth: "100%",
-                        lineHeight: 1.2
-                    }}>
-                        {message}
-                    </h1>
-
-                    {loading && (
-                        <div style={{marginTop: "2rem"}}>
-                            <DotWave size={55} speed={1.4} color="white"/>
-                        </div>
-                    )}
-
-                    {!loading && showArrow && (
+                        lineHeight: 1.2,
+                    }}
+                >
+                    {message}
+                </h1>
+                {loading ? (
+                    <div style={{marginTop: "2rem"}}>
+                        <DotWave size={55} speed={1.4} color="white"/>
+                    </div>
+                ) : (
+                    showArrow && (
                         <div style={{marginTop: "3rem"}}>
                             <BouncingArrow onClick={handleArrowClick}/>
                         </div>
-                    )}
-                </div>
-            </>
+                    )
+                )}
+            </div>
         );
     }
 
     if (selectedTrip) {
         const imageUrl =
-            itineraryImages.images.find(img => img.idItinerary === selectedTrip.id)?.imageUrl || "";
+            itineraryImages.images.find(img => img.idItinerary === selectedTrip.id)
+                ?.imageUrl || "";
 
         return (
-            <>
-                <style>{`
-          @keyframes slideInFromTop {
-            0% { transform: translateY(-100%); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
-
-          body {
-            overflow: hidden;
-          }
-        `}</style>
-
+            <div
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `url(${imageUrl})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    zIndex: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    animation: "slideInFromTop 1s ease-out forwards",
+                    overflow: "hidden",
+                }}
+            >
                 <div
                     style={{
-                        position: "fixed",
+                        position: "absolute",
                         top: 0,
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundImage: `url(${imageUrl})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        zIndex: 10,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        animation: "slideInFromTop 1s ease-out forwards",
-                        overflow: "hidden"
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                        zIndex: 11,
+                    }}
+                />
+                <div
+                    style={{
+                        position: "relative",
+                        zIndex: 12,
+                        textAlign: "center",
+                        color: "white",
+                        padding: "1rem",
                     }}
                 >
-                    <div
+                    <h2 style={{marginBottom: "1rem", fontSize: "2rem"}}>
+                        Your next experience:
+                    </h2>
+                    <h1 style={{fontSize: "3rem", marginBottom: "2rem"}}>
+                        {selectedTrip.name}
+                    </h1>
+                    <CustomButton
+                        onClick={handleBooking}
                         style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: "rgba(0,0,0,0.5)",
-                            zIndex: 11,
-                        }}
-                    />
-                    <div
-                        style={{
-                            position: "relative",
-                            zIndex: 12,
-                            textAlign: "center",
                             color: "white",
-                            padding: "1rem"
+                            backgroundColor: "#2C3E50",
+                            padding: "1rem 2rem",
+                            fontSize: "1.2rem",
                         }}
                     >
-                        <h2 style={{marginBottom: "1rem", fontSize: "2rem"}}>Your next experience :</h2>
-                        <h1 style={{fontSize: "3rem", marginBottom: "2rem"}}>{selectedTrip.name}</h1>
-                        <CustomButton
-                            onClick={handleBooking}
-                            style={{
-                                color: "white",
-                                backgroundColor: "#2C3E50",
-                                padding: "1rem 2rem",
-                                fontSize: "1.2rem"
-                            }}
-                        >
-                            Booking
-                        </CustomButton>
-                    </div>
+                        Booking
+                    </CustomButton>
                 </div>
-            </>
+            </div>
         );
     }
 

@@ -1611,11 +1611,12 @@ footer p {
 
 .recapDivs {
     background-color: #F8F1E5;
-    border: 1px black solid;
+    border: 1px solid black;
     width: 500px;
-    min-height: 200px;
+    max-width: 90%;
     padding: 20px;
-    margin-top: 2rem;
+    margin: 2rem auto;
+    box-sizing: border-box;
 }
 
 /* Itinerary Details */

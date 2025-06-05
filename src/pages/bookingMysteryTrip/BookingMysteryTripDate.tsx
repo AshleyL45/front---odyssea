@@ -31,10 +31,12 @@ const BookingMysteryTripDate: FC = () => {
     };
 
     const handleNextStep = () => {
+        console.log("click !", startDate, endDate);
         if (startDate && endDate) {
             updateResponse("departureDate", startDate.format("DD-MM-YYYY"));
             updateResponse("returnDate", endDate.format("DD-MM-YYYY"));
             navigate("/booking-mystery-trip/traveller");
+
         }
     };
 

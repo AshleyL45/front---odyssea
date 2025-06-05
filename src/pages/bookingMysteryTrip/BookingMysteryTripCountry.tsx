@@ -1,45 +1,43 @@
 import React, {FC, useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import CustomButton from '../../components/ReusableComponents/CustomButton';
-import Pages from '../../components/layout/Pages';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Select from 'react-select';
+import CustomButton from '../../components/ReusableComponents/CustomButton';
+import Pages from '../../components/layout/Pages';
 import {get} from '../../API/api';
 import {useReservation} from '../../contexts/ReservationContext';
+import {useAuth} from '../../contexts/AuthContext';
 import {Trip} from '../../@types/Trip';
-import {Country} from "../../@types/Country";
+import {Country} from '../../@types/Country';
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
     const {questionnaireAnswers, updateResponse, setTrip} = useReservation();
-    const [countries, setCountries] = useState<{ name: string }[]>([]);
+    const {token} = useAuth();
+
+    const [countries, setCountries] = useState<Country[]>([]);
     const [selectedCountries, setSelectedCountries] = useState<string[]>(
         questionnaireAnswers.excludedCountries || []
     );
 
-
     useEffect(() => {
         async function fetchCountries() {
             try {
-                const res = await fetch('http://localhost:8080/countries');
+                const headers: Record<string, string> = {};
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                const res = await fetch('http://localhost:8080/countries', {headers});
                 const json = await res.json();
-                console.log(json);
-                const list = Array.isArray(json.data)
-                    ? json.data
-                    : [];
-                setCountries(
-                    list.sort((a: Country, b: Country) =>
-                        a.name.localeCompare(b.name)
-                    )
-                );
+                const list = Array.isArray(json.data) ? (json.data as Country[]) : [];
+                setCountries(list.sort((a, b) => a.name.localeCompare(b.name)));
             } catch (err) {
-                console.error(err);
+                console.error('Erreur lors de la récupération des pays :', err);
             }
         }
 
         fetchCountries();
-    }, []);
-
+    }, [token]);
 
     const handleSelectCountry = (option: { value: string; label: string } | null) => {
         if (!option) return;
@@ -49,16 +47,21 @@ const BookingMysteryTripCountry: FC = () => {
             return;
         }
         if (!selectedCountries.includes(country)) {
-            setSelectedCountries(prev => [...prev, country]);
+            setSelectedCountries((prev) => [...prev, country]);
         }
     };
 
     const handleRemoveCountry = (country: string) => {
-        setSelectedCountries(prev => prev.filter(c => c !== country));
+        setSelectedCountries((prev) => prev.filter((c) => c !== country));
     };
 
     const handleNext = async () => {
-        updateResponse("excludedCountries", selectedCountries);
+        updateResponse('excludedCountries', selectedCountries);
+
+        const headers: Record<string, string> = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
 
         const queryParam = selectedCountries.length
             ? encodeURIComponent(selectedCountries.join(','))
@@ -67,16 +70,23 @@ const BookingMysteryTripCountry: FC = () => {
             ? `/api/itineraries/valid?excludedCountries=${queryParam}`
             : `/api/itineraries/valid`;
 
-        const maybeTrip = await get<Trip>(`/api/itineraries/valid?excludedCountries=${queryParam}`);
-        if (!maybeTrip) {
-            alert("Unable to retrieve a route. Please try again.");
-            return;
+        try {
+            const trips: Trip[] | null = await get<Trip[]>(url, {headers});
+            if (!trips || trips.length === 0) {
+                window.alert('Impossible de récupérer un itinéraire. Réessaie plus tard.');
+                return;
+            }
+            setTrip(trips[0]);
+            navigate('/booking-mystery-trip/date');
+        } catch (err) {
+            console.error('Erreur lors de la récupération des itinéraires :', err);
+            window.alert('Une erreur est survenue lors du chargement des itinéraires.');
         }
-        setTrip(maybeTrip);
-        navigate("/booking-mystery-trip/date");
     };
 
-        const handlePrevious = () => navigate(-1);
+    const handlePrevious = () => {
+        navigate(-1);
+    };
 
     return (
         <>
@@ -107,7 +117,8 @@ const BookingMysteryTripCountry: FC = () => {
                     cursor: 'pointer',
                 }}
             >
-                <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
+                <ArrowBackIcon sx={{fontSize: '15px'}}/>
+                previous step
             </p>
 
             <div
@@ -136,8 +147,8 @@ const BookingMysteryTripCountry: FC = () => {
                 <div style={{width: '100%', maxWidth: '300px'}}>
                     <Select
                         options={countries
-                            .filter(c => !selectedCountries.includes(c.name))
-                            .map(c => ({value: c.name, label: c.name}))}
+                            .filter((c) => !selectedCountries.includes(c.name))
+                            .map((c) => ({value: c.name, label: c.name}))}
                         onChange={handleSelectCountry}
                         placeholder="-- Select a country --"
                         menuPlacement="bottom"

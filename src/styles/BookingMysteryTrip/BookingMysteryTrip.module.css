@@ -1,0 +1,112 @@
+/* BILLING */
+
+.progressBarContainer {
+    width: 100%;
+    height: 6px;
+    background-color: lightgrey;
+    position: relative;
+}
+
+.progressBar {
+    width: 80%;
+    height: 6px;
+    border-radius: 0 5px 5px 0;
+    background-color: #2C3E50;
+    position: absolute;
+    top: 0;
+}
+
+.previousStep {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin: 10px 40px;
+    cursor: pointer;
+}
+
+.optionSelect {
+    margin: 50px auto;
+    text-align: center;
+}
+
+.optionSelect h1 {
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.optionSelect h3 {
+    margin-top: 2rem;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    width: 50%;
+    gap: 25px;
+    margin: auto;
+}
+
+.formGridAddress {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 50%;
+    gap: 25px;
+    margin: auto;
+}
+
+.inputBooking {
+    padding: 15px 10px;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.errorContainer {
+    color: red;
+    margin: 10px 0;
+}
+
+.errorList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.buttonContainer {
+    display: block;
+}
+
+.customButton {
+    width: 130px;
+}
+
+@media only screen and (max-width: 1100px) {
+
+    .formGrid, .formGridAddress {
+        grid-template-columns: 1fr;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .terms {
+        width: 65%;
+        margin: 1rem auto;
+    }
+
+}
+
+/* SUBMIT */
+.recapDivs {
+    background-color: #F8F1E5;
+    border: 1px solid black;
+    width: 500px;
+    max-width: 90%;
+    padding: 20px;
+    margin: 2rem auto;
+    box-sizing: border-box;
+}
