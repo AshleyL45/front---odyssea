@@ -9,6 +9,7 @@ import StandardBookingDetails from "../../components/admin/booking-details/Stand
 import PersonalizedTripDetails from "../../components/admin/booking-details/PersonalizedTripDetails";
 import {AdminUserItineraryDetails} from "../../@types/AdminUserItineraryDetails";
 import {Backdrop, CircularProgress} from "@mui/material";
+import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 
 
 
@@ -55,6 +56,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
 
     return (
         <>
+            <NavbarDashboard/>
             {
                 loading && (
                     <Backdrop

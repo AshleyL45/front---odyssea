@@ -1,11 +1,16 @@
+import {Navigate, Outlet} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext";
-import {Navigate, Outlet, useLocation} from "react-router-dom";
 
-export const ProtectedRoutes = () => {
-    const {token} = useAuth();
-    const location = useLocation();
+export const ProtectedRoutes = ({allowedRoles}: { allowedRoles: string}) => {
+    const {token, role} = useAuth();
 
-    if (!token) return <Navigate to="/login" state={{from: location}} replace/>; // Si aucun token n'existe, aller sur la page de connexion
+    if (!token) {
+        return <Navigate to="/login" replace/>;
+    }
+
+    if (role && !allowedRoles.includes(role)) {
+        return <Navigate to="/unauthorized" replace/>;
+    }
 
     return <Outlet/>;
-}
+};

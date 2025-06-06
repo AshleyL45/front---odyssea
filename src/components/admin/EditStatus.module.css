@@ -1,0 +1,7 @@
+.MuiDialog-paper {
+    width: 700px !important;
+}
+
+.select, label {
+    margin: 1rem;
+}

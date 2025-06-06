@@ -1,23 +1,21 @@
-import {FC, JSX, useState} from 'react';
 import styles from "../../styles/LoginForm.module.css"
 import CustomButton from "../ReusableComponents/CustomButton";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useAuth} from "../../contexts/AuthContext";
+import {Link, useSearchParams} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {post} from "../../API/api";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import MessageBox from "./MessageBox";
+import {useLogin} from "../../hooks/UseLogin";
 
 interface LoginFormInput {
     email: string
     password: string
 }
 
-const LoginForm: ({}: {}) => JSX.Element = ({}) => {
+const LoginForm = ({}) => {
 
-    const navigate = useNavigate()
-    const {login} = useAuth();
-    const [error, setError] = useState("");
-    const location = useLocation();
+    const {logUser, error} = useLogin()
+    const [searchParams] = useSearchParams();
+    const expired = searchParams.get("expired") === "true";
 
 
     const {register, handleSubmit, formState: {errors}} = useForm({
@@ -27,52 +25,42 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
         },
     })
 
-    const postUser = async (data: LoginFormInput) => {
-        try {
-            setError("")
-            const response = await post("/auth/login", {
-                email: data.email,
-                password: data.password
-            })
-
-            if (response.data.token) {
-                login(response.data.token);
-                const from = location.state?.from || '/';
-                navigate(from, {replace: true});
-            } else {
-                setError("Invalid password or username. Please try again.");
-            }
-
-        } catch (e) {
-            console.warn("Error logging in : ", e);
-            setError("Invalid password or username. Please try again.");
-        }
-
-    }
-
     const onSubmit: SubmitHandler<LoginFormInput> = async (data: LoginFormInput) => {
-        await postUser(data);
+        await logUser(data.email, data.password);
     }
 
     return (
-        <>
-            <a href="/" className="return-button"
-               style={{display: "flex", alignItems: "center", textDecoration: "underline", color: "white"}}>
+        <main>
+            <Link to="/" className={styles["return-button"]}>
                 <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/>
                 return to website
-            </a>
+            </Link>
+
             <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
                 <h1>Login</h1>
-                <p>Don't have an account yet? <span style={{textDecoration: "underline", cursor: "pointer"}}
-                                                    onClick={() => navigate("/register")}>Register</span></p>
+                <p>Don't have an account yet? <Link to="/register" style={{textDecoration: "underline", color: "white"}}>Register</Link></p>
+                {
+                    expired && <MessageBox type="error" text={"Your session has expired. Please login again."}/>
+                }
 
                 <div className={styles.fieldsLogin}>
                     <div>
                         <label htmlFor="email">Email</label>
-                        <input type="text" {...register("email", {required: "Please insert a valid email"})}
-                               id="email"/>
+                        <input
+                            type="text"
+                            id="email"
+                            aria-invalid={errors.email ? "true" : "false"}
+                            aria-describedby={errors.email ? "email-error" : undefined}
+                            {...register("email", {
+                                required: "Email is required.",
+                                pattern: {
+                                    value: /^\S+@\S+$/i,
+                                    message: "Invalid email format."
+                                }
+                            })}
+                        />
                     </div>
-                    {errors.email && <p style={{color: "red"}}>{errors.email.message}</p>}
+                    {errors.email && <MessageBox type="error" text={errors.email.message as string}/>}
 
                     <div>
                         <label htmlFor="password">Password</label>
@@ -81,10 +69,10 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
                     </div>
                 </div>
 
-                {errors.password && <p style={{color: "red"}}>{errors.password.message}</p>}
+                {errors.password && <MessageBox type="error" text={errors?.password.message as string}/>}
 
 
-                {error && (<p style={{color: "red"}}>{error}</p>)}
+                {error && <MessageBox type="error" text={error}/>}
 
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <CustomButton type="submit" variant="contained"
@@ -93,7 +81,7 @@ const LoginForm: ({}: {}) => JSX.Element = ({}) => {
 
             </form>
 
-        </>
+        </main>
     );
 };
 

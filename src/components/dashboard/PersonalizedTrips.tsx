@@ -1,16 +1,28 @@
-import {JSX} from 'react';
+import {JSX, useMemo, useState} from 'react';
 import UserItinerary from "./UserItinerary";
 import {useNavigate} from "react-router-dom";
 import {Backdrop, CircularProgress} from "@mui/material";
 import {useUserDashboard} from "../../contexts/DashboardContext";
+import BookingFilters from "./BookingFilters";
 
 
 const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
-    const {personalizedTrips, loading} = useUserDashboard();
-    const navigate = useNavigate();
+    const [activeFilter, setActiveFilter] = useState<string>("All");
+    const {personalizedTrips} = useUserDashboard();
+
+    // Gestion des filtres
+    const filteredBookings = useMemo(() => {
+        if (activeFilter === "All") return personalizedTrips;
+        return personalizedTrips.filter(
+            (booking) =>
+                booking.status?.toLowerCase() === activeFilter.toLowerCase()
+        );
+    }, [activeFilter, personalizedTrips]);
+
+    const filters = ["All", "Pending", "Confirmed", "Cancelled"];
 
     return (
-        <div>
+        <section>
             <div style={{position: "relative"}}>
 
                 <div style={{
@@ -20,41 +32,32 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
                     minHeight: "80vh"
                 }}>
 
-                    {
-                        loading && <Backdrop
-                            sx={{
-                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                color: '#fff',
-                                zIndex: (theme) => theme.zIndex.drawer + 1,
-                            }}
-                            open={loading}
-                        >
-                            <CircularProgress color="inherit"/>
-                        </Backdrop>
-                    }
+                    <h1 style={{
+                        margin: "auto",
+                        marginTop: "2rem",
+                        fontSize: "1.8rem",
+                        textAlign: "center"
+                    }}>My personalized trips</h1>
 
-                    <div>
-                        <h1 style={{
-                            marginLeft: "8rem",
-                            marginTop: "1.8rem",
-                            marginBottom: "2rem",
-                            fontSize: "1.8rem"
-                        }}>My personalized trips</h1>
-                    </div>
+                    <BookingFilters
+                        filters={filters}
+                        activeFilter={activeFilter}
+                        setActiveFilter={setActiveFilter}
+                    />
 
-                    <div>
+                    <section style={{height: "100vh"}}>
                         {
-                            personalizedTrips && personalizedTrips.length > 0 ? personalizedTrips.map((personalizedTrip) =>
+                            filteredBookings && filteredBookings.length > 0 ? filteredBookings.map((personalizedTrip) =>
                                 <UserItinerary userItinerary={personalizedTrip}/>
                             ) : (
-                                <p>You haven't booked a personalized trip. <span onClick={() => navigate("/personalized-trip/summary") }>Get your personalized trip</span></p>
+                                <p style={{marginLeft: "4rem"}}>You don't have a personalized trip with this filter.</p>
                             )
                         }
-                    </div>
+                    </section>
                 </div>
             </div>
 
-        </div>
+        </section>
     );
 };
 

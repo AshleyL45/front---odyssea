@@ -16,9 +16,12 @@
     justify-content: space-around;
     align-items: center;
     gap: 1rem;
+    list-style-type: none;
 }
 
 .filterItem {
+    border: none;
+    background: none;
     padding-bottom: 0.5rem;
     font-size: 1.2rem;
     cursor: pointer;
@@ -28,6 +31,10 @@
 
 .filters .filterItem.active {
     border-bottom: 2px solid black;
+}
+
+.filteredBookings {
+    height: 100vh;
 }
 
 /* Cacher le menu de filtres en ligne pour les écrans plus petits */

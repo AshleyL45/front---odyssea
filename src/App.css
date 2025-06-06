@@ -202,7 +202,7 @@ body {
 
 
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1024px) {
     .icon-side-bar {
         display: none;
     }
@@ -211,6 +211,12 @@ body {
         position: absolute;
         left: 40px;
         top: 27px;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        text-decoration: underline;
+        color: white;
     }
 
     /*.return-button {
@@ -251,6 +257,10 @@ body {
         width: 50px;
         top: 10px;
         font-size: 12px;
+        display: flex;
+        align-items: center;
+        text-decoration: underline;
+        color: white;
     }
 
 }
@@ -268,7 +278,6 @@ body {
 
 
 .side-board-container h1 {
-    padding-left: 30px;
     font-size: 28px;
 }
 
@@ -323,31 +332,25 @@ body {
  }
 
 
-@media screen and (max-width: 600px) {
 
-    @media (max-width: 600px) {
-        .mobile-active {
-            position: fixed;
-            background-color: rgb(248, 248, 248);
-            left: 0;
-            top: 80px;
-            width: 85%;
-            z-index: 20;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        }
+@media (max-width: 1024px) {
+    .mobile-active {
+        position: fixed;
+        background-color: rgb(248, 248, 248);
+        left: 0;
+        top: 80px;
+        width: 85%;
+        z-index: 20;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     }
-
 }
+
 
 
 
 
         /* DASHBOARD */
 
-.dashboard{
-    display: flex;
-    justify-content: space-around;
-}
 
 .container-overview h1{
     font-size: 1.8rem;

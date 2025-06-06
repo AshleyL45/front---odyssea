@@ -6,15 +6,18 @@ import DatesInfo from "./DatesInfo";
 import OptionInfo from "./OptionInfo";
 import TravelersInfo from "./TravelersInfo";
 import {AdminUserItineraryDetails} from "../../../@types/AdminUserItineraryDetails";
+import {useState} from "react";
 
 interface PersonalizedTripDetailsProps {
     data: AdminUserItineraryDetails;
 }
 
 const PersonalizedTripDetails = ({data} : PersonalizedTripDetailsProps) => {
+    const [isModalOpen, setModalOpen] = useState(false);
+
     return (
         <>
-            <AdminRecap booking={data}/>
+            <AdminRecap booking={data} openModal={() => setModalOpen(true)}/>
             <section className={styles["information-section"]}>
                 <BookingInfo
                     id={data.id}

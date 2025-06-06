@@ -10,6 +10,7 @@ import AdminSearchBar from "../../components/admin/AdminSearchBar";
 import {CircularProgress} from "@mui/material";
 import AdminSort from "../../components/admin/AdminSort";
 import StatusFilter from "../../components/admin/StatusFilter";
+import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 
 type bookingType = "Standard" | "Personalized";
 
@@ -80,6 +81,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div>
+            <NavbarDashboard/>
             <h1>Welcome to your dashboard, admin</h1>
 
 

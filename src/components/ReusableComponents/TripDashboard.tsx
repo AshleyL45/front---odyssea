@@ -32,7 +32,7 @@ const TripDashboard: FC<DashboardProps> = ({trip, booking, page, type, status}) 
             <hr/>
 
 
-            {booking && <p className={styles.tripDashboardDescription}>{booking.itinerary.description}</p>}
+            {booking && <p>{booking.itinerary.description}</p>}
             {booking && <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${booking!.id}`)}>Details</p>}
             {page === "Reservations" && booking && (
                 <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "1rem"}}>

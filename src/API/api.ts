@@ -17,6 +17,18 @@ myDB.interceptors.request.use(
     }
 );
 
+myDB.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem("token");
+
+            window.location.href = "/login?expired=true";
+        }
+        return Promise.reject(error);
+    }
+);
+
 
 const responseInterceptor = (error: any) => {
     const status = error.response?.status;

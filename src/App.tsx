@@ -53,6 +53,7 @@ import BackToTopLayout from './layout/BackToTopLayout';
 import AdminDashboard from "./pages/mainPages/AdminDashboard";
 import AdminBookingDetailsPage from "./pages/admin/AdminBookingDetailsPage";
 import PersonalizedTripDetailsPage from "./pages/personnalized-trip/PersonalizedTripDetailsPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
 
 
 
@@ -64,7 +65,7 @@ function App() {
                     <ReservationContextProvider>
                         <PersonalizedTripContextProvider>
                          <Routes>
-                            <Route element={<ProtectedRoutes/>}>
+                            <Route element={<ProtectedRoutes allowedRoles={"USER"}/>}>
                                 <Route path="dashboard" element={<Dashboard/>}></Route>
                                 {/*A mettre avec le layoutReservation*/}
                                 <Route path="/booking" element={<LayoutReservation/>}>
@@ -89,6 +90,11 @@ function App() {
 
                             </Route>
 
+                             <Route element={<ProtectedRoutes allowedRoles={"ADMIN"}/>}>
+                                 <Route path="/admin" element={<AdminDashboard/>}/>
+                                 <Route path={"/admin/bookings/:id"} element={<AdminBookingDetailsPage/>}></Route>
+                             </Route>
+
 
                              <Route path="/">
                                 <Route element={<BackToTopLayout/>}>
@@ -106,13 +112,12 @@ function App() {
                                 <Route path="aboutUs" element={<AboutUs/>}/>
                                 <Route path="contact" element={<Contact/>}/>
                                 <Route path="tripRecap" element={<TripRecap/>}/>
-                                 <Route path="admin" element={<AdminDashboard/>}/>
-                                 <Route path={"admin/bookings/:id"} element={<AdminBookingDetailsPage/>}></Route>
+                                 <Route path="/unauthorized" element={<UnauthorizedPage/>}/>
                              </Route>
 
                             <Route path="/personalized-trip" element={<LayoutReservation/>}>
                                 <Route path="summary" element={<TripSummary/>}/>
-                                <Route element={<ProtectedRoutes/>}>
+                                <Route element={<ProtectedRoutes allowedRoles={"USER"}/>}>
                                     <Route path="date" element={<DateSelect1/>}/>
                                     <Route path="traveler-selection" element={<TravelerSelect2/>}/>
                                     <Route path="departure" element={<CityFrom3/>}/>

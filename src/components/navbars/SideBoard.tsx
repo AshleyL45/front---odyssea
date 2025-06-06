@@ -14,7 +14,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
 
     const [activeLink, setActiveLink] = useState<string>('Overview');
     const {firstName, lastName} = useUserDashboard();
-    const [menuOpen, setMenuOpen] = useState(window.innerWidth > 600);
+    const [menuOpen, setMenuOpen] = useState(window.innerWidth > 1024);
 
 
     const handleClick = (page: string) => {
@@ -22,7 +22,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
         setActivePage(page);
 
         // Fermer la navbar si la largeur de l'écran est inférieure à 600px
-        if (window.innerWidth <= 600) {
+        if (window.innerWidth <= 1024) {
             setMenuOpen(false);
         }
     };
@@ -34,7 +34,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
 
     useEffect(() => {
         const handleResize = () => {
-            setMenuOpen(window.innerWidth > 600);
+            setMenuOpen(window.innerWidth > 1024);
         };
 
         handleResize();
@@ -46,9 +46,9 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
 
 
     return (
-        <>
+        <aside>
 
-            {window.innerWidth <= 600 && (
+            {window.innerWidth <= 1024 && (
                 <div className="icon-side-bar" onClick={toggleMenu}>
                     <MenuOpenIcon
                         sx={{position: "absolute", top: "20px", left: "20px", fontSize: "32px", cursor: "pointer"}}
@@ -57,7 +57,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
             )}
 
 
-            <div className={`side-board-container ${menuOpen && window.innerWidth <= 600 ? "mobile-active" : ""}`}
+            <div className={`side-board-container ${menuOpen && window.innerWidth <= 1024 ? "mobile-active" : ""}`}
                  style={{display: menuOpen ? "flex" : "none"}}>
 
                 <div>
@@ -118,11 +118,11 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
                 </div>
 
                 <div style={{paddingLeft: "30px"}}>
-                    <Link to="/contact">Aide</Link>
+                    <Link to="/contact">Help</Link>
                 </div>
             </div>
 
-        </>
+        </aside>
     );
 };
 

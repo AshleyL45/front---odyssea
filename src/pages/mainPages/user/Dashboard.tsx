@@ -9,6 +9,7 @@ import SideBoard from "../../../components/navbars/SideBoard";
 import NavbarDashboard from "../../../components/navbars/NavbarDashboard";
 import Pages from "../../../components/layout/Pages"
 import PersonalizedTrips from "../../../components/dashboard/PersonalizedTrips";
+import styles from "./UserDashboard.module.css"
 
 const Dashboard: ({}: {}) => JSX.Element = ({}) => {
     const [activePage, setActivePage] = useState<string>("Overview");
@@ -17,13 +18,14 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
     return (
         <>
             <Pages title="Dashboard - Odyssea">
+
             </Pages>
             <NavbarDashboard/>
 
-            <div className="dashboard">
+            <main className={styles.dashboard} role="presentation">
                 <SideBoard activePage={activePage} setActivePage={setActivePage}/>
 
-                <div style={{width: "100%"}}>
+                <section style={{width: "100%"}}>
 
                     {activePage === "Overview" && <Overview/>}
                     {activePage === "My bookings" && <Reservation/>}
@@ -33,9 +35,9 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                     {activePage === "Personal information" && <PersonalInformation/>}
                     {activePage === "Settings" && <Settings/>}
 
-                </div>
+                </section>
 
-            </div>
+            </main>
 
         </>
     );

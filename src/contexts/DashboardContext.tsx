@@ -54,10 +54,11 @@ export const DashboardContextProvider = ({children} : DashboardProviderProps) =>
     // Voyages déjà effectués (confirmés dans le passé)
     const pastTrips = useMemo(() => {
         return userBookings.filter((reservation : BookingConfirmation) => {
-            if (!reservation.departureDate) return false;
-            return reservation.status === "CONFIRMED" && isBeforeToday(reservation.departureDate);
+            if (!reservation.returnDate) return false;
+            return reservation.status === "CONFIRMED" && isBeforeToday(new Date(reservation.returnDate));
         });
     }, [userBookings]);
+    console.log(pastTrips)
 
     // Voyages à venir en attente
     const currentTrips = useMemo(() => {

@@ -6,13 +6,14 @@ type RecapData = AdminBookingDetails | AdminUserItineraryDetails;
 
 interface AdminRecapProps {
     booking: RecapData;
+    openModal: () => void;
 }
 
 function isStandardBooking(booking: RecapData): booking is AdminBookingDetails {
     return "reservation" in booking;
 }
 
-const AdminRecap = ({booking}: AdminRecapProps) => {
+const AdminRecap = ({booking, openModal}: AdminRecapProps) => {
     const itineraryName = booking.itineraryName;
 
     const itineraryId = isStandardBooking(booking)
@@ -56,6 +57,7 @@ const AdminRecap = ({booking}: AdminRecapProps) => {
                     <button
                         className={styles["admin-recap__button"]}
                         aria-label="Edit booking status"
+                        onClick={openModal}
                     >
                         Edit
                     </button>
@@ -71,6 +73,7 @@ const AdminRecap = ({booking}: AdminRecapProps) => {
                     <button
                         className={styles["admin-recap__button"]}
                         aria-label="Edit booking price"
+                        onClick={openModal}
                     >
                         Edit
                     </button>

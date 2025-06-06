@@ -11,18 +11,19 @@ interface AuthContext {
     logout: () => void;
     decodeToken: () => void;
     token: string | null;
-    role: "USER" | "ADMIN" | null;
+    role: string | null;
 }
 
 export const AuthContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
+
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [userId, setUserId] = useState<number>(0);
     const [email, setEmail] = useState<string | null>(null);
     const [firstName, setFirstName] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
-    const [role, setRole] = useState<"USER" | "ADMIN" | null>(null);
+    const [role, setRole] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -31,8 +31,13 @@
     height: 3px;
 }
 
-.tripDashboardDescription {
+.tripInfo {
+    list-style-type: none;
+}
 
+.mainInfo {
+    display: flex;
+    justify-content: space-between;
 }
 
 .tripDashboardDetails{
@@ -46,4 +51,8 @@
     background: none;
     border: none;
     text-decoration: underline;
+}
+
+.detailsButton:hover {
+    cursor: pointer;
 }

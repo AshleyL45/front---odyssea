@@ -1,9 +1,11 @@
 import {JSX} from 'react';
 import TripDashboard from "../ReusableComponents/TripDashboard";
 import {useUserDashboard} from "../../contexts/DashboardContext";
+import {formatDate} from "../../utils/FormatDate";
 
 const History: ({}: {}) => JSX.Element = ({}) => {
    const{pastTrips} = useUserDashboard();
+
 
     return (
         <div className="container-history">
@@ -12,7 +14,7 @@ const History: ({}: {}) => JSX.Element = ({}) => {
                 {
                     pastTrips && pastTrips.length > 0 ? pastTrips.map((booking) => (
                         <>
-                            <p style={{marginLeft: "5rem"}}>{booking.purchaseDate.toString()}</p>
+                            <p style={{marginLeft: "5rem"}}>{formatDate(booking.purchaseDate)}</p>
                             <TripDashboard booking={booking} page="Travel History" type={"Pre-designed trip"}/>
                         </>
                     )) : (

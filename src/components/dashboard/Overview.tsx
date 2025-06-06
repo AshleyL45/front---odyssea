@@ -15,7 +15,7 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div className="container-overview">
-            <h1>Overview</h1>
+            <h1 style={{margin: "1rem"}}>Overview</h1>
 
             {
                 loading && <Backdrop

@@ -1,5 +1,5 @@
 // components/admin/booking-details/StandardBookingDetails.tsx
-import {FC} from "react";
+import {FC, useState} from "react";
 import AdminRecap from "../AdminRecap";
 import BookingInfo from "./BookingInfo";
 import DatesInfo from "./DatesInfo";
@@ -7,6 +7,7 @@ import OptionInfo from "./OptionInfo";
 import TravelersInfo from "./TravelersInfo";
 import {AdminBookingDetails} from "../../../@types/AdminBookingDetails";
 import styles from "../../../pages/admin/AdminBookingDetailsPage.module.css";
+import EditStatus from "../EditStatus";
 
 interface StandardBookingDetailsProps {
     data: AdminBookingDetails;
@@ -14,9 +15,10 @@ interface StandardBookingDetailsProps {
 }
 
 const StandardBookingDetails = ({data, bookingId} : StandardBookingDetailsProps) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <>
-            <AdminRecap booking={data}/>
+            <AdminRecap booking={data} openModal={() => setIsModalOpen(true)}/>
             <section className={styles["information-section"]}>
                 <BookingInfo
                     id={bookingId}
@@ -34,6 +36,7 @@ const StandardBookingDetails = ({data, bookingId} : StandardBookingDetailsProps)
                     numberKids={data.reservation.numberOfKids}
                 />
             </section>
+            <EditStatus isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} bookingId={data.reservation.reservationId}/>
         </>
     );
 };
