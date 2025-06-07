@@ -1,60 +1,78 @@
-import {FC, useState} from 'react';
+import {useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import styles from './AdminSort.module.css';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
-type bookingType = "Standard" | "Personalized";
+type BookingType = "Standard" | "Personalized";
+type SortDirection = "asc" | "desc";
 
 interface AdminSortProps {
-    type: bookingType;
-    onSortChange: (sortField: string, sortDirection: "asc" | "desc") => void;
+    type: BookingType;
+    onSortChange: (sortField: string, sortDirection: SortDirection) => void;
 }
 
 const AdminSort = ({type, onSortChange} : AdminSortProps) => {
     const [open, setOpen] = useState(false);
-    const [direction, setDirection] = useState<"asc" | "desc">("asc");
+    const [selectedField, setSelectedField] = useState<string | null>(null);
+    const [direction, setDirection] = useState<SortDirection>('asc');
 
-    const sortOptionsByType: Record<"Standard" | "Personalized", { label: string; value: string }[]> = {
+    const sortOptions: Record<BookingType, { label: string; value: string }[]> = {
         Standard: [
-            {label: "Purchase Date", value: "purchaseDate"},
-            {label: "Departure Date", value: "departureDate"},
+            {label: 'Purchase Date', value: 'purchaseDate'},
+            {label: 'Departure Date', value: 'departureDate'},
         ],
         Personalized: [
-            {label: "Booking Date", value: "booking_date"},
-            {label: "Start Date", value: "startDate"},
+            {label: 'Booking Date', value: 'booking_date'},
+            {label: 'Start Date', value: 'startDate'},
         ],
     };
 
-    const handleSortClick = (field: string) => {
-        onSortChange(field, direction);
+    const handleSortChange = (field: string) => {
+        let newDirection = direction;
+        if (selectedField === field) {
+            newDirection = direction === 'asc' ? 'desc' : 'asc';
+            setDirection(newDirection);
+        } else {
+            setSelectedField(field);
+            setDirection('asc');
+            newDirection = 'asc';
+        }
+
+        onSortChange(field, newDirection);
         setOpen(false);
     };
 
-    const toggleDirection = () => {
-        setDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-    };
+    const currentLabel = sortOptions[type].find(opt => opt.value === selectedField)?.label;
 
     return (
         <div className={styles['sort-container']}>
-            <div className={styles['sort-label']} onClick={() => setOpen(!open)}>
-                <p>Sort ({direction})</p>
-                <ExpandMoreIcon/>
-            </div>
+            <button
+                className={styles['sort-label']}
+                onClick={() => setOpen(prev => !prev)}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+            >
+            <span>
+              Sort by {currentLabel || ''}
+            </span>
+                {direction === 'asc' ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
+            </button>
 
             {open && (
-                <div className={styles['sort-item__container']}>
-                    {sortOptionsByType[type]?.map(({label, value}) => (
-                        <button
-                            key={value}
-                            className={styles['sort-item']}
-                            onClick={() => handleSortClick(value)}
-                        >
-                            {label}
-                        </button>
+                <ul className={styles['sort-item__container']} role="listbox">
+                    {sortOptions[type].map(({label, value}) => (
+                        <li key={value}>
+                            <button
+                                onClick={() => handleSortChange(value)}
+                                className={`${styles['sort-item']} ${selectedField === value ? styles['active'] : ''}`}
+                            >
+                                {label} {selectedField === value && (direction === 'asc' ? <ArrowDownwardIcon/> : <ArrowUpwardIcon/>)}
+                            </button>
+                        </li>
                     ))}
-                    <button onClick={toggleDirection} className={styles['sort-item__toggle-button']}>
-                        Toggle direction
-                    </button>
-                </div>
+                </ul>
             )}
         </div>
     );

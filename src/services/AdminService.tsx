@@ -18,7 +18,6 @@ export const fetchAdminBookings = async (filters?: {
     const url = `/admin/bookings${queryString ? "?" + queryString : ""}`;
     const data = await get(url);
 
-    console.log("Booking " + url);
     if (!data) throw new Error("No bookings found");
     return data;
 }
@@ -39,8 +38,6 @@ export const fetchAdminUserItineraries = async (filters?: {
     const queryString = params.toString();
     const url = `/admin/userItineraries${queryString ? "?" + queryString : ""}`;
     const data = await get(url);
-
-    console.log("User itinerary " + url);
 
     if (!data) throw new Error("No userItineraries found");
     return data;

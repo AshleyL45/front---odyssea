@@ -92,7 +92,7 @@ export const patch = async <T = any>(url: string, data: object, config?: {}): Pr
         return response.data;
     } catch (error: any) {
         console.error("Cannot patch to database : ", error);
-        return error.response.data;
+        throw error;
     }
 };
 

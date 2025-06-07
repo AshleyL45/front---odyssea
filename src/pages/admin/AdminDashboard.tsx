@@ -1,4 +1,5 @@
 import {ChangeEvent, FC, JSX, useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import BookingCard from "../../components/admin/BookingCard";
 import AdminBooking from "../../@types/AdminBooking";
 import {
@@ -11,6 +12,7 @@ import {CircularProgress} from "@mui/material";
 import AdminSort from "../../components/admin/AdminSort";
 import StatusFilter from "../../components/admin/StatusFilter";
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 type bookingType = "Standard" | "Personalized";
 
@@ -23,6 +25,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
     const [sortField, setSortField] = useState<string | null>(null);
     const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -58,7 +61,6 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
 
     const handleInputValue = (event : ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
-        console.log(event.target.value);
     }
 
     const handleStatusFilter = (status : string) => {
@@ -78,6 +80,10 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
         setSortDirection(null);
     };
 
+    const handleGoBack = () => {
+        navigate(-1);
+    };
+
 
     return (
         <main>
@@ -88,7 +94,8 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
             {error && <p style={{color: "red"}}>{error}</p>}
 
             <div className={styles.buttonContainer}>
-                <button onClick={() => switchType("Standard")} className={activeItem === "Standard" ? styles.active : styles.typeButton}>
+                <button onClick={() => switchType("Standard")}
+                        className={activeItem === "Standard" ? styles.active : styles.typeButton}>
                     Standard
                 </button>
                 <button onClick={() => switchType("Personalized")}
@@ -105,7 +112,8 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
 
 
             {
-                loading && <CircularProgress sx={{display: "flex", justifyContent: "center", alignItems: "center", margin: "auto"}}/>
+                loading && <CircularProgress
+                    sx={{display: "flex", justifyContent: "center", alignItems: "center", margin: "auto"}}/>
             }
 
 

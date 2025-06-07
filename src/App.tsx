@@ -50,7 +50,7 @@ import BookingMysteryTripResult from "./pages/bookingMysteryTrip/BookingMysteryT
 import BookingMysteryTripSubmit from "./pages/bookingMysteryTrip/BookingMysteryTripSubmit";
 import BookingMysteryTripBilling from "./pages/bookingMysteryTrip/BookingMysteryTripBilling";
 import BackToTopLayout from './layout/BackToTopLayout';
-import AdminDashboard from "./pages/mainPages/AdminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBookingDetailsPage from "./pages/admin/AdminBookingDetailsPage";
 import PersonalizedTripDetailsPage from "./pages/personnalized-trip/PersonalizedTripDetailsPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";

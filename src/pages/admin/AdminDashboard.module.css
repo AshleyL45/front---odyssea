@@ -63,7 +63,7 @@ h1 {
         align-items: end;
         grid-template-columns: 2fr 1fr 1fr;
         justify-items: start;
-        margin: 5rem 3rem 4rem;
+        margin: 5rem 2rem 4rem;
     }
 }
 
@@ -72,5 +72,9 @@ h1 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: repeat(2, 1fr);
+    }
+
+    .filters{
+        margin: 5rem 3rem 4rem;;
     }
 }

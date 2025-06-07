@@ -1,19 +1,21 @@
 import {AdminBookingDetails} from "../../@types/AdminBookingDetails";
 import {AdminUserItineraryDetails} from "../../@types/AdminUserItineraryDetails";
 import styles from "./AdminRecap.module.css";
+import {useBookingDetails} from "../../contexts/BookingDetailsContext";
 
 type RecapData = AdminBookingDetails | AdminUserItineraryDetails;
-
 interface AdminRecapProps {
     booking: RecapData;
     openStatusModal: () => void;
+    openPriceModal: () => void;
 }
 
 function isStandardBooking(booking: RecapData): booking is AdminBookingDetails {
     return "reservation" in booking;
 }
 
-const AdminRecap = ({booking, openStatusModal}: AdminRecapProps) => {
+const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps) => {
+    const {bookingStatus, bookingPrice} = useBookingDetails();
     const itineraryName = booking.itineraryName;
 
     const itineraryId = isStandardBooking(booking)
@@ -29,13 +31,6 @@ const AdminRecap = ({booking, openStatusModal}: AdminRecapProps) => {
         ? booking.reservation.purchaseDate
         : booking.bookingDate;
 
-    const status = isStandardBooking(booking)
-        ? booking.reservation.status
-        : booking.status;
-
-    const totalPrice = isStandardBooking(booking)
-        ? booking.reservation.totalPrice
-        : booking.startingPrice;
 
     return (
         <section className={styles["admin-recap"]}>
@@ -52,7 +47,7 @@ const AdminRecap = ({booking, openStatusModal}: AdminRecapProps) => {
                         <p className={styles["admin-recap__label"]} id="status-label">
                             Status:
                         </p>
-                        <p>{status}</p>
+                        <p>{bookingStatus}</p>
                     </div>
                     <button
                         className={styles["admin-recap__button"]}
@@ -68,11 +63,12 @@ const AdminRecap = ({booking, openStatusModal}: AdminRecapProps) => {
                         <p className={styles["admin-recap__label"]} id="price-label">
                             Price:
                         </p>
-                        <p>{totalPrice} €</p>
+                        <p>{bookingPrice} €</p>
                     </div>
                     <button
                         className={styles["admin-recap__button"]}
                         aria-label="Edit booking price"
+                        onClick={openPriceModal}
                     >
                         Edit
                     </button>

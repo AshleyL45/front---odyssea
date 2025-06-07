@@ -58,7 +58,6 @@ export const DashboardContextProvider = ({children} : DashboardProviderProps) =>
             return reservation.status === "CONFIRMED" && isBeforeToday(new Date(reservation.returnDate));
         });
     }, [userBookings]);
-    console.log(pastTrips)
 
     // Voyages à venir en attente
     const currentTrips = useMemo(() => {

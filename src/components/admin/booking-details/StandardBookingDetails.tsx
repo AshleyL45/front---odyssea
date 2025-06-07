@@ -6,20 +6,22 @@ import OptionInfo from "./OptionInfo";
 import TravelersInfo from "./TravelersInfo";
 import {AdminBookingDetails} from "../../../@types/AdminBookingDetails";
 import styles from "../../../pages/admin/AdminBookingDetailsPage.module.css";
-import EditStatus from "../EditStatus";
+import EditStatusModal from "../EditStatusModal";
+import EditPriceModal from "../EditPriceModal";
+import {useBookingDetails} from "../../../contexts/BookingDetailsContext";
 
-type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
 interface StandardBookingDetailsProps {
     data: AdminBookingDetails;
-    bookingId: number;
-    onStatusUpdate: (newStatus: BookingStatus) => void;
 }
 
-const StandardBookingDetails = ({data, bookingId, onStatusUpdate} : StandardBookingDetailsProps) => {
+const StandardBookingDetails = ({data} : StandardBookingDetailsProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isPriceModalOpen, setIsPriceModalOpen] = useState(false);
+    const {bookingId} = useBookingDetails();
+
     return (
         <>
-            <AdminRecap booking={data} openStatusModal={() => setIsModalOpen(true)}/>
+            <AdminRecap booking={data} openStatusModal={() => setIsModalOpen(true)} openPriceModal={() => setIsPriceModalOpen(true)}/>
             <section className={styles["information-section"]}>
                 <BookingInfo
                     id={bookingId}
@@ -37,7 +39,8 @@ const StandardBookingDetails = ({data, bookingId, onStatusUpdate} : StandardBook
                     numberKids={data.reservation.numberOfKids}
                 />
             </section>
-            <EditStatus bookingType={"Standard"} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} bookingId={data.reservation.reservationId} onStatusChange={onStatusUpdate}/>
+            <EditStatusModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <EditPriceModal isOpen={isPriceModalOpen} onClose={() => setIsPriceModalOpen(false)}/>
         </>
     );
 };

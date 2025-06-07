@@ -3,7 +3,7 @@
 }
 
 
-.selectContainer, .statusOption{
+.selectContainer, .statusOption, .inputPrice {
     margin: 1rem;
 }
 
@@ -12,11 +12,11 @@
 }
 
 .statusConfirmButton {
-    color: white;
+    color: white !important;
 }
 
 .cancelStatusButton {
-    border: 1px solid #2c3e50;
-    background-color: white;
-    color: #2c3e50;
+    border: 1px solid #2c3e50 !important;
+    background-color: white !important;
+    color: #2c3e50 !important;
 }
