@@ -216,7 +216,7 @@ body {
         display: flex;
         align-items: center;
         text-decoration: underline;
-        color: white;
+        color: black;
     }
 
     /*.return-button {
@@ -227,7 +227,7 @@ body {
 }*/
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1024px) {
     .navbar-reservation {
         padding: 20px;
         font-size: 0.8rem;
@@ -325,11 +325,11 @@ body {
     }
 }
 
- @media screen and (min-width: 1000px) {
-     .side-board-container{
-         width: 350px !important;
-     }
- }
+@media screen and (min-width: 768px) {
+    .side-board-container {
+        width: 350px !important;
+    }
+}
 
 
 

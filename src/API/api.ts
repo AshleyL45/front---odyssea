@@ -20,7 +20,11 @@ myDB.interceptors.request.use(
 myDB.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        const status = error.response?.status;
+        const originalRequest = error.config;
+
+        const isLoginRequest = originalRequest?.url?.includes("/auth/login");
+        if (status === 401 && !isLoginRequest) {
             localStorage.removeItem("token");
 
             window.location.href = "/login?expired=true";
@@ -66,7 +70,7 @@ export const post = async <T = any>(url: string, data: object, config?: {}): Pro
         return response.data;
     } catch (error: any) {
         console.error("Cannot post to database : ", error);
-        return error.response.data;
+       throw error;
     }
 };
 

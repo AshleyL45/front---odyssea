@@ -2,6 +2,21 @@
     width: 700px !important;
 }
 
-.select, label {
+
+.selectContainer, .statusOption{
     margin: 1rem;
+}
+
+.statusLabel {
+    margin-left: 1rem;
+}
+
+.statusConfirmButton {
+    color: white;
+}
+
+.cancelStatusButton {
+    border: 1px solid #2c3e50;
+    background-color: white;
+    color: #2c3e50;
 }

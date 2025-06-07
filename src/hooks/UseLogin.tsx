@@ -18,18 +18,22 @@ export const useLogin = () => {
 
             if (response.status === 200) {
                 login(response.data.token);
-                const from = location.state?.from || '/';
+                const from = location.state?.from || "/";
                 navigate(from, {replace: true});
-            } else if (response.status === 404) {
-                setError("Invalid password or username. Please try again.");
             }
-
-        } catch (e) {
+        } catch (e: any) {
             console.error("Login error", e);
-            setError("An internal error occurred. Please try again.");
+            const status = e.data.status;
+
+            if (status === 400 || status === 404 || status === 401) {
+                setError("Invalid password or username. Please try again.");
+            } else {
+                setError("An internal error occurred. Please try again.");
+            }
         } finally {
             setLoading(false);
         }
+
     }
 
     return {logUser, error, loading};

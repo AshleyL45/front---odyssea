@@ -17,7 +17,7 @@ const PersonalizedTripDetails = ({data} : PersonalizedTripDetailsProps) => {
 
     return (
         <>
-            <AdminRecap booking={data} openModal={() => setModalOpen(true)}/>
+            <AdminRecap booking={data} openStatusModal={() => setModalOpen(true)}/>
             <section className={styles["information-section"]}>
                 <BookingInfo
                     id={data.id}

@@ -80,7 +80,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
 
 
     return (
-        <div>
+        <main>
             <NavbarDashboard/>
             <h1>Welcome to your dashboard, admin</h1>
 
@@ -119,7 +119,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
             </section>
 
 
-        </div>
+        </main>
     );
 };
 

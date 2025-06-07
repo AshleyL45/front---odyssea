@@ -12,6 +12,7 @@ import {Backdrop, CircularProgress} from "@mui/material";
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 
 
+type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
 
 const AdminBookingDetailsPage = (): JSX.Element => {
     const {id} = useParams();
@@ -19,6 +20,8 @@ const AdminBookingDetailsPage = (): JSX.Element => {
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
     const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [bookingStatus, setBookingStatus] = useState<BookingStatus | null>(null)
 
 
     const [data, setData] = useState<AdminBookingDetails |AdminUserItineraryDetails | null>(null);
@@ -39,8 +42,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
 
                 if (response?.data) {
                     setData(response.data);
-                    console.log("Details:\n" + JSON.stringify(response.data, null, 2));
-
+                    setBookingStatus(type === "Standard" ? response.data.reservation.status : response.data.status);
                 }
             } catch (e) {
                 console.error(e);
@@ -55,7 +57,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
     }, [bookingId, type]);
 
     return (
-        <>
+        <main>
             <NavbarDashboard/>
             {
                 loading && (
@@ -72,7 +74,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
                 )
             }
 
-            <div>
+            <section>
                 <h1 className={styles["details-title"]}>
                     {data?.userFirstName} {data?.userLastName}
                 </h1>
@@ -80,14 +82,14 @@ const AdminBookingDetailsPage = (): JSX.Element => {
                 {errorMessage && <p>{errorMessage}</p>}
 
                 {type === "Standard" && data && !isPersonalizedTrip(data) && (
-                    <StandardBookingDetails data={data} bookingId={bookingId}/>
+                    <StandardBookingDetails data={data} bookingId={bookingId} onStatusUpdate={(newStatus) => setBookingStatus(newStatus)}/>
                 )}
 
                 {type === "Personalized" && data && isPersonalizedTrip(data) && (
                     <PersonalizedTripDetails data={data}/>
                 )}
-            </div>
-        </>
+            </section>
+        </main>
     );
 };
 

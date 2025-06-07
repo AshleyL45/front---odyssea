@@ -9,7 +9,6 @@ const MessageBox = ({type, text}: { type: "error" | "success", text: string }) =
             aria-live={type === "error" ? "assertive" : "polite"}
             style={{
                 color: type === "error" ? "red" : "green",
-                marginLeft: "8rem",
                 marginTop: "1rem"
             }}
         >

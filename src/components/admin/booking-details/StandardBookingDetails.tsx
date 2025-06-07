@@ -1,5 +1,4 @@
-// components/admin/booking-details/StandardBookingDetails.tsx
-import {FC, useState} from "react";
+import {useState} from "react";
 import AdminRecap from "../AdminRecap";
 import BookingInfo from "./BookingInfo";
 import DatesInfo from "./DatesInfo";
@@ -9,16 +8,18 @@ import {AdminBookingDetails} from "../../../@types/AdminBookingDetails";
 import styles from "../../../pages/admin/AdminBookingDetailsPage.module.css";
 import EditStatus from "../EditStatus";
 
+type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
 interface StandardBookingDetailsProps {
     data: AdminBookingDetails;
     bookingId: number;
+    onStatusUpdate: (newStatus: BookingStatus) => void;
 }
 
-const StandardBookingDetails = ({data, bookingId} : StandardBookingDetailsProps) => {
+const StandardBookingDetails = ({data, bookingId, onStatusUpdate} : StandardBookingDetailsProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <>
-            <AdminRecap booking={data} openModal={() => setIsModalOpen(true)}/>
+            <AdminRecap booking={data} openStatusModal={() => setIsModalOpen(true)}/>
             <section className={styles["information-section"]}>
                 <BookingInfo
                     id={bookingId}
@@ -36,7 +37,7 @@ const StandardBookingDetails = ({data, bookingId} : StandardBookingDetailsProps)
                     numberKids={data.reservation.numberOfKids}
                 />
             </section>
-            <EditStatus isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} bookingId={data.reservation.reservationId}/>
+            <EditStatus bookingType={"Standard"} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} bookingId={data.reservation.reservationId} onStatusChange={onStatusUpdate}/>
         </>
     );
 };

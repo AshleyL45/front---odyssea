@@ -1,13 +1,12 @@
-.searchInput {
+.searchContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 95%;
     position: relative;
 }
 
-.searchInput input {
+.searchInput {
     width: 100%;
     padding: 8px 16px 8px 3rem;
     border-radius: 8px;
@@ -17,21 +16,34 @@
 
 .searchIcon {
     position: absolute;
-    left: 20px;
-    top: 10px;
+    left: 140px;
+    top: 75px;
 }
 
-@media screen and (min-width: 426px){
-    .searchInput input {
-        width: 100%;
+@media screen and (min-width: 425px) {
+    .searchInput {
+        width: 370px;
     }
 }
 
 @media screen and (min-width: 768px) {
-    .searchInput {
+    .searchIcon {
+        position: absolute;
+        left: 20px;
+        top: 75px;
+    }
+
+    .searchContainer {
         align-items: flex-start;
     }
-    .searchInput input {
-        width: 80%;
+    .searchInput {
+        width: 280px;
     }
 }
+
+@media screen and (min-width: 992px) {
+    .searchInput {
+        width: 100%;
+    }
+}
+

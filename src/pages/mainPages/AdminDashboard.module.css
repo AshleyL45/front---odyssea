@@ -42,7 +42,8 @@ h1 {
     margin: 1rem;
 }
 
-@media (min-width: 725px) {
+
+@media (min-width: 768px) {
     h1 {
         width: auto;
     }
@@ -59,6 +60,7 @@ h1 {
 
     .filters {
        display: grid;
+        align-items: end;
         grid-template-columns: 2fr 1fr 1fr;
         justify-items: start;
         margin: 5rem 3rem 4rem;

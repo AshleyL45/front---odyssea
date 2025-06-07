@@ -54,8 +54,8 @@ const LoginForm = ({}) => {
                             {...register("email", {
                                 required: "Email is required.",
                                 pattern: {
-                                    value: /^\S+@\S+$/i,
-                                    message: "Invalid email format."
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
+                                    message: "Invalid email format. Example: user@example.com"
                                 }
                             })}
                         />
