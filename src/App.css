@@ -57,7 +57,8 @@ body {
     align-items: center;
     position: absolute;
     z-index: 1;
-    top: 10px;
+    top: 0;
+    width: 87%;
 }
 
 .container-navbar.open {
@@ -71,6 +72,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
 
 .navbar-links {
     display: none;
@@ -110,11 +112,6 @@ body {
     align-items: center;
 }
 
-.menu-logo {
-    cursor: pointer;
-    position: absolute;
-    left: 20px
-}
 
 .close-menu-icon {
     display: block;
@@ -124,22 +121,56 @@ body {
     left: 20px;
 }
 
-.logo-image {
-    width: 80px;
-    cursor: pointer;
-    margin-left: 20px;
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    height: 80px;
 }
+
+.menu-logo {
+    position: absolute;
+    left: 20px;
+    cursor: pointer;
+}
+
+.center-logo {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.logo-image {
+    width: 70px;
+    cursor: pointer;
+    margin-left: 8%;
+}
+
+@media screen and (max-width: 1065px) {
+    .navbar-center {
+        display: none !important;
+    }
+}
+
 
 @media screen and (min-width: 1066px) {
 
+    .navbar-header {
+        display: none;
+    }
+
     .container-navbar {
+        width: 96% !important;
         padding: 20px 20px;
         justify-content: center;
-        width: 100%;
     }
 
     .navbar {
-        margin-right: 10%;
+        margin-right: 5%;
     }
 
     .navbar-menu {
@@ -163,6 +194,10 @@ body {
 
     .navbar-center {
         margin: 0 40px;
+    }
+
+    .logo-image {
+        width: 80px;
     }
 
     .dashboard-icon {
@@ -1587,4 +1622,42 @@ footer p {
     object-fit: cover;
     position: relative;
     right: 20px;
+}
+
+
+/* CONTACT */
+
+.contact-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 80px;
+    margin-top: 4rem;
+}
+
+.faq-list{
+    list-style: none;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+.faq-list .text-expanded{
+    padding: 20px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.3s ease;
+}
+
+.text-expanded.open {
+    max-height: 500px;
+    opacity: 1;
+    border: solid 1px grey;
+    background-color: rgb(248, 241, 229, 0.3);
+}
+
+@media screen and (min-width: 900px) {
+    .faq-list{
+        width: 800px
+    }
 }
