@@ -24,8 +24,13 @@ const Navbar: () => JSX.Element = () => {
     return (
         <div className={`container-navbar ${menuOpen ? 'open' : ''}`}>
             {!menuOpen && (
-                <div className="menu-logo" onClick={toggleMenu}>
-                    <MenuIcon sx={{fontSize: "50px", color: "#2C3E50"}}/>
+                <div className="navbar-header">
+                    <div className="menu-logo" onClick={toggleMenu}>
+                        <MenuIcon sx={{fontSize: "40px", color: "#2C3E50"}}/>
+                    </div>
+                    <a href="/" className="center-logo">
+                        <img className="logo-image" src={logo} alt="Odyssea logo"/>
+                    </a>
                 </div>
             )}
 
@@ -36,7 +41,7 @@ const Navbar: () => JSX.Element = () => {
             )}
 
             <nav className={`navbar ${menuOpen ? 'open' : ''}`}>
-                <div className="navbar-menu" style={{fontSize: '18px'}}>
+                <div className="navbar-menu">
                     <div className="navbar-links">
                         <div className="navbar-left">
                             <ul>
@@ -46,13 +51,11 @@ const Navbar: () => JSX.Element = () => {
                             </ul>
                         </div>
                     </div>
-
                     <div className="navbar-center">
                         <a href="/" className="logo">
                             <img className="logo-image" src={logo} alt="Odyssea logo"/>
                         </a>
                     </div>
-
                     <div className="navbar-links">
                         <div className="navbar-right">
                             <ul>
@@ -67,13 +70,10 @@ const Navbar: () => JSX.Element = () => {
                                     />
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
             </nav>
-
-
         </div>
     );
 };
