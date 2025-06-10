@@ -28,9 +28,17 @@
 }
 
 @media (min-width: 768px){
+    .filter-item {
+        width: 130px;
+        max-width: 190px;
+    }
+    .status-container {
+        width: 130px;
+        max-width: 190px;
+    }
     .filter-item__container {
         position: absolute;
-        width: 190px;
+        width: 170px;
         background-color: #F6F5F5;
     }
 }

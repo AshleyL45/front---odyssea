@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import styles from './AdminSort.module.css';
@@ -17,6 +17,19 @@ const AdminSort = ({type, onSortChange} : AdminSortProps) => {
     const [open, setOpen] = useState(false);
     const [selectedField, setSelectedField] = useState<string | null>(null);
     const [direction, setDirection] = useState<SortDirection>('asc');
+    const sortRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, []);
 
     const sortOptions: Record<BookingType, { label: string; value: string }[]> = {
         Standard: [
@@ -47,7 +60,7 @@ const AdminSort = ({type, onSortChange} : AdminSortProps) => {
     const currentLabel = sortOptions[type].find(opt => opt.value === selectedField)?.label;
 
     return (
-        <div className={styles['sort-container']}>
+        <div className={styles['sort-container']} ref={sortRef}>
             <button
                 className={styles['sort-label']}
                 onClick={() => setOpen(prev => !prev)}

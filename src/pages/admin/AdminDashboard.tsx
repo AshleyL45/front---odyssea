@@ -1,62 +1,26 @@
-import {ChangeEvent, FC, JSX, useEffect, useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import BookingCard from "../../components/admin/BookingCard";
 import AdminBooking from "../../@types/AdminBooking";
-import {
-    fetchAdminBookings,
-    fetchAdminUserItineraries,
-} from "../../services/AdminService";
 import styles from "./AdminDashboard.module.css";
 import AdminSearchBar from "../../components/admin/AdminSearchBar";
 import {CircularProgress} from "@mui/material";
 import AdminSort from "../../components/admin/AdminSort";
 import StatusFilter from "../../components/admin/StatusFilter";
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import {useAdminDashboard} from "../../hooks/UseAdminDashboard";
+import BookingCard from "../../components/admin/BookingCard";
 
 type bookingType = "Standard" | "Personalized";
 
-const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
-    const [bookings, setBookings] = useState<AdminBooking[] | null>(null);
-    const [error, setError] = useState<string | null>(null);
+const AdminDashboard = ({}) => {
     const [activeItem, setActiveItem] = useState<bookingType>("Standard");
     const [value, setValue] = useState<string | null>(null);
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const [sortField, setSortField] = useState<string | null>(null);
     const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const filters = {
-                    search: value || undefined,
-                    status: statusFilter || undefined,
-                    sortField: sortField || undefined,
-                    sortDirection: sortDirection || undefined ,
-                };
-
-                if(activeItem === "Standard"){
-                    const result = await fetchAdminBookings(filters);
-                    setBookings(result.data);
-                } else {
-                    const result = await fetchAdminUserItineraries(filters);
-                    setBookings(result.data);
-                }
-
-            } catch (e) {
-                console.error("Erreur de chargement des réservations", error);
-                setBookings(null);
-                setError("An error occurred while loading the bookings.");
-            } finally {
-                setLoading(false);
-            }
-        }
-       fetchData()
-    }, [value, activeItem, statusFilter, sortField, sortDirection]);
+    const {bookings, error, loading} = useAdminDashboard(value, statusFilter, activeItem, sortField, sortDirection);
 
 
     const handleInputValue = (event : ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +55,7 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
             <h1>Welcome to your dashboard, admin</h1>
 
 
-            {error && <p style={{color: "red"}}>{error}</p>}
+            {error && <p style={{color: "red", marginLeft: "1rem"}}>{error}</p>}
 
             <div className={styles.buttonContainer}>
                 <button onClick={() => switchType("Standard")}
@@ -117,15 +81,20 @@ const AdminDashboard: ({}: {}) => JSX.Element = ({}) => {
             }
 
 
-            <section className={styles.bookingSection}>
-                {
-                    (bookings && bookings?.length > 0) ? bookings.map((booking: AdminBooking) => (
-                            <BookingCard booking={booking} type={activeItem} key={booking.bookingId}/>
-                        )) :
-                        <p className={styles.noDataMessage}> No bookings are available.</p>
-                }
-            </section>
-
+            {
+                (bookings && bookings?.length > 0) ? (
+                    <>
+                        <section className={styles.bookingSection}>
+                            {
+                                bookings.map((booking: AdminBooking) => (
+                                    <BookingCard booking={booking} type={activeItem} key={booking.bookingId}/>
+                                ))
+                            }
+                        </section>
+                    </>
+                ) : (!loading && bookings && bookings?.length <= 0) &&
+                    <p className={styles.noDataMessage}> No bookings are available.</p>
+            }
 
         </main>
     );
