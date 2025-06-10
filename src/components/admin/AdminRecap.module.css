@@ -5,6 +5,7 @@
     width: 90%;
     margin: auto;
     height: auto;
+    padding: 14px 4px;
 }
 
 .admin-recap hr {
@@ -22,12 +23,17 @@
 .adminRecap__title {
     padding-top: 1rem;
     padding-left: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
+
 .admin-recap__item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
+}
+
+.admin-recap__section p {
+    font-size: 1.1rem;
 }
 
 .admin-recap__label {
@@ -42,9 +48,8 @@
 .admin-recap__info {
     display: flex;
     justify-content: flex-start;
-    width: 70%;
+    width: 80%;
 }
-
 
 
 .admin-recap__button {
@@ -52,16 +57,30 @@
     background: none;
     text-decoration: underline;
     cursor: pointer;
+    font-size: 1.1rem;
 }
 
 @media (min-width: 426px) {
     .admin-recap {
         width: 80%;
         height: 230px;
+        padding: 1rem 10px;
+    }
+
+    .adminRecap__title {
+        font-size: 1.8rem;
+    }
+
+    .admin-recap__section p {
+        font-size: 1.3rem;
     }
 
     .admin-recap__info {
         justify-content: space-between;
         width: 55%;
+    }
+
+    .admin-recap__button{
+        font-size: 1.3rem;
     }
 }

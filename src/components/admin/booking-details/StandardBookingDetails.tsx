@@ -9,6 +9,7 @@ import styles from "../../../pages/admin/AdminBookingDetailsPage.module.css";
 import EditStatusModal from "../EditStatusModal";
 import EditPriceModal from "../EditPriceModal";
 import {useBookingDetails} from "../../../contexts/BookingDetailsContext";
+import ConfirmationBox from "../ConfirmationBox";
 
 interface StandardBookingDetailsProps {
     data: AdminBookingDetails;

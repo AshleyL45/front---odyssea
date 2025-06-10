@@ -2,6 +2,7 @@ import {AdminBookingDetails} from "../../@types/AdminBookingDetails";
 import {AdminUserItineraryDetails} from "../../@types/AdminUserItineraryDetails";
 import styles from "./AdminRecap.module.css";
 import {useBookingDetails} from "../../contexts/BookingDetailsContext";
+import {useState} from "react";
 
 type RecapData = AdminBookingDetails | AdminUserItineraryDetails;
 interface AdminRecapProps {
@@ -17,6 +18,7 @@ function isStandardBooking(booking: RecapData): booking is AdminBookingDetails {
 const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps) => {
     const {bookingStatus, bookingPrice} = useBookingDetails();
     const itineraryName = booking.itineraryName;
+
 
     const itineraryId = isStandardBooking(booking)
         ? booking.reservation.itineraryId

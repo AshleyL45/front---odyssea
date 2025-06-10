@@ -1,4 +1,3 @@
-import {FC} from 'react';
 import styles from "./BookingInfo.module.css";
 import {Option} from "../../../@types/Option";
 
@@ -19,7 +18,7 @@ const OptionInfo = ({options} : OptionInfoProps) => {
                         <p>{option.price}€ </p>
                     </div>
                 ) : (
-                    <p>No options were chosen.</p>
+                    <p style={{fontSize: "1.3rem"}}>No options were chosen.</p>
                 )
             }
         </div>
