@@ -1,7 +1,6 @@
 // BookingFormPeople.tsx
 import React, {FC, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,7 +10,6 @@ import Pages from "../../components/layout/Pages";
 const BookingFormPeople: FC = () => {
     const navigate = useNavigate();
     const {updateResponse} = useReservation();
-
     const [adults, setAdults] = useState(0);
     const [kids, setKids] = useState(0);
 

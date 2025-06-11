@@ -17,7 +17,7 @@ const BookingMysteryTripCountry: FC = () => {
                     throw new Error("Error when retrieving countries");
                 }
                 const data = await response.json();
-                setCountries(data);
+                setCountries(data.data);
             } catch (error) {
                 console.error("Unable to retrieve list of countries:", error);
             }
