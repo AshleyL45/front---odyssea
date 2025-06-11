@@ -1748,3 +1748,39 @@ footer p {
     }
 }
 
+
+.container-our-value-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.our-value-image{
+    width: 200px;
+    height: 290px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.our-value-content{
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    bottom: 70px;
+}
+
+.our-value-content > h2{
+    font-size: 7rem;
+    font-family: Literata;
+    line-height: 1;
+}
+
+.our-value-content h3{
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
