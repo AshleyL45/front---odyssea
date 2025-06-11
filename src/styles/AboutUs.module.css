@@ -1,0 +1,176 @@
+/* ABOUT US */
+
+.containerAboutPage {
+    margin: 220px auto 120px;
+}
+
+.containerInfosDisplayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-top: solid 2px #745E4D;
+}
+
+.containerInfosDisplayerReverse {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 20px;
+    border-top: solid 2px #745E4D;
+    margin-top: 7rem;
+}
+
+.imageInfosDisplayer {
+    width: 270px;
+    height: 350px;
+    position: relative;
+    bottom: 80px;
+    border: solid 1px black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.textInfosDisplayer {
+    width: 85%;
+    margin: auto;
+}
+
+.travelLine {
+    width: 40%;
+    height: 3px;
+    background-color: #745E4D;
+    border-radius: 10px;
+    margin: 20px auto;
+}
+
+@media screen and (min-width: 501px) {
+    .imageInfosDisplayer {
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .containerInfosDisplayer {
+        flex-direction: row;
+        border-bottom: solid 2px #745E4D;
+        justify-content: center;
+        gap: 5rem;
+        height: 400px;
+        padding: 40px;
+    }
+
+    .containerInfosDisplayerReverse {
+        height: 440px;
+        flex-direction: row;
+        border-bottom: solid 2px #745E4D;
+        justify-content: center;
+        gap: 5rem;
+    }
+
+    .textInfosDisplayer {
+        width: 40%;
+        margin: 0;
+    }
+
+    .imageInfosDisplayer {
+        width: 400px;
+        height: 560px;
+        position: inherit;
+    }
+
+    .travelLine {
+        display: none;
+    }
+}
+
+
+.contactAboutUs {
+    margin: 6rem auto 0;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.contactAboutUs h2 {
+    font-size: 1.8rem;
+}
+
+@media screen and (min-width: 1000px) {
+    .contactAboutUs {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 7rem;
+        align-items: center;
+        margin: 11rem auto 8rem;
+    }
+
+    .contactAboutUs h2 {
+        font-size: 2.2rem;
+        width: 600px;
+    }
+
+    .contactAboutUs p {
+        font-size: 1.2rem;
+    }
+}
+
+.containerOurValueItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ourValueImage {
+    width: 200px;
+    height: 290px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.ourValueContent {
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    bottom: 60px;
+}
+
+.ourValueContent > h2 {
+    font-size: 7rem;
+    font-family: Literata;
+    line-height: 1;
+}
+
+.ourValueContent h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.containerValues {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+@media screen and (min-width: 700px) {
+    .containerValues {
+        flex-direction: row;
+        justify-content: center;
+        gap: 8rem;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .containerValues > :nth-child(even) {
+        margin-top: 70px;
+    }
+}

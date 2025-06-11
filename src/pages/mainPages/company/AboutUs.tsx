@@ -1,7 +1,7 @@
 import {JSX} from 'react';
 import {useNavigate} from "react-router-dom";
-import Pages from "../../../components/layout/Pages"
-import "../../../App.css";
+import Pages from "../../../components/layout/Pages";
+import style from "../../../styles/AboutUs.module.css";
 import InfosDisplayer from "../../../components/ReusableComponents/InfosDisplayer";
 import InfosDisplayerReverse from "../../../components/ReusableComponents/InfosDisplayerReverse";
 import CustomButton from "../../../components/ReusableComponents/CustomButton";
@@ -38,19 +38,20 @@ const values = [
         title: "Responsible Excellence",
         description: "Authentic and environmentally friendly experiences, for a trip that makes sense."
     }
-]
+];
 
 const AboutUs: ({}: {}) => JSX.Element = ({}) => {
     const navigate = useNavigate();
 
     return (
-        <div className="container-about-page">
+        <div className={style.containerAboutPage}>
             <Pages title="About Us - Odyssea">
             </Pages>
 
-            <InfosDisplayer image={aboutUs} >
+            <InfosDisplayer image={aboutUs}>
                 <h3 style={{textAlign: "center", fontSize: '2.5rem', marginBottom: '1.1rem'}}>About Us</h3>
-                <p style={{textAlign: "center"}}>Odyssea was born from a simple idea: bringing back the joy of traveling without the hassle of
+                <p style={{textAlign: "center"}}>
+                    Odyssea was born from a simple idea: bringing back the joy of traveling without the hassle of
                     planning. A group of travel-loving friends once came together and realized that the best memories
                     often come from the unexpected. So why not give everyone the chance to travel without planning,
                     while still ensuring a unique experience? <br/>
@@ -62,9 +63,10 @@ const AboutUs: ({}: {}) => JSX.Element = ({}) => {
 
             <h2 style={{fontSize: '2.7rem', textAlign: 'center', margin: '8rem auto 5rem'}}>Our Values</h2>
 
-            <section className="container-values">
+            <section className={style.containerValues}>
                 {values.map((value) => (
                     <OurValueItem
+                        key={value.number}
                         image={value.image}
                         number={value.number}
                         title={value.title}
@@ -73,7 +75,9 @@ const AboutUs: ({}: {}) => JSX.Element = ({}) => {
                 ))}
             </section>
 
-            <h2 style={{fontSize: '2.7rem', textAlign: 'center', margin: '2.5rem auto 8rem', padding: '0.6rem'}}>What our customers say ...</h2>
+            <h2 style={{fontSize: '2.7rem', textAlign: 'center', margin: '2.5rem auto 8rem', padding: '0.6rem'}}>
+                What our customers say ...
+            </h2>
 
             <InfosDisplayerReverse image={comment}>
                 <h3 style={{fontSize: '1.5rem', margin: "0 0 10px"}}>An Unforgettable Experience !</h3>
@@ -81,8 +85,7 @@ const AboutUs: ({}: {}) => JSX.Element = ({}) => {
                     <i>
                         "I tried the mystery trip and it was incredible! Everything was perfectly organized, and the
                         destination was a real surprise. A perfect mix of adventure and comfort. I would do it again
-                        without
-                        hesitation!"
+                        without hesitation!"
                     </i> -- Céline D.
                 </p>
                 <h2 style={{fontSize: '1.5rem', margin: '30px 0 10px'}}>No More Planning Stress</h2>
@@ -94,7 +97,7 @@ const AboutUs: ({}: {}) => JSX.Element = ({}) => {
                 </p>
             </InfosDisplayerReverse>
 
-            <div className='contact-about-us'>
+            <div className={style.contactAboutUs}>
                 <h2>Travel differently, in complete freedom with Odyssea</h2>
                 <div>
                     <p>

@@ -1,18 +1,22 @@
 import {FC, ReactNode} from 'react';
+import style from "../../styles/AboutUs.module.css";
 
 interface Props {
     image: string;
-    children: ReactNode
+    children: ReactNode;
 }
 
 const InfosDisplayerReverse: FC<Props> = ({image, children}) => {
     return (
         <>
-            <section className='container-infos-displayer-reverse'>
-                <div className="text-infos-displayer">{children}</div>
-                <div className="image-infos-displayer" style={{backgroundImage: `url(${image})`}}></div>
+            <section className={style.containerInfosDisplayerReverse}>
+                <div className={style.textInfosDisplayer}>{children}</div>
+                <div
+                    className={style.imageInfosDisplayer}
+                    style={{backgroundImage: `url(${image})`}}
+                ></div>
             </section>
-            <div className="travel-line"></div>
+            <div className={style.travelLine}></div>
         </>
     );
 };

@@ -1,4 +1,5 @@
 import {FC} from 'react';
+import style from "../../styles/AboutUs.module.css";
 
 interface Props {
     image: string;
@@ -9,9 +10,9 @@ interface Props {
 
 const OurValueItem: FC<Props> = ({ image, number, title, description }) => {
     return (
-        <div className="container-our-value-item">
-            <div className="our-value-image" style={{backgroundImage: `url(${image})`}}></div>
-            <div className="our-value-content">
+        <div className={style.containerOurValueItem}>
+            <div className={style.ourValueImage} style={{backgroundImage: `url(${image})`}}></div>
+            <div className={style.ourValueContent}>
                 <h2>{number}</h2>
                 <h3>{title}</h3>
                 <p>{description}</p>
