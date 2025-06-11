@@ -79,7 +79,8 @@ const Contact: ({}: {}) => JSX.Element = ({}) => {
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
-                                backgroundColor: '#F8F1E5'
+                                backgroundColor: '#F8F1E5',
+                                cursor: 'pointer'
                             }}>
                                 <div style={{padding: '7px'}}>{faq.question}</div>
                                 {expandedIndex === index ? (
