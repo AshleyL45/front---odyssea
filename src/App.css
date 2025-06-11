@@ -628,6 +628,10 @@ footer p {
     height: 320px;
     position: relative;
     bottom: 90px;
+    border: solid 1px black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center
 }
 
 .trip-item-travel .text-travel {
@@ -635,10 +639,6 @@ footer p {
 }
 
 @media screen and (min-width: 501px) {
-    .trip-item-travel .text-travel {
-        width: 85%;
-    }
-
     .trip-item-travel-photo {
         width: 500px;
         height: 400px;
@@ -1255,6 +1255,8 @@ footer p {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    transition: all 0.3s ease;
+    overflow: hidden
 }
 
 .activity-item.selected {
@@ -1650,7 +1652,7 @@ footer p {
 }
 
 .text-expanded.open {
-    max-height: 500px;
+    max-height: 550px;
     opacity: 1;
     border: solid 1px grey;
     background-color: rgb(248, 241, 229, 0.3);
@@ -1661,3 +1663,88 @@ footer p {
         width: 800px
     }
 }
+
+/* ABOUT US */
+
+.container-infos-displayer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-top: solid 2px #745E4D;
+}
+
+.container-infos-displayer-reverse{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 20px;
+    border-top: solid 2px #745E4D;
+    margin-top: 7rem;
+}
+
+.image-infos-displayer{
+    width: 270px;
+    height: 350px;
+    position: relative;
+    bottom: 80px;
+    border: solid 1px black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center
+}
+
+.text-infos-displayer{
+    width: 85%;
+    margin: auto;
+}
+
+.travel-line{
+    width: 40%;
+    height: 3px;
+    background-color: #745E4D;
+    border-radius: 10px;
+    margin: 20px auto
+}
+
+@media screen and (min-width: 501px) {
+    .image-infos-displayer{
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .container-infos-displayer{
+        flex-direction: row;
+        border-bottom: solid 2px #745E4D;
+        justify-content: center;
+        gap: 5rem;
+        height: 400px;
+        padding: 40px;
+    }
+
+    .container-infos-displayer-reverse{
+        height: 440px;
+        flex-direction: row;
+        border-bottom: solid 2px #745E4D;
+        justify-content: center;
+        gap: 5rem;
+    }
+
+    .text-infos-displayer{
+        width: 40%;
+        margin: 0;
+    }
+
+    .image-infos-displayer{
+        width: 400px;
+        height: 560px;
+        position: inherit;
+    }
+
+    .travel-line{
+        display: none;
+    }
+}
+
