@@ -1512,66 +1512,6 @@ footer p {
 
 /* Styles pour le collage d'images */
 
-
-{/*
-.collage {
-    display: flex;
-    position: relative;
-    height: 50vh;
-    width: 100%;
-    margin: 50px auto;
-    background-color: #F8F1E5;
-    overflow: hidden;
-}
-
-.collageItem {
-    position: absolute;
-    height: 120%;
-    width: 40%;
-    top: -10%;
-    overflow: hidden;
-}
-
-.collageItem img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1.2);
-}
-
-
-.div1 {
-    left: -8%;
-    transform: rotate(-10deg);
-}
-
-.div2 {
-    left: 30%;
-    transform: rotate(-10deg);
-    z-index: 2;
-}
-
-.div3 {
-    left: 68%;
-    transform: rotate(-10deg);
-    z-index: 1;
-}
-
-
-.div1 img {
-    transform: rotate(10deg) scale(1.2);
-    transform-origin: center;
-}
-
-.div2 img {
-    transform: rotate(10deg) scale(1.2);
-}
-
-.div3 img {
-    transform: rotate(10deg) scale(1.2);
-}
-*/}
-
 .collage {
     display: flex;
     position: relative;
@@ -1624,42 +1564,4 @@ footer p {
     object-fit: cover;
     position: relative;
     right: 20px;
-}
-
-
-/* CONTACT */
-
-.contact-layout {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 80px;
-    margin-top: 4rem;
-}
-
-.faq-list{
-    list-style: none;
-    margin: auto;
-    margin-top: 2rem;
-}
-
-.faq-list .text-expanded{
-    padding: 20px;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.5s ease, opacity 0.3s ease;
-}
-
-.text-expanded.open {
-    max-height: 550px;
-    opacity: 1;
-    border: solid 1px grey;
-    background-color: rgb(248, 241, 229, 0.3);
-}
-
-@media screen and (min-width: 900px) {
-    .faq-list{
-        width: 800px
-    }
 }

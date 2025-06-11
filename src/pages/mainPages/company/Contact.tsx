@@ -1,10 +1,11 @@
-import {JSX, useState} from 'react';
+import {JSX, useEffect, useState} from 'react';
 import Pages from "../../../components/layout/Pages";
 import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
 import MailIcon from '@mui/icons-material/Mail';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import style from "../../../styles/Contact.module.css";
 import '../../../App.css';
 
 const faqPages = [
@@ -23,24 +24,34 @@ const faqPages = [
         paragraphOne: 'While the trips featured in our catalog are carefully designed to suit a wide range of preferences, we understand that some travelers seek something even more personal. That’s why we offer the Bespoke Journey — a fully tailored experience shaped entirely around your desires.',
         paragraphTwo: 'You choose the duration (9, 17, 25, or 33 days), the departure date, the countries and cities you wish to explore, the types of activities you enjoy, and the level of accommodation that suits your standards. From there, a day-by-day itinerary is created just for you. One of our dedicated travel advisors will then be in touch to review every detail and fine-tune your journey to ensure it feels entirely your own.'
     }
-]
+];
 
 const Contact: ({}: {}) => JSX.Element = ({}) => {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, []);
 
     return (
         <>
             <Pages title="Contact Us - Odyssea">
             </Pages>
 
-            <section className='container-contact' style={{margin: "150px auto 70px", padding: '1.5rem'}}>
-                <h1 style={{fontSize: '30px', textAlign: 'center'}}>Need help fast? Take a look at our <a href="#faq" style={{textDecoration: "underline", fontSize: '30px'}}>FAQ</a>!</h1>
-                <div className='contact-layout'>
+            <section style={{margin: "150px auto 70px", padding: '1.5rem'}}>
+                <h1 style={{fontSize: '30px', textAlign: 'center'}}>
+                    Need help fast? Take a look at our <a href="#faq" style={{
+                    textDecoration: "underline",
+                    fontSize: '30px'
+                }}>FAQ</a>!
+                </h1>
+
+                <div className={style.contactLayout}>
                     <div>
-                        <h3 style={{fontSize: '20px',textTransform: 'uppercase'}}>Call us</h3>
+                        <h3 style={{fontSize: '20px', textTransform: 'uppercase'}}>Call us</h3>
                         <p style={{color: '#999999', marginBottom: '15px'}}>Call our team Monday to Friday.</p>
                         <div style={{display: 'flex', gap: "7px"}}>
-                            <PhoneForwardedIcon />
+                            <PhoneForwardedIcon/>
                             <p><strong>Tel : </strong>0205025024</p>
                         </div>
                     </div>
@@ -49,7 +60,7 @@ const Contact: ({}: {}) => JSX.Element = ({}) => {
                         <h3 style={{fontSize: '20px', textTransform: 'uppercase'}}>Send us a message</h3>
                         <p style={{color: '#999999', marginBottom: '15px'}}>Reach out to our team</p>
                         <div style={{display: 'flex', gap: "7px"}}>
-                            <MailIcon />
+                            <MailIcon/>
                             <p><strong>Mail :</strong> contact@odyssea.com</p>
                         </div>
                     </div>
@@ -58,7 +69,7 @@ const Contact: ({}: {}) => JSX.Element = ({}) => {
                         <h3 style={{fontSize: '20px', textTransform: 'uppercase'}}>Visit us</h3>
                         <p style={{color: '#999999', marginBottom: '15px'}}>Come and meet us in our offices.</p>
                         <div style={{display: 'flex', gap: "7px"}}>
-                            <PinDropIcon />
+                            <PinDropIcon/>
                             <p><strong>Head office</strong></p>
                         </div>
                         <ul style={{listStyleType: "none"}}>
@@ -70,8 +81,15 @@ const Contact: ({}: {}) => JSX.Element = ({}) => {
                     </div>
                 </div>
 
-                <h2 id='faq' style={{fontSize: '40px', fontWeight: 'bold', marginTop: '5rem', paddingTop: '20px', textAlign: 'center'}}>- F.A.Q -</h2>
-                <ul className='faq-list'>
+                <h2 id='faq' style={{
+                    fontSize: '40px',
+                    fontWeight: 'bold',
+                    marginTop: '5rem',
+                    paddingTop: '20px',
+                    textAlign: 'center'
+                }}>- F.A.Q -</h2>
+
+                <ul className={style.faqList}>
                     {faqPages.map((faq, index) => (
                         <li key={index}>
                             <button onClick={() => setExpandedIndex(expandedIndex === index ? null : index)} style={{
@@ -83,14 +101,10 @@ const Contact: ({}: {}) => JSX.Element = ({}) => {
                                 cursor: 'pointer'
                             }}>
                                 <div style={{padding: '7px'}}>{faq.question}</div>
-                                {expandedIndex === index ? (
-                                    <RemoveIcon/>
-                                ) : (
-                                    <AddIcon/>
-                                )}
+                                {expandedIndex === index ? <RemoveIcon/> : <AddIcon/>}
                             </button>
                             {expandedIndex === index && (
-                                <div className={`text-expanded ${expandedIndex === index ? 'open' : ''}`}>
+                                <div className={`${style.textExpanded} ${style.open}`}>
                                     <p>{faq.paragraphOne}</p><br/>
                                     <p>{faq.paragraphTwo}</p>
                                 </div>
