@@ -1,9 +1,10 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX, useEffect, useState} from 'react';
 import logo from "../../assets/logo/logo_symbol.png";
 import userIcon from "../../assets/userIcontwo.png";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import {useNavigate} from "react-router-dom";
+import style from "../../styles/Navbar.module.css";
 
 const Navbar: () => JSX.Element = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -15,57 +16,59 @@ const Navbar: () => JSX.Element = () => {
 
     useEffect(() => {
         document.body.style.overflow = menuOpen ? 'hidden' : '';
-
         return () => {
             document.body.style.overflow = '';
         };
     }, [menuOpen]);
 
     return (
-        <div className={`container-navbar ${menuOpen ? 'open' : ''}`}>
+        <header className={`${style.containerNavbar} ${menuOpen ? style.open : ''}`}>
             {!menuOpen && (
-                <div className="navbar-header">
-                    <div className="menu-logo" onClick={toggleMenu}>
+                <div className={style.navbarHeader}>
+                    <div className={style.menuLogo} onClick={toggleMenu}>
                         <MenuIcon sx={{fontSize: "40px", color: "#2C3E50"}}/>
                     </div>
-                    <a href="/" className="center-logo">
-                        <img className="logo-image" src={logo} alt="Odyssea logo"/>
+                    <a href="/" className={style.centerLogo}>
+                        <img className={style.logoImage} src={logo} alt="Odyssea logo"/>
                     </a>
                 </div>
             )}
 
             {menuOpen && (
-                <div className="close-menu-icon" onClick={toggleMenu}>
+                <div className={style.closeMenuIcon} onClick={toggleMenu}>
                     <CloseIcon sx={{fontSize: "48px", color: "#2C3E50"}}/>
                 </div>
             )}
 
-            <nav className={`navbar ${menuOpen ? 'open' : ''}`}>
-                <div className="navbar-menu">
-                    <div className="navbar-links">
-                        <div className="navbar-left">
+            <nav className={`${style.navbar} ${menuOpen ? style.open : ''}`}>
+                <div className={style.navbarMenu}>
+                    <div className={style.navbarLinks}>
+                        <div className={style.navbarLeft}>
                             <ul>
-                                <li><a href="/trips">Our itineraries </a></li>
+                                <li><a href="/trips">Our itineraries</a></li>
                                 <li><a href="/personalized-trip/summary">Personalized trip</a></li>
                                 <li><a href="/mystery-trip">Mystery trip</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div className="navbar-center">
-                        <a href="/" className="logo">
-                            <img className="logo-image" src={logo} alt="Odyssea logo"/>
+
+                    <div className={style.navbarCenter}>
+                        <a href="/" className={style.logo}>
+                            <img className={style.logoImage} src={logo} alt="Odyssea logo"/>
                         </a>
                     </div>
-                    <div className="navbar-links">
-                        <div className="navbar-right">
+
+                    <div className={style.navbarLinks}>
+                        <div className={style.navbarRight}>
                             <ul>
                                 <li><a href="/aboutUs">About Odyssea</a></li>
                                 <li><a href="/contact">Contact us</a></li>
                                 <li>
                                     <img
                                         src={userIcon}
-                                        alt='user icon'
-                                        className="login-logo" style={{width: "25px"}}
+                                        alt="user icon"
+                                        className={style.loginLogo}
+                                        style={{width: "25px"}}
                                         onClick={() => navigate('/dashboard')}
                                     />
                                 </li>
@@ -74,7 +77,7 @@ const Navbar: () => JSX.Element = () => {
                     </div>
                 </div>
             </nav>
-        </div>
+        </header>
     );
 };
 

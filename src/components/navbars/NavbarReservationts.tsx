@@ -2,7 +2,6 @@ import {FC} from 'react';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import logo from "../../assets/logo/logo_name.png";
 import "../../App.css";
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 const NavbarReservation: FC<{}> = ({}) => {
     return (
