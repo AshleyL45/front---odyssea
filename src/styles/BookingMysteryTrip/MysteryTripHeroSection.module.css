@@ -55,7 +55,7 @@ by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
 
 @media screen and (max-width: 400px) {
     .heroSectionImage h2 {
-        font-size: 1.25rem;
+        font-size: 1rem;
         right: 1rem;
         top: calc(50% + 2rem + 0.75rem);
     }
@@ -82,12 +82,12 @@ by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
 
     .heroSectionImage h1 {
         top: 40% !important;
-        font-size: 2rem !important;
+        font-size: 1.7rem !important;
     }
 
     .heroSectionImage h2 {
         top: calc(40% + 2rem + 0.5rem) !important;
-        font-size: 1.25rem !important;
+        font-size: 1rem !important;
         margin-top: 90px;
     }
 }

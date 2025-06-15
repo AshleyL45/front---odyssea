@@ -104,7 +104,7 @@ export const PersonalizedTripContextProvider: ({children}: { children: any }) =>
 export const usePersonalizedTrip = () => {
     const context = useContext(PersonalizedTripContext);
     if (!context) {
-        throw new Error("usePersonalizedTrip must be used within a ReservationProvider");
+        throw new Error("usePersonalizedTrip must be used within a BookingProvider");
     }
     return context;
 }

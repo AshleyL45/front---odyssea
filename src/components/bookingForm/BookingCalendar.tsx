@@ -5,12 +5,12 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import CustomButton from "../ReusableComponents/CustomButton";
 
-interface ReservationCalendar {
+interface BookingCalendar {
     days: number;
     onDateSelect: (date: Dayjs | null) => void;
 }
 
-const ReservationCalendar: FC<ReservationCalendar> = ({days, onDateSelect}) => {
+const BookingCalendar: FC<BookingCalendar> = ({days, onDateSelect}) => {
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
@@ -43,4 +43,4 @@ const ReservationCalendar: FC<ReservationCalendar> = ({days, onDateSelect}) => {
     );
 };
 
-export default ReservationCalendar;
+export default BookingCalendar;

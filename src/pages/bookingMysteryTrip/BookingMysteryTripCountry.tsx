@@ -5,14 +5,14 @@ import Select from 'react-select';
 import CustomButton from '../../components/ReusableComponents/CustomButton';
 import Pages from '../../components/layout/Pages';
 import {get} from '../../API/api';
-import {useReservation} from '../../contexts/ReservationContext';
+import {useBooking} from '../../contexts/BookingContext';
 import {useAuth} from '../../contexts/AuthContext';
 import {Trip} from '../../@types/Trip';
 import {Country} from '../../@types/Country';
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
-    const {questionnaireAnswers, updateResponse, setTrip} = useReservation();
+    const {questionnaireAnswers, updateResponse, setTrip} = useBooking();
     const {token} = useAuth();
 
     const [countries, setCountries] = useState<Country[]>([]);
@@ -93,6 +93,7 @@ const BookingMysteryTripCountry: FC = () => {
             <Pages title="Booking - Mystery Trip">
             </Pages>
 
+            <header>
             <div className="progress-bar">
                 <div style={{width: '100%', height: '6px', backgroundColor: 'lightgrey'}}/>
                 <div
@@ -107,7 +108,7 @@ const BookingMysteryTripCountry: FC = () => {
                 />
             </div>
 
-            <p
+            <a
                 onClick={handlePrevious}
                 style={{
                     display: 'flex',
@@ -117,10 +118,11 @@ const BookingMysteryTripCountry: FC = () => {
                     cursor: 'pointer',
                 }}
             >
-                <ArrowBackIcon sx={{fontSize: '15px'}}/>
-                previous step
-            </p>
+                <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
+            </a>
+            </header>
 
+            <main>
             <div
                 style={{
                     display: 'flex',
@@ -134,17 +136,20 @@ const BookingMysteryTripCountry: FC = () => {
                 }}
             >
                 <h1 style={{fontSize: '25px', margin: '30px 0 0'}}>Exclude your destinations</h1>
-                <p style={{fontSize: '1rem', lineHeight: '1.5'}}>
+                <h2 style={{fontSize: '1rem', lineHeight: '1.5', fontWeight: 'lighter'}}>{selectedCountries}
                     Indicate the countries you do not wish to visit to personalize your stay.
-                </p>
+                </h2>
 
                 <label htmlFor="countrySelect" style={{fontWeight: 'bold', marginTop: '50px'}}>
                     Choose a country to exclude:
                 </label>
+
                 <p style={{fontSize: '0.9rem', color: 'grey', marginTop: '0.25rem'}}>
                     Maximum 10 countries
                 </p>
+
                 <div style={{width: '100%', maxWidth: '300px'}}>
+                    <form onSubmit={handleNext}>
                     <Select
                         options={countries
                             .filter((c) => !selectedCountries.includes(c.name))
@@ -153,6 +158,7 @@ const BookingMysteryTripCountry: FC = () => {
                         placeholder="-- Select a country --"
                         menuPlacement="bottom"
                     />
+                    </form>
                 </div>
 
                 <div
@@ -198,8 +204,10 @@ const BookingMysteryTripCountry: FC = () => {
                     Next
                 </CustomButton>
             </div>
+            </main>
         </>
+
     );
 };
 
-export default BookingMysteryTripCountry;
+    export default BookingMysteryTripCountry;

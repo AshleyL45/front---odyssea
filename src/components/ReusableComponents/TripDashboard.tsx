@@ -7,7 +7,7 @@ import {useFavorites} from "../../contexts/MySelectionContext";
 
 type DashboardProps = {
     trip: Trip
-    page: "Overview" | "Reservations" | "Travel History" | "My selection" | "Personal information" | "Settings"
+    page: "Overview" | "Bookings" | "Travel History" | "My selection" | "Personal information" | "Settings"
     type?: "Tailor made" | "Pre-designed trip"
 }
 const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
@@ -30,7 +30,7 @@ const TripDashboard: FC<DashboardProps> = ({trip, page, type}) => {
 
             <p className={styles.tripDashboardDescription}>{trip.description}</p>
             <p className={styles.tripDashboardDetails} onClick={() => navigate(`/trip/${trip.id}`)}>Details</p>
-            {page === "Reservations" && (
+            {page === "Bookings" && (
                 <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "1rem"}}>
                     <p>Status : {trip.status}</p>
                     <p>Price: {trip.price} €</p>

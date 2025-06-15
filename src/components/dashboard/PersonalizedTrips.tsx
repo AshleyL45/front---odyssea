@@ -32,7 +32,7 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
                     setPersonnalizedTrips(userItineraries)
                 }
             } catch (e) {
-                console.error("Error while fetching reservations : ", e);
+                console.error("Error while fetching bookings : ", e);
             }
         };
         fetchUserItineraries();

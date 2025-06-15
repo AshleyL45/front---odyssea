@@ -1,32 +1,32 @@
 import {FC, JSX, useEffect, useState} from 'react';
 import TripDashboard from "../../../components/ReusableComponents/TripDashboard";
 import {Trip} from "../../../@types/Trip";
-import styles from "../../../styles/Reservation.module.css";
+import styles from "../../../styles/Booking.module.css";
 import {get} from "../../../API/api";
 import {useAuth} from "../../../contexts/AuthContext";
 import Pages from "../../../components/layout/Pages"
 
 
 
-const Reservation: ({}: {}) => JSX.Element = ({}) => {
+const Booking: ({}: {}) => JSX.Element = ({}) => {
     const [activeFilter, setActiveFilter] = useState<string>("Tout");
     const {userId} = useAuth();
-    const [userReservations, setUserReservations] = useState<Trip[]>([]);
-    const [filteredReservations, setFilteredReservations] = useState<Trip[]>([]);
+    const [userBookings, setUserBookings] = useState<Trip[]>([]);
+    const [filteredBookings, setFilteredBookings] = useState<Trip[]>([]);
 
     console.log(userId)
 
     // Récupérer les réservations de l'utilisateur
     useEffect(() => {
-        const fetchAndFilterReservations = async () => {
+        const fetchAndFilterBookings = async () => {
             try {
-                const reservations = await get(`/reservations/${userId}`);
-                setUserReservations(reservations);
+                const bookings = await get(`/bookings/${userId}`);
+                setUserBookings(bookings);
 
                 const filtered = activeFilter === "Tout"
-                    ? reservations
-                    : reservations.filter((reservation: Trip) => reservation.status === activeFilter);
-                setFilteredReservations(filtered);
+                    ? bookings
+                    : bookings.filter((booking: Trip) => booking.status === activeFilter);
+                setFilteredBookings(filtered);
 
                 // Appel à userItinerary sans bloquer l'affichage
                 get(`/userItinerary/all/${userId}`)
@@ -38,10 +38,10 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
                     });
 
             } catch (e) {
-                console.error("Error while fetching reservations : ", e);
+                console.error("Error while fetching bookings : ", e);
             }
         };
-        fetchAndFilterReservations();
+        fetchAndFilterBookings();
     }, [activeFilter]);
 
 
@@ -54,21 +54,21 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
     today.setHours(0, 0, 0, 0);
 
     // Avoir la dernière réservation en cours
-    const firstOngoingReservation = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate < today;
+    const firstOngoingBooking = userBookings.find((booking) => {
+        if (!booking.purchaseDate) return false;
+        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
+        return booking.status === "En attente" && bookingDate < today;
     });
 
     return (
         <>
-            <Pages title="Reservation - Odyssea">
+            <Pages title="Booking - Odyssea">
 
-            <div className={styles.reservationContainer}>
+            <div className={styles.bookingContainer}>
                 <h1>My bookings</h1>
                 <h2 className={styles.titles}>Current</h2>
-                {userReservations.length > 0 && userReservations ? userReservations.map((reservation) => (
-                    <TripDashboard trip={reservation} page={"Reservations"}/>
+                {userBookings.length > 0 && userBookings ? userBookings.map((booking) => (
+                    <TripDashboard trip={booking} page={"Bookings"}/>
                 )) : (
                     <p style={{marginLeft: "4rem"}}>No current trip.</p>
                 )}
@@ -105,8 +105,8 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
 
                 <div>
                     {
-                        filteredReservations && filteredReservations.length > 0 && filteredReservations.map((reservation) =>
-                            <TripDashboard key={reservation.id} trip={reservation} page={"Reservations"}/>)
+                        filteredBookings && filteredBookings.length > 0 && filteredBookings.map((booking) =>
+                            <TripDashboard key={booking.id} trip={booking} page={"Bookings"}/>)
                     }
                 </div>
             </div>
@@ -115,4 +115,4 @@ const Reservation: ({}: {}) => JSX.Element = ({}) => {
     );
 };
 
-export default Reservation;
+export default Booking;

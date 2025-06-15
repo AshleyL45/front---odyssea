@@ -2,7 +2,7 @@ import React, {FC, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import Pages from "../../components/layout/Pages";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import styles from "../../styles/BookingMysteryTrip/BookingMysteryTrip.module.css";
@@ -10,7 +10,7 @@ import styles from "../../styles/BookingMysteryTrip/BookingMysteryTrip.module.cs
 const BookingMysteryTripBilling: FC = () => {
     const navigate = useNavigate();
     const {email: authEmail, firstName: authFirstName, lastName: authLastName} = useAuth();
-    const {questionnaireAnswers, updateResponse} = useReservation();
+    const {questionnaireAnswers, updateResponse} = useBooking();
 
     const [lastName, setLastName] = useState(
         questionnaireAnswers.lastName || authLastName || ""
@@ -19,7 +19,7 @@ const BookingMysteryTripBilling: FC = () => {
         questionnaireAnswers.firstName || authFirstName || ""
     );
     const [email, setEmail] = useState(
-        questionnaireAnswers.email || authEmail || ""
+        questionnaireAnswers.email || ""
     );
     const [phoneNumber, setPhoneNumber] = useState(
         questionnaireAnswers.phoneNumber || ""
@@ -86,19 +86,20 @@ const BookingMysteryTripBilling: FC = () => {
         <>
             <Pages title="Booking – Mystery Trip">
             </Pages>
+            <header>
+                <div className={styles.progressBarContainer}>
+                    <div className={styles.progressBar}/>
+                </div>
 
-            <div className={styles.progressBarContainer}>
-                <div className={styles.progressBar}/>
-            </div>
-
-            <p className={styles.previousStep} onClick={() => navigate(-1)}>
-                <ArrowBackIcon fontSize="small"/>
-                Previous step
-            </p>
-
+                <a className={styles.previousStep} style={{background:'none', stroke:'none'}} onClick={() => navigate(-1)}>
+                    <ArrowBackIcon fontSize="small"/>
+                    Previous step
+                </a>
+            </header>
+<main>
             <div className={styles.optionSelect}>
                 <h1>Your billing information</h1>
-                <p>Please fill in to finalize your reservation.</p>
+                <h2 style={{fontWeight:'lighter'}}>Please fill in to finalize your reservation.</h2>
 
                 <h3>Contact Details</h3>
                 <div className={styles.formGrid}>
@@ -206,6 +207,7 @@ const BookingMysteryTripBilling: FC = () => {
                     </CustomButton>
                 </div>
             </div>
+</main>
         </>
     );
 };

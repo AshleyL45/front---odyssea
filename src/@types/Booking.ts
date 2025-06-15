@@ -1,4 +1,4 @@
-export interface Reservation {
+export interface Booking {
     userId: number;
     itineraryId: number;
     status: string;
@@ -6,7 +6,7 @@ export interface Reservation {
     returnDate: string;
     numberOfAdults: number
     numberOfKids: number;
-    optionIds: number[] | null;
+    optionIds: number[];
     excludedCountries: string[];
 
     lastName: string;

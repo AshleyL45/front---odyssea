@@ -1,7 +1,7 @@
 import {FC, JSX} from 'react';
 import {useParams} from "react-router-dom";
 import styles from "../../styles/components/TripDashboard.module.css"
-import {Reservation} from "../../@types/Reservation";
+import {Booking} from "../../@types/Booking";
 
 interface UserItinerary {
     id: number;

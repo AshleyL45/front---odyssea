@@ -9,10 +9,10 @@ import {useFavorites} from "../../contexts/MySelectionContext";
 import {useDashboard} from "../../contexts/DashboardContext";
 
 const Overview: ({}: {}) => JSX.Element = ({}) => {
-    const {userReservations, lastDoneReservation, pastTrips} = useDashboard();
+    const {userBookings, lastDoneBooking, pastTrips} = useDashboard();
     const navigate = useNavigate();
     const {favorites} = useFavorites();
-    //console.log(JSON.stringify(userReservations))
+    //console.log(JSON.stringify(userBookings))
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -23,14 +23,14 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
             <h1>Overview</h1>
 
             <div className="container-trip-number">
-                <TripNumbers title={"Current"} number={userReservations.length}/>
+                <TripNumbers title={"Current"} number={userBookings.length}/>
                 <TripNumbers title={"My selection"} number={favorites.length}/>
                 <TripNumbers title={"Travel history"} number={pastTrips.length}/>
             </div>
 
             <h2 className="sub-title">Current trip</h2>
             {
-                userReservations.length > 0 ? userReservations.map((trip) => (
+                userBookings.length > 0 ? userBookings.map((trip) => (
                     <TripDashboard trip={trip} page="Overview"/>
                     )
                 ) : <p style={{marginLeft: "8rem"}}>No current trips.</p>
@@ -39,8 +39,8 @@ const Overview: ({}: {}) => JSX.Element = ({}) => {
 
             <h2 className="sub-title">Last Trip</h2>
             {
-                lastDoneReservation ? (
-                    <TripDashboard trip={lastDoneReservation} page="Overview"/>
+                lastDoneBooking ? (
+                    <TripDashboard trip={lastDoneBooking} page="Overview"/>
                 ) : <p style={{marginLeft: "8rem", marginBottom: "2rem"}}>No trips done and booked yet. </p>
             }
 

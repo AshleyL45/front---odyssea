@@ -181,7 +181,7 @@ body {
 }
 
 /* NAVBAR DASHBOARD */
-.navbar-dashboard, .navbar-reservation {
+.navbar-dashboard, .navbar-booking {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -193,11 +193,11 @@ body {
     border-bottom: solid 5px rgb(116, 94, 77, 0.7);
 }
 
-.navbar-dashboard img, .navbar-reservation img {
+.navbar-dashboard img, .navbar-booking img {
     width: 170px;
 }
 
-.navbar-dashboard a, .navbar-reservation a {
+.navbar-dashboard a, .navbar-booking a {
     cursor: pointer;
     text-underline-offset: 2px;
 }
@@ -229,12 +229,12 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-    .navbar-reservation {
+    .navbar-booking {
         padding: 20px;
         font-size: 0.8rem;
     }
 
-    .navbar-reservation img {
+    .navbar-booking img {
         width: 130px;
     }
 
@@ -1103,7 +1103,7 @@ footer p {
 }
 
 .mystery-trip-banner-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin: 1rem 2rem;
     font-family: Literata;
 }

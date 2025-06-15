@@ -15,7 +15,7 @@ import BookButton from "../../components/itinerary-details/BookButton";
 import {useNavigate, useParams} from "react-router-dom";
 import {get} from "../../API/api";
 import {useFavorites} from "../../contexts/MySelectionContext";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css";
 
@@ -37,7 +37,7 @@ const ItineraryDetails: FC = () => {
     const {userId, token} = useAuth();
     const navigate = useNavigate();
     const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
-    const {setTrip, updateResponse} = useReservation();
+    const {setTrip, updateResponse} = useBooking();
 
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
     const [dailyPlans, setDailyPlans] = useState<DailyPlanWithCityDto[]>([]);
@@ -146,7 +146,7 @@ const ItineraryDetails: FC = () => {
         else if (itineraryToDisplay) handleAddToFavorites(itineraryToDisplay);
     };
 
-    const handleReservation = () => {
+    const handleBooking = () => {
         if (itineraryToDisplay) {
             setTrip(itineraryToDisplay);
             updateResponse("userId", userId);
@@ -225,7 +225,7 @@ const ItineraryDetails: FC = () => {
                         </div>
                     </div>
 
-                    <BookButton onClick={handleReservation} />
+                    <BookButton onClick={handleBooking} />
 
                     <section className="itinerary-details">
                         <div style={{

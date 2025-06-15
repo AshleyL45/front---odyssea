@@ -1,6 +1,6 @@
 import {FC, JSX, useEffect, useState} from 'react';
 import Overview from "../../../components/dashboard/Overview";
-import Reservation from "../../mainPages/user/Reservation";
+import Booking from "../../mainPages/user/Booking";
 import History from "../../../components/dashboard/History";
 import Settings from "../../../components/dashboard/Settings";
 import MySelection from "../../../components/dashboard/MySelection";
@@ -26,7 +26,7 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                 <div style={{width: "100%"}}>
 
                     {activePage === "Overview" && <Overview/>}
-                    {activePage === "My bookings" && <Reservation/>}
+                    {activePage === "My bookings" && <Booking/>}
                     {activePage === "Travel History" && <History/>}
                     {activePage === "My selection" && <MySelection/>}
                     {activePage === "Personal information" && <PersonalInformation/>}

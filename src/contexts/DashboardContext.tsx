@@ -5,69 +5,69 @@ import {useAuth} from "./AuthContext";
 import {useLocation} from "react-router-dom";
 
 interface DashboardContextProps {
-    userReservations: Trip[];
-    firstCurrentReservation: Trip | undefined;
+    userBookings: Trip[];
+    firstCurrentBooking: Trip | undefined;
     pastTrips: Trip[];
     currentTrips: Trip[];
-    lastDoneReservation: Trip | undefined;
+    lastDoneBooking: Trip | undefined;
     personalizedTrips: Trip[];
 }
 
 const DashboardContext = createContext<DashboardContextProps | null>(null);
 
 export const DashboardContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
-    const [userReservations, setUserReservations] = useState<Trip[]>([]);
+    const [userBookings, setUserBookings] = useState<Trip[]>([]);
     const [personalizedTrips, setPersonalizedTrips] = useState<Trip[]>([]);
     const {userId, token} = useAuth();
     const location = useLocation();
 
     useEffect(() => {
-        const fetchReservations = async () => {
+        const fetchBookings = async () => {
             try {
-                const reservations = await get(`/reservations/${userId}`);
+                const bookings = await get(`/bookings/${userId}`);
                 const userItineraries = await get(`/userItinerary/all/${userId}`);
-                if (reservations && userItineraries) {
-                    setUserReservations(reservations);
+                if (bookings && userItineraries) {
+                    setUserBookings(bookings);
                     setPersonalizedTrips(userItineraries);
                     //console.table(personalizedTrips);
                 }
             } catch (e) {
-                console.error("Error while fetching reservations: ", e);
+                console.error("Error while fetching bookings: ", e);
             }
         };
-        fetchReservations();
+        fetchBookings();
     }, [token, location]);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const firstCurrentReservation = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "En attente" && reservationDate >= today;
+    const firstCurrentBooking = userBookings.find((booking) => {
+        if (!booking.purchaseDate) return false;
+        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
+        return booking.status === "En attente" && bookingDate >= today;
     });
 
-    const pastTrips = userReservations.filter((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "Confirmé" && reservationDate < today;
+    const pastTrips = userBookings.filter((booking) => {
+        if (!booking.purchaseDate) return false;
+        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
+        return booking.status === "Confirmé" && bookingDate < today;
     });
 
-    const currentTrips = userReservations.filter((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return (reservation.status === "En attente" || reservation.status === "Current") && reservationDate >= today;
+    const currentTrips = userBookings.filter((booking) => {
+        if (!booking.purchaseDate) return false;
+        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
+        return (booking.status === "En attente" || booking.status === "Current") && bookingDate >= today;
     });
 
-    const lastDoneReservation = userReservations.find((reservation) => {
-        if (!reservation.purchaseDate) return false;
-        const reservationDate = new Date(reservation.purchaseDate.split('-').reverse().join('-'));
-        return reservation.status === "Confirmé" && reservationDate < today;
+    const lastDoneBooking = userBookings.find((booking) => {
+        if (!booking.purchaseDate) return false;
+        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
+        return booking.status === "Confirmé" && bookingDate < today;
     });
 
     return (
         <DashboardContext.Provider
-            value={{userReservations, firstCurrentReservation, pastTrips, currentTrips, lastDoneReservation, personalizedTrips}}>
+            value={{userBookings, firstCurrentBooking, pastTrips, currentTrips, lastDoneBooking, personalizedTrips}}>
             {children}
         </DashboardContext.Provider>
     );

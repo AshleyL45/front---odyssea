@@ -2,9 +2,9 @@ import React, {FC, useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import itineraryImages from "../../assets/itineraryImages.json";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import {Trip} from "../../@types/Trip";
-import {get} from "../../API/api";
+import {get, post} from "../../API/api";
 import {DotWave} from "ldrs/react";
 import "ldrs/react/DotWave.css";
 import BouncingArrow from "../../components/mysteryTrip/BouncingArrow";
@@ -17,7 +17,7 @@ interface ApiResp<T> {
 
 const BookingMysteryTripResult: FC = () => {
     const navigate = useNavigate();
-    const {setTrip, questionnaireAnswers} = useReservation();
+    const {setTrip, questionnaireAnswers, updateResponse} = useBooking();
 
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("Prepare for the unexpected...");
@@ -31,86 +31,70 @@ const BookingMysteryTripResult: FC = () => {
     }, []);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const timer = setTimeout(async () => {
             setLoading(false);
             setMessage("Explore your destination");
             setShowArrow(true);
 
-            const images = itineraryImages.images || [];
-            const valid = images.filter(img => img.idItinerary != null);
-            if (valid.length > 0) {
-                const pick = valid[Math.floor(Math.random() * valid.length)];
-                get<ApiResp<Trip>>(`/api/itineraries/${pick.idItinerary}`)
-                    .then(envelope => {
-                        if (!envelope?.data) {
-                            console.error("No trip data returned");
-                            return;
-                        }
-                        const fullTrip = envelope.data;
-                        setTrip(fullTrip);
-                        setSelectedTrip(fullTrip);
-                        localStorage.setItem("validTrip", JSON.stringify(fullTrip));
-                        localStorage.setItem("mysteryTripResult", JSON.stringify(fullTrip));
-                    })
-                    .catch(console.error);
+            const excluded = questionnaireAnswers.excludedCountries?.join(',') || '';
+            try {
+                const envelope = await get<ApiResp<Trip[]>>(
+                    `/api/itineraries/valid${excluded ? `?excludedCountries=${excluded}` : ''}`
+                );
+                if (!envelope?.data || envelope.data.length === 0) {
+                    console.error("Aucun itinéraire valide retourné");
+                    return;
+                }
+                const pick = envelope.data[Math.floor(Math.random() * envelope.data.length)];
+                setTrip(pick);
+                setSelectedTrip(pick);
+                localStorage.setItem("validTrip", JSON.stringify(pick));
+                localStorage.setItem("mysteryTripResult", JSON.stringify(pick));
+
+                await post('/book/step4', {itineraryId: pick.id});
+                updateResponse('itineraryId', pick.id);
+
+            } catch (err) {
+                console.error("Erreur récupération ou mise à jour du draft :", err);
             }
         }, 3000);
 
         return () => clearTimeout(timer);
-    }, [setTrip]);
+    }, [setTrip, questionnaireAnswers.excludedCountries, updateResponse]);
 
     const handleArrowClick = () => setShowImage(true);
     const handleBooking = () => navigate("/booking-mystery-trip/submit");
 
     if (!showImage) {
         return (
-            <div
-                style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "100vh",
-                    backgroundColor: "#333",
-                    color: "white",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                    overflow: "hidden",
-                }}
-            >
-                <h1
-                    style={{
-                        margin: 0,
-                        fontSize: "clamp(1.5rem, 6vw, 3rem)",
-                        fontWeight: 600,
-                        maxWidth: "100%",
-                        lineHeight: 1.2,
-                    }}
-                >
-                    {message}
-                </h1>
+            <div style={{
+                position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+                backgroundColor: "#333", color: "white", display: "flex",
+                flexDirection: "column", justifyContent: "center", alignItems: "center",
+                textAlign: "center", overflow: "hidden"
+            }}>
+                <h1 style={{
+                    margin: 0,
+                    fontSize: "clamp(1.5rem, 6vw, 3rem)",
+                    fontWeight: 600,
+                    maxWidth: "100%",
+                    lineHeight: 1.2
+                }}>{message}</h1>
                 {loading ? (
                     <div style={{marginTop: "2rem"}}>
                         <DotWave size={55} speed={1.4} color="white"/>
                     </div>
-                ) : (
-                    showArrow && (
-                        <div style={{marginTop: "3rem"}}>
-                            <BouncingArrow onClick={handleArrowClick}/>
-                        </div>
-                    )
+                ) : showArrow && (
+                    <div style={{marginTop: "3rem"}}>
+                        <BouncingArrow onClick={handleArrowClick}/>
+                    </div>
                 )}
             </div>
         );
     }
 
     if (selectedTrip) {
-        const imageUrl =
-            itineraryImages.images.find(img => img.idItinerary === selectedTrip.id)
-                ?.imageUrl || "";
+        const imageUrl = itineraryImages.images.find(img => img.idItinerary === selectedTrip.id)?.imageUrl || "";
 
         return (
             <div

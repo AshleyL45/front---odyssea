@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import Navbar from '../navbars/Navbar';
-import styles from '../../styles/components/MysteryTripHeroSection.module.css';
+import styles from '../../styles/BookingMysteryTrip/MysteryTripHeroSection.module.css';
 
 interface MysteryTripHeroSectionProps {
     imageUrl: string;

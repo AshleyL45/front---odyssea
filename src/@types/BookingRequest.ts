@@ -1,4 +1,4 @@
-export interface ReservationRequest {
+export interface BookingRequest {
     itineraryId: number;
     departureDate: string;
     returnDate: string;

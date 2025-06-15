@@ -1,18 +1,18 @@
 import {createContext, FC, JSX, useContext, useEffect, useState} from "react";
-import {Reservation} from "../@types/Reservation";
+import {Booking} from "../@types/Booking";
 import {useAuth} from "./AuthContext";
 import {Trip} from "../@types/Trip";
 
-interface ReservationProps {
-    questionnaireAnswers: Reservation;
+interface BookingProps {
+    questionnaireAnswers: Booking;
     updateResponse: (field: string, value: any) => void;
     trip: any;
     setTrip: (trip: Trip) => void;
 }
 
-const ReservationContext = createContext<ReservationProps | null>(null);
+const BookingContext = createContext<BookingProps | null>(null);
 
-export const ReservationContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
+export const BookingContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
     const {userId} = useAuth();
 
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState(() => {
@@ -43,17 +43,17 @@ export const ReservationContextProvider: ({children}: { children: any }) => JSX.
     const [trip, setTrip] = useState<any>(null);
 
     return (
-        <ReservationContext.Provider value={{questionnaireAnswers, updateResponse, trip, setTrip}}>
+        <BookingContext.Provider value={{questionnaireAnswers, updateResponse, trip, setTrip}}>
             {children}
-        </ReservationContext.Provider>
+        </BookingContext.Provider>
     )
 }
 
 //Hook personnalisé
-export const useReservation = () => {
-    const context = useContext(ReservationContext);
+export const useBooking = () => {
+    const context = useContext(BookingContext);
     if(!context){
-        throw new Error("useReservation must be used within a ReservationProvider");
+        throw new Error("useBooking must be used within a BookingProvider");
     }
     return context;
 }
