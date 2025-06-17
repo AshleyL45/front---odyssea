@@ -14,6 +14,7 @@ export const useAccountActions = () => {
             setSuccessMessage("Information updated successfully.");
         } catch (err) {
             setError("Failed to update account info.");
+            console.error(err);
         } finally {
             setLoading(false);
         }
@@ -27,6 +28,7 @@ export const useAccountActions = () => {
             setSuccessMessage("Password changed successfully.");
         } catch (err) {
             setError("Failed to change password.");
+            console.error(err)
         } finally {
             setLoading(false);
         }
@@ -40,6 +42,7 @@ export const useAccountActions = () => {
             setSuccessMessage("Account deleted successfully.");
         } catch (err) {
             setError("Failed to delete account.");
+            console.error(err)
         } finally {
             setLoading(false);
         }

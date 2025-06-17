@@ -1,10 +1,11 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX, useState} from 'react';
 import CustomButton from "../ReusableComponents/CustomButton";
 import {useAuth} from "../../contexts/AuthContext";
 import {patch} from "../../API/api";
 import {deleteFromDB} from "../../API/api";
 import {useNavigate} from "react-router-dom";
 import MessageBox from "../auth/MessageBox";
+import styles from "./Settings.module.css"
 
 const Settings: ({}: {}) => JSX.Element = ({}) => {
     const {logout} = useAuth();
@@ -50,58 +51,33 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
     };
 
 
-    const handleLogout = () => {
-        navigate("/");
-        logout();
-    }
-
 
     return (
-        <div style={{position: "relative"}}>
+        <>
 
-            <div style={{display: "flex", justifyContent: "space-between", flexDirection: "column", minHeight: "80vh"}}>
+            <section className={styles.settingsContainer}>
                 <div>
-                    <h1 style={{
-                        marginLeft: "8rem",
-                        marginTop: "1.8rem",
-                        marginBottom: "2rem",
-                        fontSize: "1.8rem"
-                    }}>Settings</h1>
+                    <h1 className={styles.settingsTitle}>Settings</h1>
 
-                    <div style={{
-                        marginLeft: "8rem",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        width: "30%",
-                        alignItems: "center"
-                    }}>
+                    <form onSubmit={handleDeleteAccount} className={styles.passwordForm}>
                         <div style={{display: "flex", flexDirection: "column"}}>
                             <label htmlFor={"updatePassword"}>Change my password</label>
                             <input type={"password"} style={{padding: "0.5rem 1rem"}} id={"updatePassword"}
                                    placeholder={"Insert your new password."}
                                    value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
                         </div>
-                        <CustomButton sx={{color: "white", marginBottom: 0}}
-                                      onClick={handleUpdatePassword}>Save</CustomButton>
-                    </div>
+                        <CustomButton className={styles.savePasswordButton} type={"submit"}>Save</CustomButton>
+                    </form>
                     {message && <MessageBox type={message.type} text={message.text}/>}
 
 
-                    <CustomButton
-                        sx={{
-                            backgroundColor: "white",
-                            color: "#2C3E50",
-                            border: "1px solid #2C3E50",
-                            display: "block",
-                            marginLeft: "8rem",
-                            marginTop: "3rem"
-                        }} onClick={handleLogout}>Log out</CustomButton>
+                    <CustomButton onClick={logout} className={styles.logoutButton}>Log out</CustomButton>
                 </div>
 
-                <CustomButton sx={{color: "red", width: "180px", alignSelf: "end"}} onClick={handleDeleteAccount}>Delete
+                <CustomButton sx={{color: "red", width: "180px", alignSelf: "end"}} onClick={handleDeleteAccount} aria-label="Delete your account permanently">Delete
                     account</CustomButton>
-            </div>
-        </div>
+            </section>
+        </>
 
     );
 };

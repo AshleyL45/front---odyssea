@@ -1,6 +1,7 @@
 .myBookingsTitle {
-    margin: 1.8rem 0 2rem 4rem;
+    margin: 1.8rem auto;
     font-size: 1.8rem !important;
+    text-align: center;
 }
 
 .titles {

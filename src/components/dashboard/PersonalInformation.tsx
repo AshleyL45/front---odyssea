@@ -15,7 +15,7 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
     const [newLastName, setNewLastName] = useState(lastName?.toString() || "");
     const [newEmail, setNewEmail] = useState(email?.toString() || "");
 
-    const {updateInfo, error} = useAccountActions();
+    const {updateInfo, error, successMessage} = useAccountActions();
 
 
     const handleAccountChange = async (event: React.FormEvent) => {
@@ -46,7 +46,9 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
                     <label htmlFor={"updateEmail"}>E-mail</label>
                     <input type={"email"} style={{padding: "0.5rem 1rem"}} id={"updateEmail"}
                            placeholder={"Insert your new email."}
-                           onChange={(e) => setNewEmail(e.target.value)}
+                           onChange={(e) => {
+                               setNewEmail(e.target.value);
+                           }}
                     />
                 </div>
 
@@ -54,8 +56,13 @@ const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
             </form>
 
             {
+                successMessage && (
+                    <MessageBox type={"success"} text={successMessage}/>
+                )
+            }
+            {
                 error && (
-                    <MessageBox type={"success"} text={"Information successfully updated."}/>
+                    <MessageBox type={"error"} text={error}/>
                 )
             }
 
