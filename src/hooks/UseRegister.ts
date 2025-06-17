@@ -1,4 +1,3 @@
-// src/hooks/useRegister.ts
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {registerUser, RegisterPayload} from "../services/AuthService";

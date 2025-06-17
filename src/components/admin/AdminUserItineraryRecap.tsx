@@ -12,18 +12,21 @@ const AdminUserItineraryRecap = ({itineraryDays} : AdminUserItineraryRecapProps)
         <>
             <h2 style={{textAlign: "center", margin: "20px 0", fontSize: "1.5rem"}}>Detailed program</h2>
 
-            <div style={{display: "flex", justifyContent: "space-around", alignItems: "start", gap: 50, padding: 40}}>
-                <div className="map-wrapper">
+            <section style={{display: "flex", justifyContent: "space-around", alignItems: "start", gap: 50, padding: 40}}>
+                <aside className="map-wrapper">
                     <InteractiveMapPersItinerary/>
-                </div>
+                </aside>
+
                 <div className="recap-trip">
-                    <div>
+                    <ul style={{listStyle: "none"}}>
                         {itineraryDays?.map((day: any) => (
-                            <RecapOneDay key={day.dayNumber} day={day}/>
+                            <li key={day.dayNumber}>
+                                <RecapOneDay day={day} />
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
-            </div>
+            </section>
         </>
     );
 };

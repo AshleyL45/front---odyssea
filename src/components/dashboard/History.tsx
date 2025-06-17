@@ -4,13 +4,13 @@ import {useUserDashboard} from "../../contexts/DashboardContext";
 import {formatDate} from "../../utils/FormatDate";
 
 const History: ({}: {}) => JSX.Element = ({}) => {
-   const{pastTrips} = useUserDashboard();
+   const {pastTrips} = useUserDashboard();
 
 
     return (
         <div className="container-history">
             <h1 style={{fontSize: "1.8rem"}}>Travel History</h1>
-            <div>
+            <section>
                 {
                     pastTrips && pastTrips.length > 0 ? pastTrips.map((booking) => (
                         <>
@@ -21,7 +21,7 @@ const History: ({}: {}) => JSX.Element = ({}) => {
                         <p style={{margin: "10px 15%"}}>There are no past reservations. Once you have done a trip, your past reservations you will be here.</p>
                     )
                 }
-            </div>
+            </section>
 
         </div>
     );

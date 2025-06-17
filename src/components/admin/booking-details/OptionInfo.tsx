@@ -13,10 +13,10 @@ const OptionInfo = ({options} : OptionInfoProps) => {
             <h2 className={styles['booking-info__title']}>Options</h2>
             {
                 options && options.length > 0 ? options.map ((option, index) =>
-                    <div className={styles['booking-info__content']} key={option.id}>
-                        <p>{option.name}</p>
-                        <p>{option.price}€ </p>
-                    </div>
+                    <dl className={styles['booking-info__content']} key={option.id}>
+                        <dt>{option.name}</dt>
+                        <dd>{option.price}€ </dd>
+                    </dl>
                 ) : (
                     <p style={{fontSize: "1.3rem"}}>No options were chosen.</p>
                 )

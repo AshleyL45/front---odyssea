@@ -1,4 +1,4 @@
-import {get} from "../API/api";
+import {get, patch} from "../API/api";
 
 export const fetchAdminBookings = async (filters?: {
     search?: string;
@@ -52,5 +52,37 @@ export const fetchBookingDetails = async (id : number) => {
 export const fetchUserItineraryDetails = async (id: number) => {
     const data = await get(`/admin/userItineraries/${id}`);
     if (!data) throw new Error("No userItinerary found");
+    return data;
+}
+
+export const updateBookingStatus = async (id: number, status: string) => {
+    const data = await patch(`/admin/bookings/${id}/status`, {
+        newStatus: status
+    });
+    if (!data) throw new Error("Booking status not updated");
+    return data;
+}
+
+export const updatePersonalizedTripStatus = async (id: number, status: string) => {
+    const data = await patch(`/admin/userItineraries/${id}/status`, {
+        newStatus: status
+    });
+    if (!data) throw new Error("Personalized trip status not updated");
+    return data;
+}
+
+export const updateBookingPrice = async (id: number, price: number) => {
+    const data = await patch(`/admin/bookings/${id}/price`, {
+        newPrice: price
+    });
+    if (!data) throw new Error("Booking price not updated");
+    return data;
+}
+
+export const updatePersonalizedTripPrice= async (id: number, price: number) => {
+    const data = await patch(`/admin/userItineraries/${id}/price`, {
+        newPrice: price
+    });
+    if (!data) throw new Error("Personalized trip price not updated");
     return data;
 }

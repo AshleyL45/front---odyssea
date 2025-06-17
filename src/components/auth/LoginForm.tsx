@@ -1,6 +1,6 @@
 import styles from "../../styles/LoginForm.module.css"
 import CustomButton from "../ReusableComponents/CustomButton";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import MessageBox from "./MessageBox";
@@ -16,6 +16,9 @@ const LoginForm = ({}) => {
     const {logUser, error} = useLogin()
     const [searchParams] = useSearchParams();
     const expired = searchParams.get("expired") === "true";
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || "/";
 
 
     const {register, handleSubmit, formState: {errors}} = useForm({
@@ -26,7 +29,10 @@ const LoginForm = ({}) => {
     })
 
     const onSubmit: SubmitHandler<LoginFormInput> = async (data: LoginFormInput) => {
-        await logUser(data.email, data.password);
+        const success = await logUser(data.email, data.password);
+        if (success) {
+            navigate(from, {replace: true});
+        }
     }
 
     return (

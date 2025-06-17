@@ -1,9 +1,9 @@
-h1 {
+.adminDashboardTitle {
     font-size: 1.8rem;
     text-align: center;
     font-weight: 400;
     width: 280px;
-    margin: 2rem auto;
+    margin: 3rem auto;
 }
 
 .buttonContainer {
@@ -39,16 +39,17 @@ h1 {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    margin: 1rem;
+    margin: 3rem 1rem 1rem;
 }
 
 
 @media (min-width: 768px) {
-    h1 {
+    .adminDashboardTitle {
         width: auto;
     }
     .buttonContainer {
         gap: 8rem;
+        margin-top: 5rem;
     }
 
     .bookingSection {
@@ -64,7 +65,7 @@ h1 {
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1rem;
         justify-items: start;
-        margin: 5rem 2rem 4rem;
+        margin: 4rem 2rem 4rem;
         width: 40%;
     }
 }

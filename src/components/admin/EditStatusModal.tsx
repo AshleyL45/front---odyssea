@@ -1,10 +1,10 @@
-import {Alert, Dialog, DialogActions, DialogTitle, Snackbar} from "@mui/material";
+import {Dialog, DialogActions, DialogTitle} from "@mui/material";
 import CustomButton from "../ReusableComponents/CustomButton";
 import {useState} from "react";
-import {patch} from "../../API/api";
 import styles from './EditStatus.module.css';
 import {useBookingDetails} from "../../contexts/BookingDetailsContext";
 import ConfirmationBox from "./ConfirmationBox";
+import {updateBookingStatus, updatePersonalizedTripStatus} from "../../services/AdminService";
 
 type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
 
@@ -14,12 +14,7 @@ interface EditStatusProps {
 }
 
 const EditStatusModal = ({isOpen, onClose}: EditStatusProps) => {
-    const {
-        bookingId,
-        bookingType,
-        bookingStatus,
-        setBookingStatus
-    } = useBookingDetails();
+    const {bookingId, bookingType, bookingStatus, setBookingStatus} = useBookingDetails();
 
     const [selectedStatus, setSelectedStatus] = useState<BookingStatus>(bookingStatus);
 
@@ -33,22 +28,22 @@ const EditStatusModal = ({isOpen, onClose}: EditStatusProps) => {
 
     const handleConfirm = async () => {
         try {
-            const endpoint = bookingType === "Standard"
-                ? `/admin/bookings/${bookingId}/status`
-                : `/admin/userItineraries/${bookingId}/status`;
-
-            await patch(endpoint, {newStatus: selectedStatus});
+            if (bookingType === "Standard") {
+                await updateBookingStatus(bookingId, selectedStatus);
+            } else {
+                await updatePersonalizedTripStatus(bookingId, selectedStatus);
+            }
 
             setBookingStatus(selectedStatus);
             setSnackbarOpen(true);
-            setSnackbarMessage("Statuts updated successfully.");
+            setSnackbarMessage("Status updated successfully.");
             setSnackbarSeverity("success");
             onClose();
         } catch (error) {
             setSnackbarOpen(true);
             setSnackbarMessage("An error occurred.");
             setSnackbarSeverity("error");
-            console.error("Erreur lors de la mise à jour du statut", error);
+            console.error("An error occurred while updating the status", error);
         }
     };
 
@@ -57,8 +52,8 @@ const EditStatusModal = ({isOpen, onClose}: EditStatusProps) => {
 
             <ConfirmationBox open={snackbarOpen} onClose={() => setSnackbarOpen(false)} message={snackbarMessage} severity={snackbarSeverity}/>
 
-            <Dialog open={isOpen} onClose={onClose}>
-                <DialogTitle component="h2">Update Booking Status</DialogTitle>
+            <Dialog open={isOpen} onClose={onClose} aria-labelledby={"status-dialog-title"}>
+                <DialogTitle component="h2" id={"status-dialog-title"}>Update Booking Status</DialogTitle>
 
                 <label htmlFor="status" className={styles.statusLabel}>Select new status :</label>
                 <select

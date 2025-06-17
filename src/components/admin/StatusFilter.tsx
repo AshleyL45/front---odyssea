@@ -11,19 +11,31 @@ const StatusFilter = ({onStatusChange} : StatusFilterProps) => {
     const status = ["CANCELLED", "CONFIRMED", "PENDING"];
     return (
         <div className={styles['status-container']}>
-            <div className={styles['status-filter']} onClick={() => setOpen(!open)}>
+            <button className={styles['status-filter']} onClick={() => setOpen(!open)}>
                 <p>Status</p>
                 <ExpandMoreIcon/>
-            </div>
+            </button>
             {
                 open && (
-                    <div className={styles['filter-item__container']}>
+                    <ul
+                        role="listbox"
+                        className={styles['filter-item__container']}
+                    >
                         {status.map((statutLabel) => (
-                            <button className={styles['filter-item']} onClick={() => onStatusChange(statutLabel)} key={statutLabel}>
-                                {statutLabel}
-                            </button>
+                            <li
+                                key={statutLabel}
+                                role="option"
+                                aria-selected={false}
+                            >
+                                <button
+                                    className={styles['filter-item']}
+                                    onClick={() => onStatusChange(statutLabel)}
+                                >
+                                    {statutLabel}
+                                </button>
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 )
             }
         </div>

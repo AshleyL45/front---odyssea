@@ -1,4 +1,4 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import AdminBooking from "../../@types/AdminBooking";
 import styles from "./AdminDashboard.module.css";
@@ -9,6 +9,8 @@ import StatusFilter from "../../components/admin/StatusFilter";
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 import {useAdminDashboard} from "../../hooks/UseAdminDashboard";
 import BookingCard from "../../components/admin/BookingCard";
+import {useAuth} from "../../contexts/AuthContext";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 type bookingType = "Standard" | "Personalized";
 
@@ -18,7 +20,7 @@ const AdminDashboard = ({}) => {
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const [sortField, setSortField] = useState<string | null>(null);
     const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
-    const navigate = useNavigate();
+    const {logout} = useAuth();
 
     const {bookings, error, loading} = useAdminDashboard(value, statusFilter, activeItem, sortField, sortDirection);
 
@@ -44,59 +46,62 @@ const AdminDashboard = ({}) => {
         setSortDirection(null);
     };
 
-    const handleGoBack = () => {
-        navigate(-1);
-    };
 
 
     return (
-        <main>
+        <>
             <NavbarDashboard/>
-            <h1>Welcome to your dashboard, admin</h1>
-
-
-            {error && <p style={{color: "red", marginLeft: "1rem"}}>{error}</p>}
-
-            <div className={styles.buttonContainer}>
-                <button onClick={() => switchType("Standard")}
-                        className={activeItem === "Standard" ? styles.active : styles.typeButton}>
-                    Standard
+            <main style={{position: "relative"}}>
+                <button style={{cursor: "pointer"}}>
+                    <LogoutIcon className="logout-icon" onClick={logout} sx={{position: "absolute", right: "2rem", }}/>
                 </button>
-                <button onClick={() => switchType("Personalized")}
-                        className={activeItem === "Personalized" ? styles.active : styles.typeButton}>
-                    Personalized
-                </button>
-            </div>
 
-            <section className={styles.filters}>
-                <AdminSearchBar onChange={handleInputValue}/>
-                <AdminSort type={activeItem} onSortChange={handleSortChange}/>
-                <StatusFilter onStatusChange={handleStatusFilter}/>
-            </section>
+                <h1 className={styles.adminDashboardTitle}>Welcome to your dashboard, admin</h1>
 
 
-            {
-                loading && <CircularProgress
-                    sx={{display: "flex", justifyContent: "center", alignItems: "center", margin: "auto"}}/>
-            }
+
+                {error && <p style={{color: "red", marginLeft: "3rem"}}>{error}</p>}
+
+                <div className={styles.buttonContainer}>
+                    <button onClick={() => switchType("Standard")}
+                            className={activeItem === "Standard" ? styles.active : styles.typeButton}>
+                        Standard
+                    </button>
+                    <button onClick={() => switchType("Personalized")}
+                            className={activeItem === "Personalized" ? styles.active : styles.typeButton}>
+                        Personalized
+                    </button>
+                </div>
+
+                <section className={styles.filters}>
+                    <AdminSearchBar onChange={handleInputValue}/>
+                    <AdminSort type={activeItem} onSortChange={handleSortChange}/>
+                    <StatusFilter onStatusChange={handleStatusFilter}/>
+                </section>
 
 
-            {
-                (bookings && bookings?.length > 0) ? (
-                    <>
-                        <section className={styles.bookingSection}>
-                            {
-                                bookings.map((booking: AdminBooking) => (
-                                    <BookingCard booking={booking} type={activeItem} key={booking.bookingId}/>
-                                ))
-                            }
-                        </section>
-                    </>
-                ) : (!loading && bookings && bookings?.length <= 0) &&
-                    <p className={styles.noDataMessage}> No bookings are available.</p>
-            }
+                {
+                    loading && <CircularProgress
+                        sx={{display: "flex", justifyContent: "center", alignItems: "center", margin: "auto"}}/>
+                }
 
-        </main>
+
+                {
+                    (bookings && bookings?.length > 0) ? (
+                        <>
+                            <section className={styles.bookingSection}>
+                                {
+                                    bookings.map((booking: AdminBooking) => (
+                                        <BookingCard booking={booking} type={activeItem} key={booking.bookingId}/>
+                                    ))
+                                }
+                            </section>
+                        </>
+                    ) : (!loading && bookings && bookings?.length <= 0) &&
+                        <p className={styles.noDataMessage}> No bookings are available.</p>
+                }
+            </main>
+        </>
     );
 };
 

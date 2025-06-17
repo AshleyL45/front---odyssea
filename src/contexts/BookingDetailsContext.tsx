@@ -12,15 +12,15 @@ interface BookingDetailsContextType {
     setBookingPrice: (price: number) => void;
 }
 
+interface BookingDetailsProviderProps {
+    children: React.ReactNode;
+    initialData: any;
+}
+
+
 const BookingDetailsContext = createContext<BookingDetailsContextType | undefined>(undefined);
 
-export const useBookingDetails = () => {
-    const context = useContext(BookingDetailsContext);
-    if (!context) throw new Error("useBookingDetails must be used within BookingDetailsProvider");
-    return context;
-};
-
-export const BookingDetailsProvider = ({children, initialData}: any) => {
+export const BookingDetailsProvider = ({children, initialData}: BookingDetailsProviderProps) => {
     const [bookingStatus, setBookingStatus] = useState<BookingStatus>(initialData.status);
     const [bookingPrice, setBookingPrice] = useState<number>(initialData.price);
 
@@ -36,4 +36,10 @@ export const BookingDetailsProvider = ({children, initialData}: any) => {
             {children}
         </BookingDetailsContext.Provider>
     );
+};
+
+export const useBookingDetails = () => {
+    const context = useContext(BookingDetailsContext);
+    if (!context) throw new Error("useBookingDetails must be used within BookingDetailsProvider");
+    return context;
 };

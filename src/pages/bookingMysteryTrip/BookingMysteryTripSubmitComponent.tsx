@@ -19,7 +19,7 @@ const BookingMysteryTripSubmitComponent = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Reservation creation error");
+                throw new Error("MyBookings creation error");
             }
             const data = await response.json();
             console.log("ID récupéré :", data.id);

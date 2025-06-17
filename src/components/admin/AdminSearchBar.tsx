@@ -10,7 +10,7 @@ const AdminSearchBar = ({onChange}: AdminSearchBarProps): JSX.Element => {
     return (
         <div className={styles.searchContainer}>
             <label htmlFor="search">Search by customer name</label>
-            <SearchIcon className={styles.searchIcon}/>
+            <SearchIcon className={styles.searchIcon} aria-hidden="true" focusable="false"/>
             <input id="search" type="search" name="search" onChange={onChange} className={styles.searchInput}/>
         </div>
     );

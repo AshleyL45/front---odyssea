@@ -14,7 +14,7 @@ import Dashboard from "./pages/mainPages/user/Dashboard";
 import AboutUs from "./pages/mainPages/company/AboutUs";
 import Contact from "./pages/mainPages/company/Contact";
 import ReservationDetails from "./pages/mainPages/user/ReservationDetails";
-import Reservation from "./pages/mainPages/user/Reservation";
+import MyBookings from "./components/dashboard/MyBookings";
 import HomePage from "./pages/mainPages/HomePage";
 import ItineraryDetails from "./pages/mainPages/ItineraryDetails";
 import {MySelectionProvider} from "./contexts/MySelectionContext";
@@ -54,19 +54,19 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBookingDetailsPage from "./pages/admin/AdminBookingDetailsPage";
 import PersonalizedTripDetailsPage from "./pages/personnalized-trip/PersonalizedTripDetailsPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
+import {DashboardRoute} from "./DashboardRoute";
 
 
 
 function App() {
   return (
         <AuthProvider>
-            <DashboardContextProvider>
                 <MySelectionProvider>
                     <ReservationContextProvider>
                         <PersonalizedTripContextProvider>
                          <Routes>
                             <Route element={<ProtectedRoutes allowedRoles={"USER"}/>}>
-                                <Route path="dashboard" element={<Dashboard/>}></Route>
+                                <Route path="dashboard" element={<DashboardRoute />} />
                                 {/*A mettre avec le layoutReservation*/}
                                 <Route path="/booking" element={<LayoutReservation/>}>
                                     <Route path="date" element={<BookingFormDate/>}></Route>
@@ -136,7 +136,6 @@ function App() {
                         </PersonalizedTripContextProvider>
                     </ReservationContextProvider>
                 </MySelectionProvider>
-            </DashboardContextProvider>
         </AuthProvider>
     );
 }

@@ -76,7 +76,7 @@ const AdminSort = ({type, onSortChange} : AdminSortProps) => {
             {open && (
                 <ul className={styles['sort-item__container']} role="listbox">
                     {sortOptions[type].map(({label, value}) => (
-                        <li key={value}>
+                        <li key={value} role="option" aria-selected={selectedField === value}>
                             <button
                                 onClick={() => handleSortChange(value)}
                                 className={`${styles['sort-item']} ${selectedField === value ? styles['active'] : ''}`}

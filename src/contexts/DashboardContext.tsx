@@ -16,6 +16,7 @@ interface DashboardContextProps {
     lastDoneBooking: BookingConfirmation | undefined;
     personalizedTrips: PersonalizedTripResponse[];
     loading: boolean;
+    error: string | null;
     firstName: string | null;
     lastName: string | null;
 }
@@ -29,7 +30,7 @@ const DashboardContext = createContext<DashboardContextProps | null>(null);
 
 export const DashboardContextProvider = ({children} : DashboardProviderProps) => {
     const {token} = useAuth(); // Récupération du token utilisateur
-    const {userBookings, personalizedTrips, loading} = useUserBookings(token); // Hook personnalisé qui fetch les données
+    const {userBookings, personalizedTrips, loading, error} = useUserBookings(token); // Hook personnalisé qui fetch les données
     const {firstName, lastName} = useUsernames()
 
     const today = new Date();
@@ -78,7 +79,7 @@ export const DashboardContextProvider = ({children} : DashboardProviderProps) =>
 
     return (
         <DashboardContext.Provider
-            value={{userBookings, firstCurrentBooking, pastTrips, currentTrips, lastDoneBooking, personalizedTrips, loading, firstName, lastName}}>
+            value={{userBookings, firstCurrentBooking, pastTrips, currentTrips, lastDoneBooking, personalizedTrips, loading, error, firstName, lastName}}>
             {children}
         </DashboardContext.Provider>
     );

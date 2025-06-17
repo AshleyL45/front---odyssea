@@ -7,6 +7,7 @@ export const useUserBookings = (token: string | null) => {
     const [userBookings, setUserBookings] = useState<BookingConfirmation[]>([]);
     const [personalizedTrips, setPersonalizedTrips] = useState<PersonalizedTripResponse[]>([]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!token) {
@@ -29,6 +30,7 @@ export const useUserBookings = (token: string | null) => {
                 }
             } catch (e) {
                 console.error("Error while fetching reservations: ", e);
+                setError("An error occurred while loading your bookings.");
             } finally {
                 setLoading(false);
             }
@@ -36,5 +38,5 @@ export const useUserBookings = (token: string | null) => {
         fetchBookings();
     }, [token]);
 
-    return {userBookings, personalizedTrips, loading};
+    return {userBookings, personalizedTrips, loading, error};
 }

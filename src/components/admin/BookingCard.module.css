@@ -29,12 +29,12 @@
 }
 
 .bookingCardInformation {
-   display: flex;
-    flex-direction: column;
-    justify-content: center;
+   display: grid;
+    grid-template-columns: max-content 1fr;
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    align-items: start;
     padding: 8px 1rem;
-    margin-top: 4px;
-    margin-bottom: 4px;
 }
 
 @media (min-width: 425px) {

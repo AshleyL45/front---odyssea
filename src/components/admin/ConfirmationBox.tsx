@@ -5,7 +5,7 @@ interface CustomSnackbarProps {
     open: boolean;
     onClose: () => void;
     message: string;
-    severity?: AlertColor;
+    severity?: AlertColor; // Niveau de l’alerte
     autoHideDuration?: number;
     anchorOrigin?: {
         vertical: 'top' | 'bottom';
@@ -13,14 +13,7 @@ interface CustomSnackbarProps {
     };
 }
 
-const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
-                                                           open,
-                                                           onClose,
-                                                           message,
-                                                           severity = 'info',
-                                                           autoHideDuration = 4000,
-                                                           anchorOrigin = {vertical: 'top', horizontal: 'right'},
-                                                       }) => {
+const CustomSnackbar: React.FC<CustomSnackbarProps> = ({open, onClose, message, severity = 'info', autoHideDuration = 4000, anchorOrigin = {vertical: 'top', horizontal: 'right'},}) => {
     return (
         <Snackbar
             open={open}

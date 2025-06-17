@@ -99,11 +99,11 @@ const BookingMysteryTripSubmit: FC = () => {
             returnDate: returnDateFormatted,
         };
 
-        console.log("Reservation Data:", reservationData);
+        console.log("MyBookings Data:", reservationData);
 
         try {
             const postInfo = await post("/reservations", reservationData);
-            console.log("Reservation ID retrieved:", postInfo.id);
+            console.log("MyBookings ID retrieved:", postInfo.id);
             setError("");
             navigate("/dashboard");
         } catch (err: unknown) {

@@ -1,6 +1,6 @@
 import {JSX, useState} from 'react';
 import Overview from "../../../components/dashboard/Overview";
-import Reservation from "../../mainPages/user/Reservation";
+import MyBookings from "../../../components/dashboard/MyBookings";
 import History from "../../../components/dashboard/History";
 import Settings from "../../../components/dashboard/Settings";
 import MySelection from "../../../components/dashboard/MySelection";
@@ -11,15 +11,13 @@ import Pages from "../../../components/layout/Pages"
 import PersonalizedTrips from "../../../components/dashboard/PersonalizedTrips";
 import styles from "./UserDashboard.module.css"
 
-const Dashboard: ({}: {}) => JSX.Element = ({}) => {
+const Dashboard = ({}) => {
     const [activePage, setActivePage] = useState<string>("Overview");
 
 
     return (
-        <>
-            <Pages title="Dashboard - Odyssea">
+        <Pages title="Dashboard - Odyssea">
 
-            </Pages>
             <NavbarDashboard/>
 
             <main className={styles.dashboard} role="presentation">
@@ -28,7 +26,7 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                 <section style={{width: "100%"}}>
 
                     {activePage === "Overview" && <Overview/>}
-                    {activePage === "My bookings" && <Reservation/>}
+                    {activePage === "My bookings" && <MyBookings/>}
                     {activePage === "Travel History" && <History/>}
                     {activePage === "My selection" && <MySelection/>}
                     {activePage === "My personalized trips" && <PersonalizedTrips/>}
@@ -38,8 +36,7 @@ const Dashboard: ({}: {}) => JSX.Element = ({}) => {
                 </section>
 
             </main>
-
-        </>
+        </Pages>
     );
 };
 

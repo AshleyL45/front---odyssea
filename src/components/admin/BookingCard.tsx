@@ -20,12 +20,12 @@ const BookingCard: FC<BookingCardProps> = ({booking, type}) => {
                 <button className={styles.bookingCardSectionButton} onClick={() => navigate(`bookings/${booking.bookingId}?type=${type}`)}
                         aria-labelledby={`booking-${booking.bookingId}-id`}> Details </button>
             </section>
-            <section className={styles.bookingCardInformation}>
-                <p>Customer: {booking.userFirstName} </p>
-                <p>Purchase date: {booking.purchaseDate} </p>
-                <p>Price: {booking.price}€ </p>
-                <p>Status: {booking.status}</p>
-            </section>
+            <dl className={styles.bookingCardInformation}>
+                <dt>Customer: </dt><dd>{booking.userFirstName}</dd>
+                <dt>Purchase date:  </dt><dd>{booking.purchaseDate}</dd>
+                <dt>Price: </dt><dd>{booking.price}€</dd>
+                <dt>Status: </dt><dd>{booking.status}</dd>
+            </dl>
         </div>
     );
 };

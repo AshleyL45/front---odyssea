@@ -8,6 +8,7 @@ export const useUsernames = () => {
     const [lastName, setLastName] = useState<string | null>(null);
 
     useEffect(() => {
+        if(!token) return;
         const fetchUsername = async () => {
             try {
                 const res = await get(`/auth/me`);

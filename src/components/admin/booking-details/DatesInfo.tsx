@@ -12,18 +12,21 @@ const DatesInfo = ({departureDate, returnDate, purchaseDate}: DatesInfoProps): J
     return (
         <div className={styles['booking-info__container']}>
             <h2 className={styles['booking-info__title']}>Dates</h2>
-            <div className={styles['booking-info__content']}>
-                <p>Departure date : </p>
-                <p>{departureDate}</p>
-            </div>
-            <div className={styles['booking-info__content']}>
-                <p>Return date : </p>
-                <p>{returnDate}</p>
-            </div>
-            <div className={styles['booking-info__content']}>
-                <p>Purchase date : </p>
-                <p>{purchaseDate}</p>
-            </div>
+            <dl>
+                <div className={styles['booking-info__content']}>
+                    <dt>Departure date : </dt>
+                    <dd>{departureDate}</dd>
+                </div>
+                <div className={styles['booking-info__content']}>
+                    <dt>Return date : </dt>
+                    <dd>{returnDate}</dd>
+                </div>
+                <div className={styles['booking-info__content']}>
+                    <dt>Purchase date : </dt>
+                    <dd>{purchaseDate}</dd>
+                </div>
+            </dl>
+
 
         </div>
     );

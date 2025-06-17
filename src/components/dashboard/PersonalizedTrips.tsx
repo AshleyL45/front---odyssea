@@ -8,7 +8,7 @@ import BookingFilters from "./BookingFilters";
 
 const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
     const [activeFilter, setActiveFilter] = useState<string>("All");
-    const {personalizedTrips} = useUserDashboard();
+    const {personalizedTrips, error} = useUserDashboard();
 
     // Gestion des filtres
     const filteredBookings = useMemo(() => {
@@ -47,13 +47,21 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
 
                     <section style={{height: "100vh"}}>
                         {
-                            filteredBookings && filteredBookings.length > 0 ? filteredBookings.map((personalizedTrip) =>
-                                <UserItinerary userItinerary={personalizedTrip}/>
-                            ) : (
-                                <p style={{marginLeft: "4rem"}}>You don't have a personalized trip with this filter.</p>
+                            error ?  <p style={{color: "red", marginLeft: "3rem"}}>An error occurred while fetching your bookings.</p> : (
+                                <>
+                                {
+                                    filteredBookings && filteredBookings.length > 0 ? filteredBookings.map((personalizedTrip) =>
+                                        <UserItinerary userItinerary={personalizedTrip} key={personalizedTrip.id}/>
+                                    ) : (
+                                            <p style={{marginLeft: "4rem"}}>You don't have a personalized trip with this filter.</p>
+                                        )
+                                }
+                                </>
+
                             )
                         }
                     </section>
+
                 </div>
             </div>
 

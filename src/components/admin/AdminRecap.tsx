@@ -38,18 +38,18 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
         <section className={styles["admin-recap"]}>
             <h2 className={styles["adminRecap__title"]}>{itineraryTitle}</h2>
             <hr/>
-            <div className={styles["admin-recap__section"]}>
+            <dl className={styles["admin-recap__section"]} role="group">
                 <div className={styles["admin-recap__info"]}>
-                    <p className={styles["admin-recap__label"]}>Purchase:</p>
-                    <p>{purchaseDate}</p>
+                    <dt className={styles["admin-recap__label"]}>Purchase:</dt>
+                    <dd>{purchaseDate}</dd>
                 </div>
 
                 <div className={styles["admin-recap__item"]} role="group" aria-labelledby="status-label">
                     <div className={styles["admin-recap__info"]}>
-                        <p className={styles["admin-recap__label"]} id="status-label">
+                        <dt className={styles["admin-recap__label"]} id="status-label">
                             Status:
-                        </p>
-                        <p>{bookingStatus}</p>
+                        </dt>
+                        <dd>{bookingStatus}</dd>
                     </div>
                     <button
                         className={styles["admin-recap__button"]}
@@ -62,10 +62,10 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
 
                 <div className={styles["admin-recap__item"]} role="group" aria-labelledby="price-label">
                     <div className={styles["admin-recap__info"]}>
-                        <p className={styles["admin-recap__label"]} id="price-label">
+                        <dt className={styles["admin-recap__label"]} id="price-label">
                             Price:
-                        </p>
-                        <p>{bookingPrice} €</p>
+                        </dt>
+                        <dd>{bookingPrice} €</dd>
                     </div>
                     <button
                         className={styles["admin-recap__button"]}
@@ -75,7 +75,7 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
                         Edit
                     </button>
                 </div>
-            </div>
+            </dl>
         </section>
     );
 };

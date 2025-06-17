@@ -1,5 +1,5 @@
 import {JSX, useEffect, useState} from "react";
-import {Link, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import styles from "./AdminBookingDetailsPage.module.css";
 
 import {AdminBookingDetails} from "../../@types/AdminBookingDetails";
@@ -12,7 +12,6 @@ import {Backdrop, CircularProgress} from "@mui/material";
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 import {BookingDetailsProvider} from "../../contexts/BookingDetailsContext";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ConfirmationBox from "../../components/admin/ConfirmationBox";
 
 type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
 

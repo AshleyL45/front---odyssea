@@ -1,10 +1,9 @@
-import {FC} from 'react';
 import logo from "../../assets/logo/logo_name.png";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useNavigate} from "react-router-dom";
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
-const NavbarDashboard: FC<{}> = ({}) => {
+
+const NavbarDashboard = ({}) => {
     const navigate = useNavigate();
 
 
@@ -21,7 +20,6 @@ const NavbarDashboard: FC<{}> = ({}) => {
                 </div>
 
                 <a href="#"><img className="logo" src={logo} alt="Odyssea logo"/></a>
-
 
             </nav>
 
