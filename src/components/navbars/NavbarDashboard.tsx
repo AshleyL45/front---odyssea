@@ -19,7 +19,7 @@ const NavbarDashboard = ({}) => {
                     </p>
                 </div>
 
-                <a href="#"><img className="logo" src={logo} alt="Odyssea logo"/></a>
+                <a href="/"><img className="logo" src={logo} alt="Odyssea logo"/></a>
 
             </nav>
 

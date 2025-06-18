@@ -10,12 +10,13 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
     const {logout} = useAuth();
     const [message, setMessage] = useState<{ type: "error" | "success", text: string } | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {changePassword, error, successMessage, removeAccount} = useAccountActions();
+    const {changePassword, successMessage, removeAccount} = useAccountActions();
 
     const [inputValue, setInputValue] = useState<string>("");
 
 
-    const handleUpdatePassword = async () => {
+    const handleUpdatePassword = async (event: React.FormEvent) => {
+        event.preventDefault();
         if (inputValue.trim() === "") {
             setMessage({type: "error", text: "Password cannot be empty."});
             return;

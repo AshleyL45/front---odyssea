@@ -11,6 +11,7 @@ import {useAdminDashboard} from "../../hooks/UseAdminDashboard";
 import BookingCard from "../../components/admin/BookingCard";
 import {useAuth} from "../../contexts/AuthContext";
 import LogoutIcon from '@mui/icons-material/Logout';
+import Pages from "../../components/layout/Pages";
 
 type bookingType = "Standard" | "Personalized";
 
@@ -49,7 +50,7 @@ const AdminDashboard = ({}) => {
 
 
     return (
-        <>
+        <Pages title={"Admin Dashboard"} >
             <NavbarDashboard/>
             <main style={{position: "relative"}}>
                 <button style={{cursor: "pointer"}}>
@@ -101,7 +102,7 @@ const AdminDashboard = ({}) => {
                         <p className={styles.noDataMessage}> No bookings are available.</p>
                 }
             </main>
-        </>
+        </Pages>
     );
 };
 

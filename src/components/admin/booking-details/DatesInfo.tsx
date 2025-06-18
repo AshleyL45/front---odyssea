@@ -26,8 +26,6 @@ const DatesInfo = ({departureDate, returnDate, purchaseDate}: DatesInfoProps): J
                     <dd>{purchaseDate}</dd>
                 </div>
             </dl>
-
-
         </div>
     );
 };

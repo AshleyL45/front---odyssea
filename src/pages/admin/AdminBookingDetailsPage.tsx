@@ -12,6 +12,7 @@ import {Backdrop, CircularProgress} from "@mui/material";
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 import {BookingDetailsProvider} from "../../contexts/BookingDetailsContext";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import Pages from "../../components/layout/Pages";
 
 type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
 
@@ -74,7 +75,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
 
 
     return (
-        <main>
+        <Pages title={"Itinerary Details - Admin Panel"}>
             <NavbarDashboard/>
             <button onClick={handleGoBack} className={styles.previousPageButton}>
                 <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/> previous page
@@ -115,7 +116,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
                     )}
                 </BookingDetailsProvider>
             )}
-        </main>
+        </Pages>
     );
 };
 

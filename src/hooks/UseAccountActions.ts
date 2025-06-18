@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { updateAccountInformation, updatePassword, deleteAccount } from "../services/UserService";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../contexts/AuthContext";
 
 export const useAccountActions = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const navigate = useNavigate();
+    const {logout} = useAuth();
 
     const updateInfo = async (newEmail: string, newFirstName: string, newLastName: string) => {
         setLoading(true);
@@ -44,6 +46,7 @@ export const useAccountActions = () => {
             if(response.success === true){
                 setSuccessMessage("Account deleted successfully.");
                 navigate("/");
+                logout()
             }
         } catch (err) {
             setError("Failed to delete account.");
