@@ -112,7 +112,7 @@ export const deleteFromDB = async <T = any>(url: string, config?: {}): Promise<T
         const response = await myDB.delete(url, config);
         return response.data;
     } catch (error) {
-        console.error("Cannot delete this movie from favorites : ", error);
-        return null;
+        console.error("Cannot delete : ", error);
+        throw error;
     }
 }

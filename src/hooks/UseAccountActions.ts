@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { updateAccountInformation, updatePassword, deleteAccount } from "../services/UserService";
+import {useNavigate} from "react-router-dom";
 
 export const useAccountActions = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const updateInfo = async (newEmail: string, newFirstName: string, newLastName: string) => {
         setLoading(true);
@@ -38,8 +40,11 @@ export const useAccountActions = () => {
         setLoading(true);
         setError(null);
         try {
-            await deleteAccount();
-            setSuccessMessage("Account deleted successfully.");
+            const response = await deleteAccount();
+            if(response.success === true){
+                setSuccessMessage("Account deleted successfully.");
+                navigate("/");
+            }
         } catch (err) {
             setError("Failed to delete account.");
             console.error(err)

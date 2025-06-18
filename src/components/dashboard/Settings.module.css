@@ -12,28 +12,57 @@
     font-size: 1.8rem;
 }
 
-@media screen and (max-width: 425px) {
+.logoutButton {
+    background-color: white !important;
+    color: #2C3E50 !important;
+    border: 1px solid #2C3E50 !important;
+}
+
+.savePasswordButton {
+    color: white !important;
+}
+
+@media screen and (min-width: 768px) {
+    .settingsTitle{
+        margin-left: 2rem;
+    }
+    .passwordForm {
+        width: 400px;
+        margin: 1rem 2rem;
+    }
+
+    .logoutButton {
+        margin-left: 2rem !important;
+    }
+
+    .savePasswordButton {
+        margin-left: 0 !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .settingsContainer {
+        gap: 15px;
+    }
     .settingsTitle {
         margin-left: 1rem;
     }
 
     .passwordForm {
         width: 90%;
-        margin: auto;
+        margin : auto;
     }
 
     .logoutButton {
-        background-color: white;
-        color: #2C3E50;
-        border: 1px solid #2C3E50;
         display: block;
-        margin: 3rem 12px 1rem auto;
+        margin: 3rem 1rem !important;
         width: 100px;
     }
 
     .savePasswordButton {
-        color: white;
-        margin: 2rem 0 0;
+        color: white !important;
+        margin: 2rem 0 0 !important;
         width: 100px;
     }
 }
+

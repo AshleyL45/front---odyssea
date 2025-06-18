@@ -362,6 +362,7 @@ body {
     margin: 1.8rem 0 2rem 4rem;
 }
 
+
 .container-trip-number{
     display: flex;
     flex-direction: column;
@@ -390,6 +391,12 @@ body {
     .container-trip-number {
         flex-wrap: nowrap;
         gap: 10%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .container-overview  .sub-title {
+        margin: 1rem 1rem;
     }
 }
 

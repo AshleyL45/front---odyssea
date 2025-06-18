@@ -56,3 +56,11 @@
 .detailsButton:hover {
     cursor: pointer;
 }
+
+@media (max-width: 426px) {
+    .tripDashboardContainer {
+        margin-left: 14px;
+        margin-right: 14px;
+        padding: 14px 14px;
+    }
+}
