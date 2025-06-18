@@ -31,8 +31,13 @@
     height: 3px;
 }
 
-.tripDashboardDescription {
+.tripInfo {
+    list-style-type: none;
+}
 
+.mainInfo {
+    display: flex;
+    justify-content: space-between;
 }
 
 .tripDashboardDetails{
@@ -40,4 +45,22 @@
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+}
+
+.detailsButton {
+    background: none;
+    border: none;
+    text-decoration: underline;
+}
+
+.detailsButton:hover {
+    cursor: pointer;
+}
+
+@media (max-width: 426px) {
+    .tripDashboardContainer {
+        margin-left: 14px;
+        margin-right: 14px;
+        padding: 14px 14px;
+    }
 }

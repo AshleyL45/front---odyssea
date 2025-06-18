@@ -17,20 +17,28 @@ export const BookingContextProvider: ({children}: { children: any }) => JSX.Elem
 
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState(() => {
         const savedData = localStorage.getItem("questionnaireData");
-        return savedData ? JSON.parse(savedData) : {
-            userId: userId,
-            itineraryId: 0,
+        let initial = savedData ? JSON.parse(savedData) : {};
+
+        // fallback en cas de données invalides ou corrompues
+        if (!initial.itineraryId || initial.itineraryId <= 0) {
+            initial.itineraryId = 1;
+        }
+
+        return {
+            userId,
             status: "En attente",
             departureDate: '',
-            returnDate:'',
+            returnDate: '',
             numberOfAdults: 0,
             numberOfKids: 0,
-            optionIds: []
+            optionIds: [],
+            ...initial, // surcharge avec les données valides
         };
     });
 
+
     const updateResponse = (field: string, value: any) => {
-        setQuestionnaireAnswers((prevState:any) => ({
+        setQuestionnaireAnswers((prevState: any) => ({
             ...prevState,
             [field]: value
         }));
@@ -52,7 +60,7 @@ export const BookingContextProvider: ({children}: { children: any }) => JSX.Elem
 //Hook personnalisé
 export const useBooking = () => {
     const context = useContext(BookingContext);
-    if(!context){
+    if (!context) {
         throw new Error("useBooking must be used within a BookingProvider");
     }
     return context;

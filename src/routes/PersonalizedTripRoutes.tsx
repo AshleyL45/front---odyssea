@@ -16,7 +16,7 @@ import {ProtectedRoutes} from '../protected-routes/ProtectedRoutes';
 const PersonalizedTripRoutes = [
     <Route key="personalized-layout" path="/personalized-trip" element={<LayoutBooking/>}>
         <Route path="summary" element={<TripSummary/>}/>
-        <Route element={<ProtectedRoutes/>}>
+        <Route element={<ProtectedRoutes allowedRoles={'USER'}/>}>
             <Route path="date" element={<DateSelect1/>}/>
             <Route path="traveler-selection" element={<TravelerSelect2/>}/>
             <Route path="departure" element={<CityFrom3/>}/>

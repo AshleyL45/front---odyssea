@@ -3,14 +3,31 @@ import logo from "../../assets/logo/logo_symbol.png";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useAuth} from "../../contexts/AuthContext";
 
 const Navbar: () => JSX.Element = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const {token, role} = useAuth();
+    const location = useLocation()
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const goToDashboard = () => {
+        if (!token) {
+            navigate("/login", { state: { from: location.pathname }, replace: true });
+            return;
+        }
+
+        if (role === "ADMIN") {
+            navigate("/admin");
+        } else {
+            navigate("/dashboard");
+            console.log(location.pathname)
+        }
     };
 
     useEffect(() => {
@@ -94,7 +111,7 @@ const Navbar: () => JSX.Element = () => {
                                 <li>
                                     <PermIdentityIcon
                                         className="login-logo" sx={{fontSize: "40px"}}
-                                        onClick={() => navigate('/dashboard')}
+                                        onClick={goToDashboard}
                                     />
                                 </li>
                             </ul>

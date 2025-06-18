@@ -3,78 +3,90 @@ import {Trip} from "../@types/Trip";
 import {get} from "../API/api";
 import {useAuth} from "./AuthContext";
 import {useLocation} from "react-router-dom";
+import {BookingConfirmation} from "../@types/BookingConfirmation";
+import {PersonalizedTripResponse} from "../@types/PersonalizeTrip";
+import {useUserBookings} from "../hooks/UseUserBookings";
+import {useUsernames} from "../hooks/UseUsernames";
 
 interface DashboardContextProps {
-    userBookings: Trip[];
-    firstCurrentBooking: Trip | undefined;
-    pastTrips: Trip[];
-    currentTrips: Trip[];
-    lastDoneBooking: Trip | undefined;
-    personalizedTrips: Trip[];
+    userBookings: BookingConfirmation[];
+    firstCurrentBooking: BookingConfirmation | undefined;
+    pastTrips: BookingConfirmation[];
+    currentTrips: BookingConfirmation[];
+    lastDoneBooking: BookingConfirmation | undefined;
+    personalizedTrips: PersonalizedTripResponse[];
+    loading: boolean;
+    error: string | null;
+    firstName: string | null;
+    lastName: string | null;
 }
+
+interface DashboardProviderProps {
+    children: React.ReactNode;
+}
+
 
 const DashboardContext = createContext<DashboardContextProps | null>(null);
 
-export const DashboardContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
-    const [userBookings, setUserBookings] = useState<Trip[]>([]);
-    const [personalizedTrips, setPersonalizedTrips] = useState<Trip[]>([]);
-    const {userId, token} = useAuth();
-    const location = useLocation();
-
-    useEffect(() => {
-        const fetchBookings = async () => {
-            try {
-                const bookings = await get(`/bookings/${userId}`);
-                const userItineraries = await get(`/userItinerary/all/${userId}`);
-                if (bookings && userItineraries) {
-                    setUserBookings(bookings);
-                    setPersonalizedTrips(userItineraries);
-                    //console.table(personalizedTrips);
-                }
-            } catch (e) {
-                console.error("Error while fetching bookings: ", e);
-            }
-        };
-        fetchBookings();
-    }, [token, location]);
+export const DashboardContextProvider = ({children} : DashboardProviderProps) => {
+    const {token} = useAuth(); // Récupération du token utilisateur
+    const {userBookings, personalizedTrips, loading, error} = useUserBookings(token); // Hook personnalisé qui fetch les données
+    const {firstName, lastName} = useUsernames()
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const firstCurrentBooking = userBookings.find((booking) => {
-        if (!booking.purchaseDate) return false;
-        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
-        return booking.status === "En attente" && bookingDate >= today;
-    });
+    const isBeforeToday = (date: Date): boolean => {
+        return date < today;
+    };
 
-    const pastTrips = userBookings.filter((booking) => {
-        if (!booking.purchaseDate) return false;
-        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
-        return booking.status === "Confirmé" && bookingDate < today;
-    });
+    const isAfterOrToday = (date: Date): boolean => {
+        return date >= today;
+    };
 
-    const currentTrips = userBookings.filter((booking) => {
-        if (!booking.purchaseDate) return false;
-        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
-        return (booking.status === "En attente" || booking.status === "Current") && bookingDate >= today;
-    });
+    // Première réservation future en attente
+    const firstCurrentBooking = useMemo(() => {
+        return userBookings.find((booking: BookingConfirmation) => {
+            if (!booking.departureDate) return false;
+            return booking.status === "PENDING" && isAfterOrToday(booking.departureDate);
+        });
+    }, [userBookings]);
 
-    const lastDoneBooking = userBookings.find((booking) => {
-        if (!booking.purchaseDate) return false;
-        const bookingDate = new Date(booking.purchaseDate.split('-').reverse().join('-'));
-        return booking.status === "Confirmé" && bookingDate < today;
-    });
+    // Voyages déjà effectués (confirmés dans le passé)
+    const pastTrips = useMemo(() => {
+        return userBookings.filter((reservation : BookingConfirmation) => {
+            if (!reservation.returnDate) return false;
+            return reservation.status === "CONFIRMED" && isBeforeToday(new Date(reservation.returnDate));
+        });
+    }, [userBookings]);
+
+    // Voyages à venir en attente
+    const currentTrips = useMemo(() => {
+        return userBookings.filter((reservation : BookingConfirmation) => {
+            if (!reservation.purchaseDate) return false;
+            return reservation.status === "PENDING" && isAfterOrToday(reservation.purchaseDate);
+        });
+    }, [userBookings]);
+
+    // Dernière réservation effectuée
+    const lastDoneBooking = useMemo(() => {
+        return userBookings.find((reservation : BookingConfirmation) => {
+            if (!reservation.returnDate) return false;
+            return reservation.status === "CONFIRMED" && isBeforeToday(reservation.returnDate);
+        });
+    }, [userBookings]);
+
 
     return (
         <DashboardContext.Provider
-            value={{userBookings, firstCurrentBooking, pastTrips, currentTrips, lastDoneBooking, personalizedTrips}}>
+            value={{userBookings, firstCurrentBooking, pastTrips, currentTrips, lastDoneBooking, personalizedTrips, loading, error, firstName, lastName}}>
             {children}
         </DashboardContext.Provider>
     );
 };
 
 // Hook personnalisé
-export const useDashboard = () => {
+export const useUserDashboard = () => {
     const context = useContext(DashboardContext);
     if(!context) {
         throw new Error("useDashboard must be used within a DashboardProvider");

@@ -94,120 +94,120 @@ const BookingMysteryTripCountry: FC = () => {
             </Pages>
 
             <header>
-            <div className="progress-bar">
-                <div style={{width: '100%', height: '6px', backgroundColor: 'lightgrey'}}/>
-                <div
-                    style={{
-                        width: '30%',
-                        height: '6px',
-                        borderRadius: '0 5px 5px 0',
-                        backgroundColor: '#2C3E50',
-                        position: 'relative',
-                        top: '-6px',
-                    }}
-                />
-            </div>
+                <div className="progress-bar">
+                    <div style={{width: '100%', height: '6px', backgroundColor: 'lightgrey'}}/>
+                    <div
+                        style={{
+                            width: '30%',
+                            height: '6px',
+                            borderRadius: '0 5px 5px 0',
+                            backgroundColor: '#2C3E50',
+                            position: 'relative',
+                            top: '-6px',
+                        }}
+                    />
+                </div>
 
-            <a
-                onClick={handlePrevious}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontSize: '16px',
-                    margin: '10px 40px',
-                    cursor: 'pointer',
-                }}
-            >
-                <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
-            </a>
+                <a
+                    onClick={handlePrevious}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '16px',
+                        margin: '10px 40px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
+                </a>
             </header>
 
             <main>
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    gap: '1.5rem',
-                    width: '90%',
-                    margin: '0 auto',
-                    marginTop: '2rem',
-                }}
-            >
-                <h1 style={{fontSize: '25px', margin: '30px 0 0'}}>Exclude your destinations</h1>
-                <h2 style={{fontSize: '1rem', lineHeight: '1.5', fontWeight: 'lighter'}}>{selectedCountries}
-                    Indicate the countries you do not wish to visit to personalize your stay.
-                </h2>
-
-                <label htmlFor="countrySelect" style={{fontWeight: 'bold', marginTop: '50px'}}>
-                    Choose a country to exclude:
-                </label>
-
-                <p style={{fontSize: '0.9rem', color: 'grey', marginTop: '0.25rem'}}>
-                    Maximum 10 countries
-                </p>
-
-                <div style={{width: '100%', maxWidth: '300px'}}>
-                    <form onSubmit={handleNext}>
-                    <Select
-                        options={countries
-                            .filter((c) => !selectedCountries.includes(c.name))
-                            .map((c) => ({value: c.name, label: c.name}))}
-                        onChange={handleSelectCountry}
-                        placeholder="-- Select a country --"
-                        menuPlacement="bottom"
-                    />
-                    </form>
-                </div>
-
                 <div
                     style={{
                         display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: '0.5rem',
-                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        gap: '1.5rem',
+                        width: '90%',
+                        margin: '0 auto',
+                        marginTop: '2rem',
                     }}
                 >
-                    {selectedCountries.map((country, idx) => (
-                        <div
-                            key={`${country}-${idx}`}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                backgroundColor: '#f0f0f0',
-                                borderRadius: '20px',
-                                padding: '0.3rem 0.8rem',
-                            }}
-                        >
-                            <span style={{marginRight: '0.5rem'}}>{country}</span>
-                            <button
-                                onClick={() => handleRemoveCountry(country)}
+                    <h1 style={{fontSize: '25px', margin: '30px 0 0'}}>Exclude your destinations</h1>
+                    <h2 style={{fontSize: '1rem', lineHeight: '1.5', fontWeight: 'lighter'}}>{selectedCountries}
+                        Indicate the countries you do not wish to visit to personalize your stay.
+                    </h2>
+
+                    <label htmlFor="countrySelect" style={{fontWeight: 'bold', marginTop: '50px'}}>
+                        Choose a country to exclude:
+                    </label>
+
+                    <p style={{fontSize: '0.9rem', color: 'grey', marginTop: '0.25rem'}}>
+                        Maximum 10 countries
+                    </p>
+
+                    <div style={{width: '100%', maxWidth: '300px'}}>
+                        <form onSubmit={handleNext}>
+                            <Select
+                                options={countries
+                                    .filter((c) => !selectedCountries.includes(c.name))
+                                    .map((c) => ({value: c.name, label: c.name}))}
+                                onChange={handleSelectCountry}
+                                placeholder="-- Select a country --"
+                                menuPlacement="bottom"
+                            />
+                        </form>
+                    </div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '0.5rem',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        {selectedCountries.map((country, idx) => (
+                            <div
+                                key={`${country}-${idx}`}
                                 style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    backgroundColor: '#f0f0f0',
+                                    borderRadius: '20px',
+                                    padding: '0.3rem 0.8rem',
                                 }}
                             >
-                                ×
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                                <span style={{marginRight: '0.5rem'}}>{country}</span>
+                                <button
+                                    onClick={() => handleRemoveCountry(country)}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        ))}
+                    </div>
 
-                <CustomButton
-                    variant="contained"
-                    onClick={handleNext}
-                    style={{width: '130px', marginTop: '70px'}}
-                >
-                    Next
-                </CustomButton>
-            </div>
+                    <CustomButton
+                        variant="contained"
+                        onClick={handleNext}
+                        style={{width: '130px', marginTop: '70px'}}
+                    >
+                        Next
+                    </CustomButton>
+                </div>
             </main>
         </>
 
     );
 };
 
-    export default BookingMysteryTripCountry;
+export default BookingMysteryTripCountry;

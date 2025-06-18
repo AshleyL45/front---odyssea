@@ -209,7 +209,7 @@ body {
 
 
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1024px) {
     .icon-side-bar {
         display: none;
     }
@@ -218,6 +218,12 @@ body {
         position: absolute;
         left: 40px;
         top: 27px;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        text-decoration: underline;
+        color: black;
     }
 
     /*.return-button {
@@ -228,8 +234,8 @@ body {
 }*/
 }
 
-@media screen and (max-width: 600px) {
-    .navbar-booking {
+@media screen and (max-width: 1024px) {
+    .navbar-reservation {
         padding: 20px;
         font-size: 0.8rem;
     }
@@ -258,6 +264,10 @@ body {
         width: 50px;
         top: 10px;
         font-size: 12px;
+        display: flex;
+        align-items: center;
+        text-decoration: underline;
+        color: white;
     }
 
 }
@@ -275,8 +285,8 @@ body {
 
 
 .side-board-container h1 {
-    padding-left: 30px;
     font-size: 28px;
+    margin-left: 1rem;
 }
 
 .side-board-menu {
@@ -323,38 +333,33 @@ body {
     }
 }
 
- @media screen and (min-width: 1000px) {
-     .side-board-container{
-         width: 350px !important;
-     }
- }
-
-
-@media screen and (max-width: 600px) {
-
-    @media (max-width: 600px) {
-        .mobile-active {
-            position: fixed;
-            background-color: rgb(248, 248, 248);
-            left: 0;
-            top: 80px;
-            width: 85%;
-            z-index: 20;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        }
+@media screen and (min-width: 768px) {
+    .side-board-container {
+        width: 350px !important;
     }
-
 }
+
+
+
+@media (max-width: 1024px) {
+    .mobile-active {
+        position: fixed;
+        background-color: rgb(248, 248, 248);
+        left: 0;
+        top: 80px;
+        width: 85%;
+        z-index: 20;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+
 
 
 
 
         /* DASHBOARD */
 
-.dashboard{
-    display: flex;
-    justify-content: space-around;
-}
 
 .container-overview h1{
     font-size: 1.8rem;
@@ -365,6 +370,7 @@ body {
     font-size: 1.4rem;
     margin: 1.8rem 0 2rem 4rem;
 }
+
 
 .container-trip-number{
     display: flex;
@@ -394,6 +400,12 @@ body {
     .container-trip-number {
         flex-wrap: nowrap;
         gap: 10%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .container-overview  .sub-title {
+        margin: 1rem 1rem;
     }
 }
 
@@ -826,8 +838,7 @@ footer p {
         margin: initial;
     }
 
-
-    .blog-item-blog-photo, .blog-item-blog-reverse-photo{
+    .blog-item-blog-photo, .blog-item-blog-reverse-photo {
         width: 1000px;
         height: 600px;
     }
@@ -1332,7 +1343,6 @@ footer p {
         text-align: start;
         margin-left: 20px;
     }
-
 
 }
 

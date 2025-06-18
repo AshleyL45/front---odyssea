@@ -1,14 +1,14 @@
 import {FC, JSX} from 'react';
 import Pages from "../../../components/layout/Pages"
 
-const BookingDetails: ({}: {}) => JSX.Element = ({}) => {
+const ReservationDetails: ({}: {}) => JSX.Element = ({}) => {
     return (
         <div>
-            <Pages title="Booking Details - Odyssea">
+            <Pages title="MyBookings Details - Odyssea">
             </Pages>
 
         </div>
     );
 };
 
-export default BookingDetails;
+export default ReservationDetails;

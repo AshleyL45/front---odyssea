@@ -4,7 +4,7 @@ import Dashboard from '../pages/mainPages/user/Dashboard';
 import BookingDetails from '../pages/mainPages/user/BookingDetails';
 
 const ProtectedRoutesGroup = [
-    <Route key="protected" element={<ProtectedRoutes/>}>
+    <Route key="protected" element={<ProtectedRoutes allowedRoles={'USER'}/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
         <Route path="bookingDetails" element={<BookingDetails/>}/>
     </Route>

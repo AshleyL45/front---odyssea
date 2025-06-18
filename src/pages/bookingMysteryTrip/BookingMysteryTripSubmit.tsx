@@ -101,72 +101,72 @@ const BookingMysteryTripSubmit: FC = () => {
             </Pages>
 
             <main>
-            <div style={{display: 'flex', justifyContent: 'center', padding: '2rem 1rem'}}>
-                <div style={{width: '100%', maxWidth: '700px'}}>
-                    <h1 style={{fontSize: 25, textAlign: 'center'}}>Summary</h1>
-                    <div style={{width: 2, height: 30, backgroundColor: 'black', margin: 'auto'}}/>
+                <div style={{display: 'flex', justifyContent: 'center', padding: '2rem 1rem'}}>
+                    <div style={{width: '100%', maxWidth: '700px'}}>
+                        <h1 style={{fontSize: 25, textAlign: 'center'}}>Summary</h1>
+                        <div style={{width: 2, height: 30, backgroundColor: 'black', margin: 'auto'}}/>
 
-                    <div style={{textAlign: 'center', margin: '1rem 0'}}>
-                        <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
-                    </div>
+                        <div style={{textAlign: 'center', margin: '1rem 0'}}>
+                            <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
+                        </div>
 
-                    <hr/>
+                        <hr/>
 
-                    <section className="recapDivs">
-                        <h3>Dates:</h3>
-                        <p>Departure: {formattedDeparture}</p>
-                        <p>Return: {formattedReturn}</p>
-                    </section>
+                        <section className="recapDivs">
+                            <h3>Dates:</h3>
+                            <p>Departure: {formattedDeparture}</p>
+                            <p>Return: {formattedReturn}</p>
+                        </section>
 
-                    <section className="recapDivs">
-                        <h3>Travellers:</h3>
-                        <p>
-                            {questionnaireAnswers.numberOfAdults} adult
-                            {questionnaireAnswers.numberOfAdults > 1 ? 's' : ''}
-                        </p>
-                        {questionnaireAnswers.numberOfKids > 0 && (
+                        <section className="recapDivs">
+                            <h3>Travellers:</h3>
                             <p>
-                                {questionnaireAnswers.numberOfKids} kid
-                                {questionnaireAnswers.numberOfKids > 1 ? 's' : ''}
+                                {questionnaireAnswers.numberOfAdults} adult
+                                {questionnaireAnswers.numberOfAdults > 1 ? 's' : ''}
                             </p>
-                        )}
-                    </section>
+                            {questionnaireAnswers.numberOfKids > 0 && (
+                                <p>
+                                    {questionnaireAnswers.numberOfKids} kid
+                                    {questionnaireAnswers.numberOfKids > 1 ? 's' : ''}
+                                </p>
+                            )}
+                        </section>
 
-                    <section className="recapDivs">
-                        <h3>Customer information:</h3>
-                        <p>Lastname: {questionnaireAnswers.lastName}</p>
-                        <p>Firstname: {questionnaireAnswers.firstName}</p>
-                        <p>Email: {questionnaireAnswers.email}</p>
-                        <p>Phone: {questionnaireAnswers.phoneNumber}</p>
-                        <p>Adress: {questionnaireAnswers.address}</p>
-                        <p>Complement: {questionnaireAnswers.addressDetails || 'N/A'}</p>
-                        <p>Postal Code: {questionnaireAnswers.postalCode}</p>
-                        <p>City: {questionnaireAnswers.city}</p>
-                        <p>Country: {questionnaireAnswers.country}</p>
-                    </section>
+                        <section className="recapDivs">
+                            <h3>Customer information:</h3>
+                            <p>Lastname: {questionnaireAnswers.lastName}</p>
+                            <p>Firstname: {questionnaireAnswers.firstName}</p>
+                            <p>Email: {questionnaireAnswers.email}</p>
+                            <p>Phone: {questionnaireAnswers.phoneNumber}</p>
+                            <p>Adress: {questionnaireAnswers.address}</p>
+                            <p>Complement: {questionnaireAnswers.addressDetails || 'N/A'}</p>
+                            <p>Postal Code: {questionnaireAnswers.postalCode}</p>
+                            <p>City: {questionnaireAnswers.city}</p>
+                            <p>Country: {questionnaireAnswers.country}</p>
+                        </section>
 
-                    <section className="recapDivs">
-                        <h3>Options:</h3>
-                        {optionsToDisplay.length > 0 ? (
-                            optionsToDisplay.map((opt) => <p key={opt.id}>• {opt.name}</p>)
-                        ) : (
-                            <p>No option selected.</p>
-                        )}
-                    </section>
+                        <section className="recapDivs">
+                            <h3>Options:</h3>
+                            {optionsToDisplay.length > 0 ? (
+                                optionsToDisplay.map((opt) => <p key={opt.id}>• {opt.name}</p>)
+                            ) : (
+                                <p>No option selected.</p>
+                            )}
+                        </section>
 
-                    {error && <p style={{color: 'red'}}>{error}</p>}
+                        {error && <p style={{color: 'red'}}>{error}</p>}
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
-                        <CustomButton
-                            style={{width: 130}}
-                            variant="contained"
-                            onClick={handleSubmit}
-                        >
-                            BOOK
-                        </CustomButton>
+                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
+                            <CustomButton
+                                style={{width: 130}}
+                                variant="contained"
+                                onClick={handleSubmit}
+                            >
+                                BOOK
+                            </CustomButton>
+                        </div>
                     </div>
                 </div>
-            </div>
             </main>
         </>
     );

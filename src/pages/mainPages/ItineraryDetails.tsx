@@ -14,7 +14,7 @@ import styles from "../../styles/ItineraryDetails.module.css"
 import BookButton from "../../components/itinerary-details/BookButton";
 import {useNavigate, useParams} from "react-router-dom";
 import {get} from "../../API/api";
-import {useFavorites} from "../../contexts/MySelectionContext";
+import {useMySelectionContext} from "../../contexts/MySelectionContext";
 import {useBooking} from "../../contexts/BookingContext";
 import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css";
@@ -36,7 +36,7 @@ const ItineraryDetails: FC = () => {
     const itineraryId = Number(tripId);
     const {userId, token} = useAuth();
     const navigate = useNavigate();
-    const {favorites, handleAddToFavorites, handleRemoveFromFavorites} = useFavorites();
+    const {favorites, addToFavorites, removeFromFavorites} = useMySelectionContext();
     const {setTrip, updateResponse} = useBooking();
 
     const [itineraryToDisplay, setItineraryToDisplay] = useState<ItineraryDetailsResponse>();
@@ -142,8 +142,8 @@ const ItineraryDetails: FC = () => {
             navigate("/login", {state: {from: `/trip/${itineraryId}`}});
             return;
         }
-        if (isFavorite && itineraryToDisplay) handleRemoveFromFavorites(itineraryToDisplay);
-        else if (itineraryToDisplay) handleAddToFavorites(itineraryToDisplay);
+        if (isFavorite && itineraryToDisplay) removeFromFavorites(itineraryToDisplay.id);
+        else if (itineraryToDisplay) addToFavorites(itineraryToDisplay);
     };
 
     const handleBooking = () => {
