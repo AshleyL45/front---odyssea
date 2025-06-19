@@ -1,0 +1,37 @@
+.chipContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+}
+
+.chipText {
+    margin-right: 0.5rem;
+}
+
+.removeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.removeButton:focus,
+.removeButton:active {
+    outline: none;
+}
+
+.nextButton {
+    width: 130px;
+    margin-top: 70px;
+}

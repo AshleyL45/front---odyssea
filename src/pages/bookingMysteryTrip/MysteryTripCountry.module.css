@@ -1,0 +1,67 @@
+.progressBarContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.progressBackground {
+    width: 100%;
+    height: 6px;
+    background-color: lightgrey;
+}
+
+.progressFill {
+    width: 25%;
+    height: 6px;
+    border-radius: 0 5px 5px 0;
+    background-color: #2C3E50;
+    position: relative;
+    top: -6px;
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin: 10px 40px;
+    cursor: pointer;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    width: 90%;
+    margin: 2rem auto 0;
+}
+
+.title {
+    font-size: 25px;
+    margin: 30px 0 0;
+}
+
+.subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: lighter;
+}
+
+.label {
+    font-weight: bold;
+    margin-top: 50px;
+}
+
+.helperText {
+    font-size: 0.9rem;
+    color: grey;
+    margin-top: 0.25rem;
+}
+
+.selectWrapper {
+    width: 100%;
+    max-width: 300px;
+}
+
+
+
