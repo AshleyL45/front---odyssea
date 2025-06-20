@@ -5,7 +5,6 @@ import TripItemTravel from "../../components/ReusableComponents/TripItemTravel";
 import TripItemTravelReverse from "../../components/ReusableComponents/TripItemTravelReverse";
 import HeroSection from "../../components/itineraryList/HeroSection";
 import SearchBar from "../../components/allTrips/SearchBar";
-import Footer from "../../components/ReusableComponents/Footer";
 import Sort from "../../components/allTrips/Sort";
 import styles from "../../styles/TripListPage.module.css";
 import Pages from "../../components/layout/Pages";
@@ -28,12 +27,6 @@ const ItineraryListPage: FC = () => {
     const [themes, setThemes] = useState<Theme[]>([]);
     const [headerMap, setHeaderMap] = useState<HeaderMap>({});
 
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, []);
 
     const sortOptions = [
         {id: "option 1", label: "None"},
@@ -59,6 +52,11 @@ const ItineraryListPage: FC = () => {
     const [selectedSort, setSelectedSort] = useState<string>("option 1");
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         const fetchData = async () => {
             try {
                 const itinerariesResponse = await get("/api/itineraries/themes");
@@ -191,8 +189,6 @@ const ItineraryListPage: FC = () => {
             ) : (
                 <p>No trips found</p>
             )}
-
-            <Footer/>
         </>
     );
 };

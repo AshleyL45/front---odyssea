@@ -12,12 +12,10 @@ interface PersonalizedTripProps {
 const PersonalizedTripContext = createContext<PersonalizedTripProps | null>(null);
 
 export const PersonalizedTripContextProvider: ({children}: { children: any }) => JSX.Element = ({children}) => {
-    const {userId} = useAuth();
 
     const [questionnaireAnswers, setQuestionnaireAnswers] = useState(() => {
         const savedData  = localStorage.getItem("questionnaireData");
         return savedData ? JSON.parse(savedData) : {
-            userId: userId,
             duration: '',
             startDate: '',
             departureCity: '',

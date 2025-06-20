@@ -16,10 +16,7 @@ const TripItemTravel: FC<TripItemTravelProps> = ({trip, headerImage}) => {
         <div style={{margin: "250px 0"}}>
             <section className="component trip-item-travel">
 
-                <div className="trip-item-travel-photo" style={{border: "solid 1px black",
-                    backgroundImage: `url(${headerImage})`, backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center"}}></div>
+                <div className="trip-item-travel-photo" style={{backgroundImage: `url(${headerImage})`}}></div>
 
                 <div className="text-travel">
                     <p style={{marginBottom: "2rem", fontStyle: "italic"}}>{trip.themeName}</p>

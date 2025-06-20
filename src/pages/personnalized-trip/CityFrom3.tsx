@@ -50,20 +50,20 @@ const CityFrom3: FC = () => {
                     }}
                 ></div>
             </div>
-            <a
-                href="#"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "16px",
-                    margin: "10px 40px",
-                    cursor: "pointer",
-                }}
-                onClick={() => navigate(-1)}
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
             >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
-                Previous step
-            </a>
+                previous step
+            </button>
 
             <div style={{padding: "20px", width: "85%", margin: "auto", textAlign: "center"}}>
                 <h1 style={{fontSize: "25px", margin: "30px 0"}}>Which city are you leaving from?</h1>

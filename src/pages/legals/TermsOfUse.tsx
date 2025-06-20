@@ -9,63 +9,41 @@ const TermsOfUse: FC<{}> = ({}) => {
             </Pages>
 
             <div className="terms-of-use">
-                <h2>Conditions d'Utilisation</h2>
+                <h2>Terms of Use</h2>
                 <h2>Odyssea</h2>
-                <p><strong>Dernière mise à jour :</strong> 25.02.2025</p>
+                <p><strong>Last update:</strong> 25.02.2025</p>
+                <p>Welcome to the Odyssea website. By accessing and using our site, you agree to these Terms of Use. Please read them carefully before using the site.</p>
 
-                <p>Bienvenue sur le site web de Odyssea. En accédant et en utilisant notre site, vous acceptez les
-                    présentes
-                    conditions d'utilisation. Veuillez les lire attentivement avant toute utilisation.</p>
+                <h3>1. Acceptance of Terms</h3>
+                <p>Using this site implies full and unconditional acceptance of these Terms of Use. If you do not agree with them, please do not use our website.</p>
 
-                <h3>1. Acceptation des Conditions</h3>
-                <p>L'utilisation de ce site implique l'acceptation pleine et entière des présentes conditions
-                    d'utilisation.
-                    Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser notre site.</p>
+                <h3>2. Changes to the Terms</h3>
+                <p>Odyssea reserves the right to modify these terms at any time. Changes will take effect upon publication on the site. We encourage you to check this page regularly.</p>
 
-                <h3>2. Modifications des Conditions</h3>
-                <p>Odyssea se réserve le droit de modifier ces conditions à tout moment. Les modifications prendront
-                    effet
-                    dès leur publication sur le site. Nous vous encourageons à consulter cette page régulièrement.</p>
+                <h3>3. Site Access</h3>
+                <p>Access to the site is provided free of charge but may be suspended, restricted, or modified at any time without notice. We do not guarantee uninterrupted or error-free access.</p>
 
-                <h3>3. Accès au Site</h3>
-                <p>L'accès au site est fourni à titre gratuit, mais peut être suspendu, restreint ou modifié à tout
-                    moment,
-                    sans préavis. Nous ne garantissons pas un accès ininterrompu ou sans erreur.</p>
+                <h3>4. Intellectual Property</h3>
+                <p>All content on the site (texts, images, logos, etc.) is the exclusive property of Odyssea or its partners and is protected by intellectual property laws. Any unauthorized reproduction, distribution, or use is strictly prohibited.</p>
 
-                <h3>4. Propriété Intellectuelle</h3>
-                <p>Tout le contenu du site (textes, images, logos, etc.) est la propriété exclusive de Odyssea ou de ses
-                    partenaires et est protégé par les lois sur la propriété intellectuelle. Toute reproduction,
-                    distribution ou utilisation non autorisée est strictement interdite.</p>
+                <h3>5. Use of the Site</h3>
+                <p>You agree to use this site lawfully and appropriately. Any attempt at fraud, intrusion, or misuse of
+                    the services is strictly prohibited and may lead to legal action.</p>
 
-                <h3>5. Utilisation du Site</h3>
-                <p>Vous vous engagez à utiliser ce site de manière légale et appropriée. Toute tentative de fraude,
-                    d'intrusion ou de détournement des services est strictement interdite et pourra donner lieu à des
-                    poursuites judiciaires.</p>
+                <h3>6. Liability</h3>
+                <p>Odyssea cannot be held liable for any direct or indirect damages resulting from the use of its site, including viruses or errors in the content. Use of the site is at your own risk.</p>
 
-                <h3>6. Responsabilité</h3>
-                <p>Odyssea ne pourra être tenue responsable des dommages directs ou indirects résultant de l'utilisation
-                    de
-                    son site, y compris en cas de virus ou d'erreurs dans le contenu. L'utilisation du site se fait sous
-                    votre seule responsabilité.</p>
+                <h3>7. External Links</h3>
+                <p>Our site may contain links to third-party websites. We have no control over these sites and disclaim any responsibility for their content or privacy policies.</p>
 
-                <h3>7. Liens Externes</h3>
-                <p>Notre site peut contenir des liens vers des sites tiers. Nous n'exerçons aucun contrôle sur ces sites
-                    et
-                    déclinons toute responsabilité quant à leur contenu ou leur politique de confidentialité.</p>
+                <h3>8. Personal Data Protection</h3>
+                <p>We collect and process your personal data in accordance with our privacy policy, available <a href="#">here</a>.</p>
 
-                <h3>8. Protection des Données Personnelles</h3>
-                <p>Nous collectons et traitons vos données personnelles conformément à notre politique de
-                    confidentialité,
-                    disponible <a href="#">ici</a>.</p>
-
-                <h3>9. Droit Applicable et Juridiction</h3>
-                <p>Les présentes conditions sont régies par le droit <strong>[indiquez votre juridiction]</strong>. En
-                    cas
-                    de litige, les tribunaux compétents seront ceux de <strong>[ville ou pays]</strong>.</p>
+                <h3>9. Governing Law and Jurisdiction</h3>
+                <p>These terms are governed by the laws of <strong>[specify your jurisdiction]</strong>. In case of dispute, the competent courts will be those of <strong>[city or country]</strong>.</p>
 
                 <h3>10. Contact</h3>
-                <p>Pour toute question concernant ces conditions d'utilisation, vous pouvez nous contacter à l'adresse
-                    suivante : <strong>[adresse e-mail/contact]</strong>.</p>
+                <p>If you have any questions regarding these Terms of Use, you can contact us at the following address: <strong>[email/contact address]</strong>.</p>
             </div>
         </>
     );

@@ -29,7 +29,7 @@ const Calender: React.FC = () => {
                 <DateCalendar
                     value={startDate ? dayjs(startDate) : null}
                     onChange={handleDateChange}
-                    minDate={dayjs()}
+                    minDate={dayjs().add(7, 'day')}
                 />
                 {startDate && endDate && (
                     <div>

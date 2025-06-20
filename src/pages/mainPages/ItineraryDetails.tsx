@@ -161,7 +161,7 @@ const ItineraryDetails: FC = () => {
         .filter((_, idx) => markerIndexes.includes(idx))
         .map(plan => ({
             dayNumber: plan.dayNumber,
-            city: {name: plan.cityName, latitude: plan.latitude, longitude: plan.longitude}
+            city: {id: 0, countryId: 0, name: plan.cityName, iataCode: "", latitude: plan.latitude, longitude: plan.longitude}
         }));
 
     const activities = itineraryToDisplay?.days
@@ -174,7 +174,6 @@ const ItineraryDetails: FC = () => {
 
     return (
         <div>
-            <Navbar/>
             {itineraryToDisplay ? (
                 <>
                     <div
@@ -185,36 +184,13 @@ const ItineraryDetails: FC = () => {
                     >
                         <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
-                            <hr
-                                style={{
-                                    marginLeft: "6rem",
-                                    border: "none",
-                                    borderTop: "1px solid white",
-                                    width: "80%",
-                                    height: "3px",
-                                }}
-                            />
-                            <hr style={{
-                                marginLeft: "1rem",
-                                border: "none",
-                                borderTop: "1px solid white",
-                                width: "80%",
-                                height: "3px"
-                            }}/>
+                            <hr style={{marginLeft: "6rem", border: "none", borderTop: "1px solid white", width: "80%", height: "3px",}}/>
+                            <hr style={{marginLeft: "1rem", border: "none", borderTop: "1px solid white", width: "80%", height: "3px"}}/>
                         </div>
                     </div>
 
                     <div className={styles.favoriteBook}>
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            cursor: "pointer",
-                            fontSize: "2rem",
-                            position: 'absolute',
-                            right: '50px',
-                            top: '700px'
-                        }}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer", fontSize: "2rem", position: 'absolute', right: '50px', top: '700px'}}>
                             {isFavorite ? (
                                 <>
                                     <StarIcon onClick={handleFavorites}/> <p style={{fontSize: "1.5rem"}}>Remove from your selection</p>                                </>
@@ -229,80 +205,33 @@ const ItineraryDetails: FC = () => {
                     <BookButton onClick={handleBooking} />
 
                     <section className="itinerary-details">
-                        <div style={{
-                            textAlign: "center",
-                            width: "80%",
-                            margin: "30px auto 70px",
-                            fontWeight: "700"
-                        }}>
+                        <div style={{textAlign: "center", width: "80%", margin: "30px auto 70px", fontWeight: "700"}}>
                             <p style={{fontSize: "1.6rem"}}>{itineraryToDisplay.shortDescription}</p>
                         </div>
 
-                        <section
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 1fr",
-                                gridTemplateRows: "auto auto auto",
-                                width: "70%",
-                                margin: "2rem auto",
-                                textAlign: "center",
-                                height: "50vh",
-                            }}
-                        >
-                            <div style={{
-                                border: "1px solid black",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center"
-                            }}>
+                        <section style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto", width: "70%", margin: "2rem auto", textAlign: "center", height: "50vh",}}>
+                            <div style={{border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center"}}>
                                 <h3>Duration</h3>
                                 <p>{itineraryToDisplay.totalDuration} days</p>
                             </div>
                             <div
-                                style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
+                                style={{ border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center",}}
                             >
                                 <h3>Accommodation</h3>
                                 <p>4-Stars and 5-Stars hotels</p>
                             </div>
                             <div
-                                style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                                style={{border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center",}}>
                                 <h3>Key activities</h3>
                                 <p style={{width: "88%", margin: "10px auto 0"}}>{activities.join(" | ")}</p>
                             </div>
                             <div
-                                style={{
-                                    border: "1px solid black",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                                style={{border: "1px solid black", display: "flex", flexDirection: "column", justifyContent: "center",}}>
                                 <h3>Price guide</h3>
                                 <p>{itineraryToDisplay.price} €</p>
                             </div>
                             <div
-                                style={{
-                                    gridColumn: "span 2",
-                                    margin: "auto",
-                                    border: "1px solid black",
-                                    width: "100%",
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                }}
-                            >
+                                style={{gridColumn: "span 2", margin: "auto", border: "1px solid black", width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center",}}>
                                 <h3>Visited countries</h3>
                                 <p>{countries.join(", ")}</p>
                             </div>
@@ -349,12 +278,7 @@ const ItineraryDetails: FC = () => {
                     </div>
 
                     <section>
-                        <h2 style={{
-                            fontSize: "2rem",
-                            textAlign: "center",
-                            marginTop: "6rem",
-                            marginBottom: "6rem"
-                        }}>Itinerary</h2>
+                        <h2 style={{fontSize: "2rem", textAlign: "center", marginTop: "6rem", marginBottom: "6rem"}}>Itinerary</h2>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "300px"}}>
                             <InteractiveMapTrip markers={markers}/>
                             <div>
@@ -363,11 +287,7 @@ const ItineraryDetails: FC = () => {
                                         const day = itineraryToDisplay.days.find(d => d.cityName === cityName);
                                         return (
                                             <div key={index} style={{margin: "10px 0"}}>
-                                                <p className="span-country" style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "10px"
-                                                }}>
+                                                <p className="span-country" style={{display: "flex", alignItems: "center", gap: "10px"}}>
                                                     <RoomOutlinedIcon/>
                                                     {day?.cityName}, {day?.countryName}
                                                 </p>
@@ -398,7 +318,6 @@ const ItineraryDetails: FC = () => {
             ) : (
                 <p>Sorry, no itinerary found. Please try again later.</p>
             )}
-            <Footer/>
         </div>
     );
 };

@@ -8,7 +8,7 @@ import {ItineraryDay} from "../../@types/PersonalizeTrip";
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
-import {post} from "../../API/api";
+import {patch} from "../../API/api";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import InteractiveMapPersItinerary from "../../components/interactiveMaps/InteractiveMapPersItinerary";
 
@@ -16,51 +16,62 @@ import InteractiveMapPersItinerary from "../../components/interactiveMaps/Intera
 const TripPersRecap: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const itinerary = location.state?.itinerary || {};
-    const {questionnaireAnswers} = usePersonalizedTrip()
-    const [message, setMessage] = useState("")
-    const itineraryId = location.state?.itineraryId;
-
+    const itinerary = localStorage.getItem('itinerary') ? JSON.parse(localStorage.getItem('itinerary') as string) : {};
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const [message, setMessage] = useState<string | null>(null);
     const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>([]);
-
-    // useEffect(() => {
-    //    const days = buildItineraryDaysFromLocalStorage(questionnaireAnswers.startDate);
-    //    setItineraryDays(days);
-    //}, []);
+    const [newItineraryName, setItineraryName] = useState<string>("");
+    const rawItineraryId = localStorage.getItem('itineraryId');
+    console.log("rawItineraryId: ", rawItineraryId)
+    const itineraryId = rawItineraryId !== null ? Number(rawItineraryId) : null;
 
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
         if (itinerary.data && itinerary.data.itineraryDays) {
             setItineraryDays(itinerary.data.itineraryDays);
         }
         console.log("itinerary: ", itinerary)
-    }, [itinerary]);
+    }, []);
 
 
     const handleSubmit = async () => {
         try {
             setMessage("Saving...");
-            if (questionnaireAnswers.itineraryName) {
-                const response = await post(`/userItinerary/itineraryName/${itineraryId}`, {
-                    itineraryName: questionnaireAnswers.itineraryName
-                });
-                setMessage(response);
+            console.log("New name" + typeof (newItineraryName))
+            console.log("ITINERARY ID : " + typeof (itineraryId))
+            const response = await patch(`/userItinerary/itineraryName/${itineraryId}`, {
+                itineraryName: newItineraryName
+            });
+            console.log(response);
+            if(response.success === true) {
+                setMessage(null);
+                navigate("/dashboard");
             }
 
-            setTimeout(() => navigate("/dashboard"), 100);
         } catch (e) {
             console.error(e);
             setMessage("Error saving itinerary name");
         }
+
+        localStorage.removeItem('questionnaireData');
+        localStorage.removeItem('selectedActivities');
+        localStorage.removeItem('selectedCountries');
+        // tout ce qui commence par 'selectedCities_'
+        Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith("selectedCities_")) {
+                localStorage.removeItem(key);
+            }
+        });
     };
 
     const endDate = questionnaireAnswers.startDate
         ? dayjs(questionnaireAnswers.startDate).add(questionnaireAnswers.duration, "day").format("YYYY-MM-DD")
         : "N/A";
+
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setItineraryName(e.target.value);
+    };
 
     return (
         <div>
@@ -78,16 +89,17 @@ const TripPersRecap: FC = () => {
                 }}></div>
             </div>
 
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
+            <button
+                style={{
+                    display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer", border: "none", background: "none"}}
+                onClick={() => navigate(-1)}>
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             <div style={{width: "80%", margin: "auto"}}>
                 <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
-                <ItineraryNameInput/>
+                <ItineraryNameInput onChange={handleInputChange} itineraryName={newItineraryName?.length > 0 ? newItineraryName : ""}/>
                 <p>{message}</p>
 
                 <div>
@@ -98,7 +110,6 @@ const TripPersRecap: FC = () => {
                             <p>End Date: <b>{endDate}</b></p>
                             <p>Total Duration: <b>{questionnaireAnswers.duration} days</b></p>
                             <p>Departure City: <b>{questionnaireAnswers.departureCity}</b></p>
-                            <p>Starting Price: <b>{itinerary.startingPrice}$</b></p>
                             <p>Number of Adults: <b>{questionnaireAnswers.numberOfAdults}</b></p>
                             <p>Number of Kids: <b>{questionnaireAnswers.numberOfKids}</b></p>
                         </div>
@@ -127,7 +138,7 @@ const TripPersRecap: FC = () => {
                     </div>
                 </div>
 
-                {/*<h2>Total Price : {itinerary.startingPrice} €</h2>*/}
+                <h2 style={{textAlign: 'center', margin: '60px auto', fontSize: '1.5rem'}}>Total Price : {itinerary.data.startingPrice}$</h2>
             </div>
 
             <h2 style={{textAlign: "center", margin: "20px 0", fontSize: "1.5rem"}}>Itinerary Days</h2>

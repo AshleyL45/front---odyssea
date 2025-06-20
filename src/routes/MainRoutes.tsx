@@ -16,28 +16,31 @@ import AboutUs from '../pages/mainPages/company/AboutUs';
 import Contact from '../pages/mainPages/company/Contact';
 import TripRecap from '../pages/personnalized-trip/TripRecap';
 import UnauthorizedPage from '../pages/UnauthorizedPage';
+import LayoutMain from "../layout/LayoutMain";
 
 export function mainRoutes() {
     return [
-        <Route path="/" element={<BackToTopLayout/>} key="main-layout">
-            <Route index element={<HomePage/>}/>
-            <Route path="trips" element={<ItineraryListPage/>}/>
-            <Route path="trip/:tripId" element={<ItineraryDetails/>}/>
+        <Route path="/" element={<LayoutMain/>}>
+            <Route path="/" element={<BackToTopLayout/>} key="main-layout">
+                <Route index element={<HomePage/>}/>
+                <Route path="trips" element={<ItineraryListPage/>}/>
+                <Route path="trip/:tripId" element={<ItineraryDetails/>}/>
+            </Route>,
+            <Route path="register" element={<RegisterPage/>} key="register"/>,
+            <Route path="mystery-trip" element={<MysteryTrip/>} key="mystery-trip"/>,
+            <Route path="cookies" element={<CookiesPolitic/>} key="cookies"/>,
+            <Route path="legal" element={<LegalInformation/>} key="legal"/>,
+            <Route path="privacy" element={<PrivacyPreferences/>} key="privacy"/>,
+            <Route path="terms" element={<TermsOfUse/>} key="terms"/>,
+            <Route path="aboutUs" element={<AboutUs/>} key="aboutUs"/>,
+            <Route path="contact" element={<Contact/>} key="contact"/>,
+            <Route path="tripRecap" element={<TripRecap/>} key="tripRecap"/>,
+            <Route
+                path="unauthorized"
+                element={<UnauthorizedPage/>}
+                key="unauthorized"
+            />
         </Route>,
-        <Route path="login" element={<LoginPage/>} key="login"/>,
-        <Route path="register" element={<RegisterPage/>} key="register"/>,
-        <Route path="mystery-trip" element={<MysteryTrip/>} key="mystery-trip"/>,
-        <Route path="cookies" element={<CookiesPolitic/>} key="cookies"/>,
-        <Route path="legal" element={<LegalInformation/>} key="legal"/>,
-        <Route path="privacy" element={<PrivacyPreferences/>} key="privacy"/>,
-        <Route path="terms" element={<TermsOfUse/>} key="terms"/>,
-        <Route path="aboutUs" element={<AboutUs/>} key="aboutUs"/>,
-        <Route path="contact" element={<Contact/>} key="contact"/>,
-        <Route path="tripRecap" element={<TripRecap/>} key="tripRecap"/>,
-        <Route
-            path="unauthorized"
-            element={<UnauthorizedPage/>}
-            key="unauthorized"
-        />,
+        <Route path="login" element={<LoginPage/>} key="login"/>
     ];
 }

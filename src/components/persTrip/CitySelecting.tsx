@@ -2,6 +2,7 @@ import {FC, useEffect, useState} from "react";
 import {get} from "../../API/api";
 import CloseIcon from "@mui/icons-material/Close";
 import {CitySelection} from "../../@types/PersonalizeTrip";
+import {City} from "../../@types/City";
 
 interface CitySelectingProps {
     countryId: number;
@@ -9,9 +10,9 @@ interface CitySelectingProps {
 }
 
 const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange}) => {
-    const [cities, setCities] = useState<any[]>([]);
+    const [cities, setCities] = useState<CitySelection[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selected, setSelected] = useState<any[]>([]);
+    const [selected, setSelected] = useState<CitySelection[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [cachedCities, setCachedCities] = useState<{ [key: number]: any[] }>({}); // Cache des villes
     const [isInputFocused, setIsInputFocused] = useState(false);
@@ -52,14 +53,20 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
         }
     };
 
-    const filterCities = (citiesData: any[], query: string = "") => {
+    const filterCities = (citiesData: City[], query: string = "") => {
         const selectedIds = selected.map((city) => city.id);
-        const filteredCities = citiesData.filter(
-            (city) =>
+        const filteredCities: CitySelection[] = citiesData
+            .filter((city) =>
                 city.countryId === countryId &&
                 city.name.toLowerCase().includes(query.toLowerCase()) &&
                 !selectedIds.includes(city.id)
-        );
+            )
+            .map((city) => ({
+                id: city.id,
+                cityName: city.name,
+                activities: []
+            }));
+
         setCities(filteredCities);
     };
 
@@ -87,7 +94,12 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
         }
 
         if (!selected.some((c) => c.id === city.id)) {
-            const newSelection = [...selected, city];
+            const citySelection : CitySelection = {
+                id: city.id,
+                cityName: city.cityName,
+                activities: []
+            }
+            const newSelection = [...selected, citySelection];
             setSelected(newSelection);
             // Enregistrer les 2 villes sélectionnées dans localStorage
             localStorage.setItem(`selectedCities_${countryId}`, JSON.stringify(newSelection));
@@ -132,7 +144,7 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
                     <ul className="result-option">
                         {cities.map((city) => (
                             <li key={city.id} onClick={() => handleSelect(city)}>
-                                {city.name}
+                                {city.cityName}
                             </li>
                         ))}
                     </ul>
@@ -142,7 +154,7 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
                 {selected.map((city) => (
                     <div key={city.id} className="selected-country">
                         <CloseIcon sx={{fontSize: "20px", cursor: "pointer"}} onClick={() => handleRemove(city.id)}/>
-                        {city.name}
+                        {city.cityName}
                     </div>
                 ))}
             </div>
