@@ -54,7 +54,8 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
                     itineraryId: itineraryData.id
                 }
             });
-
+            localStorage.setItem("itineraryId", JSON.stringify(itineraryData.data.id));
+            localStorage.setItem("itinerary", JSON.stringify(itineraryData));
         } catch (e) {
             console.error("Error during itinerary generation:", e);
         } finally {

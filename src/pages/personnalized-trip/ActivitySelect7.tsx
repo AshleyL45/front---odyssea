@@ -28,6 +28,8 @@ const ActivitySelect7: () => JSX.Element = () => {
     const selectedActivitiesIds = selectedActivities.map((activity: any) => activity.id);
     console.log(selectedActivitiesIds);
 
+
+
     useEffect(() => {
         const interval = setInterval(() => {
             const raw = localStorage.getItem("selectedActivities");
@@ -45,6 +47,10 @@ const ActivitySelect7: () => JSX.Element = () => {
                 const response = await post("/generate/step6", {activities: selectedActivitiesIds});
                 if (response?.success === true) {
                     navigate("/personalized-trip/standing-selection");
+                    const selectedActivities = localStorage.getItem("selectedActivities");
+                    if (!selectedActivities) {
+                        localStorage.setItem("selectedActivities", JSON.stringify([]));
+                    }
                 }
             } catch (e) {
                 console.error("Cannot generate activities")

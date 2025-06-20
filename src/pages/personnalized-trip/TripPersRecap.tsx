@@ -8,7 +8,7 @@ import {ItineraryDay} from "../../@types/PersonalizeTrip";
 import dayjs from "dayjs";
 import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import Pages from "../../components/layout/Pages"
-import {post} from "../../API/api";
+import {patch} from "../../API/api";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import InteractiveMapPersItinerary from "../../components/interactiveMaps/InteractiveMapPersItinerary";
 
@@ -16,35 +16,38 @@ import InteractiveMapPersItinerary from "../../components/interactiveMaps/Intera
 const TripPersRecap: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const itinerary = location.state?.itinerary || {};
+    const itinerary = localStorage.getItem('itinerary') ? JSON.parse(localStorage.getItem('itinerary') as string) : {};
     const {questionnaireAnswers} = usePersonalizedTrip();
-    const [message, setMessage] = useState("")
-    const itineraryId = location.state?.itineraryId;
+    const [message, setMessage] = useState<string | null>(null);
     const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>([]);
+    const [newItineraryName, setItineraryName] = useState<string>("");
+    const rawItineraryId = localStorage.getItem('itineraryId');
+    console.log("rawItineraryId: ", rawItineraryId)
+    const itineraryId = rawItineraryId !== null ? Number(rawItineraryId) : null;
+
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
         if (itinerary.data && itinerary.data.itineraryDays) {
             setItineraryDays(itinerary.data.itineraryDays);
         }
         console.log("itinerary: ", itinerary)
-    }, [itinerary]);
+    }, []);
 
 
     const handleSubmit = async () => {
         try {
             setMessage("Saving...");
-            if (questionnaireAnswers.itineraryName) {
-                const response = await post(`/userItinerary/itineraryName/${itineraryId}`, {
-                    itineraryName: questionnaireAnswers.itineraryName
-                });
-                setMessage(response);
+            console.log("New name" + typeof (newItineraryName))
+            console.log("ITINERARY ID : " + typeof (itineraryId))
+            const response = await patch(`/userItinerary/itineraryName/${itineraryId}`, {
+                itineraryName: newItineraryName
+            });
+            console.log(response);
+            if(response.success === true) {
+                setMessage(null);
+                navigate("/dashboard");
             }
 
-            setTimeout(() => navigate("/dashboard"), 100);
         } catch (e) {
             console.error(e);
             setMessage("Error saving itinerary name");
@@ -64,6 +67,11 @@ const TripPersRecap: FC = () => {
     const endDate = questionnaireAnswers.startDate
         ? dayjs(questionnaireAnswers.startDate).add(questionnaireAnswers.duration, "day").format("YYYY-MM-DD")
         : "N/A";
+
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setItineraryName(e.target.value);
+    };
 
     return (
         <div>
@@ -91,7 +99,7 @@ const TripPersRecap: FC = () => {
 
             <div style={{width: "80%", margin: "auto"}}>
                 <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
-                <ItineraryNameInput/>
+                <ItineraryNameInput onChange={handleInputChange} itineraryName={newItineraryName?.length > 0 ? newItineraryName : ""}/>
                 <p>{message}</p>
 
                 <div>
