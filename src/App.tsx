@@ -10,6 +10,7 @@ import {PersonalizedTripContextProvider} from './contexts/PersonalizedTripContex
 import {protectedRoutes} from './routes/ProtectedRoutes';
 import {mainRoutes} from './routes/MainRoutes';
 import {personalizedTripRoutes} from './routes/PersonalizedTripRoutes';
+import './font.css';
 
 function App() {
     return (

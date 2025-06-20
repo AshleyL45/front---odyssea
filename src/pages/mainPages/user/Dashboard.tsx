@@ -1,4 +1,4 @@
-import {JSX, useState} from 'react';
+import {useState} from 'react';
 import Overview from "../../../components/dashboard/Overview";
 import MyBookings from "../../../components/dashboard/MyBookings";
 import History from "../../../components/dashboard/History";

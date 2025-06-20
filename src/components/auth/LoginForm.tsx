@@ -16,7 +16,6 @@ const LoginForm = ({}) => {
     const {logUser, error} = useLogin()
     const [searchParams] = useSearchParams();
     const expired = searchParams.get("expired") === "true";
-    const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from || "/";
 
@@ -29,10 +28,7 @@ const LoginForm = ({}) => {
     })
 
     const onSubmit: SubmitHandler<LoginFormInput> = async (data: LoginFormInput) => {
-        const success = await logUser(data.email, data.password);
-        if (success) {
-            navigate(from, {replace: true});
-        }
+        await logUser(data.email, data.password);
     }
 
     return (

@@ -11,25 +11,22 @@ const Navbar: () => JSX.Element = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
     const {token, role} = useAuth();
-    const location = useLocation()
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
     const goToDashboard = () => {
+        const destination = role === "ADMIN" ? "/admin" : "/dashboard";
+
         if (!token) {
-            navigate("/login", { state: { from: location.pathname }, replace: true });
+            navigate("/login", { state: { from: { pathname: destination } }, replace: true });
             return;
         }
 
-        if (role === "ADMIN") {
-            navigate("/admin");
-        } else {
-            navigate("/dashboard");
-            console.log(location.pathname)
-        }
+        navigate(destination);
     };
+
 
     useEffect(() => {
         document.body.style.overflow = menuOpen ? 'hidden' : '';

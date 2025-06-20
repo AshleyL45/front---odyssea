@@ -1,11 +1,15 @@
 import {useState} from "react";
 import {loginUser} from "../services/AuthService";
 import {useAuth} from "../contexts/AuthContext";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export const useLogin = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const {login} = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const logUser = async (email: string, password: string) => {
         try {
@@ -15,7 +19,7 @@ export const useLogin = () => {
 
             if (response.status === 200) {
                 login(response.data.token);
-                return true;
+                navigate(from, {replace: true});
             }
         } catch (e: any) {
             console.error("Login error", e);
