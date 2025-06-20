@@ -21,7 +21,10 @@ const InteractiveMapTrip: FC<InteractiveMapTripProps> = ({markers}) => {
     const parisMarker: MarkerData = {
         dayNumber: 0,
         city: {
+            id: 257,
+            countryId: 55,
             name: 'Paris',
+            iataCode: 'CDG',
             latitude: 48.8566,
             longitude: 2.3522,
         },

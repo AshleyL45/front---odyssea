@@ -35,8 +35,8 @@ const values = [
     {
         image: valueFour,
         number: 4,
-        title: "Responsible Excellence",
-        description: "Authentic and environmentally friendly experiences, for a trip that makes sense."
+        title: "Thoughtful Curation",
+        description: "Meaningful journeys shaped with care, where quality and intention go hand in hand."
     }
 ];
 

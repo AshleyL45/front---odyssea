@@ -160,7 +160,7 @@ const ItineraryDetails: FC = () => {
         .filter((_, idx) => markerIndexes.includes(idx))
         .map(plan => ({
             dayNumber: plan.dayNumber,
-            city: {name: plan.cityName, latitude: plan.latitude, longitude: plan.longitude}
+            city: {id: 0, countryId: 0, name: plan.cityName, iataCode: "", latitude: plan.latitude, longitude: plan.longitude}
         }));
 
     const activities = itineraryToDisplay?.days
