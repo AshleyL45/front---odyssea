@@ -31,28 +31,53 @@ const BookingMysteryTripResult: FC = () => {
     }, []);
 
     useEffect(() => {
+        // 1. Essayer de récupérer un trip déjà stocké
+        const stored = localStorage.getItem("mysteryTripResult");
+        if (stored) {
+            const trip: Trip = JSON.parse(stored);
+            setTrip(trip);
+            setSelectedTrip(trip);
+            setLoading(false);
+            setMessage("Explore your destination");
+            setShowArrow(true);
+            return; // on sort : plus de fetch ni de timer
+        }
+
+        // 2. Si rien en storage, on lance le timer + fetch
         const timer = setTimeout(async () => {
             setLoading(false);
             setMessage("Explore your destination");
             setShowArrow(true);
 
-            const excluded = questionnaireAnswers.excludedCountries?.join(',') || '';
+            const excluded = questionnaireAnswers.excludedCountries?.join(",") || "";
             try {
-                const envelope = await get<ApiResp<Trip[]>>(
-                    `/api/itineraries/valid${excluded ? `?excludedCountries=${excluded}` : ''}`
+                // 2.1. On récupère la réponse sans la destructurer tout de suite
+                const resp = await get<ApiResp<Trip[]>>(
+                    `/api/itineraries/valid${excluded ? `?excludedCountries=${excluded}` : ""}`
                 );
-                if (!envelope?.data || envelope.data.length === 0) {
+                if (!resp) {
+                    console.error("Aucune réponse de l'API");
+                    return;
+                }
+
+                // 2.2. Maintenant qu’on sait que resp n’est pas null, on peut destructurer
+                const {data: trips} = resp;
+                if (!trips || trips.length === 0) {
                     console.error("Aucun itinéraire valide retourné");
                     return;
                 }
-                const pick = envelope.data[Math.floor(Math.random() * envelope.data.length)];
+
+                // 3. On pick au hasard
+                const pick = trips[Math.floor(Math.random() * trips.length)];
+
+                // 4. On stocke et on met à jour le contexte
                 setTrip(pick);
                 setSelectedTrip(pick);
                 localStorage.setItem("validTrip", JSON.stringify(pick));
                 localStorage.setItem("mysteryTripResult", JSON.stringify(pick));
 
-                await post('/book/step4', {itineraryId: pick.id});
-                updateResponse('itineraryId', pick.id);
+                await post("/book/step4", {itineraryId: pick.id});
+                updateResponse("itineraryId", pick.id);
 
             } catch (err) {
                 console.error("Erreur récupération ou mise à jour du draft :", err);
@@ -60,7 +85,9 @@ const BookingMysteryTripResult: FC = () => {
         }, 3000);
 
         return () => clearTimeout(timer);
-    }, [setTrip, questionnaireAnswers.excludedCountries, updateResponse]);
+        // on laisse le tableau vide pour n’exécuter qu’une seule fois
+    }, []);
+
 
     const handleArrowClick = () => setShowImage(true);
     const handleBooking = () => navigate("/booking-mystery-trip/submit");
