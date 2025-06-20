@@ -14,7 +14,7 @@ const BookingCard: FC<BookingCardProps> = ({booking, type}) => {
     return (
         <div className={styles.bookingCard}>
             <section className={styles.bookingCardSection}>
-                <h3 id={`booking-${booking.bookingId}-id`}>
+                <h3  className={styles.bookingCardTitle} id={`booking-${booking.bookingId}-id`}>
                     Booking: #{booking.bookingId}
                 </h3>
                 <button className={styles.bookingCardSectionButton} onClick={() => navigate(`bookings/${booking.bookingId}?type=${type}`)}

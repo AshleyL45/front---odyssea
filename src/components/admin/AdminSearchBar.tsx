@@ -6,7 +6,7 @@ interface AdminSearchBarProps {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const AdminSearchBar = ({onChange}: AdminSearchBarProps): JSX.Element => {
+const AdminSearchBar = ({onChange}: AdminSearchBarProps) => {
     return (
         <div className={styles.searchContainer}>
             <label htmlFor="search">Search by customer name</label>

@@ -70,8 +70,9 @@ const ItineraryListPage: FC = () => {
                 if (itinerariesResponse && themesResponse) {
                     setTrips(itinerariesResponse.data);
                     setFilteredTrips(itinerariesResponse.data);
+                    console.log("Filtered trips" + itinerariesResponse.data)
 
-                    const fetchedThemes = themesResponse as Theme[];
+                    const fetchedThemes = themesResponse.data as Theme[];
                     const sortedThemes = fetchedThemes.sort((a, b) => {
                         return themeOrder.indexOf(a.themeName) - themeOrder.indexOf(b.themeName);
                     });

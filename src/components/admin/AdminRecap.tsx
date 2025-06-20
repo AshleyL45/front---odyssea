@@ -21,7 +21,7 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
 
 
     const itineraryId = isStandardBooking(booking)
-        ? booking.reservation.itineraryId
+        ? booking.booking.itineraryId
         : booking.id;
 
     const itineraryTitle =
@@ -30,7 +30,7 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
             : `Itinerary ID ${itineraryId}`;
 
     const purchaseDate = isStandardBooking(booking)
-        ? booking.reservation.purchaseDate
+        ? booking.booking.purchaseDate
         : booking.bookingDate;
 
 

@@ -22,6 +22,7 @@
     text-decoration: underline;
     background: none;
     border: none;
+    font-size: 1.2rem;
 }
 
 .bookingCardSectionButton:hover {
@@ -40,5 +41,13 @@
 @media (min-width: 425px) {
     .bookingCard {
         width: 335px;
+    }
+
+    .bookingCardTitle {
+        font-size: 1.5rem;
+    }
+
+    .bookingCardInformation * {
+        font-size: 1.2rem;
     }
 }

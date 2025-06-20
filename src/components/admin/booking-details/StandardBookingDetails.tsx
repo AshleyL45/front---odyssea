@@ -26,18 +26,18 @@ const StandardBookingDetails = ({data} : StandardBookingDetailsProps) => {
             <section className={styles["information-section"]}>
                 <BookingInfo
                     id={bookingId}
-                    itineraryId={data.reservation.itineraryId}
-                    type={data.reservation.type}
+                    itineraryId={data.booking.itineraryId}
+                    type={data.booking.type}
                 />
                 <DatesInfo
-                    departureDate={data.reservation.departureDate}
-                    returnDate={data.reservation.returnDate}
-                    purchaseDate={data.reservation.purchaseDate}
+                    departureDate={data.booking.departureDate}
+                    returnDate={data.booking.returnDate}
+                    purchaseDate={data.booking.purchaseDate}
                 />
                 <OptionInfo options={data.options}/>
                 <TravelersInfo
-                    numberAdults={data.reservation.numberOfAdults}
-                    numberKids={data.reservation.numberOfKids}
+                    numberAdults={data.booking.numberOfAdults}
+                    numberKids={data.booking.numberOfKids}
                 />
             </section>
             <EditStatusModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

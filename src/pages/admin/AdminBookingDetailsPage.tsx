@@ -57,14 +57,15 @@ const AdminBookingDetailsPage = (): JSX.Element => {
 
     const getInitialStatus = (): BookingStatus => {
         if (!data) return "PENDING";
-        if (type === "Standard" && !isPersonalizedTrip(data)) return data.reservation.status as BookingStatus;
+        console.log("Data is : " + JSON.stringify(data));
+        if (type === "Standard" && !isPersonalizedTrip(data)) return data.booking.status as BookingStatus;
         if (type === "Personalized" && isPersonalizedTrip(data)) return data.status;
         return "PENDING";
     };
 
     const getInitialPrice = (): number => {
         if (!data) return 0;
-        if (type === "Standard" && !isPersonalizedTrip(data)) return data.reservation.totalPrice;
+        if (type === "Standard" && !isPersonalizedTrip(data)) return data.booking.totalPrice;
         if (type === "Personalized" && isPersonalizedTrip(data)) return data.startingPrice;
         return 0;
     };

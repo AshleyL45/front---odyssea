@@ -6,6 +6,6 @@ export interface AdminBookingDetails {
     userLastName: string;
     itineraryName: string;
     itineraryPrice: number;
-    reservation: Reservation2;
+    booking: Reservation2;
     options: Option[];
 }

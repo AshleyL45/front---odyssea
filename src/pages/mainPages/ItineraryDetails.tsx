@@ -52,9 +52,10 @@ const ItineraryDetails: FC = () => {
     const isFavorite = favorites.some(fav => fav.id === itineraryId);
 
     useEffect(() => {
-        get(`/api/itineraries/${itineraryId}/details`)
+        get(`/api/itineraries/${itineraryId}`)
             .then(data => {
                 if (data) setItineraryToDisplay(data.data);
+                console.log("Data : " ,data)
             })
             .catch(e => console.error("Cannot get itinerary:", itineraryId, e));
     }, [itineraryId]);
