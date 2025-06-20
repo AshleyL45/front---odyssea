@@ -7,12 +7,29 @@ const myDB = axios.create({
 myDB.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("token");
+
         if (token) {
-            config.headers["Authorization"] = `Bearer ${token}`;
+            config.headers = config.headers || {};
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     },
+    (error) => Promise.reject(error)
+);
+
+
+myDB.interceptors.response.use(
+    (response) => response,
     (error) => {
+        const status = error.response?.status;
+        const originalRequest = error.config;
+
+        const isLoginRequest = originalRequest?.url?.includes("/auth/login");
+        if (status === 401 && !isLoginRequest) {
+            localStorage.removeItem("token");
+
+            window.location.href = "/login?expired=true";
+        }
         return Promise.reject(error);
     }
 );
@@ -54,7 +71,7 @@ export const post = async <T = any>(url: string, data: object, config?: {}): Pro
         return response.data;
     } catch (error: any) {
         console.error("Cannot post to database : ", error);
-        return error.response.data;
+       throw error;
     }
 };
 
@@ -76,7 +93,7 @@ export const patch = async <T = any>(url: string, data: object, config?: {}): Pr
         return response.data;
     } catch (error: any) {
         console.error("Cannot patch to database : ", error);
-        return error.response.data;
+        throw error;
     }
 };
 
@@ -95,7 +112,7 @@ export const deleteFromDB = async <T = any>(url: string, config?: {}): Promise<T
         const response = await myDB.delete(url, config);
         return response.data;
     } catch (error) {
-        console.error("Cannot delete this movie from favorites : ", error);
-        return null;
+        console.error("Cannot delete : ", error);
+        throw error;
     }
 }

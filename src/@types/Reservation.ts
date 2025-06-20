@@ -7,4 +7,7 @@ export interface Reservation {
     numberOfAdults: number
     numberOfKids: number;
     optionIds: number[] | null;
+    purchaseDate: string;
+    type: string
+    totalPrice: number;
 }

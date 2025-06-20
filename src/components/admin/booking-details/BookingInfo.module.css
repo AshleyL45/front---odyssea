@@ -1,0 +1,37 @@
+.booking-info__container {
+    margin: 2rem auto;
+    width: 80%;
+}
+
+
+.booking-info__title {
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid #2c3e50;
+    font-size: 1.2rem;
+}
+
+.booking-info__content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.booking-info__content p {
+    font-size: 1rem;
+    margin: 2px 0;
+}
+
+
+@media (min-width: 768px) {
+    .booking-info__title {
+        font-size: 1.9rem;
+    }
+    .booking-info__content p {
+        font-size: 1.3rem;
+        margin: 10px 0;
+    }
+
+    .booking-info__container {
+        min-width: 320px;
+        max-width: 550px;
+    }
+}

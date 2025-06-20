@@ -3,14 +3,14 @@ import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {useNavigate} from "react-router-dom";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Pages from "../../components/layout/Pages";
 
 
 const BookingFormPeople: ({}: {}) => JSX.Element = ({}) => {
     const navigate = useNavigate();
-    const {updateResponse}= useReservation();
+    const {updateResponse}= useBooking();
 
     const [adults, setAdults] = useState(0);
     const [kids, setKids] = useState(0);

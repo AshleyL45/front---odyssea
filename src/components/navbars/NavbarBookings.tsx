@@ -3,10 +3,10 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import logo from "../../assets/logo/logo_name.png";
 import "../../App.css";
 
-const NavbarReservation: FC<{}> = ({}) => {
+const NavbarBooking: FC<{}> = ({}) => {
     return (
         <>
-            <nav className="navbar-reservation">
+            <nav className="navbar-booking">
                 <div>
                     <a href="/" className="return-button" style={{display: "flex", alignItems: "center", textDecoration: "underline"}}>
                         <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/>
@@ -19,4 +19,4 @@ const NavbarReservation: FC<{}> = ({}) => {
     );
 };
 
-export default NavbarReservation;
+export default NavbarBooking;

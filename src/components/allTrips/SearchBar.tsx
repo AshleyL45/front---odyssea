@@ -29,7 +29,7 @@ const SearchBar: ({}: {}) => JSX.Element = ({}) => {
             debounceTime(300),
             switchMap((value: any) => (
                 console.log(value),
-                get(`api/itineraries/search?query=${value}`) //TODO : A modifier avec le bon endpoint
+                get(`api/itineraries/search?query=${value}`)
                 )
             )
         )

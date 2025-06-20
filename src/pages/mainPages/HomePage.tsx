@@ -34,7 +34,7 @@ const carouselData: Slide[] = [
         description: 'Celebrate your love with a dreamy honeymoon in the world\'s most romantic destinations.',
     },
     {
-        imageUrl: 'https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1433838552652-f9a46b332c40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         title: 'Rejuvenation Escape',
         description: 'Reconnect with yourself on this 12-day wellness retreat.',
     },

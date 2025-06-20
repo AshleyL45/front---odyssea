@@ -1,150 +1,148 @@
-import React, {FC, useState, useEffect, ChangeEvent} from 'react';
+import React, {FC, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
-import CustomButton from "../../components/ReusableComponents/CustomButton";
-import Pages from "../../components/layout/Pages";
+import CustomButton from '../../components/ReusableComponents/CustomButton';
+import Pages from '../../components/layout/Pages';
+import {get} from '../../API/api';
+import {useBooking} from '../../contexts/BookingContext';
+import {useAuth} from '../../contexts/AuthContext';
+import {Trip} from '../../@types/Trip';
+import {Country} from '../../@types/Country';
+import {useCountries} from '../../hooks/mysteryTrip/useCountries';
+import CountrySelect from '../../components/mysteryTrip/CountrySelect';
+import CountryChips from '../../components/mysteryTrip/CountryChips';
+import styles from './MysteryTripCountry.module.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+// Utilise le type Country pour dériver CountryOption
+export type CountryOption = {
+    value: Country['name'];
+    label: Country['name'];
+};
 
 const BookingMysteryTripCountry: FC = () => {
     const navigate = useNavigate();
-    const [countries, setCountries] = useState<any[]>([]);
-    const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+    const {questionnaireAnswers, updateResponse, setTrip} = useBooking();
+    const {token} = useAuth();
+    const countries = useCountries();
 
-    useEffect(() => {
-        const fetchCountries = async () => {
-            try {
-                const response = await fetch("http://localhost:8080/countries");
-                if (!response.ok) {
-                    throw new Error("Error when retrieving countries");
-                }
-                const data = await response.json();
-                setCountries(data.data);
-            } catch (error) {
-                console.error("Unable to retrieve list of countries:", error);
-            }
-        };
-        fetchCountries();
-    }, []);
+    const [selectedCountries, setSelectedCountries] = useState<string[]>(
+        questionnaireAnswers.excludedCountries || []
+    );
 
-    const handleSelectCountry = (event: ChangeEvent<HTMLSelectElement>) => {
-        const newCountry = event.target.value;
-        if (newCountry && !selectedCountries.includes(newCountry) && selectedCountries.length < 10) {
-            setSelectedCountries((prev) => [...prev, newCountry]);
+    const handleSelect = (country: string) => {
+        if (selectedCountries.length >= 10) {
+            window.alert('You can exclude up to 10 countries.');
+            return;
         }
-        event.target.value = "";
+        if (!selectedCountries.includes(country)) {
+            setSelectedCountries(prev => [...prev, country]);
+        }
     };
 
-    const handleRemoveCountry = (country: string) => {
-        setSelectedCountries((prev) => prev.filter(c => c !== country));
+    const handleRemove = (country: string) => {
+        setSelectedCountries(prev => prev.filter(c => c !== country));
     };
 
-    const handleNext = () => {
-        localStorage.setItem("excludedCountries", JSON.stringify(selectedCountries));
-        navigate("/booking-mystery-trip/date");
+    const handleNext = async () => {
+        updateResponse('excludedCountries', selectedCountries);
+        const headers: Record<string, string> = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        const queryParam =
+            selectedCountries.length > 0
+                ? `?excludedCountries=${encodeURIComponent(selectedCountries.join(','))}`
+                : '';
+
+        try {
+            const trips: Trip[] | null = await get<Trip[]>(
+                `/api/itineraries/valid${queryParam}`,
+                {headers}
+            );
+            if (!trips || trips.length === 0) {
+                window.alert('Unable to retrieve an itinerary.');
+                return;
+            }
+            setTrip(trips[0]);
+            navigate('/booking-mystery-trip/date');
+        } catch (err) {
+            console.error(err);
+            window.alert('An error has occurred while loading routes.');
+        }
     };
+
+    const handlePrevious = () => navigate(-1);
+
+    const countryOptions: CountryOption[] = countries
+        .filter(c => !selectedCountries.includes(c.name))
+        .map(c => ({value: c.name, label: c.name}));
 
     return (
         <>
             <Pages title="Booking - Mystery Trip">
             </Pages>
 
-            <div className="progress-bar">
-                <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                <div style={{
-                    width: "30%",
-                    height: "6px",
-                    borderRadius: "0 5px 5px 0",
-                    backgroundColor: "#2C3E50",
-                    position: "relative",
-                    top: "-6px"
-                }}></div>
-            </div>
-
-            <div style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "20rem",
-                marginTop: "2rem"
-            }}>
-        <span style={{fontSize: "2rem", fontWeight: "bold", textDecoration: "underline"}}>
-          1. Countries
-        </span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>
-          2. Dates
-        </span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>
-          3. Travellers
-        </span>
-            </div>
-
-            <div style={{display: "flex", justifyContent: "space-around", alignItems: "flex-start", marginTop: "3rem"}}>
-                <div style={{width: "40%", display: "flex", flexDirection: "column", gap: "1rem"}}>
-                    <h2 style={{fontSize: "2rem"}}>Exclude your destinations</h2>
-                    <p style={{fontSize: "1rem", lineHeight: "1.5"}}>
-                        Indicate the countries you do not wish to visit to personalize your stay.
-                    </p>
-                    <div>
-                        <CustomButton style={{color: "white", backgroundColor: "#2C3E50"}} onClick={handleNext}>
-                            Next
-                        </CustomButton>
-                    </div>
+            <header>
+                <div className={styles.progressBarContainer}>
+                    <div className={styles.progressBackground}/>
+                    <div className={styles.progressFill}/>
                 </div>
+                <a
+                    onClick={handlePrevious}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '16px',
+                        margin: '10px 40px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
+                </a>
+            </header>
 
-                {/* Colonne de droite */}
-                <div style={{width: "40%", display: "flex", flexDirection: "column", gap: "1rem"}}>
-                    <label htmlFor="countrySelect" style={{fontWeight: "bold"}}>
+            <main aria-labelledby="page-title">
+                <div className={styles.mainContainer}>
+                    <h1 id="page-title" className={styles.title}>
+                        Exclude your destinations
+                    </h1>
+                    <h2 className={styles.subtitle} aria-live="polite">
+                        Indicate the countries you do not wish to visit to personalize your stay.
+                    </h2>
+
+                    <label htmlFor="countrySelect" className={styles.label}>
                         Choose a country to exclude:
                     </label>
-                    <select
-                        id="countrySelect"
-                        onChange={handleSelectCountry}
-                        style={{padding: "0.5rem", fontSize: "1rem"}}
-                        defaultValue=""
-                    >
-                        <option value="" disabled>
-                            -- Select a country --
-                        </option>
-                        {countries.map((country) => (
-                            <option key={country.id} value={country.name}>
-                                {country.name}
-                            </option>
-                        ))}
-                    </select>
+                    <p className={styles.helperText} id="helper-text">
+                        Maximum 10 countries
+                    </p>
 
-                    <div style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                    }}>
-                        {selectedCountries.map((country, index) => (
-                            <div
-                                key={`${country}-${index}`}
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    backgroundColor: "#f0f0f0",
-                                    borderRadius: "20px",
-                                    padding: "0.3rem 0.8rem",
-                                }}
-                            >
-                                <span style={{marginRight: "0.5rem"}}>{country}</span>
-                                <button
-                                    onClick={() => handleRemoveCountry(country)}
-                                    style={{
-                                        background: "none",
-                                        border: "none",
-                                        fontWeight: "bold",
-                                        cursor: "pointer",
-                                    }}
-                                >
-                                    x
-                                </button>
-                            </div>
-                        ))}
+                    <div className={styles.selectWrapper}>
+                        <form
+                            onSubmit={e => {
+                                e.preventDefault();
+                                handleNext();
+                            }}
+                            aria-describedby="helper-text"
+                        >
+                            <CountrySelect
+                                options={countryOptions}
+                                onSelect={handleSelect}
+                            />
+                        </form>
                     </div>
+
+                    <CountryChips countries={selectedCountries} onRemove={handleRemove}/>
+
+                    <CustomButton
+                        variant="contained"
+                        onClick={handleNext}
+                        className={styles.nextButton}
+                        aria-label="Next step"
+                    >
+                        Next
+                    </CustomButton>
                 </div>
-            </div>
+            </main>
         </>
     );
 };

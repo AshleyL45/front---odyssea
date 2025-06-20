@@ -1,6 +1,6 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX, useState} from 'react';
 import Overview from "../../../components/dashboard/Overview";
-import Reservation from "../../mainPages/user/Reservation";
+import MyBookings from "../../../components/dashboard/MyBookings";
 import History from "../../../components/dashboard/History";
 import Settings from "../../../components/dashboard/Settings";
 import MySelection from "../../../components/dashboard/MySelection";
@@ -9,34 +9,34 @@ import SideBoard from "../../../components/navbars/SideBoard";
 import NavbarDashboard from "../../../components/navbars/NavbarDashboard";
 import Pages from "../../../components/layout/Pages"
 import PersonalizedTrips from "../../../components/dashboard/PersonalizedTrips";
+import styles from "./UserDashboard.module.css"
 
-const Dashboard: ({}: {}) => JSX.Element = ({}) => {
+const Dashboard = ({}) => {
     const [activePage, setActivePage] = useState<string>("Overview");
 
 
     return (
-        <>
-            <Pages title="Dashboard - Odyssea">
-            </Pages>
+        <Pages title="Dashboard - Odyssea">
+
             <NavbarDashboard/>
 
-            <div className="dashboard">
+            <main className={styles.dashboard} role="presentation">
                 <SideBoard activePage={activePage} setActivePage={setActivePage}/>
 
-                <div style={{width: "100%"}}>
+                <section style={{width: "100%"}}>
 
                     {activePage === "Overview" && <Overview/>}
-                    {activePage === "My bookings" && <Reservation/>}
+                    {activePage === "My bookings" && <MyBookings/>}
                     {activePage === "Travel History" && <History/>}
                     {activePage === "My selection" && <MySelection/>}
+                    {activePage === "My personalized trips" && <PersonalizedTrips/>}
                     {activePage === "Personal information" && <PersonalInformation/>}
                     {activePage === "Settings" && <Settings/>}
-                    {activePage === "My personalized trips" && <PersonalizedTrips/>}
-                </div>
 
-            </div>
+                </section>
 
-        </>
+            </main>
+        </Pages>
     );
 };
 

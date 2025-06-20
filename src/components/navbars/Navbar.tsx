@@ -3,15 +3,32 @@ import logo from "../../assets/logo/logo_symbol.png";
 import userIcon from "../../assets/userIcontwo.png";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useAuth} from "../../contexts/AuthContext";
 import style from "../../styles/Navbar.module.css";
 
 const Navbar: () => JSX.Element = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const {token, role} = useAuth();
+    const location = useLocation()
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const goToDashboard = () => {
+        if (!token) {
+            navigate("/login", { state: { from: location.pathname }, replace: true });
+            return;
+        }
+
+        if (role === "ADMIN") {
+            navigate("/admin");
+        } else {
+            navigate("/dashboard");
+            console.log(location.pathname)
+        }
     };
 
     useEffect(() => {
@@ -69,7 +86,7 @@ const Navbar: () => JSX.Element = () => {
                                         alt="user icon"
                                         className={style.loginLogo}
                                         style={{width: "25px"}}
-                                        onClick={() => navigate('/dashboard')}
+                                        onClick={goToDashboard}
                                     />
                                 </li>
                             </ul>
