@@ -136,7 +136,7 @@
 }
 
 /* Styles pour le bouton de réservation */
-.reservationButtonContainer {
+.bookingButtonContainer {
     display: flex;
     justify-content: space-evenly;
     align-items: center;

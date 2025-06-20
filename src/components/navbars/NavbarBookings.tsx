@@ -4,13 +4,13 @@ import logo from "../../assets/logo/logo_name.png";
 import "../../App.css";
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
-const NavbarReservation: FC<{}> = ({}) => {
+const NavbarBooking: FC<{}> = ({}) => {
     return (
         <>
 
            
 
-            <nav className="navbar-reservation">
+            <nav className="navbar-booking">
 
             <div>
                     <a href="/" className="return-button" style={{display: "flex", alignItems: "center", textDecoration: "underline"}}>
@@ -27,4 +27,4 @@ const NavbarReservation: FC<{}> = ({}) => {
     );
 };
 
-export default NavbarReservation;
+export default NavbarBooking;

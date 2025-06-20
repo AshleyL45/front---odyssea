@@ -1,156 +1,147 @@
 import React, {FC, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
-import dayjs, {Dayjs} from "dayjs";
+import BookingCalendar from "../../components/bookingForm/BookingCalendar";
 import Pages from "../../components/layout/Pages";
+import dayjs, {Dayjs} from "dayjs";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useBooking} from "../../contexts/BookingContext";
+import {post} from "../../API/api";
 
 const BookingMysteryTripDate: FC = () => {
-    const [departureDate, setDepartureDate] = useState<Dayjs | null>(null);
     const navigate = useNavigate();
+    const {questionnaireAnswers, updateResponse} = useBooking();
 
-    const formatDate = (date: Dayjs): string => {
-        return date.format("DD/MM/YYYY");
+    // Initialisation des dates à partir du contexte
+    const initialStart: Dayjs | null = questionnaireAnswers.departureDate
+        ? dayjs(questionnaireAnswers.departureDate, "DD-MM-YYYY")
+        : null;
+
+    const initialEnd: Dayjs | null = questionnaireAnswers.returnDate
+        ? dayjs(questionnaireAnswers.returnDate, "DD-MM-YYYY")
+        : null;
+
+    const [startDate, setStartDate] = useState<Dayjs | null>(initialStart);
+    const [endDate, setEndDate] = useState<Dayjs | null>(initialEnd);
+    const [calendarKey, setCalendarKey] = useState<number>(0);
+
+    const duration = 12;
+    const bookingType = "Mystery"; // ou récupérer du contexte si variable
+
+    const handleDateSelection = (date: Dayjs | null) => {
+        setStartDate(date);
+        setEndDate(date ? date.add(duration, "days") : null);
     };
 
-    const add12Days = (date: Dayjs): Dayjs => {
-        return date.add(12, "day");
-    };
-
-    const handleDateSelect = (newDate: Dayjs | null) => {
-        if (!departureDate && newDate) {
-            setDepartureDate(newDate);
-        }
-    };
+    const handlePrevious = () => navigate(-1);
 
     const resetDate = () => {
-        setDepartureDate(null);
+        setStartDate(null);
+        setEndDate(null);
+        setCalendarKey((prev) => prev + 1);
     };
 
-    const endDate = departureDate ? add12Days(departureDate) : null;
-
-    const handleResultClick = () => {
-        if (departureDate) {
-            localStorage.setItem("departureDate", departureDate.toISOString());
-            const retDate = add12Days(departureDate);
-            localStorage.setItem("returnDate", retDate.toISOString());
-            navigate("/booking-mystery-trip/traveller");
+    const handleNextStep = async () => {
+        if (!startDate || !dayjs(startDate).isValid()) {
+            alert("Veuillez sélectionner une date valide.");
+            return;
         }
-    };
+
+        const dateStr = startDate.format("DD/MM/YYYY");
+
+        const payload = {
+            itineraryId: questionnaireAnswers.itineraryId,
+            type: bookingType,
+            date: dateStr,
+        };
+
+        // Vérification manuelle pour éviter les erreurs côté back
+        if (!payload.itineraryId || payload.itineraryId <= 0) {
+            alert("Itinerary ID invalide.");
+            return;
+        }
+
+        try {
+            const resp = await post("/book/step1", payload);
+            if (resp?.success) {
+                updateResponse("departureDate", startDate.format("DD-MM-YYYY"));
+                updateResponse("returnDate", endDate?.format("DD-MM-YYYY"));
+                navigate("/booking-mystery-trip/traveller");
+            } else {
+                console.error("Step1 error:", resp);
+                alert("Impossible de valider la date. Réessayez.");
+            }
+        } catch (error) {
+            console.error("API error on step1:", error);
+            alert("Erreur serveur lors de la validation. Réessayez plus tard.");
+        }
+    }
+
 
     return (
         <>
             <Pages title="Booking - Mystery Trip">
             </Pages>
 
-            <div className="progress-bar">
-                <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>
-                <div
-                    style={{
-                        width: "30%",
-                        height: "6px",
-                        borderRadius: "0 5px 5px 0",
-                        backgroundColor: "#2C3E50",
-                        position: "relative",
-                        top: "-6px",
-                    }}
-                />
-            </div>
+            <header>
+                <div className="progress-bar">
+                    <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}/>
+                    <div
+                        style={{
+                            width: "45%",
+                            height: "6px",
+                            borderRadius: "0 5px 5px 0",
+                            backgroundColor: "#2C3E50",
+                            position: "relative",
+                            top: "-6px",
+                        }}
+                    />
+                </div>
 
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "2rem",
-                    marginTop: "2rem",
-                }}
-            >
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>1. Countries</span>
-                <span
+                <a
+                    onClick={handlePrevious}
                     style={{
-                        fontSize: "2rem",
-                        fontWeight: "bold",
-                        textDecoration: "underline",
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '16px',
+                        margin: '10px 40px',
+                        cursor: 'pointer',
                     }}
                 >
-          2. Dates
-        </span>
-                <span style={{fontSize: "2rem", fontWeight: "bold"}}>3. Travellers</span>
-            </div>
+                    <ArrowBackIcon sx={{fontSize: '15px'}}/> previous step
+                </a>
+            </header>
+            <main>
+                <div style={{maxWidth: "700px", margin: "0 auto", padding: "2rem 1rem", textAlign: "center"}}>
+                    <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>When would you like to leave?</h1>
+                    <h2 style={{margin: "20px 0 50px", fontWeight: 'lighter'}}>
+                        Select a departure date. Return date will be fixed at {duration} days later.
+                    </h2>
 
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    alignItems: "flex-start",
-                    marginTop: "3rem",
-                }}
-            >
-                <div
-                    style={{
-                        width: "40%",
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        handleNextStep();
+                    }}>
+                        <BookingCalendar key={calendarKey} days={duration} onDateSelect={handleDateSelection}/>
+                    </form>
+
+                    <div style={{
                         display: "flex",
                         flexDirection: "column",
+                        alignItems: "center",
                         gap: "1rem",
-                    }}
-                >
-                    <h2 style={{fontSize: "2rem"}}>Choose your availability</h2>
-                    <p style={{fontSize: "1rem", lineHeight: "1.5"}}>
-                        Select departure date. Dates prior to today cannot be selected.
-                        Once the date has been selected, your trip will automatically end 12 days later.
-                    </p>
-                    <div>
-                        <CustomButton
-                            disabled={!departureDate}
-                            onClick={handleResultClick}
-                            style={{
-                                color: "white",
-                                backgroundColor: departureDate ? "#2C3E50" : "grey",
-                            }}
-                        >
-                            Result
+                        marginTop: "1rem"
+                    }}>
+                        <CustomButton onClick={resetDate} style={{color: "white", backgroundColor: "#2C3E50"}}>
+                            Reset
+                        </CustomButton>
+                        <CustomButton variant="contained" onClick={handleNextStep} disabled={!startDate || !endDate}
+                                      style={{width: "130px", marginTop: "50px"}}>
+                            Next
                         </CustomButton>
                     </div>
                 </div>
-
-                <div
-                    style={{
-                        width: "40%",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                        alignItems: "center",
-                    }}
-                >
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <div style={{pointerEvents: departureDate ? "none" : "auto"}}>
-                            <DateCalendar
-                                value={departureDate}
-                                onChange={handleDateSelect}
-                                minDate={dayjs().startOf("day")}
-                            />
-                        </div>
-                    </LocalizationProvider>
-
-                    <CustomButton
-                        onClick={resetDate}
-                        style={{color: "white", backgroundColor: "#2C3E50"}}
-                    >
-                        Reset
-                    </CustomButton>
-
-                    {departureDate && endDate && (
-                        <p style={{marginTop: "1rem", textAlign: "center"}}>
-                            Your journey begins on <strong>{formatDate(departureDate)}</strong> and will end on{" "}
-                            <strong>{formatDate(endDate)}</strong>.
-                        </p>
-                    )}
-                </div>
-            </div>
+            </main>
         </>
     );
 };

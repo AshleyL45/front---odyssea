@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/Reservation.module.css";
+import styles from "../../styles/Booking.module.css";
 
 interface BookingFiltersProps {
     filters: string[];

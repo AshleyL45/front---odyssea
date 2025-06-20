@@ -1,6 +1,6 @@
 import {JSX, useMemo, useState} from 'react';
 import TripDashboard from "../ReusableComponents/TripDashboard";
-import styles from "../../styles/Reservation.module.css";
+import styles from "../../styles/Booking.module.css";
 import Pages from "../layout/Pages"
 import {Backdrop, CircularProgress} from "@mui/material";
 import {useUserDashboard} from "../../contexts/DashboardContext";

@@ -2,20 +2,20 @@ import React, {FC, JSX, useEffect, useState} from 'react';
 import NavbarDashboard from "../../components/navbars/NavbarDashboard";
 import Calender from "../../components/bookingForm/Calender";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import ReservationCalendar from "../../components/bookingForm/ReservationCalendar";
+import BookingCalendar from "../../components/bookingForm/BookingCalendar";
 import {Trip} from "../../@types/Trip";
 import {useNavigate} from "react-router-dom";
 import {Dayjs} from "dayjs";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import {useAuth} from "../../contexts/AuthContext";
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
+import NavbarBooking from "../../components/navbars/NavbarBookings";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Pages from "../../components/layout/Pages";
 
 
 const BookingFormDate: FC<{}> = ({}) => {
     const navigate = useNavigate();
-    const {trip, updateResponse} = useReservation();
+    const {trip, updateResponse} = useBooking();
 
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | undefined>(undefined);
@@ -61,7 +61,7 @@ const BookingFormDate: FC<{}> = ({}) => {
 
                 <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>When would you like to leave?</h1>
                 <p style={{margin: "20px 0 50px"}}>Select the departure date of your stay : </p>
-                <ReservationCalendar days={trip.totalDuration} onDateSelect={handleDateSelection}/>
+                <BookingCalendar days={trip.totalDuration} onDateSelect={handleDateSelection}/>
 
                 <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained"
                               onClick={handleNextStep}

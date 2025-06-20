@@ -127,7 +127,11 @@ const InteractiveMapPersItinerary: React.FC = () => {
 
     return (
         <div style={{height: "500px", width: "100%"}}>
-            <MapContainer center={[48.8566, 2.3522]} zoom={5} style={{height: "100%", width: "100%"}}>
+            <MapContainer center={[48.8566, 2.3522]} zoom={5} style={{height: "100%", width: "100%"}}
+                          zoomAnimation={false}
+                          zoomControl={false}
+                          fadeAnimation={false}
+            >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; OpenStreetMap contributors'
