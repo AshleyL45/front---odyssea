@@ -38,7 +38,7 @@ const CitySelect5: FC<{}> = () => {
             try {
                 const response = await post("/generate/step5", {cities: selectedCitiesIds});
                 if (response?.success === true) {
-                    navigate("/personalized-trip/standing-selection");
+                    navigate("/personalized-trip/activity-selection");
                     console.log(response)
                 }
             } catch (e) {
@@ -96,12 +96,20 @@ const CitySelect5: FC<{}> = () => {
                 }}></div>
             </div>
 
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
+            >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             <div className="container-city-selecting">
                 <h1 style={{fontSize: "25px", margin: "30px 0", textAlign: "center"}}>Select your preferred cities:</h1>

@@ -58,12 +58,20 @@ const CountrySelect4: FC<{}> = ({}) => {
                     top: "-6px"
                 }}></div>
             </div>
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
+            >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             <div style={{padding: "20px", margin: "auto", textAlign: "center"}}>
 

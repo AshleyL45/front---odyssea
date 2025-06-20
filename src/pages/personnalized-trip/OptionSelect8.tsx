@@ -18,7 +18,12 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
     const [loading, setLoading] = useState(false);
     // 🔹 Récupération des infos générales de l'utilisateur
     const questionnaireAnswers = JSON.parse(localStorage.getItem("questionnaireData") || "{}");
+
     const options = questionnaireAnswers.options || [];
+
+    useEffect(() => {
+        console.log("Questionnaire answers" + questionnaireAnswers);
+    }, []);
 
     const selectedOptionsIds = options.map((option: any) => option.id);
     console.log("Selected Option IDs:", selectedOptionsIds);
@@ -112,12 +117,12 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
                 }}></div>
             </div>
 
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
+            <button
+               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer", border: "none", background: "none"}}
                onClick={() => navigate(-1)}>
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             <div className="option-select" style={{textAlign: "center", width: "95%", margin: 'auto'}} >
                 <h1 style={{fontSize: "25px", margin: "40px 0 10px"}}>Would you like to add any options to your itinerary?</h1>

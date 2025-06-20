@@ -19,7 +19,7 @@ const StandingSelect6: ({}: {}) => JSX.Element = ({}) => {
             try {
                 const response = await post("/generate/step7", {hotelStanding: hotelStanding});
                 if (response?.success === true) {
-                    navigate("/personalized-trip/activity-selection");
+                    navigate("/personalized-trip/option-selection");
                 }
             } catch (e) {
                 console.error("Cannot generate hotel standing")
@@ -44,12 +44,20 @@ const StandingSelect6: ({}: {}) => JSX.Element = ({}) => {
                 }}></div>
             </div>
 
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
+            >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             <div className="hotel-select" style={{margin: "100px auto", textAlign: "center"}}>
                 <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Select your hotel standing</h1>
