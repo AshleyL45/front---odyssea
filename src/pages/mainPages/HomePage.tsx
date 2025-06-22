@@ -9,97 +9,13 @@ import {Link} from "react-router-dom";
 import BlogItemBlog from "../../components/ReusableComponents/BlogItemBlog";
 import HomeCarousel from "../../components/homePage/HomeCarousel";
 import Pages from "../../components/layout/Pages";
-
-interface Itinerary {
-    id: number;
-    name: string;
-    description: string;
-}
-
-interface Slide {
-    imageUrl: string;
-    title: string;
-    description: string;
-}
-
-type HeaderPair = {
-    firstHeader?: string;
-    secondHeader?: string;
-};
-
-const carouselData: Slide[] = [
-    {
-        imageUrl: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop',
-        title: 'Romantic Escape to Paradise',
-        description: 'Celebrate your love with a dreamy honeymoon in the world\'s most romantic destinations.',
-    },
-    {
-        imageUrl: 'https://images.unsplash.com/photo-1433838552652-f9a46b332c40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        title: 'Rejuvenation Escape',
-        description: 'Reconnect with yourself on this 12-day wellness retreat.',
-    },
-    {
-        imageUrl: 'https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=2092&auto=format&fit=crop',
-        title: 'Luxury Business Expedition',
-        description: 'Combine work and pleasure on this 12-day luxury business trip.',
-    },
-];
+import {useHeaderImages} from "../../hooks/homePage/useHeaderImages";
+import {triptychImages} from "../../components/homePage/TriptychImages";
+import {useIsMobile} from "../../hooks/homePage/useIsMobile";
 
 const HomePage: React.FC = () => {
-    const [itineraries, setItineraries] = useState<Itinerary[]>([]);
-    const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
-    const [headerMap, setHeaderMap] = useState<Record<number, HeaderPair>>({});
-
-    // detect mobile/tablet
-    useEffect(() => {
-        const onResize = () => setIsMobileOrTablet(window.innerWidth <= 768);
-        onResize();
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetch('http://localhost:8080/api/itineraries');
-                const all = await res.json();
-                const slice3 = all.data.slice(0, 3);
-                setItineraries(slice3);
-
-                const map: Record<number, HeaderPair> = {};
-                await Promise.all(slice3.map(async (trip: { id: number }) => {
-                    const roles: string[] = await fetch(`/api/itinerary-images/${trip.id}`)
-                        .then(r => r.ok ? r.json() : [])
-                        .catch(() => []);
-                    if (roles.includes('firstHeader')) {
-                        const blob = await fetch(`/api/itinerary-images/${trip.id}/firstHeader`)
-                            .then(r => r.ok ? r.blob() : null)
-                            .catch(() => null);
-                        if (blob) map[trip.id] = {...map[trip.id], firstHeader: URL.createObjectURL(blob)};
-                    }
-                    if (roles.includes('secondHeader')) {
-                        const blob = await fetch(`/api/itinerary-images/${trip.id}/secondHeader`)
-                            .then(r => r.ok ? r.blob() : null)
-                            .catch(() => null);
-                        if (blob) map[trip.id] = {...map[trip.id], secondHeader: URL.createObjectURL(blob)};
-                    }
-                }));
-                setHeaderMap(map);
-            } catch (e) {
-                console.error("Erreur HomePage:", e);
-            }
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        return () => {
-            Object.values(headerMap).forEach(pair => {
-                pair.firstHeader && URL.revokeObjectURL(pair.firstHeader);
-                pair.secondHeader && URL.revokeObjectURL(pair.secondHeader);
-            });
-        };
-    }, [headerMap]);
+    const {itineraries, headerMap} = useHeaderImages();
+    const isMobileOrTablet = useIsMobile();
 
     return (
         <>
@@ -108,8 +24,8 @@ const HomePage: React.FC = () => {
             </Pages>
 
             {isMobileOrTablet
-                ? <HomeCarousel images={carouselData}/>
-                : <HomeImages images={carouselData}/>
+                ? <HomeCarousel images={triptychImages}/>
+                : <HomeImages images={triptychImages}/>
             }
 
 
