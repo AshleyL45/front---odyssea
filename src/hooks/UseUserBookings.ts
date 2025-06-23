@@ -16,14 +16,14 @@ export const useUserBookings = (token: string | null) => {
         const fetchBookings = async () => {
             setLoading(true);
             try {
-                const reservations = await get(`/bookings/`);
+                const bookings = await get(`/bookings/`);
                 const userItineraries = await get(`/userItinerary/all`);
-                if (reservations.data && userItineraries.data) {
-                    const parsedReservations = reservations.data.map((r: any) => ({
-                        ...r,
-                        departureDate: new Date(r.departureDate),
-                        returnDate: new Date(r.returnDate),
-                        purchaseDate: new Date(r.purchaseDate),
+                if (bookings.data && userItineraries.data) {
+                    const parsedReservations = bookings.data.map((booking: any) => ({
+                        ...booking,
+                        departureDate: new Date(booking.departureDate),
+                        returnDate: new Date(booking.returnDate),
+                        purchaseDate: new Date(booking.purchaseDate),
                     }));
                     setUserBookings(parsedReservations);
                     setPersonalizedTrips(userItineraries.data || []);

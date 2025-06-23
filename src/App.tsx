@@ -3,7 +3,6 @@ import {Routes} from 'react-router-dom';
 
 import {AuthProvider} from './contexts/AuthContext';
 import {MySelectionProvider} from './contexts/MySelectionContext';
-import {DashboardContextProvider} from './contexts/DashboardContext';
 import {BookingContextProvider} from './contexts/BookingContext';
 import {PersonalizedTripContextProvider} from './contexts/PersonalizedTripContext';
 
@@ -16,7 +15,6 @@ function App() {
     return (
         <AuthProvider>
             <MySelectionProvider>
-                <DashboardContextProvider>
                     <BookingContextProvider>
                         <PersonalizedTripContextProvider>
                             <Routes>
@@ -26,7 +24,6 @@ function App() {
                             </Routes>
                         </PersonalizedTripContextProvider>
                     </BookingContextProvider>
-                </DashboardContextProvider>
             </MySelectionProvider>
         </AuthProvider>
     );
