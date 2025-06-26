@@ -35,14 +35,15 @@ const TripPersRecap: FC = () => {
 
 
     const handleSubmit = async () => {
+        if(newItineraryName === null || newItineraryName == ""){
+            setMessage("Please enter a name for your itinerary.");
+            return;
+        }
         try {
-            setMessage("Saving...");
-            console.log("New name" + typeof (newItineraryName))
-            console.log("ITINERARY ID : " + typeof (itineraryId))
+            setMessage("");
             const response = await patch(`/userItinerary/itineraryName/${itineraryId}`, {
                 itineraryName: newItineraryName
             });
-            console.log(response);
             if(response.success === true) {
                 setMessage(null);
                 navigate("/dashboard");
@@ -100,7 +101,6 @@ const TripPersRecap: FC = () => {
             <div style={{width: "80%", margin: "auto"}}>
                 <h1 style={{fontSize: "25px", margin: "50px 0 30px", textAlign: "center"}}>Summary of your trip</h1>
                 <ItineraryNameInput onChange={handleInputChange} itineraryName={newItineraryName?.length > 0 ? newItineraryName : ""}/>
-                <p>{message}</p>
 
                 <div>
                     <div style={{display: "flex", justifyContent: "center", textAlign: "center", margin: "2rem auto"}}>
@@ -138,7 +138,7 @@ const TripPersRecap: FC = () => {
                     </div>
                 </div>
 
-                <h2 style={{textAlign: 'center', margin: '60px auto', fontSize: '1.5rem'}}>Total Price : {itinerary.data.startingPrice}$</h2>
+                <h2 style={{textAlign: 'center', margin: '60px auto', fontSize: '1.5rem'}}>Total Price : {parseFloat(itinerary.data.startingPrice.toFixed(2))}$</h2>
             </div>
 
             <h2 style={{textAlign: "center", margin: "20px 0", fontSize: "1.5rem"}}>Itinerary Days</h2>
@@ -168,6 +168,7 @@ const TripPersRecap: FC = () => {
                     orchestrated, delivering an experience that meets your highest expectations. All that’s left is to
                     confirm… and let yourself be carried away into an unforgettable journey.
                 </p>
+                { message && <p style={{color: "red", marginTop: "3rem"}}>{message}</p>}
                 <CustomButton
                     type="submit"
                     style={{width: "130px", marginTop: "70px"}}

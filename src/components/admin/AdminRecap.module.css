@@ -6,6 +6,7 @@
     margin: auto;
     height: auto;
     padding: 14px 4px;
+    font-family: "Literata", serif;
 }
 
 .admin-recap hr {
@@ -24,6 +25,8 @@
     padding-top: 1rem;
     padding-left: 1rem;
     font-size: 1.4rem;
+    font-family: "Literata", serif;
+    font-weight: 400;
 }
 
 .admin-recap__item {

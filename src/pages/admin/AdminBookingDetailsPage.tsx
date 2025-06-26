@@ -98,7 +98,7 @@ const AdminBookingDetailsPage = (): JSX.Element => {
                 {data?.userFirstName} {data?.userLastName}
             </h1>
 
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <p style={{textAlign: "center", color: "red", marginTop: "2rem"}}>{errorMessage}</p>}
 
             {data && (
                 <BookingDetailsProvider

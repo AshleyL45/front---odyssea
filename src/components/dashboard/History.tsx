@@ -9,7 +9,7 @@ const History: ({}: {}) => JSX.Element = ({}) => {
 
     return (
         <div className="container-history">
-            <h1 style={{fontSize: "1.8rem"}}>Travel History</h1>
+            <h1 style={{fontFamily: "Literata, serif", fontSize: "1.7rem", fontWeight: 400}}>Travel History</h1>
             <section>
                 {
                     pastTrips && pastTrips.length > 0 ? pastTrips.map((booking) => (

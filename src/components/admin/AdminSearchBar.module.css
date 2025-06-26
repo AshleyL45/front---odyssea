@@ -7,7 +7,7 @@
 }
 
 .searchInput {
-    width: 300px;
+    max-width: 250px;
     padding: 8px 16px 8px 3rem;
     border-radius: 8px;
     outline: none;
@@ -16,8 +16,8 @@
 
 .searchIcon {
     position: absolute;
-    left: 10px;
-    top: 40px;
+    left: 5px;
+    top: 45px;
 }
 
 @media screen and (min-width: 768px) {
@@ -40,6 +40,10 @@
     .searchInput {
         min-width: 460px;
         max-width: 90%;
+    }
+
+    .searchIcon{
+        top: 45px;
     }
 }
 

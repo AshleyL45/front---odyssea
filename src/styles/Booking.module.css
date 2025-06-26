@@ -1,7 +1,10 @@
 .myBookingsTitle {
-    margin: 1.8rem auto;
-    font-size: 1.8rem !important;
-    text-align: center;
+    margin-top: 1.8rem;
+    margin-left: 2rem;
+    font-size: 1.7rem !important;
+    font-family: "Literata", serif;
+    text-align: left;
+    font-weight: 400;
 }
 
 .titles {

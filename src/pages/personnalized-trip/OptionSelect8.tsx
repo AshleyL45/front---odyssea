@@ -18,6 +18,7 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
     const [loading, setLoading] = useState(false);
     // 🔹 Récupération des infos générales de l'utilisateur
     const questionnaireAnswers = JSON.parse(localStorage.getItem("questionnaireData") || "{}");
+    const [message, setMessage] = useState("");
 
     const options = questionnaireAnswers.options || [];
 
@@ -34,6 +35,7 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
             return;
         }
         try {
+            setMessage("");
             setLoading(true);
             const response = await post("/generate/step8", {options: selectedOptionsIds});
             if (response?.success != true) {
@@ -42,9 +44,9 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
 
             const itineraryData = await get("/userItinerary/generate");
             console.log("itineraryData =", itineraryData);
-            if (!itineraryData) {
+            /*if (!itineraryData) {
                 throw new Error("Failed to generate itinerary");
-            }
+            }*/
 
             setUserItinerary(itineraryData);
 
@@ -56,8 +58,9 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
             });
             localStorage.setItem("itineraryId", JSON.stringify(itineraryData.data.id));
             localStorage.setItem("itinerary", JSON.stringify(itineraryData));
-        } catch (e) {
-            console.error("Error during itinerary generation:", e);
+        } catch (e: any) {
+            console.error("Error during itinerary generation:", e.message);
+            setMessage(e.message);
         } finally {
             setLoading(false);
         }
@@ -129,6 +132,7 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
                 <h1 style={{fontSize: "25px", margin: "40px 0 10px"}}>Would you like to add any options to your itinerary?</h1>
                 <p style={{color: "grey"}}>Optional</p>
                 <OptionsSelecting/>
+                {message && <p style={{color: "red"}}>Sorry, our server couldn't generate your personalized trip.</p>}
                 <div style={{display: "block"}}>
                     <CustomButton
                         style={{width: "130px"}}

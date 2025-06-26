@@ -1,9 +1,10 @@
 .adminDashboardTitle {
-    font-size: 2rem;
+    font-size: 1.8rem;
     text-align: center;
-    font-weight: 400;
     width: 280px;
     margin: 3rem auto;
+    font-family: "Literata", serif;
+    font-weight: 300;
 }
 
 .buttonContainer {

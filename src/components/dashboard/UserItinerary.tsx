@@ -1,4 +1,4 @@
-import {FC, JSX} from 'react';
+import {FC, JSX, useEffect} from 'react';
 import styles from "../../styles/components/TripDashboard.module.css"
 import {useNavigate} from "react-router-dom";
 import {formatDate} from "../../utils/FormatDate";
@@ -23,9 +23,12 @@ type UserItineraryProps = {
 const UserItinerary: FC<UserItineraryProps> = ({userItinerary}) => {
     const navigate = useNavigate();
 
+    useEffect(() => {
+        console.log("User itinerary id : " + userItinerary.id + " itinerary name " + userItinerary.itineraryName);
+    }, []);
     return (
         <div className={styles.tripDashboardContainer} style={{minHeight: 210}}>
-            {userItinerary.itineraryName === null || userItinerary.itineraryName === "null" ?
+            {userItinerary.itineraryName === null || userItinerary.itineraryName.length === 0 ?
                 <h2>Itinerary n° {userItinerary.id}</h2> : <h2>{userItinerary.itineraryName}</h2>}
             <hr/>
 

@@ -32,12 +32,14 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
                     minHeight: "80vh"
                 }}>
 
-                    <h1 style={{
-                        margin: "auto",
+                    <h2 style={{
+                        marginLeft: "2rem",
                         marginTop: "2rem",
-                        fontSize: "1.8rem",
-                        textAlign: "center"
-                    }}>My personalized trips</h1>
+                        fontSize: "1.7rem",
+                        textAlign: "left",
+                        fontFamily: "Literata, serif",
+                        fontWeight: 400
+                    }}>My personalized trips</h2>
 
                     <BookingFilters
                         filters={filters}

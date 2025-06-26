@@ -26,7 +26,6 @@ export function mainRoutes() {
                 <Route path="trips" element={<ItineraryListPage/>}/>
                 <Route path="trip/:tripId" element={<ItineraryDetails/>}/>
             </Route>,
-            <Route path="register" element={<RegisterPage/>} key="register"/>,
             <Route path="mystery-trip" element={<MysteryTrip/>} key="mystery-trip"/>,
             <Route path="cookies" element={<CookiesPolitic/>} key="cookies"/>,
             <Route path="legal" element={<LegalInformation/>} key="legal"/>,
@@ -41,6 +40,7 @@ export function mainRoutes() {
                 key="unauthorized"
             />
         </Route>,
-        <Route path="login" element={<LoginPage/>} key="login"/>
+        <Route path="login" element={<LoginPage/>} key="login"/>,
+        <Route path="register" element={<RegisterPage/>} key="register"/>
     ];
 }

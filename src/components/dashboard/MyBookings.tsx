@@ -61,7 +61,7 @@ const MyBookings: ({}: {}) => JSX.Element = ({}) => {
                                     />
                                 ))
                             ) : (
-                                <p>No bookings found for this filter.</p>
+                                <p style={{marginLeft: "2rem"}}>No bookings found for this filter.</p>
                             )}
                         </section>
                     )

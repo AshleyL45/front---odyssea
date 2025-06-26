@@ -5,6 +5,11 @@
     height: 220px;
 }
 
+.bookingCardTitle {
+    font-family: "Literata", serif;
+    font-weight: 500;
+}
+
 
 .bookingCardSection {
     display: flex;

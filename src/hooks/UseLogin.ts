@@ -6,7 +6,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 export const useLogin = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const {login} = useAuth();
+    const {login, role} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
