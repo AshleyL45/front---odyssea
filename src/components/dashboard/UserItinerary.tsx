@@ -29,7 +29,7 @@ const UserItinerary: FC<UserItineraryProps> = ({userItinerary}) => {
     return (
         <div className={styles.tripDashboardContainer} style={{minHeight: 210}}>
             {userItinerary.itineraryName === null || userItinerary.itineraryName.length === 0 ?
-                <h2>Itinerary n° {userItinerary.id}</h2> : <h2>{userItinerary.itineraryName}</h2>}
+                <h2 className={styles.userItineraryTitle}>Itinerary n° {userItinerary.id}</h2> : <h2 className={styles.userItineraryTitle}>{userItinerary.itineraryName}</h2>}
             <hr/>
 
             <ul className={styles.tripInfo}>

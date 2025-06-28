@@ -21,7 +21,7 @@ const BookingCard: FC<BookingCardProps> = ({booking, type}) => {
                         aria-labelledby={`booking-${booking.bookingId}-id`}> Details </button>
             </section>
             <dl className={styles.bookingCardInformation}>
-                <dt>Customer: </dt><dd>{booking.userFirstName}</dd>
+                <dt>Customer: </dt><dd>{booking.userFirstName} {booking.userLastName}</dd>
                 <dt>Purchase date:  </dt><dd>{booking.purchaseDate}</dd>
                 <dt>Price: </dt><dd>{booking.price}€</dd>
                 <dt>Status: </dt><dd>{booking.status}</dd>

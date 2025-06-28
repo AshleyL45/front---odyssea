@@ -18,7 +18,7 @@ const OptionInfo = ({options} : OptionInfoProps) => {
                         <dd>{option.price}€ </dd>
                     </dl>
                 ) : (
-                    <p style={{fontSize: "1.3rem"}}>No options were chosen.</p>
+                    <p className={styles["booking-option__title"]}>No options were chosen.</p>
                 )
             }
         </div>

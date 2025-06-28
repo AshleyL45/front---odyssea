@@ -287,6 +287,10 @@ body {
     padding: 20px 0;
 }
 
+.side-board-menu * {
+    font-size: 1.2rem;
+}
+
 .side-board-menu ul {
     margin-left: 50px;
     list-style: none;
@@ -360,6 +364,7 @@ body {
 .container-overview .sub-title {
     font-size: 1.4rem;
     margin: 1.8rem 0 2rem 4rem;
+    font-weight: 500;
 }
 
 

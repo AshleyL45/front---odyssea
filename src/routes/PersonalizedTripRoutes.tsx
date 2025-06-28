@@ -15,6 +15,7 @@ import Trip9 from '../pages/personnalized-trip/Trip9';
 import TripPersRecap from '../pages/personnalized-trip/TripPersRecap';
 import PersonalizedTripDetailsPage from '../pages/personnalized-trip/PersonalizedTripDetailsPage';
 import {ProtectedRoutes} from '../protected-routes/ProtectedRoutes';
+import BackToTopLayout from "../layout/BackToTopLayout";
 
 export function personalizedTripRoutes() {
     return [
@@ -30,8 +31,11 @@ export function personalizedTripRoutes() {
                 <Route path="activity-selection" element={<ActivitySelect7/>}/>
                 <Route path="option-selection" element={<OptionSelect8/>}/>
                 <Route path="message-section" element={<Trip9/>}/>
-                <Route path="recap" element={<TripPersRecap/>}/>
-                <Route path="details/:id" element={<PersonalizedTripDetailsPage/>}/>
+                <Route element={<BackToTopLayout/>} key="main-layout">
+                    <Route path="recap" element={<TripPersRecap/>}/>
+                    <Route path="details/:id" element={<PersonalizedTripDetailsPage/>}/>
+                </Route>
+
             </Route>
         </Route>,
     ];

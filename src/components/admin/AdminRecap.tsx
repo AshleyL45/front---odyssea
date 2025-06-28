@@ -2,7 +2,7 @@ import {AdminBookingDetails} from "../../@types/AdminBookingDetails";
 import {AdminUserItineraryDetails} from "../../@types/AdminUserItineraryDetails";
 import styles from "./AdminRecap.module.css";
 import {useBookingDetails} from "../../contexts/BookingDetailsContext";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 type RecapData = AdminBookingDetails | AdminUserItineraryDetails;
 interface AdminRecapProps {
@@ -12,7 +12,7 @@ interface AdminRecapProps {
 }
 
 function isStandardBooking(booking: RecapData): booking is AdminBookingDetails {
-    return "reservation" in booking;
+    return "booking" in booking;
 }
 
 const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps) => {
@@ -41,7 +41,7 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
             <dl className={styles["admin-recap__section"]} role="group">
                 <div className={styles["admin-recap__info"]}>
                     <dt className={styles["admin-recap__label"]}>Purchase:</dt>
-                    <dd>{purchaseDate}</dd>
+                    <dd className={styles["label_definition"]}>{purchaseDate}</dd>
                 </div>
 
                 <div className={styles["admin-recap__item"]} role="group" aria-labelledby="status-label">
@@ -49,7 +49,7 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
                         <dt className={styles["admin-recap__label"]} id="status-label">
                             Status:
                         </dt>
-                        <dd>{bookingStatus}</dd>
+                        <dd className={styles["label_definition"]}>{bookingStatus}</dd>
                     </div>
                     <button
                         className={styles["admin-recap__button"]}
@@ -65,7 +65,7 @@ const AdminRecap = ({booking, openStatusModal, openPriceModal}: AdminRecapProps)
                         <dt className={styles["admin-recap__label"]} id="price-label">
                             Price:
                         </dt>
-                        <dd>{bookingPrice} €</dd>
+                        <dd className={styles["label_definition"]}>{bookingPrice} €</dd>
                     </div>
                     <button
                         className={styles["admin-recap__button"]}

@@ -26,7 +26,6 @@ const ActivitySelect7: () => JSX.Element = () => {
     const selectedActivities = selectedActivitiesRaw ? JSON.parse(selectedActivitiesRaw) : [];
 
     const selectedActivitiesIds = selectedActivities.map((activity: any) => activity.id);
-    console.log(selectedActivitiesIds);
 
 
 

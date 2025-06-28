@@ -6,6 +6,8 @@ import RecapOneDay from "../../components/recapTrip/RecapOneDay";
 import InteractiveMapPersItinerary from "../../components/interactiveMaps/InteractiveMapPersItinerary";
 import Pages from "../../components/layout/Pages";
 import {Backdrop, CircularProgress} from "@mui/material";
+import styles from "../admin/AdminBookingDetailsPage.module.css";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const PersonalizedTripDetailsPage = () => {
     const {id} = useParams();
@@ -13,6 +15,7 @@ const PersonalizedTripDetailsPage = () => {
     const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTrip = async () => {
@@ -31,11 +34,17 @@ const PersonalizedTripDetailsPage = () => {
         fetchTrip();
     }, [id]);
 
+    const handleGoBack = () => {
+        navigate(-1);
+    };
 
     if (error) return <p style={{color: "red"}}>{error}</p>;
 
     return (
         <div>
+            <button onClick={handleGoBack} className={styles.previousPageButton}>
+                <ArrowBackIosNewIcon sx={{fontSize: "12px"}}/> previous page
+            </button>
             {
                 loading && !trip && <Backdrop
                     sx={{
@@ -54,25 +63,28 @@ const PersonalizedTripDetailsPage = () => {
                         <Pages title={trip.itineraryName || "Personalized Trip"}>
 
                             <div style={{width: "80%", margin: "auto", textAlign: "center"}}>
-                                <h2>Main information</h2>
+                                <h1 style={{textAlign: "center", fontFamily: "Literata, serif", fontSize: "1.5rem", fontWeight: 400, marginBottom: "2rem"}}>Main information</h1>
                                 <p>Start Date: <b>{trip.startDate}</b></p>
                                 <p>Duration: <b>{trip.totalDuration} days</b></p>
                                 <p>Departure City: <b>{trip.departureCity}</b></p>
                                 <p>Starting Price: <b>{trip.startingPrice} €</b></p>
                                 <p>Adults: <b>{trip.numberOfAdults}</b>, Kids: <b>{trip.numberOfKids}</b></p>
 
-                                <h2>Options</h2>
-                                {trip.options && trip.options.length > 0 ? trip.options.map((option) => (
-                                    <div key={option.id}>
-                                        <li>{option.name}</li>
-                                        <p>{option.description}</p>
-                                        <p>Price: {option.price} $</p>
-                                        <p>Category: {option.category}</p>
-                                    </div>
-                                )) : <p>No options selected.</p>}
+                                <h2 style={{fontSize: "1.2rem", marginTop: "1rem"}}>Options</h2>
+                                <div style={{textAlign: "left", margin: "0 auto", width: "fit-content"}}>
+                                    {trip.options && trip.options.length > 0 ? trip.options.map((option) => (
+                                        <div key={option.id}>
+                                            <li style={{fontWeight: 600}}>{option.name}</li>
+                                            <p>{option.description}</p>
+                                            <p>Price: {option.price} $</p>
+                                            <p>Category: {option.category}</p>
+                                        </div>
+                                    )) : <p>No options selected.</p>}
+                                </div>
+
                             </div>
 
-                            <h2 style={{textAlign: "center"}}>Itinerary Days</h2>
+                            <h2 style={{textAlign: "center", fontFamily: "Literata, serif", fontSize: "1.5rem", fontWeight: 400, marginTop: "2rem"}}>Itinerary Days</h2>
                             <div style={{
                                 display: "flex",
                                 justifyContent: "space-around",

@@ -14,7 +14,7 @@ const History: ({}: {}) => JSX.Element = ({}) => {
                 {
                     pastTrips && pastTrips.length > 0 ? pastTrips.map((booking) => (
                         <>
-                            <p style={{marginLeft: "5rem"}}>{formatDate(booking.purchaseDate)}</p>
+                            <p style={{marginLeft: "5rem", fontSize: "1.3rem"}}>{formatDate(booking.purchaseDate)}</p>
                             <TripDashboard booking={booking} page="Travel History" type={"Pre-designed trip"}/>
                         </>
                     )) : (

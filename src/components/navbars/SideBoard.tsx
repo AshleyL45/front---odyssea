@@ -62,7 +62,7 @@ const SideBoard: FC<SideBoardProps> = ({activePage, setActivePage}) => {
 
                 <div>
                     <div>
-                        <h1 style={{fontFamily: "Literata, serif", fontWeight: 400, marginLeft: "2rem"}}>{firstName} {lastName}</h1>
+                        <h1 style={{fontFamily: "Literata, serif", fontWeight: 500, marginLeft: "2rem"}}>{firstName} {lastName}</h1>
                     </div>
                     <div className="side-board-menu">
                         <nav>

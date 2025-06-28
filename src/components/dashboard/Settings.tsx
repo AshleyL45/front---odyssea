@@ -77,7 +77,7 @@ const Settings: ({}: {}) => JSX.Element = ({}) => {
                 }
 
 
-                <CustomButton sx={{color: "red", width: "180px", alignSelf: "end"}} onClick={()=> setIsModalOpen(true)} aria-label="Delete your account permanently">Delete
+                <CustomButton sx={{color: "red", backgroundColor: "white", border: "1px solid #2C3E50", width: "180px", alignSelf: "end"}} onClick={()=> setIsModalOpen(true)} aria-label="Delete your account permanently">Delete
                     account</CustomButton>
 
                 <DeleteAccountModal isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={handleDeleteAccount}/>

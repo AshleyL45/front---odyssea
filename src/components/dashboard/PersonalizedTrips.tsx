@@ -1,7 +1,5 @@
 import {JSX, useMemo, useState} from 'react';
 import UserItinerary from "./UserItinerary";
-import {useNavigate} from "react-router-dom";
-import {Backdrop, CircularProgress} from "@mui/material";
 import {useUserDashboard} from "../../contexts/DashboardContext";
 import BookingFilters from "./BookingFilters";
 

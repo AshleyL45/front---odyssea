@@ -19,8 +19,15 @@ export const useLogin = () => {
 
             if (response.status === 200) {
                 login(response.data.token);
-                navigate(from, {replace: true});
+                if (isAccessible(from, role)) {
+                    navigate(from, { replace: true });
+                } else {
+                    const fallback = fallbackRouteFor(role);
+                    navigate(fallback, { replace: true });
+                }
             }
+
+
         } catch (e: any) {
             console.error("Login error", e);
             const status = e.data.status;
@@ -35,6 +42,19 @@ export const useLogin = () => {
         }
 
     }
+
+    const isAccessible = (pathname: string, role: string | null): boolean => {
+        if (pathname.startsWith("/admin")) return role === "ADMIN";
+        if (pathname.startsWith("/dashboard")) return role === "USER";
+        return true;
+    };
+
+    const fallbackRouteFor = (role: string | null): string => {
+        if (role === "ADMIN") return "/admin";
+        if (role === "USER") return "/dashboard";
+        return "/";
+    };
+
 
     return {logUser, error, loading};
 };

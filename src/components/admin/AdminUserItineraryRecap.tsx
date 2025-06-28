@@ -10,7 +10,7 @@ const AdminUserItineraryRecap = ({itineraryDays} : AdminUserItineraryRecapProps)
 
     return (
         <>
-            <h2 style={{textAlign: "center", margin: "20px 0", fontSize: "1.5rem"}}>Detailed program</h2>
+            <h2 style={{textAlign: "center", margin: "20px 0", fontSize: "1.7rem", fontFamily: "Literata, serif", fontWeight: 400}}>Detailed program</h2>
 
             <section style={{display: "flex", justifyContent: "space-around", alignItems: "start", gap: 50, padding: 40}}>
                 <aside className="map-wrapper">

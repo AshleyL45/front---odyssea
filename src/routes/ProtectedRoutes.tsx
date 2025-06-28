@@ -14,7 +14,6 @@ export function protectedRoutes() {
             <Route path="dashboard" element={<DashboardRoute/>}/>
             {bookingRoutes()}
             {mysteryTripRoutes()}
-            {personalizedTripRoutes()}
         </Route>,
 
         <Route element={<ProtectedRoutes allowedRoles="ADMIN"/>} key="protected-admin">

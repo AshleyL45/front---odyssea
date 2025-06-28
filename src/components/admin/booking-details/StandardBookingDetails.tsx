@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AdminRecap from "../AdminRecap";
 import BookingInfo from "./BookingInfo";
 import DatesInfo from "./DatesInfo";

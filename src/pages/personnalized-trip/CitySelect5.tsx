@@ -39,7 +39,6 @@ const CitySelect5: FC<{}> = () => {
                 const response = await post("/generate/step5", {cities: selectedCitiesIds});
                 if (response?.success === true) {
                     navigate("/personalized-trip/activity-selection");
-                    console.log(response)
                 }
             } catch (e) {
                 console.error("Cannot generate cities")

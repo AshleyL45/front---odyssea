@@ -1,8 +1,11 @@
 .details-title {
     text-align: left;
     margin-left: 10%;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
     font-size: 2rem;
     font-family: "Literata", serif;
+    font-weight: 400;
 }
 
 .information-section {
@@ -24,7 +27,8 @@
 @media (min-width: 768px){
 
     .details-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        font-weight: 500;
     }
     .information-section {
         display: grid;

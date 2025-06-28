@@ -17,11 +17,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: "Literata", serif;
 }
 
 .tripDashboardTitle {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-family: "Literata", serif;
+    font-weight: 400;
 }
 
 .tripDashboardContainer hr {
@@ -56,6 +57,12 @@
 
 .detailsButton:hover {
     cursor: pointer;
+}
+
+.userItineraryTitle {
+    font-family: "Literata", serif;
+    font-weight: 400;
+    font-size: 1.3rem;
 }
 
 @media (max-width: 426px) {

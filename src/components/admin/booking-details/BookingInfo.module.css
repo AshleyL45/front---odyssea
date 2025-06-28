@@ -2,12 +2,15 @@
     margin: 2rem auto;
     width: 80%;
 }
-
-
+.booking-info__container *{
+    margin-top: 10px;
+}
 .booking-info__title {
     padding-bottom: 0.6rem;
-    border-bottom: 3px solid #2c3e50;
-    font-size: 1.2rem;
+    border-bottom: 5px solid #2c3e50;
+    font-size: 1.4rem;
+    font-family: "Literata", serif;
+    font-weight: 500;
 }
 
 .booking-info__content {
@@ -15,18 +18,25 @@
     justify-content: space-between;
 }
 
+
 .booking-info__content p {
-    font-size: 1rem;
     margin: 2px 0;
 }
 
+.booking-info__content *, .booking-option__title {
+    font-size: 1.2rem;
+}
 
 @media (min-width: 768px) {
+    .booking-info__content *, .booking-option__title {
+        font-size: 1.4rem;
+    }
+
     .booking-info__title {
-        font-size: 1.9rem;
+        font-size: 1.6rem;
+        font-weight: 400;
     }
     .booking-info__content p {
-        font-size: 1.3rem;
         margin: 10px 0;
     }
 

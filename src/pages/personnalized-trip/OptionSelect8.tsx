@@ -44,9 +44,6 @@ const OptionSelect8: ({}: {}) => JSX.Element = ({}) => {
 
             const itineraryData = await get("/userItinerary/generate");
             console.log("itineraryData =", itineraryData);
-            /*if (!itineraryData) {
-                throw new Error("Failed to generate itinerary");
-            }*/
 
             setUserItinerary(itineraryData);
 

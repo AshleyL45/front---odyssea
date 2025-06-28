@@ -44,7 +44,7 @@ const TripDashboard: FC<DashboardProps> = ({trip, booking, page, type, status}) 
 
             {
             page === "Travel History" && (
-                    <p>{type}</p>
+                    <p style={{fontWeight: 600}}>{type}</p>
                 )
             }
 
