@@ -1,16 +1,23 @@
-import {JSX} from 'react';
+import {JSX, useEffect} from 'react';
 import TripDashboard from "../ReusableComponents/TripDashboard";
 import TripNumbers from "../../styles/components/TripNumbers";
 import {useMySelectionContext} from "../../contexts/MySelectionContext";
 import {useUserDashboard} from "../../contexts/DashboardContext";
 import {Backdrop, CircularProgress} from "@mui/material";
+import {useLocation} from "react-router-dom";
 
 const Overview: ({}: {}) => JSX.Element = ({}) => {
     const {userBookings, lastDoneBooking, pastTrips, firstCurrentBooking, loading} = useUserDashboard();
     const {favorites} = useMySelectionContext();
+    const { pathname } = useLocation();
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
 
     return (
