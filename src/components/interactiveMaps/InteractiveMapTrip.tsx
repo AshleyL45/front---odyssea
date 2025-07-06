@@ -35,6 +35,7 @@ const InteractiveMapTrip: FC<InteractiveMapTripProps> = ({markers}) => {
     const positions: LatLngTuple[] = allMarkers.map(
         (record) => [record.city.latitude, record.city.longitude]
     );
+    //console.log(positions);
 
     const bounds: LatLngBounds =
         positions.length > 0 ? new L.LatLngBounds(positions) : new L.LatLngBounds([[0, 0]]);

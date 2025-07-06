@@ -10,20 +10,14 @@ import style from "../../styles/Navbar.module.css";
 const Navbar: () => JSX.Element = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
-    const {token, role} = useAuth();
+    const {role} = useAuth();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
     const goToDashboard = () => {
-        const destination = role === "ADMIN" ? "/admin" : "/dashboard";
-
-        if (!token) {
-            navigate("/login", { state: { from: { pathname: destination } }, replace: true });
-            return;
-        }
-
+        const destination = role?.toUpperCase() === "ADMIN" ? "/admin" : "/dashboard";
         navigate(destination);
     };
 

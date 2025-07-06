@@ -2,11 +2,12 @@ import {useState} from "react";
 import {loginUser} from "../services/AuthService";
 import {useAuth} from "../contexts/AuthContext";
 import {useLocation, useNavigate} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 export const useLogin = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const {login, role} = useAuth();
+    const {login} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -19,14 +20,13 @@ export const useLogin = () => {
 
             if (response.status === 200) {
                 login(response.data.token);
-                if (isAccessible(from, role)) {
-                    navigate(from, { replace: true });
-                } else {
-                    const fallback = fallbackRouteFor(role);
-                    navigate(fallback, { replace: true });
-                }
-            }
 
+                const decoded: any = jwtDecode(response.data.token);
+                const role = decoded.role;
+
+                const redirectTo = isAccessible(from, role) ? from : fallbackRouteFor(role);
+                navigate(redirectTo, { replace: true });
+            }
 
         } catch (e: any) {
             console.error("Login error", e);

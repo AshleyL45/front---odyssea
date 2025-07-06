@@ -66,7 +66,6 @@ const InteractiveMapPersItinerary: React.FC = () => {
             if (!data.departureCity) return null;
             const res = await fetch("http://localhost:8080/cities");
             const allCities = await res.json();
-            console.log(allCities);
             const match = allCities.data.find(
                 (c: any) =>
                     (c.name || c.cityName)?.toLowerCase() === data.departureCity.toLowerCase()

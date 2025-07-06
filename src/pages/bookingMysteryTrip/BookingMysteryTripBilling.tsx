@@ -1,23 +1,25 @@
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import {useAuth} from "../../contexts/AuthContext";
 import {useBooking} from "../../contexts/BookingContext";
 import Pages from "../../components/layout/Pages";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import styles from "../../styles/BookingMysteryTrip/BookingMysteryTrip.module.css";
+import {useUsernames} from "../../hooks/UseUsernames";
 
 const BookingMysteryTripBilling: FC = () => {
     const navigate = useNavigate();
-    const {email: authEmail, firstName: authFirstName, lastName: authLastName} = useAuth();
+    const { firstName: authFirstName, lastName: authLastName } = useUsernames();
+    const [firstName, setFirstName] = useState(authFirstName || "");
+    const [lastName, setLastName] = useState(authLastName || "");
+
+    useEffect(() => {
+        if (authFirstName) setFirstName(authFirstName);
+        if (authLastName) setLastName(authLastName);
+    }, [authFirstName, authLastName]);
+
     const {questionnaireAnswers, updateResponse} = useBooking();
 
-    const [lastName, setLastName] = useState(
-        questionnaireAnswers.lastName || authLastName || ""
-    );
-    const [firstName, setFirstName] = useState(
-        questionnaireAnswers.firstName || authFirstName || ""
-    );
     const [email, setEmail] = useState(
         questionnaireAnswers.email || ""
     );
@@ -47,8 +49,8 @@ const BookingMysteryTripBilling: FC = () => {
 
     const validateForm = (): boolean => {
         const newErrors: string[] = [];
-        if (!lastName.trim()) newErrors.push("Last Name is required.");
-        if (!firstName.trim()) newErrors.push("First Name is required.");
+        if (!lastName?.trim()) newErrors.push("Last Name is required.");
+        if (!firstName?.trim()) newErrors.push("First Name is required.");
         if (!email.trim()) newErrors.push("Email is required.");
         if (!phoneNumber.trim()) newErrors.push("Phone Number is required.");
         if (!address.trim()) newErrors.push("Address is required.");
@@ -108,15 +110,15 @@ const BookingMysteryTripBilling: FC = () => {
                             type="text"
                             placeholder="Last Name*"
                             value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
                             className={styles.inputBooking}
+                            onChange={(e) => setLastName(e.target.value)}
                         />
                         <input
                             type="text"
                             placeholder="First Name*"
                             value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
                             className={styles.inputBooking}
+                            onChange={(e) => setFirstName(e.target.value)}
                         />
                         <input
                             type="email"

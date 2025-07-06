@@ -45,7 +45,6 @@ const CitySelecting: FC<CitySelectingProps> = ({countryId, onCitySelectionChange
             if (!response || !Array.isArray(response?.data)) {
                 throw new Error("Invalid response format");
             }
-            console.log(response.data)
             setCachedCities(prev => ({...prev, [countryId]: response.data}));
             filterCities(response?.data, query);
         } catch (e) {

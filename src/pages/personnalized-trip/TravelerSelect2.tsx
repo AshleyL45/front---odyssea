@@ -18,12 +18,11 @@ const TravelerSelect2: FC<{}> = ({}) => {
     const generateStepTwo = async () => {
         if (numberOfAdults && numberOfKids !== undefined) {
             try {
-                console.log(numberOfAdults, numberOfKids)
                 const response = await post("/generate/step3", {
                     numberAdults: numberOfAdults,
                     numberKids: numberOfKids
                 });
-                console.log(response);
+
                 if (response?.success === true) {
                     navigate("/personalized-trip/departure");
                 }

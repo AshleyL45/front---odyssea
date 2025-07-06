@@ -96,7 +96,6 @@ const CountrySelecting: FC<CountrySelectingProps> = ({onSelectionChange, maxCoun
         onSelectionChange(selected.length);
     }, [selected, onSelectionChange]);
 
-    console.log(selected); // Debug : affiche la sélection actuelle
 
     return (
         <div>

@@ -19,7 +19,6 @@ const BookingFormPeople: ({}: {}) => JSX.Element = ({}) => {
         const newAdults = Math.max(0, adults + delta);
         setAdults(newAdults);
         updateResponse("numberOfAdults", newAdults); // Mettre à jour directement le contexte
-        console.log(adults)
     };
 
     // Mettre à jour le contexte quand le nombre d'enfants change

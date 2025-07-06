@@ -19,6 +19,6 @@ export function mysteryTripRoutes() {
             <Route path="option" element={<BookingMysteryTripOptions/>}/>
             <Route path="submit" element={<BookingMysteryTripSubmit/>}/>
             <Route path="billing" element={<BookingMysteryTripBilling/>}/>
-            <Route path="booking-mystery-trip/result" element={<BookingMysteryTripResult/>} key="mystery-result"/>,        </Route>
+            <Route path="result" element={<BookingMysteryTripResult/>} key="mystery-result"/>,        </Route>
     ];
 }

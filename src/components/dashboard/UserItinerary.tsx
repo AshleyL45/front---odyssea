@@ -23,9 +23,6 @@ type UserItineraryProps = {
 const UserItinerary: FC<UserItineraryProps> = ({userItinerary}) => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log("User itinerary id : " + userItinerary.id + " itinerary name " + userItinerary.itineraryName);
-    }, []);
     return (
         <div className={styles.tripDashboardContainer} style={{minHeight: 210}}>
             {userItinerary.itineraryName === null || userItinerary.itineraryName.length === 0 ?

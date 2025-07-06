@@ -1,6 +1,5 @@
 import {JSX, useState} from 'react';
 import CustomButton from "../ReusableComponents/CustomButton";
-import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css"
 import {useUserDashboard} from "../../contexts/DashboardContext";
 import styles from "./PersonalInformation.module.css"
@@ -9,11 +8,10 @@ import {useAccountActions} from "../../hooks/UseAccountActions";
 
 const PersonalInformation: ({}: {}) => JSX.Element = ({}) => {
     const {firstName, lastName} = useUserDashboard()
-    const {email} = useAuth();
 
     const [newFirstName, setNewFirstName] = useState(firstName?.toString() || "");
     const [newLastName, setNewLastName] = useState(lastName?.toString() || "");
-    const [newEmail, setNewEmail] = useState(email?.toString() || "");
+    const [newEmail, setNewEmail] = useState("");
 
     const {updateInfo, error, successMessage} = useAccountActions();
 

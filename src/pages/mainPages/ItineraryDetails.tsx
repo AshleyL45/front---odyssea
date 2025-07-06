@@ -1,11 +1,9 @@
 import React, {FC, useState, useEffect} from 'react';
-import Navbar from "../../components/navbars/Navbar";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import TripDetails from "../../components/ReusableComponents/TripDetails";
 import TripDetailsReverse from "../../components/ReusableComponents/TripDetailsReverse";
-import Footer from "../../components/ReusableComponents/Footer";
 import StickyBar from "../../components/itinerary-details/StickyBar";
 import InteractiveMapTrip from '../../components/interactiveMaps/InteractiveMapTrip';
 import {ItineraryDetailsResponse} from "../../@types/ItineraryDetailsResponse";
@@ -26,10 +24,6 @@ interface ItineraryImages {
     days: string[];
 }
 
-interface Image {
-    id: number;
-    images: ItineraryImages;
-}
 
 const ItineraryDetails: FC = () => {
     const {tripId} = useParams<{ tripId: string }>();
@@ -55,14 +49,13 @@ const ItineraryDetails: FC = () => {
         get(`/api/itineraries/${itineraryId}`)
             .then(data => {
                 if (data) setItineraryToDisplay(data.data);
-                console.log("Data : " ,data)
             })
             .catch(e => console.error("Cannot get itinerary:", itineraryId, e));
     }, [itineraryId]);
 
     useEffect(() => {
-        get<DailyPlanWithCityDto[] | null>(`/api/itineraries/${itineraryId}/daily`)
-            .then(resp => setDailyPlans(resp ?? []))
+        get<{data : {days : DailyPlanWithCityDto[]}} | null>(`/api/itineraries/${itineraryId}`)
+            .then(resp => setDailyPlans(resp?.data.days ?? []))
             .catch(e => {
                 console.error("Error fetching daily plans:", e);
                 setDailyPlans([]);
@@ -76,8 +69,9 @@ const ItineraryDetails: FC = () => {
         const fetchImgs = async () => {
             try {
                 const roles = await get<string[]>(`/api/itinerary-images/${itineraryId}`) ?? [];
-                const headerRole = roles.find(r => r === 'firstHeader');
-                const countryRoles = ['firstCountry', 'secondCountry', 'thirdCountry'].filter(r => roles.includes(r));
+                const headerRole = roles.find(r => r === 'header1');
+                const countryRoles = ['country1', 'country2', 'country3'].filter(r => roles.includes(r));
+
                 const dayRoles = roles
                     .filter(r => r.startsWith('day'))
                     .sort((a, b) => {
@@ -119,6 +113,7 @@ const ItineraryDetails: FC = () => {
                 }
 
                 setImages(loaded);
+
             } catch (e) {
                 console.error("Error loading images:", e);
             } finally {
@@ -172,6 +167,7 @@ const ItineraryDetails: FC = () => {
     const countries = Array.from(new Set(itineraryToDisplay?.days.map(d => d.countryName)))
         .slice(0, 3) || [];
 
+
     return (
         <div>
             {itineraryToDisplay ? (
@@ -185,12 +181,11 @@ const ItineraryDetails: FC = () => {
                         <div className={styles.headerContent}>
                             <h1 className={styles.headerTitle}>{itineraryToDisplay.name}</h1>
                             <hr style={{marginLeft: "6rem", border: "none", borderTop: "1px solid white", width: "80%", height: "3px",}}/>
-                            <hr style={{marginLeft: "1rem", border: "none", borderTop: "1px solid white", width: "80%", height: "3px"}}/>
                         </div>
                     </div>
 
                     <div className={styles.favoriteBook}>
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer", fontSize: "2rem", position: 'absolute', right: '50px', top: '700px'}}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer", fontSize: "2rem", position: 'absolute', right: '50px', top: '750px'}}>
                             {isFavorite ? (
                                 <>
                                     <StarIcon onClick={handleFavorites}/> <p style={{fontSize: "1.5rem"}}>Remove from your selection</p>                                </>

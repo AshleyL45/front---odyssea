@@ -51,7 +51,6 @@ const MysteryTrip: FC = () => {
         </section>
             <MysteryTripBanner/>
             </main>
-            <Footer/>
 
     </>
     );

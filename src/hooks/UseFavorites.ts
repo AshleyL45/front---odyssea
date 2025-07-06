@@ -27,7 +27,7 @@ export const useFavorites = (token: string | null) => {
                 setFavoritesToLocalStorage(serverFavorites.data);
             } catch (e) {
                 console.error("Erreur lors de la récupération des favoris", e);
-                setError("Erreur de chargement des favoris");
+                setError("An error occurred while loading your favorites.");
             } finally {
                 setIsLoading(false);
             }
@@ -46,7 +46,7 @@ export const useFavorites = (token: string | null) => {
             setFavoritesToLocalStorage([...favorites, trip]);
         } catch (e) {
             console.error("Erreur ajout favori :", e);
-            setError("Impossible d'ajouter ce favori");
+            setError("Cannot add this favorite. Please try again later.");
         }
     };
 
@@ -60,7 +60,7 @@ export const useFavorites = (token: string | null) => {
             setFavoritesToLocalStorage(favorites.filter(t => t.id !== tripId));
         } catch (e) {
             console.error("Erreur suppression favori :", e);
-            setError("Impossible de retirer ce favori");
+            setError("Cannot remove this favorite. Please try again later.");
         }
     };
 

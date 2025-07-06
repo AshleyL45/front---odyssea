@@ -12,7 +12,6 @@
 .headerContent{
     text-align: end;
     position: absolute;
-    top: 20rem;
     right: 2rem
 
 }
@@ -20,6 +19,8 @@
 .headerTitle {
     font-size: 2.5rem;
     color: white;
+    font-family: "Literata", serif;
+    font-weight: 400;
 }
 
 .favoriteBook {
@@ -33,7 +34,7 @@
 @media screen and (min-width: 768px) {
 
     .headerContent{
-        top: 25rem;
+        top: 35rem;
     }
 
     .headerTitle {

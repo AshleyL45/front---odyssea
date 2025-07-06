@@ -1,17 +1,16 @@
-import React, {FC, JSX, useState} from 'react';
+import React, {JSX, useState} from 'react';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import OptionsSelecting from "../../components/OptionsSelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import {useAuth} from "../../contexts/AuthContext";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
 import styles from "../../styles/BookingFormBilling.module.css";
 import Pages from "../../components/layout/Pages";
+import {useUsernames} from "../../hooks/UseUsernames";
 
 
 const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
 
-    const {email, firstName, lastName} = useAuth();
+    const {firstName, lastName} = useUsernames()
     const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
 
@@ -93,7 +92,7 @@ const BookingFormBilling: ({}: {}) => JSX.Element = ({}) => {
                            className={styles.inputBooking} required/>
                     <input type="text" placeholder="First Name*" defaultValue={firstName?.toString()}
                            className={styles.inputBooking} required/>
-                    <input type="email" placeholder="Email*" defaultValue={email?.toString()}
+                    <input type="email" placeholder="Email*"
                            className={styles.inputBooking} required/>
                     <input type="text" placeholder="Phone Number*" className={styles.inputBooking} required/>
                 </div>

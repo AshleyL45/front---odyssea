@@ -16,8 +16,6 @@ const LoginForm = ({}) => {
     const {logUser, error} = useLogin()
     const [searchParams] = useSearchParams();
     const expired = searchParams.get("expired") === "true";
-    const location = useLocation();
-    const from = location.state?.from || "/";
 
 
     const {register, handleSubmit, formState: {errors}} = useForm({

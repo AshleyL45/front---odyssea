@@ -22,7 +22,6 @@ const CountrySelect4: FC<{}> = ({}) => {
     const selectedCountries = selectedCountriesRaw ? JSON.parse(selectedCountriesRaw) : [];
     // On extrait uniquement les IDs :
     const selectedCountryIds = selectedCountries.map((country: any) => country.id);
-    console.log(selectedCountryIds)
 
     const generateStepFour = async () => {
         if(selectedCountryIds){

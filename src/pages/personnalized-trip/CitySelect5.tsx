@@ -31,7 +31,6 @@ const CitySelect5: FC<{}> = () => {
         selectedCitiesIds.push(...cityIds); // Ajoute tous les IDs au tableau global
     });
 
-    console.log(selectedCitiesIds)
 
     const generateStepFive = async () => {
         if(selectedCitiesIds){

@@ -44,6 +44,10 @@
     padding: 8px 1rem;
 }
 
+.bookingCardInformation * {
+    font-size: 1rem;
+}
+
 @media (min-width: 425px) {
     .bookingCard {
         width: 335px;

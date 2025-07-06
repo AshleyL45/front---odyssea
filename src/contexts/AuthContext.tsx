@@ -4,12 +4,9 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 interface AuthContext {
     userId: number;
-    firstName: string | null;
-    lastName: string | null;
-    email: string | null;
+    decodeToken: (token: string) => void;
     login: (token: string) => void;
     logout: () => void;
-    decodeToken: () => void;
     token: string | null;
     role: string | null;
 }
@@ -20,62 +17,36 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
 
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [userId, setUserId] = useState<number>(0);
-    const [email, setEmail] = useState<string | null>(null);
-    const [firstName, setFirstName] = useState<string | null>(null);
-    const [lastName, setLastName] = useState<string | null>(null);
     const [role, setRole] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (token) {
-            decodeToken();
-            const currentTime = Date.now() / 1000;
-
-            if (currentTime > 0) {
-                const logoutTimer = setTimeout(() => {
-                    logout();
-                }, currentTime);
-
-                return () => clearTimeout(logoutTimer);
-            }
+        const storedToken = localStorage.getItem("token");
+        if(storedToken){
+            decodeToken(storedToken);
         }
-    }, [token]);
+    }, []);
 
     const login = (token: string) => {
         localStorage.setItem("token", token);
         setToken(token);
-        decodeToken()
+        decodeToken(token)
     }
 
     const logout = () => {
         localStorage.clear()
         setToken(null);
         setUserId(0);
-        setFirstName(null);
-        setLastName(null);
-        setEmail(null)
         setRole(null);
-
         navigate('/', {replace: true});
     }
 
-    const decodeToken = () => {
+    const decodeToken = (token : string) => {
         if (token) {
             try {
-                // Récupérer l'id de l'utilisateur depuis le token
                 const decoded: any = jwtDecode(token);
-                const currentTime = Date.now() / 1000;
-
-                if(decoded.exp < currentTime){
-                    logout()
-                } else {
-                    setUserId(decoded.id);
-                    setFirstName(decoded.firstName);
-                    setLastName(decoded.lastName);
-                    setEmail(decoded.sub);
-                    setRole(decoded.role);
-                }
-
+                setUserId(decoded.id);
+                setRole(decoded.role);
             } catch (error) {
                 console.error("Error decoding token:", error);
                 logout()
@@ -84,9 +55,8 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({children}) => {
     }
 
 
-
     return (
-        <AuthContext.Provider value={{userId, firstName, lastName, email, token, login, logout, decodeToken, role}}>
+        <AuthContext.Provider value={{userId,decodeToken, token, login, logout, role}}>
             {children}
         </AuthContext.Provider>
     )

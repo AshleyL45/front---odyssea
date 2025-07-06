@@ -22,7 +22,6 @@ const TripPersRecap: FC = () => {
     const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>([]);
     const [newItineraryName, setItineraryName] = useState<string>("");
     const rawItineraryId = localStorage.getItem('itineraryId');
-    console.log("rawItineraryId: ", rawItineraryId)
     const itineraryId = rawItineraryId !== null ? Number(rawItineraryId) : null;
 
 
@@ -30,7 +29,6 @@ const TripPersRecap: FC = () => {
         if (itinerary.data && itinerary.data.itineraryDays) {
             setItineraryDays(itinerary.data.itineraryDays);
         }
-        console.log("itinerary: ", itinerary)
     }, []);
 
 
