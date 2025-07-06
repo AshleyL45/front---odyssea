@@ -1,25 +1,103 @@
 import {FC, useState, useEffect} from "react";
 import {post} from "../../API/api";
-import {Activity} from "../../@types/PersonalizeTrip";
+import {Activity, CitySelection} from "../../@types/PersonalizeTrip";
 import "../../App.css";
 
 interface ActivitySelectingProps {
     countryName: string;
-    selectedCities: any[];
-    onSelectionChange: (count: number) => void;
-    setErrorMessage: (message: string | null) => void;
+    selectedCities: CitySelection[];
 }
 
-const ActivitySelecting: FC<ActivitySelectingProps> = ({
-                                                           countryName,
-                                                           selectedCities,
-                                                           onSelectionChange,
-                                                           setErrorMessage
-                                                       }) => {
+const ActivitySelecting: FC<ActivitySelectingProps> = ({ countryName, selectedCities }) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [activities, setActivities] = useState<{ [key: number]: Activity[] }>({});
-    const [selected, setSelected] = useState<{ [key: number]: Activity[] }>({});
-    const [countryMap, setCountryMap] = useState<{ [key: number]: string }>({});
+    const [selected, setSelected] = useState<Activity[]>([]);
     const [expandedActivities, setExpandedActivities] = useState<{ [key: number]: boolean }>({});
+
+    // récupère les activités
+    useEffect(() => {
+        const fetchActivities = async () => {
+            setIsLoading(true);
+            let timeout: NodeJS.Timeout;
+            // sécurité : désactive le loader après 10 sec
+            timeout = setTimeout(() => {setIsLoading(false)}, 10000);
+
+            const result: { [key: number]: Activity[] } = {};
+
+            for(const city of selectedCities){
+                try {
+                    const response = await post(`/activities/importAndGet?cityId=${city.id}&radius=10000`, {});
+                    if (response && Array.isArray(response.data)) { // vérifie si la réponse est bien une liste d'activités
+                        result[city.id] = response.data;
+                    } else {
+                        result[city.id] = [];
+                    }
+                } catch (error){
+                    console.error(`Erreur pour la ville ${city.cityName}`, error);
+                    result[city.id] = [];
+                }
+            }
+
+            setActivities(result);
+            clearTimeout(timeout);
+            setIsLoading(false);
+        };
+
+        if(selectedCities.length > 0){
+            fetchActivities()
+        }
+    }, [selectedCities]);
+
+
+    const handleSelect = (activity: Activity, cityId: number) => {
+        const stored = localStorage.getItem('selectedActivities');
+        // transforme en tableau d'objets
+        let selection: Activity[] = stored ? JSON.parse(stored) : [];
+        console.log("selection", selection);
+
+        const alreadySelected = selection.find((a) => a.id === activity.id);
+
+        if(alreadySelected){
+            // on la retire
+            selection = selection.filter((a) => a.id !== activity.id);
+        } else {
+            // vérifier combien d'activités sont sélectionnées pour cette ville
+            const activitiesInThisCity = selection.filter((a) => a.cityId === cityId);
+            if(activitiesInThisCity.length >= 3){
+                alert("You can only select 3 activities per city.");
+                return; // stop
+            }
+
+            // on l'ajoute
+            selection.push(activity);
+        }
+
+        localStorage.setItem('selectedActivities', JSON.stringify(selection));
+        setSelected(selection)
+    };
+
+    useEffect(() => {
+        const stored = localStorage.getItem('selectedActivities');
+        if (stored) {
+            try {
+                const parsed: Activity[] = JSON.parse(stored);
+                setSelected(parsed);
+            } catch (e) {
+                console.error("Erreur lors du parsing des activités sélectionnées", e);
+            }
+        }
+    }, []);
+
+    const isTruncated = (activity: Activity): boolean => {
+        return activity.description.length > (150 - activity.name.length);
+    };
+
+    const getTruncatedDescription = (activity: Activity, id: number) => {
+        if (expandedActivities[id] || !isTruncated(activity)) {
+            return activity.description;
+        }
+        return activity.description.slice(0, 120 - activity.name.length) + "...";
+    };
 
     const toggleExpand = (id: number) => {
         setExpandedActivities((prev) => ({
@@ -28,159 +106,59 @@ const ActivitySelecting: FC<ActivitySelectingProps> = ({
         }));
     };
 
-    useEffect(() => {
-        const storedSelections: { [key: number]: Activity[] } = {};
-
-        selectedCities.forEach((city) => {
-            const storedActivities = localStorage.getItem(`selectedActivitiesByCity_${city.id}`);
-            if (storedActivities) {
-                try {
-                    storedSelections[city.id] = JSON.parse(storedActivities);
-                } catch (error) {
-                    console.error(`Error parsing selected activities for city ${city.id}:`, error);
-                }
-            }
-        });
-
-        setSelected(storedSelections);
-    }, [selectedCities]);
-
-    useEffect(() => {
-        Object.entries(selected).forEach(([cityId, activities]) => {
-            localStorage.setItem(`selectedActivitiesByCity_${cityId}`, JSON.stringify(activities));
-        });
-    }, [selected]);
-
-    useEffect(() => {
-        const fetchActivities = async () => {
-            const activitiesByCity: { [key: number]: Activity[] } = {};
-
-            for (const city of selectedCities) {
-                try {
-                    const response = await post(`/activities/importAndGet?cityId=${city.id}&radius=50`, {});
-                    if (response && Array.isArray(response)) {
-                        activitiesByCity[city.id] = response;
-                    } else {
-                        console.error(`Invalid response format for city ID ${city.id}:`, response);
-                    }
-                } catch (error) {
-                    console.error(`Failed to fetch activities for city ${city.id}`, error);
-                }
-            }
-
-            setActivities(activitiesByCity);
-        };
-
-        fetchActivities();
-    }, [selectedCities]);
-
-    useEffect(() => {
-        const countrySelection = JSON.parse(localStorage.getItem("countrySelection") || "[]");
-        const countryMap = selectedCities.reduce((acc, city) => {
-            const country = countrySelection.find((item: any) => item.cityIds.includes(city.id));
-            if (country) {
-                acc[city.id] = country.name;
-            }
-            return acc;
-        }, {} as { [key: number]: string });
-
-        setCountryMap(countryMap);
-    }, [selectedCities]);
-
-    useEffect(() => {
-        const totalSelected = Object.values(selected).reduce((acc, curr) => acc + curr.length, 0);
-        onSelectionChange(totalSelected);
-    }, [selected]);
-
-    const handleSelect = (cityId: number, activity: Activity) => {
-        setSelected((prev) => {
-            const currentSelection = prev[cityId] || [];
-            const isAlreadySelected = currentSelection.some((act) => act.id === activity.id);
-
-            let newSelection;
-            if (isAlreadySelected) {
-                newSelection = currentSelection.filter((act) => act.id !== activity.id);
-            } else {
-                if (currentSelection.length < 2) {
-                    newSelection = [...currentSelection, activity];
-                } else {
-                    alert("You must select only up to 2 activities per city.");
-                    return prev;
-                }
-            }
-
-            return {...prev, [cityId]: newSelection};
-        });
-    };
-
-    const getTruncatedDescription = (description: string, id: number) => {
-        if (expandedActivities[id] || description.length <= 100) return description;
-        return description.slice(0, 100) + "...";
-    };
 
     return (
-        <div style={{margin: "70px 0 150px"}}>
-            <h1 style={{textAlign: "center"}}>What to do in {countryName} ?</h1>
-            <div
-                className="container-activity-layout"
-                style={{
-                    margin: "20px 0",
-                    display: "flex",
-                    gap: "150px",
-                    alignItems: "start",
-                    justifyContent: "center",
-                }}
-            >
-                {selectedCities.length > 0 ? (
-                    selectedCities.map((city) => (
-                        <div key={city.id}>
-                            <h3 style={{margin: "10px 0 30px"}}>{city.name}</h3>
-                            <div className="activity-layout">
-                                {activities[city.id]?.length > 0 ? (
-                                    activities[city.id].map((activity) => (
-                                        <div
-                                            key={activity.id}
-                                            className={`activity-item ${selected[city.id]?.some((act) => act.id === activity.id) ? "selected" : ""}`}
-                                            onClick={() => handleSelect(city.id, activity)}
-                                            style={{
-                                                transition: "all 0.3s ease",
-                                                height: expandedActivities[activity.id] ? "auto" : "250px",
-                                                overflow: "hidden"
-                                            }}
-                                        >
-                                            <h4>{activity.name}</h4>
-                                            <p
-                                                className={`activity-description`}
-                                            >
-                                                {getTruncatedDescription(activity.description, activity.id)}
-                                            </p>
-                                            {activity.description.length > 100 && (
-                                                <span
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        toggleExpand(activity.id);
-                                                    }}
-                                                    style={{
-                                                        color: "black",
-                                                        textDecoration: "underline",
-                                                        cursor: "pointer",
-                                                        marginTop: "10px",
-                                                        display: "inline-block"
-                                                    }}
-                                                >
-                                                    {expandedActivities[activity.id] ? "See less" : "See more"}
-                                                </span>
-                                            )}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No activities found for this city.</p>
-                                )}
-                            </div>
-                        </div>
-                    ))
+        <div>
+            <h1 style={{textAlign: "center", fontSize: '1.5rem', marginTop: "70px"}}>What to do in {countryName} ?</h1>
+            <div className="container-activity-layout">
+                {isLoading ? (
+                    <p style={{textAlign: "center", marginTop: "40px"}}>Loading activities...</p>
                 ) : (
-                    <p>No cities selected</p>
+                    selectedCities.length > 0 ? (
+                        selectedCities.map((city) => (
+                            <section key={city.id}>
+                                <h3 style={{margin: "50px 0 0 30px", fontSize: "1.35rem"}}>- {city.cityName} -</h3>
+                                <div className='activity-scroll-container'>
+                                    <div className="activity-layout" style={{margin: "30px auto"}}>
+                                        {activities[city.id]?.length > 0 ? (
+                                            activities[city.id].map((activity: Activity) => (
+                                                <div
+                                                    key={activity.id}
+                                                    onClick={() => handleSelect(activity, city.id)}
+                                                    className={`activity-item ${selected.some((a) => a.id === activity.id) ? 'selected' : ''}`}
+                                                >
+                                                    <h4>{activity.name}</h4>
+                                                    <p className="activity-description">{getTruncatedDescription(activity, activity.id)}{" "}</p>
+                                                    {isTruncated(activity) && (
+                                                        <span
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                toggleExpand(activity.id);
+                                                            }}
+                                                            style={{
+                                                                color: "black",
+                                                                textDecoration: "underline",
+                                                                textUnderlineOffset: '5px',
+                                                                cursor: "pointer",
+                                                                marginTop: "10px",
+                                                                display: "inline-block",
+                                                            }}
+                                                        >
+                                                        {expandedActivities[activity.id] ? "See less" : "See more"}
+                                                    </span>
+                                                    )}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p>No activities available for {city.id}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </section>
+                        ))
+                    ) : (
+                        <p>No city selected</p>
+                    )
                 )}
             </div>
         </div>

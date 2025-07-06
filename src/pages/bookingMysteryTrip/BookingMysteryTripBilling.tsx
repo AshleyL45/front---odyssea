@@ -1,172 +1,216 @@
-import React, {FC, useState} from 'react';
-import NavbarReservation from "../../components/navbars/NavbarReservationts";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CustomButton from "../../components/ReusableComponents/CustomButton";
-import {useAuth} from "../../contexts/AuthContext";
-import {useReservation} from "../../contexts/ReservationContext";
+import React, {FC, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import "../../App.css";
+import CustomButton from "../../components/ReusableComponents/CustomButton";
+import {useBooking} from "../../contexts/BookingContext";
 import Pages from "../../components/layout/Pages";
+import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
+import styles from "../../styles/BookingMysteryTrip/BookingMysteryTrip.module.css";
+import {useUsernames} from "../../hooks/UseUsernames";
 
 const BookingMysteryTripBilling: FC = () => {
-    const {email, firstName, lastName} = useAuth();
-    const {trip} = useReservation(); // On récupère le trip depuis le contexte
-    const [errors, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
+    const { firstName: authFirstName, lastName: authLastName } = useUsernames();
+    const [firstName, setFirstName] = useState(authFirstName || "");
+    const [lastName, setLastName] = useState(authLastName || "");
+
+    useEffect(() => {
+        if (authFirstName) setFirstName(authFirstName);
+        if (authLastName) setLastName(authLastName);
+    }, [authFirstName, authLastName]);
+
+    const {questionnaireAnswers, updateResponse} = useBooking();
+
+    const [email, setEmail] = useState(
+        questionnaireAnswers.email || ""
+    );
+    const [phoneNumber, setPhoneNumber] = useState(
+        questionnaireAnswers.phoneNumber || ""
+    );
+    const [companyName, setCompanyName] = useState(
+        questionnaireAnswers.companyName || ""
+    );
+    const [address, setAddress] = useState(
+        questionnaireAnswers.address || ""
+    );
+    const [addressDetails, setAddressDetails] = useState(
+        questionnaireAnswers.addressDetails || ""
+    );
+    const [postalCode, setPostalCode] = useState(
+        questionnaireAnswers.postalCode || ""
+    );
+    const [city, setCity] = useState(questionnaireAnswers.city || "");
+    const [country, setCountry] = useState(
+        questionnaireAnswers.country || ""
+    );
+    const [agreed, setAgreed] = useState(
+        questionnaireAnswers.agreedToTerms || false
+    );
+    const [errors, setErrors] = useState<string[]>([]);
 
     const validateForm = (): boolean => {
         const newErrors: string[] = [];
-        const inputs = document.querySelectorAll("input");
+        if (!lastName?.trim()) newErrors.push("Last Name is required.");
+        if (!firstName?.trim()) newErrors.push("First Name is required.");
+        if (!email.trim()) newErrors.push("Email is required.");
+        if (!phoneNumber.trim()) newErrors.push("Phone Number is required.");
+        if (!address.trim()) newErrors.push("Address is required.");
+        if (!postalCode.trim()) newErrors.push("Postal Code is required.");
+        if (!city.trim()) newErrors.push("City is required.");
+        if (!country.trim()) newErrors.push("Country is required.");
+        if (!agreed) newErrors.push("You must agree to the terms.");
 
-        inputs.forEach((input) => {
-            if (input.required && !input.value.trim()) {
-                newErrors.push(`The field ${input.placeholder.slice(0, -1)} is required.`);
-            }
-        });
-
-        const checkbox = document.getElementById("validationCheckbox") as HTMLInputElement;
-        if (!checkbox || !checkbox.checked) {
-            newErrors.push("You must agree to the terms and conditions.");
-        }
-
-        if (newErrors.length > 0) {
-            setErrors(newErrors);
-            return false;
-        }
-        return true;
+        setErrors(newErrors);
+        return newErrors.length === 0;
     };
 
     const handleNextClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (validateForm()) {
-            const billingInfo = {
-                lastName: (document.querySelector("input[placeholder='Last Name*']") as HTMLInputElement)?.value,
-                firstName: (document.querySelector("input[placeholder='First Name*']") as HTMLInputElement)?.value,
-                email: (document.querySelector("input[placeholder='Email*']") as HTMLInputElement)?.value,
-                phoneNumber: (document.querySelector("input[placeholder='Phone Number*']") as HTMLInputElement)?.value,
-                companyName: (document.querySelector("input[placeholder='Company Name']") as HTMLInputElement)?.value,
-                address: (document.querySelector("input[placeholder='Address*']") as HTMLInputElement)?.value,
-                addressDetails: (document.querySelector("input[placeholder='Address details']") as HTMLInputElement)?.value,
-                postalCode: (document.querySelector("input[placeholder='Postal code*']") as HTMLInputElement)?.value,
-                city: (document.querySelector("input[placeholder='City*']") as HTMLInputElement)?.value,
-                country: (document.querySelector("input[placeholder='Country*']") as HTMLInputElement)?.value,
-            };
-            localStorage.setItem("billingInfo", JSON.stringify(billingInfo));
-            navigate("/booking-mystery-trip/result");
-        }
+        if (!validateForm()) return;
+
+        // Mémorisation dans le contexte
+        updateResponse("lastName", lastName);
+        updateResponse("firstName", firstName);
+        updateResponse("email", email);
+        updateResponse("phoneNumber", phoneNumber);
+        updateResponse("companyName", companyName);
+        updateResponse("address", address);
+        updateResponse("addressDetails", addressDetails);
+        updateResponse("postalCode", postalCode);
+        updateResponse("city", city);
+        updateResponse("country", country);
+        updateResponse("agreedToTerms", agreed);
+
+        // Passage à l’étape suivante
+        navigate("/booking-mystery-trip/result");
     };
 
     return (
         <>
-            <Pages title="Booking - Mystery Trip">
+            <Pages title="Booking – Mystery Trip">
             </Pages>
-
-            <div>
-
-                <div className="progress-bar">
-                    <div style={{width: "100%", height: "6px", backgroundColor: "lightgrey"}}></div>
-                    <div
-                        style={{
-                            width: "80%",
-                            height: "6px",
-                            borderRadius: "0 5px 5px 0",
-                            backgroundColor: "#2C3E50",
-                            position: "relative",
-                            top: "-6px"
-                        }}
-                    ></div>
+            <header>
+                <div className={styles.progressBarContainer}>
+                    <div className={styles.progressBar}/>
                 </div>
 
-                <p style={{
-                    display: 'flex',
-                    alignItems: "center",
-                    fontSize: "16px",
-                    margin: "10px 40px",
-                    cursor: "pointer"
-                }}
-                   onClick={() => navigate(-1)}
-                >
-                    <ArrowBackIcon sx={{fontSize: "15px"}}/>
-                    previous step
-                </p>
+                <a className={styles.previousStep} style={{background: 'none', stroke: 'none'}}
+                   onClick={() => navigate(-1)}>
+                    <ArrowBackIcon fontSize="small"/>
+                    Previous step
+                </a>
+            </header>
+            <main>
+                <div className={styles.optionSelect}>
+                    <h1>Your billing information</h1>
+                    <h2 style={{fontWeight: 'lighter'}}>Please fill in to finalize your reservation.</h2>
 
-                <div className="option-select" style={{margin: "50px auto", textAlign: "center"}}>
-                    <h1 style={{fontSize: "25px", margin: "10px 0"}}>Your billing information</h1>
-                    <p>This information is required to finalize your reservation.</p>
-
-                    <h3 style={{marginTop: "2rem"}}>Contact Details</h3>
-                    <div style={{
-                        display: "grid",
-                        gridTemplateRows: "1fr 1fr",
-                        gridTemplateColumns: "1fr 1fr",
-                        width: "50%",
-                        gap: 25,
-                        margin: "auto"
-                    }}>
-                        <input type="text"
-                               placeholder="Last Name*"
-                               defaultValue={lastName?.toString()}
-                               className="inputBooking"
-                               required/>
-                        <input type="text"
-                               placeholder="First Name*"
-                               defaultValue={firstName?.toString()}
-                               className="inputBooking"
-                               required/>
-                        <input type="email"
-                               placeholder="Email*"
-                               defaultValue={email?.toString()}
-                               className="inputBooking"
-                               required/>
-                        <input type="text"
-                               placeholder="Phone Number*"
-                               className="inputBooking"
-                               required/>
+                    <h3>Contact Details</h3>
+                    <div className={styles.formGrid}>
+                        <input
+                            type="text"
+                            placeholder="Last Name*"
+                            value={lastName}
+                            className={styles.inputBooking}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="First Name*"
+                            value={firstName}
+                            className={styles.inputBooking}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        <input
+                            type="email"
+                            placeholder="Email*"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className={styles.inputBooking}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Phone Number*"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            className={styles.inputBooking}
+                        />
                     </div>
 
                     <h3>Address</h3>
-                    <div style={{
-                        display: "grid",
-                        gridTemplateRows: "1fr 1fr",
-                        gridTemplateColumns: "1fr 1fr 1fr",
-                        width: "50%",
-                        gap: 25,
-                        margin: "auto"
-                    }}>
-                        <input type="text" placeholder="Company Name" className="inputBooking"/>
-                        <input type="text" placeholder="Address*" className="inputBooking" required/>
-                        <input type="text" placeholder="Address details" className="inputBooking"/>
-                        <input type="text" placeholder="Postal code*" className="inputBooking" required/>
-                        <input type="text" placeholder="City*" className="inputBooking" required/>
-                        <input type="text" placeholder="Country*" className="inputBooking" required/>
+                    <div className={styles.formGridAddress}>
+                        <input
+                            type="text"
+                            placeholder="Company Name"
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            className={styles.inputBooking}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Address*"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className={styles.inputBooking}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Address details"
+                            value={addressDetails}
+                            onChange={(e) => setAddressDetails(e.target.value)}
+                            className={styles.inputBooking}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Postal code*"
+                            value={postalCode}
+                            onChange={(e) => setPostalCode(e.target.value)}
+                            className={styles.inputBooking}
+                        />
+                        <input
+                            type="text"
+                            placeholder="City*"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className={styles.inputBooking}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Country*"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                            className={styles.inputBooking}
+                        />
                     </div>
 
-                    <div style={{marginTop: "2rem"}}>
-                        <input type="checkbox" id="validationCheckbox" style={{marginRight: "0.5rem"}}/>
-                        <label htmlFor="validationCheckbox" className="inputBooking">
-                            By validating this form, I agree to be contacted by a Travel Designer to finalize my
-                            reservation
-                            and receive personalized support.
+                    <div className={styles.terms}>
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            checked={agreed}
+                            onChange={(e) => setAgreed(e.target.checked)}
+                        />
+                        <label htmlFor="terms">
+                            I agree to be contacted by a Travel Designer.
                         </label>
                     </div>
 
                     {errors.length > 0 && (
-                        <div style={{color: "red", margin: "10px 0"}}>
-                            <ul>
-                                {errors.map((error, idx) => (
-                                    <li key={idx} style={{listStyleType: "none"}}>{error}</li>
+                        <div className={styles.errorContainer}>
+                            <ul className={styles.errorList}>
+                                {errors.map((err, i) => (
+                                    <li key={i}>{err}</li>
                                 ))}
                             </ul>
                         </div>
                     )}
 
-                    <div style={{display: "block", marginTop: "2rem"}}>
-                        <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNextClick}>
+                    <div className={styles.buttonContainer}>
+                        <CustomButton variant="contained" onClick={handleNextClick}>
                             Next
                         </CustomButton>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 };

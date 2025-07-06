@@ -1,6 +1,6 @@
 import React, {FC, JSX, useEffect, useState} from 'react';
 import RemoveIcon from "@mui/icons-material/Remove";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import {Trip} from "../../@types/Trip";
 import styles from "../../styles/components/TripDashboard.module.css";
 import {get, post} from "../../API/api";
@@ -25,7 +25,7 @@ interface BillingInfo {
 
 const BookingFormRecap: ({}) => React.JSX.Element = ({}) => {
 
-    const {trip, questionnaireAnswers} = useReservation();
+    const {trip, questionnaireAnswers} = useBooking();
     const [optionsToDisplay, setOptionsToDisplay] = useState<Option[]>([]);
     const navigate = useNavigate();
     const [error, setError] = useState("")
@@ -55,14 +55,14 @@ const BookingFormRecap: ({}) => React.JSX.Element = ({}) => {
 
     const handleNext = async () => {
         try{
-            const postInfo = await post("/reservations", questionnaireAnswers);
+            const postInfo = await post("/bookings", questionnaireAnswers);
             console.log(postInfo)
             if(postInfo){
                 setError("")
                 navigate("/dashboard");
             }
         } catch (e) {
-            console.error("Cannot send reservation : ", e);
+            console.error("Cannot send booking : ", e);
             setError("An error has occurred.")
         }
 

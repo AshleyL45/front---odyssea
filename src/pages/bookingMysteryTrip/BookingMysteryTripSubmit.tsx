@@ -1,186 +1,173 @@
-import React, {FC, useState, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import CustomButton from "../../components/ReusableComponents/CustomButton";
-import styles from "../../styles/components/TripDashboard.module.css";
-import {get, post} from "../../API/api";
-import {useReservation} from "../../contexts/ReservationContext";
-import {useAuth} from "../../contexts/AuthContext";
-import {Trip} from "../../@types/Trip";
-import {AxiosError} from "axios";
-import Pages from "../../components/layout/Pages";
+import React, {FC, useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import CustomButton from '../../components/ReusableComponents/CustomButton';
+import Pages from '../../components/layout/Pages';
+import dayjs from 'dayjs';
+import {get, post} from '../../API/api';
+import {useBooking} from '../../contexts/BookingContext';
+import {Option} from '../../@types/Option';
+import {useAuth} from '../../contexts/AuthContext';
+import styles from '../../styles/BookingMysteryTrip/BookingMysteryTrip.module.css';
 
-interface BillingInfo {
-    lastName: string;
-    firstName: string;
-    email: string;
-    phoneNumber: string;
-    companyName?: string;
-    address: string;
-    addressDetails?: string;
-    postalCode: string;
-    city: string;
-    country: string;
-}
-
-const formatDateForBackend = (isoString: string): string => {
-    if (!isoString) return "";
-    const dateObj = new Date(isoString);
-    const day = ("0" + dateObj.getDate()).slice(-2);
-    const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-    const year = dateObj.getFullYear();
-    return `${day}-${month}-${year}`;
-};
-
-function isAxiosError(error: unknown): error is AxiosError<{ message?: string }> {
-    return (error as AxiosError).isAxiosError !== undefined;
+interface BookingResponse {
+    success: boolean;
+    message: string;
 }
 
 const BookingMysteryTripSubmit: FC = () => {
     const navigate = useNavigate();
-    const {trip, questionnaireAnswers} = useReservation();
-    const {userId} = useAuth();
-    const [optionsToDisplay, setOptionsToDisplay] = useState<any[]>([]);
-    const [error, setError] = useState("");
-
-    const billing: BillingInfo = JSON.parse(localStorage.getItem("billingInfo") || "{}");
-    const depDate: string = localStorage.getItem("departureDate") || "";
-    const retDate: string = localStorage.getItem("returnDate") || "";
-    const departureDateFormatted = formatDateForBackend(depDate);
-    const returnDateFormatted = formatDateForBackend(retDate);
-
-    let validTrip: Trip | null = trip;
-    if (!validTrip || validTrip.id === 0) {
-        const storedTrip = localStorage.getItem("validTrip");
-        if (storedTrip) {
-            validTrip = JSON.parse(storedTrip);
-            console.log("Fallback validTrip from localStorage:", validTrip);
-        }
-    }
-    if (!validTrip || validTrip.id === 0) {
-        setError("Error: No valid trip found. Please go back and select a valid trip.");
-    }
+    const {trip, questionnaireAnswers, updateResponse} = useBooking();
+    const [optionsToDisplay, setOptionsToDisplay] = useState<Option[]>([]);
+    const [error, setError] = useState<string>('');
+    const {userId: authUserId} = useAuth();
 
     useEffect(() => {
-        const fetchOptionsById = async () => {
-            if (!questionnaireAnswers.optionIds || questionnaireAnswers.optionIds.length === 0) return;
-            try {
-                const queryString = questionnaireAnswers.optionIds
-                    .map((id: number) => `ids=${id}`)
-                    .join("&");
-                const options = await get(`/options/allById?${queryString}`);
-                if (options) setOptionsToDisplay(options);
-            } catch (e) {
-                console.error(e);
-            }
-        };
-        fetchOptionsById();
+        const ids = questionnaireAnswers.optionIds ?? [];
+        console.log('IDS DU CONTEXTE →', ids);
+
+        if (ids.length === 0) {
+            setOptionsToDisplay([]);
+            return;
+        }
+
+        get<any>('/options/all')
+            .then((optList) => {
+                console.log('RAW OPTIONS FROM API →', optList);
+                // suivant ce que tu verras dans la console, adapte :
+                // - si optList.data est ton tableau :
+                const list: Option[] = Array.isArray(optList)
+                    ? optList
+                    : Array.isArray(optList.data)
+                        ? optList.data
+                        : [];
+
+                setOptionsToDisplay(list.filter((opt) => ids.includes(opt.id)));
+            })
+            .catch(() => console.error('Unable to retrieve options.'));
     }, [questionnaireAnswers.optionIds]);
 
-    const handleNext = async () => {
-        if (!validTrip || validTrip.id === 0) {
-            setError("Error: Trip not selected or invalid. Please go back and choose a valid trip.");
-            return;
-        }
-        if (!userId || userId === 0) {
-            setError("Error: User not logged in. Please log in to proceed.");
-            return;
-        }
-        if (!departureDateFormatted || !returnDateFormatted) {
-            setError("Error: Invalid dates. Please select valid departure and return dates.");
-            return;
-        }
 
-        const reservationData = {
-            ...questionnaireAnswers,
-            userId: userId,
-            billingInfo: billing,
-            itineraryId: validTrip.id,
-            departureDate: departureDateFormatted,
-            returnDate: returnDateFormatted,
-        };
+    const formattedDeparture = questionnaireAnswers.departureDate
+        ? dayjs(questionnaireAnswers.departureDate, 'DD-MM-YYYY').format('DD-MM-YYYY')
+        : '';
+    const formattedReturn = questionnaireAnswers.returnDate
+        ? dayjs(questionnaireAnswers.returnDate, 'DD-MM-YYYY').format('DD-MM-YYYY')
+        : '';
 
-        console.log("Reservation Data:", reservationData);
+    const handleSubmit = async () => {
+        if (!trip) return;
+        setError('');
 
         try {
-            const postInfo = await post("/reservations", reservationData);
-            console.log("Reservation ID retrieved:", postInfo.id);
-            setError("");
-            navigate("/dashboard");
-        } catch (err: unknown) {
-            if (isAxiosError(err)) {
-                console.error("Cannot send reservation:", err);
-                setError(err.response?.data?.message || "An error has occurred while sending your reservation.");
-            } else {
-                console.error("Unexpected error:", err);
-                setError("An unexpected error has occurred.");
-            }
+            // Étape 1 : Itinéraire, type et date de départ
+            await post('/book/step1', {
+                itineraryId: trip.id,
+                type: 'Mystery', // ou 'Standard' selon ton flow
+                date: dayjs(questionnaireAnswers.departureDate, 'DD-MM-YYYY').format('DD/MM/YYYY'),
+            });
+
+            // Étape 2 : Nombre de voyageurs
+            await post('/book/step2', {
+                numberAdults: questionnaireAnswers.numberOfAdults,
+                numberKids: questionnaireAnswers.numberOfKids,
+            });
+
+            // Étape 3 : Options
+            await post('/book/step3', {
+                options: questionnaireAnswers.optionIds ?? [],
+            });
+
+            // (Facultatif) Étape 4 si tu veux override l’itinéraire
+            // await post('/book/step4', { itineraryId: nouveauItineraire });
+
+            // Étape 5 : Finalize
+            await post('/book/finalize', {});
+
+            // Redirection
+            navigate('/dashboard');
+        } catch (err: any) {
+            console.error('Reservation error:', err);
+            const msg = err?.response?.data?.message;
+            setError(msg ?? 'An error occurred during booking.');
         }
     };
 
-    if (!validTrip) {
-        return <p>Loading trip details...</p>;
-    }
+
+    if (!trip) return <p>Loading...</p>;
 
     return (
         <>
-            <Pages title="Recap - Mystery Trip">
+            <Pages title="Summary and booking - Mystery Trip">
             </Pages>
 
-            <div style={{display: "flex", justifyContent: "center"}}>
-                <div>
-                    <h1 style={{fontSize: "25px", margin: "10px 0", textAlign: "center"}}>Summary of your trip</h1>
-                    <div style={{width: 2, height: 30, backgroundColor: "black", margin: "auto"}}></div>
-                    <h2 className={styles.tripDashboardTitle}>{validTrip.name}</h2>
-                    <hr/>
-                    <div>
-                        <div className="recapDivs">
-                            <h3>Dates</h3>
-                            <p>Departure: {depDate ? new Date(depDate).toLocaleDateString() : "N/A"}</p>
-                            <p>Return: {retDate ? new Date(retDate).toLocaleDateString() : "N/A"}</p>
+            <main>
+                <div style={{display: 'flex', justifyContent: 'center', padding: '2rem 1rem'}}>
+                    <div style={{width: '100%', maxWidth: '700px'}}>
+                        <h1 style={{fontSize: 25, textAlign: 'center'}}>Summary</h1>
+                        <div style={{width: 2, height: 30, backgroundColor: 'black', margin: 'auto'}}/>
+
+                        <div style={{textAlign: 'center', margin: '1rem 0'}}>
+                            <h2 className={styles.tripDashboardTitle}>{trip.name}</h2>
                         </div>
-                        <div className="recapDivs">
-                            <h3>Travellers</h3>
-                            {questionnaireAnswers.numberOfAdults === 1 ? (
-                                <p>{questionnaireAnswers.numberOfAdults} adult</p>
+
+                        <hr/>
+
+                        <section className="recapDivs">
+                            <h3>Dates:</h3>
+                            <p>Departure: {formattedDeparture}</p>
+                            <p>Return: {formattedReturn}</p>
+                        </section>
+
+                        <section className="recapDivs">
+                            <h3>Travellers:</h3>
+                            <p>
+                                {questionnaireAnswers.numberOfAdults} adult
+                                {questionnaireAnswers.numberOfAdults > 1 ? 's' : ''}
+                            </p>
+                            {questionnaireAnswers.numberOfKids > 0 && (
+                                <p>
+                                    {questionnaireAnswers.numberOfKids} kid
+                                    {questionnaireAnswers.numberOfKids > 1 ? 's' : ''}
+                                </p>
+                            )}
+                        </section>
+
+                        <section className="recapDivs">
+                            <h3>Customer information:</h3>
+                            <p>Lastname: {questionnaireAnswers.lastName}</p>
+                            <p>Firstname: {questionnaireAnswers.firstName}</p>
+                            <p>Email: {questionnaireAnswers.email}</p>
+                            <p>Phone: {questionnaireAnswers.phoneNumber}</p>
+                            <p>Adress: {questionnaireAnswers.address}</p>
+                            <p>Complement: {questionnaireAnswers.addressDetails || 'N/A'}</p>
+                            <p>Postal Code: {questionnaireAnswers.postalCode}</p>
+                            <p>City: {questionnaireAnswers.city}</p>
+                            <p>Country: {questionnaireAnswers.country}</p>
+                        </section>
+
+                        <section className="recapDivs">
+                            <h3>Options:</h3>
+                            {optionsToDisplay.length > 0 ? (
+                                optionsToDisplay.map((opt) => <p key={opt.id}>• {opt.name}</p>)
                             ) : (
-                                <p>{questionnaireAnswers.numberOfAdults} adults</p>
+                                <p>No option selected.</p>
                             )}
-                            {questionnaireAnswers.numberOfKids !== 0 && (
-                                <p>{questionnaireAnswers.numberOfKids} kids (below 18 years old)</p>
-                            )}
+                        </section>
+
+                        {error && <p style={{color: 'red'}}>{error}</p>}
+
+                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
+                            <CustomButton
+                                style={{width: 130}}
+                                variant="contained"
+                                onClick={handleSubmit}
+                            >
+                                BOOK
+                            </CustomButton>
                         </div>
-                        <div className="recapDivs">
-                            <h3>Customer Information</h3>
-                            <p><strong>Last Name:</strong> {billing.lastName}</p>
-                            <p><strong>First Name:</strong> {billing.firstName}</p>
-                            <p><strong>Email:</strong> {billing.email}</p>
-                            <p><strong>Phone Number:</strong> {billing.phoneNumber}</p>
-                            <p><strong>Company Name:</strong> {billing.companyName || "N/A"}</p>
-                            <p><strong>Address:</strong> {billing.address}</p>
-                            <p><strong>Address Details:</strong> {billing.addressDetails || "N/A"}</p>
-                            <p><strong>Postal Code:</strong> {billing.postalCode}</p>
-                            <p><strong>City:</strong> {billing.city}</p>
-                            <p><strong>Country:</strong> {billing.country}</p>
-                        </div>
-                        <div className="recapDivs">
-                            <h3>Options</h3>
-                            {optionsToDisplay && optionsToDisplay.length > 0 ? (
-                                optionsToDisplay.map((option) => (
-                                    <p key={option.id}>{option.name}</p>
-                                ))
-                            ) : (
-                                <p>No options were chosen.</p>
-                            )}
-                        </div>
-                    </div>
-                    {error !== "" && <p style={{color: "red"}}>{error}</p>}
-                    <div style={{display: "flex", justifyContent: "center"}}>
-                        <CustomButton style={{width: "130px"}} variant="contained" onClick={handleNext}>
-                            Submit
-                        </CustomButton>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 };

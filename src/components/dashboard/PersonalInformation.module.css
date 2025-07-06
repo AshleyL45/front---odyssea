@@ -1,0 +1,59 @@
+.personalInfoTitle {
+    margin-left: 3rem;
+    margin-top: 2rem;
+    font-family: "Literata", serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+}
+
+.sectionPersonalInformation {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    width: 100%;
+    margin: 2rem;
+}
+
+
+.personalInfoInputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    max-width: 80%;
+    gap: 1rem;
+}
+
+.personalInfoInputs {
+    margin: 12px 1rem;
+}
+
+
+@media screen and (max-width: 1024px) {
+
+    .personalInfoTitle {
+        margin: 1rem 1rem;
+        text-align: center;
+    }
+
+    .sectionPersonalInformation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 95%;
+        margin: 1rem auto;
+    }
+
+}
+
+@media screen and (min-width: 1440px) {
+    .sectionPersonalInformation {
+        flex-direction: row;
+        max-width: 95%;
+        align-items: center;
+    }
+
+    .personalInfoInputs {
+        gap: 12px;
+    }
+}

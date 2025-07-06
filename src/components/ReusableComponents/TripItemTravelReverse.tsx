@@ -21,13 +21,7 @@ const TripItemTravelReverse: ({trip, headerImage}: { trip: Trip, headerImage: st
                        onClick={() => navigate(`/trip/${trip.id}`)}>Details</a>
                 </div>
 
-                <div className="trip-item-travel-photo" style={{
-                    border: "solid 1px black",
-                    backgroundImage: `url(${headerImage})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center"
-                }}></div>
+                <div className="trip-item-travel-photo" style={{backgroundImage: `url(${headerImage})`}}></div>
 
             </section>
 

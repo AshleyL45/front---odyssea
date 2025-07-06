@@ -4,14 +4,14 @@ import OptionsSelecting from "../../components/OptionsSelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import {get} from "../../API/api";
 import {Option} from "../../@types/Option";
-import {useReservation} from "../../contexts/ReservationContext";
+import {useBooking} from "../../contexts/BookingContext";
 import {useNavigate} from "react-router-dom";
 import Pages from "../../components/layout/Pages";
 
 
 const BookingFormOptions: ({}: {}) => JSX.Element = ({}) => {
     const [options, setOptions] = useState<Option[]>([]);
-    const {updateResponse} = useReservation()
+    const {updateResponse} = useBooking()
     const navigate = useNavigate();
 
     useEffect(() => {

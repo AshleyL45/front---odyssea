@@ -21,7 +21,10 @@ const InteractiveMapTrip: FC<InteractiveMapTripProps> = ({markers}) => {
     const parisMarker: MarkerData = {
         dayNumber: 0,
         city: {
+            id: 257,
+            countryId: 55,
             name: 'Paris',
+            iataCode: 'CDG',
             latitude: 48.8566,
             longitude: 2.3522,
         },
@@ -32,6 +35,7 @@ const InteractiveMapTrip: FC<InteractiveMapTripProps> = ({markers}) => {
     const positions: LatLngTuple[] = allMarkers.map(
         (record) => [record.city.latitude, record.city.longitude]
     );
+    //console.log(positions);
 
     const bounds: LatLngBounds =
         positions.length > 0 ? new L.LatLngBounds(positions) : new L.LatLngBounds([[0, 0]]);

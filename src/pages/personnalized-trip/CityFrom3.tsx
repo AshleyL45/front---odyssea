@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
 import "../../App.css";
@@ -7,15 +7,26 @@ import CityFromSelecting from "../../components/persTrip/CityFromSelecting";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import "../../App.css";
 import Pages from "../../components/layout/Pages";
+import {post} from "../../API/api";
+
 
 const CityFrom3: FC = () => {
     const navigate = useNavigate();
     const {questionnaireAnswers} = usePersonalizedTrip();
     const {departureCity} = questionnaireAnswers;
+    const [isValidCity, setIsValidCity] = useState(false);
 
-    const handleNextStep = () => {
+
+    const generateStepThree = async () => {
         if (departureCity) {
-            navigate("/personalized-trip/country-selection");
+            try {
+                const response = await post("/generate/step2", {departureCity: departureCity});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/country-selection");
+                }
+            } catch (e) {
+                console.error('Cannot generate step 3 (departureCity)')
+            }
         } else {
             alert("Please select a city before the next step.");
         }
@@ -39,31 +50,31 @@ const CityFrom3: FC = () => {
                     }}
                 ></div>
             </div>
-            <a
-                href="#"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "16px",
-                    margin: "10px 40px",
-                    cursor: "pointer",
-                }}
-                onClick={() => navigate(-1)}
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
             >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
-                Previous step
-            </a>
+                previous step
+            </button>
 
             <div style={{padding: "20px", width: "85%", margin: "auto", textAlign: "center"}}>
-                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Which city are you leaving from?</h1>
+                <h1 style={{fontSize: "25px", margin: "30px 0"}}>Which city are you leaving from?</h1>
 
-                <CityFromSelecting/>
+                <CityFromSelecting onFilledChange={setIsValidCity}/>
 
                 <CustomButton
-                    style={{width: "130px", marginTop: "150px"}}
+                    style={{width: "130px", marginTop: "70px"}}
                     variant="contained"
-                    onClick={handleNextStep}
-                    disabled={!departureCity}
+                    onClick={generateStepThree}
+                    disabled={!isValidCity}
                 >
                     Next
                 </CustomButton>

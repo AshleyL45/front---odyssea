@@ -1,0 +1,22 @@
+.MuiDialog-paper {
+    width: 700px !important;
+}
+
+
+.selectContainer, .statusOption, .inputPrice {
+    margin: 1rem;
+}
+
+.statusLabel {
+    margin-left: 1rem;
+}
+
+.statusConfirmButton {
+    color: white !important;
+}
+
+.cancelStatusButton {
+    border: 1px solid #2c3e50 !important;
+    background-color: white !important;
+    color: #2c3e50 !important;
+}

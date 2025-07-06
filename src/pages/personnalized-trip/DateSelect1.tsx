@@ -4,25 +4,44 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Calender from "../../components/persTrip/CalenderPersTrip";
 import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
-import dayjs from "dayjs";
 import "../../App.css";
 import Pages from "../../components/layout/Pages";
+import DurationSelecting from "../../components/persTrip/DurationSelecting";
+import persTripData from "../../assets/persTripData.json";
+import {post} from "../../API/api";
 
 
 const DateSelect1: FC<{}> = ({}) => {
 
     const navigate = useNavigate();
-    const {questionnaireAnswers} = usePersonalizedTrip();
+    const {questionnaireAnswers, updateResponse} = usePersonalizedTrip();
+    const {duration} = questionnaireAnswers;
     const {startDate} = questionnaireAnswers;
-    const returnDate = startDate ? dayjs(startDate).add(13, "day").format("YYYY-MM-DD") : "";
 
-    const handleNextStep = () => {
-        if (startDate) {
-            navigate("/personalized-trip/traveler-selection");
+    const formatDate = (dateString: any) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    const generateStepOne = async () => {
+        if (startDate && duration) {
+            try {
+                const newDate = formatDate(startDate);
+                const response = await post("/generate/step1", {
+                    duration: duration,
+                    startDate: newDate});
+                console.log(response)
+                if (response?.success === true) {
+                    navigate("/personalized-trip/traveler-selection")
+                }
+            } catch (e) {
+                console.error('Cannot generate step 1')
+            }
         } else {
             alert("Please select a date before the next step.");
         }
     };
+
 
     return (
         <div>
@@ -40,24 +59,35 @@ const DateSelect1: FC<{}> = ({}) => {
                     top: "-6px"
                 }}></div>
             </div>
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
-                <ArrowBackIcon sx={{fontSize: "15px"}} onClick={() => navigate(-1)}/>
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
+            >
+                <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
             <div className="container-calender">
                 <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>When would you like to leave?</h1>
-                <p style={{margin: "5px 0 50px", color: "grey"}}>Select the departure date of your 13-day stay : </p>
-
+                <p style={{margin: "5px 0 20px", color: "grey"}}>Select the duration of your stay :</p>
+                <DurationSelecting
+                    durations={persTripData}
+                    onSelectDuration={(numberOfDays) => updateResponse("duration", numberOfDays)}
+                    selectedDuration={questionnaireAnswers.duration}
+                />
+                <p style={{margin: "5px 0 20px", color: "grey"}}>To ensure availability, you must pick a date at least one week ahead.</p>
                 <Calender/>
-
                 <CustomButton
-                    style={{width: "130px", marginTop: "70px"}}
+                    style={{width: "130px", marginTop: "40px"}}
                     variant="contained"
-                    onClick={handleNextStep}
-                    disabled={!startDate}
-
+                    disabled={!duration || !startDate}
+                    onClick={generateStepOne}
                 >Next
                 </CustomButton>
             </div>

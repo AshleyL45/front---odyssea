@@ -1,7 +1,7 @@
 import {FC,JSX, useState} from 'react';
 import "../App.css"
 import {Option} from "../@types/Option";
-import {useReservation} from "../contexts/ReservationContext";
+import {useBooking} from "../contexts/BookingContext";
 
 /*interface Option {
     title: string;

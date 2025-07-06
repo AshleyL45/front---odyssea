@@ -1,0 +1,34 @@
+[
+  {
+    "numberOfDays" : 9,
+    "daysDisplay" : "9 days",
+    "numberOfCountries" : 1,
+    "numberOfCities" : 2,
+    "activitiesPerCities" : 3,
+    "numberOfActivities" : 6
+  },
+  {
+    "numberOfDays": 17,
+    "daysDisplay": "17 days",
+    "numberOfCountries": 2,
+    "numberOfCities": 4,
+    "activitiesPerCities": 3,
+    "numberOfActivities": 12
+  },
+  {
+    "numberOfDays": 25,
+    "daysDisplay": "25 days",
+    "numberOfCountries": 3,
+    "numberOfCities": 6,
+    "activitiesPerCities": 3,
+    "numberOfActivities": 18
+  },
+  {
+    "numberOfDays": 33,
+    "daysDisplay": "33 days",
+    "numberOfCountries": 4,
+    "numberOfCities": 8,
+    "activitiesPerCities": 3,
+    "numberOfActivities": 24
+  }
+]

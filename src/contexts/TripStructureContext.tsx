@@ -15,6 +15,7 @@ const loadAndStructureData = (userId: number): PersonalizeTrip => {
     if (!rawQuestionnaire || !rawSelectedCountries) {
         return {
             userId,
+            duration: 0,
             startDate: '',
             departureCity: '',
             countrySelection: [],
@@ -43,6 +44,7 @@ const loadAndStructureData = (userId: number): PersonalizeTrip => {
 
     return {
         userId: questionnaireData.userId,
+        duration: questionnaireData.duration,
         startDate: questionnaireData.startDate,
         departureCity: questionnaireData.departureCity,
         countrySelection,

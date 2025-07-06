@@ -1,5 +1,6 @@
 export interface PersonalizeTrip {
     userId: number;
+    duration: number;
     startDate: string;
     departureCity: string;
     countrySelection: any[];
@@ -43,8 +44,6 @@ export interface Option {
 }
 
 
-
-
 export interface PersonalizedTripResponse {
     id: number;
     userId: number;
@@ -56,8 +55,9 @@ export interface PersonalizedTripResponse {
     itineraryName: string;
     numberOfAdults: number;
     numberOfKids: number;
+    status?: string;
     itineraryDays: ItineraryDay[];
-    options: Option[]; // A importer
+    options: Option[];
 }
 
 export interface Activity {
@@ -116,4 +116,11 @@ export interface ItineraryDay {
     date: string;
     dayOff: boolean;
     flightItineraryDTO: FlightItineraryDTO | null;
+}
+
+export interface PersTripData {
+    numberOfDays: number,
+    daysDisplay: string,
+    numberOfCountries: number,
+    numberOfCities: number
 }

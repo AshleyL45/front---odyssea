@@ -70,7 +70,7 @@ Ashley Labory - Cheffe de Projet / Référente Git => Back-end
 │   │   ├── ItineraryDetailsResponse.ts
 │   │   ├── Option.ts
 │   │   ├── PersonalizeTrip.ts
-│   │   ├── Reservation.ts
+│   │   ├── MyBookings.ts
 │   │   ├── ReservationRequest.ts
 │   │   ├── Trip.ts
 │   │   └── type.ts

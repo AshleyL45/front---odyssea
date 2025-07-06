@@ -1,12 +1,9 @@
-import {FC, JSX, useState} from 'react';
-import TextField from "@mui/material/TextField";
-import {Button} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {useAuth} from "../../contexts/AuthContext";
-import {post} from "../../API/api";
+import {Link} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
 import styles from "../../styles/RegisterForm.module.css"
 import CustomButton from "../ReusableComponents/CustomButton";
+import MessageBox from "./MessageBox";
+import {useRegister} from "../../hooks/UseRegister";
 
 interface SubscribeFormInput {
     email: string
@@ -17,9 +14,9 @@ interface SubscribeFormInput {
     lastName: string
 }
 
-const RegisterForm: ({}: {}) => JSX.Element = ({}) => {
-    const navigate = useNavigate();
-    const [error, setError] = useState("");
+const RegisterForm = ({}) => {
+    const {register: registerUser, error} = useRegister();
+
 
     const {register, handleSubmit, watch, formState: {errors}} = useForm({
         defaultValues: {
@@ -32,32 +29,8 @@ const RegisterForm: ({}: {}) => JSX.Element = ({}) => {
         },
     })
 
-    // Envoyer les données vers la base de données
-    const postUser = async (data: SubscribeFormInput) => {
-        try {
-            const response = await post("/auth/register", {
-                email: data.email,
-                password: data.password,
-                role: "USER",
-                firstName: data.firstName,
-                lastName: data.lastName
-            })
-
-
-            if (response === "User registered successfully!") {
-                navigate("/login");
-            } else {
-                setError(response);
-            }
-
-        } catch (e) {
-            console.warn("Error logging in : ", e);
-        }
-
-    }
-
     const onSubmit: SubmitHandler<SubscribeFormInput> = async (data: SubscribeFormInput) => {
-        await postUser(data);
+        await registerUser(data);
     }
 
 
@@ -67,37 +40,91 @@ const RegisterForm: ({}: {}) => JSX.Element = ({}) => {
     return (
         <form className={styles.registerForm} onSubmit={handleSubmit(onSubmit)}>
             <h1>Register</h1>
-            <p>Already registered? <span style={{textDecoration: "underline", cursor: "pointer"}}
-                                         onClick={() => navigate("/login")}>Login</span></p>
+            <p>Already registered? <Link to={"/login"} className={styles.loginButton}>Login</Link></p>
 
             <div className={styles.names}>
                 <div className={styles.namesBlocks}>
                     <label htmlFor="first-name">First name*</label>
-                    <input type="text" {...register("firstName")} required className={styles.inputValidation} id="first-name"/>
+                    <input
+                        id="first-name"
+                        type="text"
+                        {...register("firstName", {required: "First name is required"})}
+                        aria-invalid={!!errors.firstName}
+                        aria-describedby={errors.firstName ? "first-name-error" : undefined}
+                        className={styles.inputValidation}
+                    />
+                    {errors.firstName && (
+                        <MessageBox type="error" text={errors.firstName.message!}/>
+                    )}
                 </div>
 
                 <div className={styles.namesBlocks}>
                     <label htmlFor="last-name">Last name*</label>
-                    <input type="text" {...register("lastName")} required className={styles.inputValidation} id="last-name"/>
+                    <input
+                        id="last-name"
+                        type="text"
+                        {...register("lastName", {required: "Last name is required"})}
+                        aria-invalid={!!errors.lastName}
+                        aria-describedby={errors.lastName ? "last-name-error" : undefined}
+                        className={styles.inputValidation}
+                    />
+                    {errors.lastName && (
+                        <MessageBox type="error" text={errors.lastName.message!}/>
+                    )}
                 </div>
             </div>
 
 
             <label htmlFor="email">Email*</label>
-            <input type="email" {...register("email")} required className={styles.inputValidation} id="email"/>
+            <input
+                id="email"
+                type="email"
+                {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                        value: /^\S+@\S+\.\S+$/,
+                        message: "Invalid email format"
+                    }
+                })}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                className={styles.inputValidation}
+            />
+            {errors.email && (
+                <MessageBox type="error" text={errors.email.message!}/>
+            )}
+
 
             <label htmlFor="password">Password*</label>
-            <input type="password" {...register("password", {required: "Password is required"})} className={styles.inputValidation} id="password"/>
+            <input
+                id="password"
+                type="password"
+                {...register("password", {required: "Password is required"})}
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? "password-error" : undefined}
+                className={styles.inputValidation}
+            />
+            {errors.password && <MessageBox type="error" text={errors.password.message!}/>}
 
             <label htmlFor="password_confirmation">Confirm password*</label>
-            <input type="password" {...register("password_confirmation", {
-                required: "Please confirm your password",
-                validate: (value) => value === password || "Passwords do not match",
-            })} className={styles.inputValidation} id="password_confirmation"/>
+            <input
+                id="password_confirmation"
+                type="password"
+                {...register("password_confirmation", {
+                    required: "Please confirm your password",
+                    validate: (value) =>
+                        value === password || "Passwords do not match",
+                })}
+                aria-invalid={!!errors.password_confirmation}
+                aria-describedby={errors.password_confirmation ? "password-confirmation-error" : undefined}
+                className={styles.inputValidation}
+            />
+            {errors.password_confirmation && (
+                <MessageBox type="error" text={errors.password_confirmation.message!}/>
+            )}
 
-            {errors.password_confirmation && <p style={{color: "red"}}>{errors.password_confirmation.message}</p>}
+            {error && <MessageBox type="error" text={error}/>}
 
-            {error && (<p style={{color: "red"}}>{error}</p>)}
             <div style={{display: "flex", justifyContent: "center"}}>
                 <CustomButton type="submit" variant="contained" className={styles.submitButton}>Register</CustomButton>
             </div>

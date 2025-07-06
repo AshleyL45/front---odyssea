@@ -1,45 +1,26 @@
-import {FC, JSX, useEffect, useState} from 'react';
+import {JSX, useMemo, useState} from 'react';
 import UserItinerary from "./UserItinerary";
-import {get} from "../../API/api";
-import {Trip} from "../../@types/Trip";
-import {useAuth} from "../../contexts/AuthContext";
-import {useNavigate} from "react-router-dom";
+import {useUserDashboard} from "../../contexts/DashboardContext";
+import BookingFilters from "./BookingFilters";
 
-interface UserItineraryType {
-    id: number;
-    userId: number;
-    startDate: string;
-    endDate: string;
-    startingPrice: number;
-    totalDuration: number;
-    departureCity: string;
-    itineraryName: string | null;
-    numberOfAdults: number;
-    numberOfKids: number;
-}
 
 const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
-    const [personalizedTrips, setPersonnalizedTrips] = useState<UserItineraryType[]>([]);
-    const {userId} = useAuth()
-    const navigate = useNavigate();
+    const [activeFilter, setActiveFilter] = useState<string>("All");
+    const {personalizedTrips, error} = useUserDashboard();
 
-    useEffect(() => {
-        const fetchUserItineraries = async () => {
-            try {
-                const userItineraries = await get(`/userItinerary/all/${userId}`);
+    // Gestion des filtres
+    const filteredBookings = useMemo(() => {
+        if (activeFilter === "All") return personalizedTrips;
+        return personalizedTrips.filter(
+            (booking) =>
+                booking.status?.toLowerCase() === activeFilter.toLowerCase()
+        );
+    }, [activeFilter, personalizedTrips]);
 
-                if (userItineraries) {
-                    setPersonnalizedTrips(userItineraries)
-                }
-            } catch (e) {
-                console.error("Error while fetching reservations : ", e);
-            }
-        };
-        fetchUserItineraries();
-    }, []);
+    const filters = ["All", "Pending", "Confirmed", "Cancelled"];
 
     return (
-        <div>
+        <section>
             <div style={{position: "relative"}}>
 
                 <div style={{
@@ -48,28 +29,43 @@ const PersonalizedTrips: ({}: {}) => JSX.Element = ({}) => {
                     flexDirection: "column",
                     minHeight: "80vh"
                 }}>
-                    <div>
-                        <h1 style={{
-                            marginLeft: "8rem",
-                            marginTop: "1.8rem",
-                            marginBottom: "2rem",
-                            fontSize: "1.8rem"
-                        }}>My personalized trips</h1>
-                    </div>
 
-                    <div>
+                    <h2 style={{
+                        marginLeft: "2rem",
+                        marginTop: "2rem",
+                        fontSize: "1.7rem",
+                        textAlign: "left",
+                        fontFamily: "Literata, serif",
+                        fontWeight: 400
+                    }}>My personalized trips</h2>
+
+                    <BookingFilters
+                        filters={filters}
+                        activeFilter={activeFilter}
+                        setActiveFilter={setActiveFilter}
+                    />
+
+                    <section style={{height: "100vh"}}>
                         {
-                            personalizedTrips && personalizedTrips.length > 0 ? personalizedTrips.map((personalizedTrip) =>
-                                <UserItinerary userItinerary={personalizedTrip}/>
-                            ) : (
-                                <p>You haven't booked a personalized trip. <span onClick={() => navigate("/personalized-trip/summary") }>Get your personalized trip</span></p>
+                            error ?  <p style={{color: "red", marginLeft: "3rem"}}>An error occurred while fetching your bookings.</p> : (
+                                <>
+                                {
+                                    filteredBookings && filteredBookings.length > 0 ? filteredBookings.map((personalizedTrip) =>
+                                        <UserItinerary userItinerary={personalizedTrip} key={personalizedTrip.id}/>
+                                    ) : (
+                                            <p style={{marginLeft: "4rem"}}>You don't have a personalized trip with this filter.</p>
+                                        )
+                                }
+                                </>
+
                             )
                         }
-                    </div>
+                    </section>
+
                 </div>
             </div>
 
-        </div>
+        </section>
     );
 };
 

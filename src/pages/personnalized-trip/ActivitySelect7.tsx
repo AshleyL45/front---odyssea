@@ -1,4 +1,4 @@
-import {FC, useState, useEffect, JSX} from "react";
+import {FC, useState, useEffect, JSX, useMemo} from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ActivitySelecting from "../../components/persTrip/ActivitySelecting";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
@@ -7,15 +7,57 @@ import {useNavigate} from "react-router-dom";
 import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
 import Pages from "../../components/layout/Pages";
 import {CircularProgress} from "@mui/material";
+import PersTripData from "../../assets/persTripData.json";
+import {post} from "../../API/api";
 
 const ActivitySelect7: () => JSX.Element = () => {
     const navigate = useNavigate();
-    const {questionnaireAnswers} = usePersonalizedTrip();
-    const {countrySelection} = questionnaireAnswers;
-    const [selectedActivitiesByCountry, setSelectedActivitiesByCountry] = useState<{ [key: string]: number }>({});
+    const [totalSelected, setTotalSelected] = useState<number>(0);
     const [selectedCitiesByCountry, setSelectedCitiesByCountry] = useState<{ [key: string]: any[] }>({});
     const [errorMessage, setErrorMessage] = useState<string | null>(null); // Message d’erreur
     const [isLoader, setLoader] = useState(false);
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const {countrySelection} = questionnaireAnswers;
+    const numberOfDays = questionnaireAnswers.duration;
+
+    const selectedTrip = PersTripData.find((opt) => opt.numberOfDays === numberOfDays);
+
+    const selectedActivitiesRaw = localStorage.getItem("selectedActivities");
+    const selectedActivities = selectedActivitiesRaw ? JSON.parse(selectedActivitiesRaw) : [];
+
+    const selectedActivitiesIds = selectedActivities.map((activity: any) => activity.id);
+
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const raw = localStorage.getItem("selectedActivities");
+            const parsed = raw ? JSON.parse(raw) : [];
+            setTotalSelected(parsed.length);
+        }, 1000); // vérifie toutes les 1 seconde
+
+        return () => clearInterval(interval); // nettoyage à la fin
+    }, []);
+
+
+    const generateStepSeven = async () => {
+        if (selectedActivitiesIds){
+            try {
+                const response = await post("/generate/step6", {activities: selectedActivitiesIds});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/standing-selection");
+                    const selectedActivities = localStorage.getItem("selectedActivities");
+                    if (!selectedActivities) {
+                        localStorage.setItem("selectedActivities", JSON.stringify([]));
+                    }
+                }
+            } catch (e) {
+                console.error("Cannot generate activities")
+            }
+        } else {
+            alert("Please select the activities")
+        }
+    }
 
     // 🔹 Récupérer les villes sélectionnées pour chaque pays
     useEffect(() => {
@@ -38,18 +80,6 @@ const ActivitySelect7: () => JSX.Element = () => {
         setSelectedCitiesByCountry(citiesByCountry);
     }, [countrySelection]);
 
-    // 🔹 Met à jour le nombre total d’activités sélectionnées par pays
-    const handleSelectionChange = (countryId: string, count: number) => {
-        setSelectedActivitiesByCountry((prev) => ({
-            ...prev,
-            [countryId]: count
-        }));
-    };
-
-    // 🔹 Vérifier si chaque pays a au moins 2 activités sélectionnées
-    const isNextDisabled = countrySelection.some(
-        (country) => (selectedActivitiesByCountry[country.id] || 0) *3 < 12
-    );
 
     return (
         <div>
@@ -69,20 +99,12 @@ const ActivitySelect7: () => JSX.Element = () => {
                 ></div>
             </div>
 
-            <a
-                href="#"
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "16px",
-                    margin: "10px 40px",
-                    cursor: "pointer"
-                }}
+            <button style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer", border: "none", background: "none"}}
                 onClick={() => navigate(-1)}
             >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             {/* Afficher un bloc par pays */}
             {countrySelection.map((country) => (
@@ -93,8 +115,6 @@ const ActivitySelect7: () => JSX.Element = () => {
                         key={country.id}
                         countryName={country.name}
                         selectedCities={selectedCitiesByCountry[country.id] || []}
-                        onSelectionChange={(count) => handleSelectionChange(country.id, count)}
-                        setErrorMessage={setErrorMessage}
                     />
                 )
             ))}
@@ -106,10 +126,10 @@ const ActivitySelect7: () => JSX.Element = () => {
 
             <div style={{textAlign: "center"}}>
                 <CustomButton
-                    style={{width: "130px", marginTop: "50px"}}
+                    style={{width: "130px"}}
                     variant="contained"
-                    onClick={() => navigate("/personalized-trip/option-selection")}
-                    disabled={isNextDisabled} // Désactiver si moins de 2 activités par pays
+                    onClick={generateStepSeven}
+                    disabled={totalSelected !== selectedTrip?.numberOfActivities}
                 >
                     Next
                 </CustomButton>

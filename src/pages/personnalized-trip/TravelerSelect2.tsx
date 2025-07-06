@@ -1,16 +1,39 @@
-import {FC, useState} from 'react';
+import {FC} from 'react';
+import {useNavigate} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomButton from "../../components/ReusableComponents/CustomButton";
-import {useNavigate} from "react-router-dom";
 import TravelerSelecting from "../../components/persTrip/TravelerSelecting";
 import "../../App.css"
 import Pages from "../../components/layout/Pages"
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
+import {post} from "../../API/api";
 
 const TravelerSelect2: FC<{}> = ({}) => {
-
     const navigate = useNavigate();
-    const [count1, setCount1] = useState(2);
-    const [count2, setCount2] = useState(0);
+
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const {numberOfAdults} = questionnaireAnswers;
+    const {numberOfKids} = questionnaireAnswers
+
+    const generateStepTwo = async () => {
+        if (numberOfAdults && numberOfKids !== undefined) {
+            try {
+                const response = await post("/generate/step3", {
+                    numberAdults: numberOfAdults,
+                    numberKids: numberOfKids
+                });
+
+                if (response?.success === true) {
+                    navigate("/personalized-trip/departure");
+                }
+            } catch (e) {
+                console.error('Cannot generate step 2');
+            }
+        } else {
+            alert("Please enter at least one adult traveler.");
+        }
+
+    };
 
     return (
         <div>
@@ -47,9 +70,13 @@ const TravelerSelect2: FC<{}> = ({}) => {
                     <TravelerSelecting/>
                 </div>
 
-                <CustomButton style={{width: "130px", marginTop: "30px"}} variant="contained"
-                              onClick={() => navigate("/personalized-trip/departure")}
-                >Next</CustomButton>
+                <CustomButton
+                    style={{width: "130px"}}
+                    variant="contained"
+                    onClick={generateStepTwo}
+                >
+                    Next
+                </CustomButton>
 
             </div>
         </div>

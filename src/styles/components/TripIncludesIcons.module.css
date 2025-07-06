@@ -1,6 +1,6 @@
 .iconsContainer {
     text-align: center;
-    margin: 2rem 0;
+    margin: 0 0 80px;
 }
 
 .iconsTitle {
@@ -10,35 +10,27 @@
 
 .iconsRow {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 12rem;
-}
-
-.iconBox {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 9rem;
+    justify-content: center;
+    gap: 5rem;
 }
 
-@media (max-width: 768px) {
-    .iconsRow {
-        flex-wrap: wrap;
-        justify-content: space-around;
-        gap: 2rem;
-    }
+.iconBox p{
+    font-size: 1.5rem;
+}
 
-    .iconBox {
-        flex: 0 0 45%;
+@media (min-width: 800px) {
+    .iconsRow {
+        flex-direction: row;
     }
 
     .MuiSvgIcon-root {
         font-size: 80px !important;
     }
+}
 
-    .iconsTitle {
-        font-size: 32px;
+@media screen and (min-width: 1100px) {
+    .iconsRow {
+        gap: 7.5rem;
     }
 }

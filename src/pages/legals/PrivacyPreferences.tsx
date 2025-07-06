@@ -9,62 +9,47 @@ const PrivacyPreferences: FC<{}> = ({}) => {
             </Pages>
 
             <div className="privacy-preferences">
-                <h2>Gérer les Préférences de Confidentialité</h2>
+                <h2>Manage Privacy Preferences</h2>
                 <h2>Odyssea</h2>
-                <p><strong>Dernière mise à jour :</strong> 25/02/2025</p>
+                <p><strong>Last update:</strong> 2025/02/25</p>
+                <p>At Odyssea, we are committed to protecting your privacy and providing you with full control over your personal data. This page allows you to manage your privacy preferences.</p>
 
-                <p>Chez Odyssea, nous nous engageons à protéger votre vie privée et à vous offrir un contrôle total sur
-                    vos
-                    données personnelles. Cette page vous permet de gérer vos préférences en matière de
-                    confidentialité.</p>
-
-                <h3>1. Vos Droits en Matière de Confidentialité</h3>
-                <p>Conformément aux réglementations en vigueur, vous disposez des droits suivants :</p>
+                <h3>1. Your Privacy Rights</h3>
+                <p>In accordance with applicable regulations, you have the following rights:</p>
                 <ul>
-                    <li>Accéder à vos données personnelles.</li>
-                    <li>Modifier ou rectifier vos informations.</li>
-                    <li>Supprimer vos données personnelles.</li>
-                    <li>Restreindre ou limiter le traitement de vos données.</li>
-                    <li>Vous opposer à l'utilisation de vos données à certaines fins.</li>
-                    <li>Exporter vos données vers un autre service (portabilité des données).</li>
+                    <li>Access your personal data.</li>
+                    <li>Edit or correct your information.</li>
+                    <li>Delete your personal data.</li>
+                    <li>Restrict or limit the processing of your data.</li>
+                    <li>Object to the use of your data for certain purposes.</li>
+                    <li>Export your data to another service (data portability).</li>
                 </ul>
 
-                <h3>2. Gestion des Cookies</h3>
-                <p>Vous pouvez ajuster vos préférences en matière de cookies en accédant à notre <a href="#">Gestionnaire
-                    de
-                    Cookies</a>. Vous avez la possibilité de :</p>
+                <h3>2. Cookie Management</h3>
+                <p>You can adjust your cookie preferences by accessing our <a href="#">Cookie Manager</a>. You have the option to:</p>
                 <ul>
-                    <li>Accepter tous les cookies.</li>
-                    <li>Refuser tous les cookies (sauf les essentiels).</li>
-                    <li>Personnaliser vos choix pour chaque catégorie de cookies.</li>
+                    <li>Accept all cookies.</li>
+                    <li>Reject all cookies (except essential ones).</li>
+                    <li>Customize your choices for each cookie category.</li>
                 </ul>
 
-                <h3>3. Paramètres de Communication</h3>
-                <p>Nous vous offrons la possibilité de gérer vos préférences de communication, notamment :</p>
+                <h3>3. Communication Settings</h3>
+                <p>We allow you to manage your communication preferences, including:</p>
                 <ul>
-                    <li>Recevoir ou refuser les newsletters et offres promotionnelles.</li>
-                    <li>Définir la fréquence de réception des communications.</li>
-                    <li>Se désinscrire des notifications non essentielles.</li>
+                    <li>Opt in or out of newsletters and promotional offers.</li>
+                    <li>Set the frequency of communications.</li>
+                    <li>Unsubscribe from non-essential notifications.</li>
                 </ul>
 
-                <h3>4. Suppression de Compte et Données</h3>
-                <p>Si vous souhaitez supprimer votre compte et l’ensemble de vos données personnelles, veuillez nous
-                    contacter via <strong>[adresse e-mail/contact]</strong>. La suppression de vos données est
-                    irréversible.
-                </p>
+                <h3>4. Account and Data Deletion</h3>
+                <p>If you wish to delete your account and all your personal data, please contact us at: <strong>[email/contact address]</strong>. Data deletion is irreversible.</p>
 
-                <h3>5. Sécurité et Protection des Données</h3>
-                <p>Nous mettons en place des mesures de sécurité avancées pour protéger vos informations contre tout
-                    accès
-                    non autorisé ou toute utilisation abusive.</p>
+                <h3>5. Data Security and Protection</h3>
+                <p>We implement advanced security measures to protect your information from unauthorized access or misuse.</p>
 
-                <h3>6. Contact et Assistance</h3>
-                <p>Pour toute question ou demande liée à la gestion de vos préférences de confidentialité, vous pouvez
-                    nous
-                    contacter à : <strong>[adresse e-mail/contact]</strong>.</p>
-
-                <p>Nous vous remercions de votre confiance et restons à votre disposition pour toute assistance
-                    supplémentaire.</p>
+                <h3>6. Contact and Support</h3>
+                <p>If you have any questions or requests related to managing your privacy preferences, you can contact us at: <strong>[email/contact address]</strong>.</p>
+                <p>We thank you for your trust and remain at your disposal for any further assistance.</p>
             </div>
         </>
     );

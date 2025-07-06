@@ -1,8 +1,9 @@
 .sortList {
-    display: grid;
-    grid-template-columns: auto auto auto 1fr;
-    margin: 8rem 4rem;
-    gap: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.7rem;
+    margin-top: 5rem ;
 }
 
 .sortDropdownContainer {
@@ -19,9 +20,9 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 768px) {
     .sortList {
-        grid-template-columns: 1fr;
-        margin: 0;
+        flex-direction: row;
+        justify-content: center;
     }
 }

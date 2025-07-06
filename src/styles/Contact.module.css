@@ -1,0 +1,34 @@
+.contactLayout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 80px;
+    margin-top: 4rem;
+}
+
+.faqList {
+    list-style: none;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+.faqList .textExpanded {
+    padding: 20px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.3s ease;
+}
+
+.textExpanded.open {
+    max-height: 550px;
+    opacity: 1;
+    border: solid 1px grey;
+    background-color: rgba(248, 241, 229, 0.3);
+}
+
+@media screen and (min-width: 900px) {
+    .faqList {
+        width: 800px;
+    }
+}

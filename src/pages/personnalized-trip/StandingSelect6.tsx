@@ -5,10 +5,27 @@ import HotelSelecting from "../../components/persTrip/HotelSelecting";
 import "../../App.css"
 import {useNavigate} from "react-router-dom";
 import Pages from "../../components/layout/Pages";
+import {usePersonalizedTrip} from "../../contexts/PersonalizedTripContext";
+import {post} from "../../API/api";
 
 const StandingSelect6: ({}: {}) => JSX.Element = ({}) => {
 
     const navigate = useNavigate();
+    const {questionnaireAnswers} = usePersonalizedTrip();
+    const {hotelStanding} = questionnaireAnswers;
+
+    const generateStepSix = async () => {
+        if(hotelStanding) {
+            try {
+                const response = await post("/generate/step7", {hotelStanding: hotelStanding});
+                if (response?.success === true) {
+                    navigate("/personalized-trip/option-selection");
+                }
+            } catch (e) {
+                console.error("Cannot generate hotel standing")
+            }
+        }
+    }
 
     return (
         <div>
@@ -27,23 +44,30 @@ const StandingSelect6: ({}: {}) => JSX.Element = ({}) => {
                 }}></div>
             </div>
 
-            <a href="#"
-               style={{display: 'flex', alignItems: "center", fontSize: "16px", margin: "10px 40px", cursor: "pointer"}}
-               onClick={() => navigate(-1)}>
+            <button style={{
+                display: 'flex',
+                alignItems: "center",
+                fontSize: "16px",
+                margin: "10px 40px",
+                cursor: "pointer",
+                border: "none",
+                background: "none"
+            }}
+                    onClick={() => navigate(-1)}
+            >
                 <ArrowBackIcon sx={{fontSize: "15px"}}/>
                 previous step
-            </a>
+            </button>
 
             <div className="hotel-select" style={{margin: "100px auto", textAlign: "center"}}>
-                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>What kind of accommodation are you looking for
-                    ?</h1>
-                <p style={{margin: "40px 0 20px"}}>Hotel standing : </p>
-
+                <h1 style={{fontSize: "25px", margin: "30px 0 10px"}}>Select your hotel standing</h1>
                 <HotelSelecting/>
-
-                <CustomButton style={{width: "130px", marginTop: "70px"}} variant="contained"
-                              onClick={() => navigate("/personalized-trip/activity-selection")}
-                >Next</CustomButton>
+                <CustomButton
+                    style={{width: "130px", marginTop: "70px"}} variant="contained"
+                    onClick={generateStepSix}
+                >
+                    Next
+                </CustomButton>
             </div>
         </div>
     );

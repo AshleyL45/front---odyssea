@@ -20,7 +20,9 @@
 }
 
 .tripDashboardTitle {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-family: "Literata", serif;
+    font-weight: 400;
 }
 
 .tripDashboardContainer hr {
@@ -31,8 +33,13 @@
     height: 3px;
 }
 
-.tripDashboardDescription {
+.tripInfo {
+    list-style-type: none;
+}
 
+.mainInfo {
+    display: flex;
+    justify-content: space-between;
 }
 
 .tripDashboardDetails{
@@ -40,4 +47,28 @@
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+}
+
+.detailsButton {
+    background: none;
+    border: none;
+    text-decoration: underline;
+}
+
+.detailsButton:hover {
+    cursor: pointer;
+}
+
+.userItineraryTitle {
+    font-family: "Literata", serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+}
+
+@media (max-width: 426px) {
+    .tripDashboardContainer {
+        margin-left: 14px;
+        margin-right: 14px;
+        padding: 14px 14px;
+    }
 }
