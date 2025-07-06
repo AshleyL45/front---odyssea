@@ -31,11 +31,10 @@ Ashley Labory - Cheffe de Projet / Référente Git => Back-end
 
 - Leaflet 
 
-- Swiper 
+- Axios
 
-- Axios 
+- React-Helmet
 
-- Figma
 ## Structure
 
 ```bash
